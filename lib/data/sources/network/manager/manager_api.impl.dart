@@ -1,0 +1,44 @@
+import 'package:hoomo_pos/core/constants/network.dart';
+import 'package:hoomo_pos/core/network/dio_client.dart';
+import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
+import 'package:injectable/injectable.dart';
+
+import 'manager_api.dart';
+
+@LazySingleton(as: ManagerApi)
+class ManagerApiImpl extends ManagerApi {
+  final DioClient _dioClient;
+
+  ManagerApiImpl(this._dioClient);
+
+  @override
+  Future<void> createManager(ManagerDto manager) async {
+    await _dioClient.postRequest(NetworkConstants.managers,
+        data: manager.toJson());
+  }
+
+  @override
+  Future<void> deleteManager(String managerId) async {
+    await _dioClient.deleteRequest("${NetworkConstants.managers}/$managerId");
+  }
+
+  @override
+  Future<List<ManagerDto>?> getManagers() async {
+    final res = await _dioClient.getRequest(
+      NetworkConstants.managers,
+      converter: (response) => List.from(response['results'])
+          .map(
+            (e) => ManagerDto.fromJson(e),
+          )
+          .toList(),
+    );
+
+    return res;
+  }
+
+  @override
+  Future<void> updateManager(ManagerDto manager) async {
+    await _dioClient.putRequest("${NetworkConstants.managers}/${manager.cid}",
+        data: manager.toJson());
+  }
+}

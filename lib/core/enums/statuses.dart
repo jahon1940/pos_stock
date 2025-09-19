@@ -1,0 +1,1 @@
+enum Statuses { info, success, warning, error }

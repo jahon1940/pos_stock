@@ -1,0 +1,1 @@
+CREATE VIRTUAL TABLE productsfts USING fts5(title, title_uz, title_ru, title_translit, title_uz_translit, title_ru_translit, barcode, vendorcode, vendorcode_translit) ;

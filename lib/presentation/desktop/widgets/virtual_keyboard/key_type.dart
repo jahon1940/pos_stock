@@ -1,0 +1,1 @@
+enum VirtualKeyboardKeyType { Action, String }

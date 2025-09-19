@@ -1,0 +1,42 @@
+import 'package:dio/dio.dart';
+import 'package:hoomo_pos/data/dtos/currency_dto.dart';
+import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
+import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
+import 'package:hoomo_pos/data/dtos/product_dto.dart';
+import 'package:hoomo_pos/data/dtos/search_request.dart';
+import 'package:hoomo_pos/data/sources/app_database.dart';
+
+import '../../dtos/add_currency/add_currency_request.dart';
+import '../../dtos/add_product/add_product_request.dart';
+
+abstract class ProductsApi {
+  Future<PaginatedDto<ProductDto>> search(SearchRequest request);
+
+  Future<PaginatedDto<Products>> getProducts(int page,
+      {CancelToken? cancelToken, String? receiptId});
+
+  Future<ProductDetailDto> getProductDetail(int productId);
+
+  Future<void> updateProduct(int productId);
+
+  Future<void> addProduct(AddProductRequest request);
+
+  Future<void> putProduct(AddProductRequest request, int productId);
+
+  Future<void> putBarcode(AddProductRequest request, int productId);
+
+  Future<void> deleteProduct(int productId);
+
+  Future<void> updateCurrency(AddCurrencyRequest request);
+
+  Future<void> exportProducts();
+
+  Future<void> exportInventoryProducts(int stockId, {int? categoryId});
+
+  Future<void> exportProductPrice(
+      {required int productId, required int quantity});
+
+  Future<CurrencyDto> getCurrency();
+
+  Future<ProductDto> getProductSync(int productId);
+}

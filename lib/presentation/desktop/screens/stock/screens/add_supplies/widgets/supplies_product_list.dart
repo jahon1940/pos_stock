@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/styles/colors.dart';
+import 'package:hoomo_pos/core/widgets/product_table_item.dart';
+import 'package:hoomo_pos/core/widgets/text_field.dart';
+import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
+
+import '../cubit/add_supplies_cubit.dart';
+
+class SuppliesProductList extends HookWidget {
+  const SuppliesProductList({
+    super.key,
+    required this.product,
+    this.editable = true,
+  });
+
+  final SupplyProductRequest? product;
+  final bool editable;
+
+  @override
+  Widget build(BuildContext context) {
+    if (product == null) return SizedBox();
+
+    final cubit = context.read<AddSuppliesCubit>();
+
+    final priceController = useTextEditingController(text: product?.price);
+    final purchasePriceController =
+        useTextEditingController(text: product?.purchasePrice);
+
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: TableProductItem(
+        columnWidths: const {
+          0: FlexColumnWidth(4),
+          1: FlexColumnWidth(2),
+          2: FlexColumnWidth(2),
+          3: FlexColumnWidth(2),
+        },
+        onTap: () {},
+        children: [
+          SizedBox(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                product!.title ?? '',
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 60,
+            width: 80,
+            child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: editable
+                    ? AppTextField(
+                        hint: 'Количество',
+                        onChange: (p0) => cubit.updateQuantity(
+                            product?.productId ?? 0, int.tryParse(p0)),
+                      )
+                    : Center(child: Text(product?.quantity.toString() ?? '0'))),
+          ),
+          SizedBox(
+            height: 60,
+            width: 80,
+            child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: editable
+                    ? AppTextField(
+                        hint: 'Приходная цена',
+                        fieldController: purchasePriceController,
+                        onChange: (p0) => cubit.updatePurchasePrice(
+                            product?.productId ?? 0, p0),
+                      )
+                    : Center(child: Text(product?.purchasePrice ?? ''))),
+          ),
+          SizedBox(
+            height: 60,
+            width: 80,
+            child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: editable
+                    ? AppTextField(
+                        hint: 'Цена продажи',
+                        fieldController: priceController,
+                        onChange: (p0) =>
+                            cubit.updatePrice(product?.productId ?? 0, p0),
+                      )
+                    : Center(child: Text(product?.price ?? ''))),
+          ),
+          if (editable)
+            SizedBox(
+              width: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () => cubit.deleteProduct(product!.productId),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.error500,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                      ],
+                    ),
+                    height: 40,
+                    width: 40,
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
+    );
+  }
+}

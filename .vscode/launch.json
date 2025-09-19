@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Hoomo POS",
+          "program": "lib/main.dart",
+          "request": "launch",
+          "type": "dart",
+          // "toolArgs": ["--dart-define", "TV_MODE=ON"]
+      }
+  ]
+}

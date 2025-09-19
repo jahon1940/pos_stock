@@ -1,0 +1,37 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.dart": "${capture}.mobile.dart, ${capture}.tablet.dart, ${capture}.desktop.dart, ${capture}.form.dart, ${capture}.g.dart, ${capture}.freezed.dart, ${capture}.logger.dart, ${capture}.locator.dart, ${capture}.router.dart, ${capture}.dialogs.dart, ${capture}.bottomsheets.dart, ${capture}.gr.dart,${capture}.gm.dart, ${capture}.config.dart, ${capture}.impl.dart, ${capture}.keys.dart,${capture}.module.dart"
+  },
+  "dart.normalizeFileCasing": true,
+  "files.autoSave": "onFocusChange",
+  "editor.renderWhitespace": "trailing",
+  "editor.wordWrap": "on",
+  "editor.guides.bracketPairs": "active",
+  "editor.smoothScrolling": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.fontLigatures": true,
+  "editor.suggest.preview": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "emmet.triggerExpansionOnTab": true,
+  "extensions.ignoreRecommendations": true,
+  "explorer.compactFolders": true,
+  "workbench.startupEditor": "none",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "CodeGPT.apiKey": "Ollama",
+  "dart.flutterSdkPath": ".fvm/versions/3.24.1"
+}

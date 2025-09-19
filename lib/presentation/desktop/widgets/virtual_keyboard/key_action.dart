@@ -1,0 +1,1 @@
+enum VirtualKeyboardKeyAction { Backspace, Return, Shift, Space, SwithLanguage, Symbol}
