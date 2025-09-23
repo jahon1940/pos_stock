@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 extension BuildContextEntension<T> on BuildContext {
   ThemeData get theme => Theme.of(this);
+
   TextTheme get textTheme => theme.textTheme;
+
   MediaQueryData get mq => MediaQuery.of(this);
 
   // COLORS
@@ -30,20 +32,22 @@ extension BuildContextEntension<T> on BuildContext {
 
   // RESPONSIBILITY
 
-  bool get isTablet =>
-      (orientation != Orientation.landscape ? mq.size.width : mq.size.height) >=
-      500.0;
+  bool get isTablet => (orientation != Orientation.landscape ? mq.size.width : mq.size.height) >= 500.0;
 
   bool get sizeS => size.shortestSide < 600;
+
   double get aspectRatio => MediaQuery.of(this).size.aspectRatio;
+
   double get width => mq.size.width;
 
   double get height => mq.size.height;
+
   TextScaler get textScaler => mq.textScaler;
 
   Size get size => mq.size;
 
   bool get isLandscape => mq.orientation == Orientation.landscape;
+
   Orientation get orientation => mq.orientation;
 
   double get devicePixelRatio => mq.devicePixelRatio;
@@ -77,17 +81,13 @@ extension BuildContextEntension<T> on BuildContext {
 
   TextStyle? get bodySmall => textTheme.bodySmall;
 
-  TextStyle? get bodyLargeSemibold =>
-      bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyLargeSemibold => bodyMedium?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodyMediumSemibold =>
-      bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyMediumSemibold => bodyMedium?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodySmallSemibold =>
-      bodySmall?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodySmallSemibold => bodySmall?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodyMediumUnderline =>
-      bodySmall?.copyWith(decoration: TextDecoration.underline);
+  TextStyle? get bodyMediumUnderline => bodySmall?.copyWith(decoration: TextDecoration.underline);
 
   TextStyle? get headlineSmall2 => headlineSmall?.copyWith(
         fontSize: 22.0,
@@ -99,14 +99,11 @@ extension BuildContextEntension<T> on BuildContext {
         fontWeight: FontWeight.w700,
       );
 
-  TextStyle? get labelLargeSemibold =>
-      labelLarge?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get labelLargeSemibold => labelLarge?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get labelLargeMedium =>
-      labelLarge?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get labelLargeMedium => labelLarge?.copyWith(fontWeight: FontWeight.w500);
 
-  TextStyle? get labelLargeUnderline =>
-      labelLarge?.copyWith(decoration: TextDecoration.underline);
+  TextStyle? get labelLargeUnderline => labelLarge?.copyWith(decoration: TextDecoration.underline);
 
   // POP UPS
   Future<T?> showBottomSheet(
@@ -114,15 +111,14 @@ extension BuildContextEntension<T> on BuildContext {
     bool isScrollControlled = true,
     Color? backgroundColor,
     Color? barrierColor,
-  }) {
-    return showModalBottomSheet(
-      context: this,
-      barrierColor: barrierColor,
-      isScrollControlled: isScrollControlled,
-      backgroundColor: backgroundColor ?? Colors.transparent,
-      builder: (context) => Wrap(children: [child]),
-    );
-  }
+  }) =>
+      showModalBottomSheet(
+        context: this,
+        barrierColor: barrierColor,
+        isScrollControlled: isScrollControlled,
+        backgroundColor: backgroundColor ?? Colors.transparent,
+        builder: (context) => Wrap(children: [child]),
+      );
 
   Future<T?> showCustomDialog(
     Widget dialog, {
@@ -131,24 +127,22 @@ extension BuildContextEntension<T> on BuildContext {
     Color? bgColor,
     bool barrierDismissible = true,
     bool showCloseButton = true,
-  }) {
-    return showDialog(
-        useSafeArea: false,
-        context: this,
-        barrierDismissible: barrierDismissible,
-        barrierColor: barrierColor,
-        builder: (context) {
-          return Dialog(
-            insetPadding: EdgeInsets.zero,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            child: dialog,
-          );
-        });
-  }
+  }) =>
+      showDialog(
+          useSafeArea: false,
+          context: this,
+          barrierDismissible: barrierDismissible,
+          barrierColor: barrierColor,
+          builder: (context) {
+            return Dialog(
+              insetPadding: EdgeInsets.zero,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: dialog,
+            );
+          });
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-      dynamic message) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(dynamic message) {
     return ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: message is String ? Text(message) : message,
@@ -157,13 +151,9 @@ extension BuildContextEntension<T> on BuildContext {
     );
   }
 
-  void removeSnackBar() {
-    ScaffoldMessenger.of(this).removeCurrentSnackBar();
-  }
+  void removeSnackBar() => ScaffoldMessenger.of(this).removeCurrentSnackBar();
 
-  void hideSnackBar() {
-    ScaffoldMessenger.of(this).hideCurrentSnackBar();
-  }
+  void hideSnackBar() => ScaffoldMessenger.of(this).hideCurrentSnackBar();
 
   void pop([T? result]) => Navigator.pop(this, result);
 }
