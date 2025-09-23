@@ -122,24 +122,24 @@ class MainScreen extends HookWidget {
             backgroundColor: const Color(0xFFF9F9F9),
             body: Row(
               children: [
-                BlocBuilder<SocketCubit, SocketState>(builder: (context, state) {
-                  if (state.posManager?.pos?.integration_with_1c ?? false) {
+                BlocBuilder<SocketCubit, SocketState>(
+                  builder: (context, state) {
+                    // if (state.posManager?.pos?.integration_with_1c ?? false) {
                     //_items = _items.where((item) => item.name != 'sidebar.stock').toList();
-                  }
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: isCollapsed.value ? 75 : 220,
-                    child: AppSidebar(
-                      items: _items,
-                      selectedIndex: tabsRouter.activeIndex,
-                      onTap: tabsRouter.setActiveIndex,
-                      isCollapsed: isCollapsed.value,
-                      onToggleCollapse: () {
-                        isCollapsed.value = !isCollapsed.value;
-                      },
-                    ),
-                  );
-                }),
+                    // }
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: isCollapsed.value ? 75 : 220,
+                      child: AppSidebar(
+                        items: _items,
+                        selectedIndex: tabsRouter.activeIndex,
+                        onTap: tabsRouter.setActiveIndex,
+                        isCollapsed: isCollapsed.value,
+                        onToggleCollapse: () => isCollapsed.value = !isCollapsed.value,
+                      ),
+                    );
+                  },
+                ),
                 const VerticalDivider(width: 1),
                 Expanded(
                   child: Shortcuts(

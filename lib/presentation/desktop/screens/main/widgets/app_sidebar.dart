@@ -6,7 +6,6 @@ import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/icons/app_icons.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
-import 'package:hoomo_pos/core/widgets/app_tile.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../core/constants/spaces.dart';
@@ -17,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/cubit/user_cubit.dart';
 
 part 'user_card.dart';
+
+part 'sidebar_item.dart';
 
 class AppSidebar extends StatelessWidget {
   const AppSidebar({
@@ -126,7 +127,7 @@ class AppSidebar extends StatelessWidget {
                     final item = items[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: AppTile(
+                      child: SidebarItem(
                         leadingIcon: item.icon(index == selectedIndex),
                         label: isCollapsed ? "" : item.name.tr(),
                         isSelected: index == selectedIndex,
@@ -139,7 +140,7 @@ class AppSidebar extends StatelessWidget {
                 ),
               ),
               if (!isCollapsed) ...[
-                AppTile(
+                SidebarItem(
                   onTap: () async {
                     userDataService.setUnlocked(true);
                     await context.router.push(LockerRoute(

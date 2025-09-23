@@ -1,4 +1,4 @@
-part of 'package:hoomo_pos/presentation/desktop/screens/main/widgets/app_sidebar.dart';
+part of 'app_sidebar.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({
@@ -18,7 +18,7 @@ class UserCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: context.width * .15, // или MediaQuery.of(context).size.width * 0.4
+                      width: context.width * .15,
                       child: Text(
                         state.manager?.name ?? '',
                         style: AppTextStyles.semiType12,
