@@ -111,8 +111,11 @@ class AppSidebar extends StatelessWidget {
                         onTap: onToggleCollapse,
                         child: Text(
                           'MENU',
-                          style: AppTextStyles.mType12
-                              .copyWith(color: context.primary, fontSize: 15, fontWeight: FontWeight.w300),
+                          style: AppTextStyles.mType12.copyWith(
+                            color: context.primary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
                   ],
@@ -130,8 +133,8 @@ class AppSidebar extends StatelessWidget {
                       child: SidebarItem(
                         leadingIcon: item.icon(index == selectedIndex),
                         label: isCollapsed ? "" : item.name.tr(),
-                        isSelected: index == selectedIndex,
                         selectedColor: context.primary,
+                        isSelected: index == selectedIndex,
                         selectedTextColor: Colors.white,
                         onTap: () => onTap(index),
                       ),
@@ -141,6 +144,10 @@ class AppSidebar extends StatelessWidget {
               ),
               if (!isCollapsed) ...[
                 SidebarItem(
+                  leadingIcon: Icon(AppIcons.lock, color: AppColors.primary500),
+                  label: context.tr("lock"),
+                  selectedColor: AppColors.primary100.withOpacity(0.5),
+                  selectedTextColor: AppColors.primary500,
                   onTap: () async {
                     userDataService.setUnlocked(true);
                     await context.router.push(LockerRoute(
@@ -148,13 +155,6 @@ class AppSidebar extends StatelessWidget {
                       onResult: () => context.router.replace(MainRoute()),
                     ));
                   },
-                  label: context.tr("lock"),
-                  selectedColor: AppColors.primary100.withOpacity(0.5),
-                  selectedTextColor: AppColors.primary500,
-                  leadingIcon: Icon(
-                    AppIcons.lock,
-                    color: AppColors.primary500,
-                  ),
                 ),
                 // Container(
                 //   decoration: BoxDecoration(
