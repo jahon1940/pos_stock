@@ -7,12 +7,16 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/icons/app_icons.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/app_tile.dart';
-import 'package:hoomo_pos/core/widgets/user_card.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../core/constants/spaces.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../domain/services/user_data.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/cubit/user_cubit.dart';
+
+part 'user_card.dart';
 
 class AppSidebar extends StatelessWidget {
   const AppSidebar({
@@ -31,7 +35,9 @@ class AppSidebar extends StatelessWidget {
   final VoidCallback onToggleCollapse;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     ThemeData themeData = Theme.of(context);
     final userDataService = getIt<UserDataService>();
     return SizedBox(
@@ -39,9 +45,7 @@ class AppSidebar extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: themeData.cardColor,
-          border: Border(
-            right: BorderSide(color: context.theme.dividerColor),
-          ),
+          border: Border(right: BorderSide(color: context.theme.dividerColor)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -73,8 +77,8 @@ class AppSidebar extends StatelessWidget {
                                   ),
                                   onPressed: () {},
                                 )),
-                          ),
-                        if (!isCollapsed)
+                          )
+                        else
                           Flexible(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 15),
@@ -140,9 +144,7 @@ class AppSidebar extends StatelessWidget {
                     userDataService.setUnlocked(true);
                     await context.router.push(LockerRoute(
                       isFirstAuth: false,
-                      onResult: () {
-                        context.router.replace(MainRoute());
-                      },
+                      onResult: () => context.router.replace(MainRoute()),
                     ));
                   },
                   label: context.tr("lock"),
