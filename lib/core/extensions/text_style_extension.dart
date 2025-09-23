@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 
+import '../styles/colors.dart';
+
 extension CopyWith on TextStyle {
   /// copy with color
   TextStyle withOpacity(double? val) => copyWith(color: color?.opcty(val ?? 1));
@@ -10,6 +12,8 @@ extension CopyWith on TextStyle {
   TextStyle get withColorWhite => copyWith(color: Colors.white);
 
   TextStyle get withColorBlack => copyWith(color: Colors.black);
+
+  TextStyle get withColorPrimary500 => copyWith(color: AppColors.primary500);
 
   /// copy with size
   TextStyle withSize(double size) => copyWith(fontSize: size);

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organizations_list.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organizations_title.dart';
@@ -42,7 +43,7 @@ class OrganizationScreen extends HookWidget {
                   padding: const EdgeInsets.fromLTRB(25, 15, 0, 0),
                   child: Text(
                     "Организации",
-                    style: AppTextStyles.boldType18.copyWith(color: AppColors.primary500),
+                    style: AppTextStyles.boldType18.withColorPrimary500,
                     textAlign: TextAlign.start,
                   ),
                 ),

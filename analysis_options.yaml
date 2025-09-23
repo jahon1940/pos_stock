@@ -12,7 +12,8 @@ analyzer:
     # Errors
     unrelated_type_equality_checks: error
 
-    # ignores
+    # warnings
+    avoid_redundant_argument_values: warning
     constant_identifier_names: warning
     deprecated_member_use: warning
     invalid_annotation_target: warning
