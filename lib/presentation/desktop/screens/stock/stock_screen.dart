@@ -7,7 +7,6 @@ import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/data/dtos/company_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/inventories.dart';
@@ -28,18 +27,21 @@ enum SampleItem {
 
 @RoutePage()
 class StockScreen extends HookWidget {
-  const StockScreen(
-      {required this.stock, required this.organization, super.key});
+  const StockScreen({
+    required this.stock,
+    required this.organization,
+    super.key,
+  });
 
   final StockDto stock;
   final CompanyDto organization;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     ThemeData themeData = Theme.of(context);
-
     SampleItem? selectedItem;
-
     return DefaultTabController(
       initialIndex: 0,
       length: 5,
@@ -52,9 +54,7 @@ class StockScreen extends HookWidget {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
@@ -67,16 +67,12 @@ class StockScreen extends HookWidget {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                            ],
+                            boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () => router
-                                .push(StocksRoute(organizations: organization)),
+                            onTap: () => router.push(StocksRoute(organizations: organization)),
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                              padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -91,14 +87,11 @@ class StockScreen extends HookWidget {
                           labelPadding: EdgeInsets.zero,
                           padding: EdgeInsets.all(8),
                           indicatorPadding: EdgeInsets.zero,
-                          overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent),
+                          overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.grey,
-                          indicator: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: context.primary),
+                          indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: context.primary),
                           tabs: <Widget>[
                             // for (final index in [0, 1, 2])
                             FittedBox(
@@ -173,9 +166,7 @@ class StockScreen extends HookWidget {
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: context.primary),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: context.primary),
                         width: context.width * .05,
                         height: 50,
                         child: Center(
@@ -191,46 +182,39 @@ class StockScreen extends HookWidget {
                               //   selectedItem = item;
                               // });
                             },
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<SampleItem>>[
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
                               PopupMenuItem<SampleItem>(
-                                  onTap: () async {
-                                    final bloc = context.read<SearchBloc>();
-                                    final res = await context
-                                        .showCustomDialog(CategoryDialog());
-
-                                    if (res == null) return;
-
-                                    bloc.add(SearchRemoteTextChanged(''));
-                                  },
-                                  value: SampleItem.itemOne,
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                    child: ListTile(
-                                      leading: Icon(Icons.source_rounded),
-                                      title: Text('Категории'),
-                                    ),
-                                  )),
+                                onTap: () async {
+                                  final bloc = context.read<SearchBloc>();
+                                  final res = await context.showCustomDialog(CategoryDialog());
+                                  if (res == null) return;
+                                  bloc.add(SearchRemoteTextChanged(''));
+                                },
+                                value: SampleItem.itemOne,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                  child: ListTile(
+                                    leading: Icon(Icons.source_rounded),
+                                    title: Text('Категории'),
+                                  ),
+                                ),
+                              ),
                               PopupMenuItem<SampleItem>(
-                                  onTap: () async {
-                                    final bloc = context.read<SearchBloc>();
-                                    final res = await context
-                                        .showCustomDialog(CurrencyDialog());
-
-                                    if (res == null) return;
-
-                                    bloc.add(SearchRemoteTextChanged(''));
-                                  },
-                                  value: SampleItem.itemTwo,
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                    child: ListTile(
-                                      leading: Icon(Icons.currency_exchange),
-                                      title: Text('Установить Курс'),
-                                    ),
-                                  )),
+                                onTap: () async {
+                                  final bloc = context.read<SearchBloc>();
+                                  final res = await context.showCustomDialog(CurrencyDialog());
+                                  if (res == null) return;
+                                  bloc.add(SearchRemoteTextChanged(''));
+                                },
+                                value: SampleItem.itemTwo,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                  child: ListTile(
+                                    leading: Icon(Icons.currency_exchange),
+                                    title: Text('Установить Курс'),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
