@@ -27,7 +27,7 @@ class DioClient {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Device-Token': 'Kanstik $token'
+          'Device-Token': 'Kanstik $token',
         },
         receiveTimeout: const Duration(minutes: 10),
         connectTimeout: const Duration(minutes: 10),
@@ -38,8 +38,7 @@ class DioClient {
     (_dio?.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
       final client = HttpClient();
       // Эта строка говорит клиенту принимать любые, даже недействительные, сертификаты
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       return client;
     };
   }
@@ -283,8 +282,7 @@ class DioClient {
 
       late Response response;
 
-      if (data?['request_id'] != null &&
-          url.split('/').last.startsWith('devices')) {
+      if (data?['request_id'] != null && url.split('/').last.startsWith('devices')) {
         response = await Dio().delete(
           url,
           data: data,
@@ -395,7 +393,7 @@ class DioClient {
     if ([
       DioExceptionType.connectionTimeout,
       DioExceptionType.receiveTimeout,
-      DioExceptionType.sendTimeout
+      DioExceptionType.sendTimeout,
     ].contains(type)) {}
   }
 }

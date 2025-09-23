@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -39,9 +40,8 @@ class DailyFileLogOutput extends LogOutput {
       }
       await sink.flush();
       await sink.close();
-    } catch (e, st) {
-      print('❌ Ошибка записи логов: $e');
-      print(st);
+    } catch (error, stacktrace) {
+      log('❌ Ошибка записи логов: $error stacktrace: $stacktrace');
     }
   }
 }
