@@ -129,8 +129,7 @@ class MainScreen extends HookWidget {
               backgroundColor: const Color(0xFFF9F9F9),
               body: Row(
                 children: [
-                  BlocBuilder<SocketCubit, SocketState>(
-                      builder: (context, state) {
+                  BlocBuilder<SocketCubit, SocketState>(builder: (context, state) {
                     if (state.posManager?.pos?.integration_with_1c ?? false) {
                       //_items = _items.where((item) => item.name != 'sidebar.stock').toList();
                     }
@@ -152,10 +151,8 @@ class MainScreen extends HookWidget {
                   Expanded(
                     child: Shortcuts(
                       shortcuts: {
-                        LogicalKeySet(LogicalKeyboardKey.meta,
-                            LogicalKeyboardKey.keyF): ActivateIntent(),
-                        LogicalKeySet(LogicalKeyboardKey.control,
-                            LogicalKeyboardKey.keyF): ActivateIntent(),
+                        LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyF): ActivateIntent(),
+                        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): ActivateIntent(),
                       },
                       child: Actions(
                         actions: {
@@ -193,12 +190,7 @@ class AppSidebar extends StatelessWidget {
     required this.onToggleCollapse,
   });
 
-  final List<
-      ({
-        Widget Function(bool isSelected) icon,
-        String name,
-        PageRouteInfo<void> route
-      })> items;
+  final List<({Widget Function(bool isSelected) icon, String name, PageRouteInfo<void> route})> items;
   final int selectedIndex;
   final ValueChanged<int> onTap;
   final bool isCollapsed;
@@ -227,9 +219,7 @@ class AppSidebar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -241,8 +231,7 @@ class AppSidebar extends StatelessWidget {
                         if (isCollapsed)
                           CircleAvatar(
                             radius: 20,
-                            backgroundColor:
-                                AppColors.primary100.withOpacity(0.5),
+                            backgroundColor: AppColors.primary100.withOpacity(0.5),
                             child: Align(
                                 alignment: Alignment.centerRight,
                                 child: IconButton(
@@ -266,9 +255,7 @@ class AppSidebar extends StatelessWidget {
                 ),
               ),
               AppSpace.vertical12,
-              Divider(
-                height: 10,
-              ),
+              Divider(height: 10),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
                 child: Row(
@@ -285,21 +272,17 @@ class AppSidebar extends StatelessWidget {
                     if (!isCollapsed)
                       GestureDetector(
                         onTap: onToggleCollapse,
-                        child: Text('MENU',
-                            style: AppTextStyles.mType12.copyWith(
-                                color: context.primary,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w300)),
+                        child: Text(
+                          'MENU',
+                          style: AppTextStyles.mType12
+                              .copyWith(color: context.primary, fontSize: 15, fontWeight: FontWeight.w300),
+                        ),
                       ),
                   ],
                 ),
               ),
-              Divider(
-                height: 10,
-              ),
-              SizedBox(
-                height: 16,
-              ),
+              Divider(height: 10),
+              SizedBox(height: 16),
               Expanded(
                 child: ListView.builder(
                   itemCount: items.length,
