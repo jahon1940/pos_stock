@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/theme.dart';
@@ -11,7 +10,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/settings/blocs/update_cub
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:updat/updat.dart';
-import 'package:updat/updat_window_manager.dart';
 
 class POSApp extends StatefulWidget {
   const POSApp({super.key});
@@ -118,8 +116,7 @@ class _POSAppState extends State<POSApp> {
                 decoration: BoxDecoration(
                   color: context.cardColor,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                      width: 1, color: context.colorScheme.onSurface),
+                  border: Border.all(width: 1, color: context.colorScheme.onSurface),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(12),
@@ -135,16 +132,12 @@ class _POSAppState extends State<POSApp> {
                                   ? launchInstaller
                                   : startUpdate,
                           style: ButtonStyle(
-                            padding: WidgetStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 32)),
+                            padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 32)),
                           ),
                           child: status == UpdatStatus.downloading
                               ? CircularProgressIndicator()
                               : Text(
-                                  status == UpdatStatus.available
-                                      ? 'Скачать'
-                                      : 'Установить',
+                                  status == UpdatStatus.available ? 'Скачать' : 'Установить',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
