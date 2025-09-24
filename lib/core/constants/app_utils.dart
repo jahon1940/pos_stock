@@ -15,7 +15,9 @@ sealed class AppUtils {
 
   /// padding All
   static const EdgeInsets kPadding = EdgeInsets.zero;
+  static const EdgeInsets kPaddingAll6 = EdgeInsets.all(6);
   static const EdgeInsets kPaddingAll10 = EdgeInsets.all(10);
+  static const EdgeInsets kPaddingAll12 = EdgeInsets.all(12);
   static const EdgeInsets kPaddingAll16 = EdgeInsets.all(16);
 
   /// padding All and a side
@@ -23,6 +25,7 @@ sealed class AppUtils {
 
   /// padding only
   static const EdgeInsets kPaddingL10 = EdgeInsets.only(left: 10);
+  static const EdgeInsets kPaddingL24 = EdgeInsets.only(left: 24);
 
   /// padding symmetric Hor
   static const EdgeInsets kPaddingHor10 = EdgeInsets.symmetric(horizontal: 10);
@@ -41,4 +44,5 @@ sealed class AppUtils {
   /// border radius
   static const BorderRadius kBorderRadius = BorderRadius.zero;
   static const BorderRadius kBorderRadius8 = BorderRadius.all(Radius.circular(8));
+  static const BorderRadius kBorderRadius12 = BorderRadius.all(Radius.circular(12));
 }

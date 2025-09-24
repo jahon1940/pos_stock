@@ -7,12 +7,12 @@ import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organizations_list.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organizations_title.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organization_item.dart';
 
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../core/widgets/product_table_title.dart';
 import '../../bloc/stock_bloc.dart';
 
 @RoutePage()
@@ -20,6 +20,12 @@ class OrganizationScreen extends HookWidget {
   const OrganizationScreen({
     super.key,
   });
+
+  static const Map<int, TableColumnWidth> _columnWidths = {
+    0: FlexColumnWidth(1),
+    1: FlexColumnWidth(4),
+    2: FlexColumnWidth(1),
+  };
 
   @override
   Widget build(
@@ -31,30 +37,39 @@ class OrganizationScreen extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              /// title
               Container(
+                width: context.width,
+                height: 60,
+                padding: AppUtils.kPaddingL24,
+                alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: context.theme.cardColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppUtils.kBorderRadius12,
                   boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
-                height: 60,
-                width: context.width,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 15, 0, 0),
-                  child: Text(
-                    "Организации",
-                    style: AppTextStyles.boldType18.withColorPrimary500,
-                    textAlign: TextAlign.start,
-                  ),
+                child: Text(
+                  "Организации",
+                  style: AppTextStyles.boldType18.withColorPrimary500,
+                  textAlign: TextAlign.start,
                 ),
               ),
+
+              /// items
               AppSpace.vertical12,
               Expanded(
                 child: CustomBox(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      OrganizationsTitle(),
+                      SizedBox(
+                        height: 40,
+                        child: TableTitleProducts(
+                          fillColor: AppColors.stroke,
+                          columnWidths: _columnWidths,
+                          titles: ['Номер', 'Название', 'Действия'],
+                        ),
+                      ),
                       BlocBuilder<StockBloc, StockState>(
                         buildWhen: (p, c) => p.organizations != c.organizations,
                         builder: (context, state) => state.status.isLoading
@@ -63,12 +78,13 @@ class OrganizationScreen extends HookWidget {
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-                                  itemBuilder: (context, index) => OrganizationsList(
+                                  itemCount: state.organizations.length,
+                                  separatorBuilder: (context, index) => AppSpace.vertical12,
+                                  itemBuilder: (context, index) => OrganizationItem(
                                     organization: state.organizations[index],
+                                    columnWidths: _columnWidths,
                                     onDelete: () async {},
                                   ),
-                                  separatorBuilder: (context, index) => AppSpace.vertical12,
-                                  itemCount: state.organizations.length,
                                 ),
                               ),
                       )
