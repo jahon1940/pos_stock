@@ -16,14 +16,17 @@ class TableTitleProducts extends StatelessWidget {
   final Color? fillColor;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-      child: Table(
+  Widget build(
+    BuildContext context,
+  ) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        child: Table(
           border: TableBorder.all(
-              borderRadius: BorderRadius.circular(6),
-              color: AppColors.white,
-              width: 2),
+            borderRadius: BorderRadius.circular(6),
+            color: AppColors.white,
+            width: 2,
+          ),
           columnWidths: columnWidths,
           children: [
             TableRow(
@@ -32,21 +35,19 @@ class TableTitleProducts extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               children: titles
-                  .map(
-                    (e) => SizedBox(
-                      height: 40,
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 11, left: 10),
-                          child: Text(
-                            e,
-                            style: AppTextStyles.mType14,
-                            textAlign: TextAlign.center,
-                          )),
-                    ),
-                  )
+                  .map((e) => SizedBox(
+                        height: 40,
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 11, left: 10),
+                            child: Text(
+                              e,
+                              style: AppTextStyles.mType14,
+                              textAlign: TextAlign.center,
+                            )),
+                      ))
                   .toList(),
             ),
-          ]),
-    );
-  }
+          ],
+        ),
+      );
 }
