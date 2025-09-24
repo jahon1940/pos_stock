@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
+import '../constants/app_utils.dart';
 import '../styles/colors.dart';
 
 class TableProductItem extends StatelessWidget {
@@ -20,6 +21,8 @@ class TableProductItem extends StatelessWidget {
   final Color? color;
   final double? tableBorder;
 
+  static const _radius = AppUtils.kTableRadius;
+
   @override
   Widget build(
     BuildContext context,
@@ -30,7 +33,7 @@ class TableProductItem extends StatelessWidget {
         onTap: onTap,
         child: Table(
           border: TableBorder.all(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: _radius,
             color: context.theme.dividerColor,
             width: tableBorder ?? 2,
           ),
@@ -39,7 +42,7 @@ class TableProductItem extends StatelessWidget {
             TableRow(
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: _radius,
               ),
               children: children,
             )
