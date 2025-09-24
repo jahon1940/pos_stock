@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organization_item.dart';
@@ -12,8 +13,8 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizatio
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../core/widgets/product_table_title.dart';
 import '../../bloc/stock_bloc.dart';
+import 'widgets/organizations_table_title.dart';
 
 @RoutePage()
 class OrganizationScreen extends HookWidget {
@@ -41,7 +42,7 @@ class OrganizationScreen extends HookWidget {
               Container(
                 width: context.width,
                 height: 60,
-                padding: AppUtils.kPaddingL24,
+                padding: AppUtils.kPaddingL12,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: context.theme.cardColor,
@@ -55,21 +56,19 @@ class OrganizationScreen extends HookWidget {
                 ),
               ),
 
-              /// items
-              AppSpace.vertical12,
+              /// body
+              AppUtils.kGap12,
               Expanded(
                 child: CustomBox(
+                  padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 40,
-                        child: TableTitleProducts(
-                          fillColor: AppColors.stroke,
-                          columnWidths: _columnWidths,
-                          titles: ['Номер', 'Название', 'Действия'],
-                        ),
+                      OrganizationsTableTitle(
+                        columnWidths: _columnWidths,
+                        titles: ['Номер', 'Название', 'Действия'],
                       ),
+                      AppUtils.kGap12,
                       BlocBuilder<StockBloc, StockState>(
                         buildWhen: (p, c) => p.organizations != c.organizations,
                         builder: (context, state) => state.status.isLoading
@@ -77,7 +76,7 @@ class OrganizationScreen extends HookWidget {
                             : Expanded(
                                 child: ListView.separated(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                                  padding: EdgeInsets.symmetric(vertical: 12).withT0,
                                   itemCount: state.organizations.length,
                                   separatorBuilder: (context, index) => AppSpace.vertical12,
                                   itemBuilder: (context, index) => OrganizationItem(

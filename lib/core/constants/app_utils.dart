@@ -25,10 +25,12 @@ sealed class AppUtils {
 
   /// padding only
   static const EdgeInsets kPaddingL10 = EdgeInsets.only(left: 10);
+  static const EdgeInsets kPaddingL12 = EdgeInsets.only(left: 12);
   static const EdgeInsets kPaddingL24 = EdgeInsets.only(left: 24);
 
   /// padding symmetric Hor
   static const EdgeInsets kPaddingHor10 = EdgeInsets.symmetric(horizontal: 10);
+  static const EdgeInsets kPaddingHor12 = EdgeInsets.symmetric(horizontal: 12);
 
   /// padding symmetric Ver
   static const EdgeInsets kPaddingVer10 = EdgeInsets.symmetric(vertical: 10);
