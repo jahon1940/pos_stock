@@ -21,7 +21,9 @@ import '../../../../../data/dtos/write_offs/search_write_off.dart';
 import '../../../../../data/dtos/write_offs/write_off_dto.dart';
 
 part 'stock_event.dart';
+
 part 'stock_state.dart';
+
 part 'stock_bloc.freezed.dart';
 
 @lazySingleton
@@ -47,31 +49,35 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   final StockRepository _stockRepository;
 
   FutureOr<void> _getOrganizations(
-      _GetOrganizations event, Emitter<StockState> emit) async {
+    _GetOrganizations event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       final res = await _stockRepository.getOrganizations();
-      emit(state.copyWith(
-          status: StateStatus.initial, organizations: res ?? []));
+      emit(state.copyWith(status: StateStatus.initial, organizations: res ?? []));
     } catch (e) {
-      print(e);
       emit(state.copyWith(status: StateStatus.initial));
     }
   }
 
-  FutureOr<void> _getStocks(_GetStocks event, Emitter<StockState> emit) async {
+  FutureOr<void> _getStocks(
+    _GetStocks event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       final res = await _stockRepository.getStocks(event.id);
       emit(state.copyWith(status: StateStatus.initial, stocks: res ?? []));
     } catch (e) {
-      print(e);
       emit(state.copyWith(status: StateStatus.initial));
     }
   }
 
   Future<void> _searchSupplies(
-      _SearchSupplies event, Emitter<StockState> emit) async {
+    _SearchSupplies event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     if (event.initial == true) {
@@ -83,12 +89,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     final request = SearchSupplies(
       supplierId: state.supplierId,
       stockId: event.stockId,
-      fromDate: state.dateFrom == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
     );
 
     try {
@@ -103,7 +105,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _searchTransfers(
-      _SearchTransfers event, Emitter<StockState> emit) async {
+    _SearchTransfers event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     if (event.initial == true) {
@@ -114,12 +118,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
     final request = SearchTransfers(
       stockId: event.stockId,
-      fromDate: state.dateFrom == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
     );
 
     try {
@@ -134,7 +134,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _searchWriteOffs(
-      _SearchWriteOffs event, Emitter<StockState> emit) async {
+    _SearchWriteOffs event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     if (event.initial == true) {
@@ -145,12 +147,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
     final request = SearchWriteOff(
       stockId: event.stockId,
-      fromDate: state.dateFrom == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
     );
 
     try {
@@ -165,7 +163,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _searchInventories(
-      _SearchInventories event, Emitter<StockState> emit) async {
+    _SearchInventories event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     if (event.initial == true) {
@@ -176,12 +176,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
     final request = SearchInventories(
       stockId: event.stockId,
-      fromDate: state.dateFrom == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null
-          ? null
-          : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
     );
 
     try {
@@ -196,7 +192,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   FutureOr<void> _onDeleteSupply(
-      _DeleteSupply event, Emitter<StockState> emit) async {
+    _DeleteSupply event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.deleteSupply(event.id);
@@ -208,7 +206,10 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
   }
 
-  FutureOr<void> _DateFrom(_dateFrom event, Emitter<StockState> emit) async {
+  FutureOr<void> _DateFrom(
+    _dateFrom event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       emit(state.copyWith(
@@ -220,7 +221,10 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
   }
 
-  FutureOr<void> _DateTo(_dateTo event, Emitter<StockState> emit) async {
+  FutureOr<void> _DateTo(
+    _dateTo event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       emit(state.copyWith(
@@ -233,12 +237,16 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   FutureOr<void> _selectedSupplier(
-      _SelectedSupplier event, Emitter<StockState> emit) {
+    _SelectedSupplier event,
+    Emitter<StockState> emit,
+  ) {
     emit(state.copyWith(supplierId: event.id));
   }
 
   Future<void> _downloadSupplies(
-      _DownloadSupplies event, Emitter<StockState> emit) async {
+    _DownloadSupplies event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.downloadSupplies(id: event.id);
@@ -249,7 +257,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _downloadTransfers(
-      _DownloadTransfers event, Emitter<StockState> emit) async {
+    _DownloadTransfers event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.downloadTransfers(id: event.id);
@@ -260,7 +270,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _downloadWriteOffs(
-      _DownloadWriteOffs event, Emitter<StockState> emit) async {
+    _DownloadWriteOffs event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.downloadWriteOffs(id: event.id);
@@ -271,7 +283,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   Future<void> _downloadInventory(
-      _DownloadInventory event, Emitter<StockState> emit) async {
+    _DownloadInventory event,
+    Emitter<StockState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.downloadInventories(id: event.id);
