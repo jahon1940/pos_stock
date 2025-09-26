@@ -8,7 +8,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/managers.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/stocks.dart';
 
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 import '../organizations/widgets/page_title_widget.dart';
 
@@ -32,7 +31,6 @@ class StocksScreen extends StatelessWidget {
           body: Padding(
             padding: AppUtils.kPaddingAll10,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 /// title
                 PageTitleWidget(
@@ -72,92 +70,11 @@ class StocksScreen extends StatelessWidget {
 
                 ///
                 AppUtils.kGap12,
-                Container(
-                  decoration: BoxDecoration(
-                    color: context.theme.cardColor,
-                    borderRadius: AppUtils.kBorderRadius10,
-                    boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                  ),
-                  height: 60,
-                  width: context.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ///
-                      SizedBox(
-                        width: context.width * .7,
-                        child: Center(
-                          child: TabBar(
-                            labelPadding: EdgeInsets.zero,
-                            padding: EdgeInsets.all(8),
-                            indicatorPadding: EdgeInsets.zero,
-                            overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-                            dividerColor: Colors.transparent,
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.grey,
-                            indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: context.primary),
-                            tabs: <Widget>[
-                              // for (final index in [0, 1, 2])
-                              FittedBox(
-                                child: SizedBox(
-                                  width: context.width * .17,
-                                  child: Tab(
-                                    child: Text(
-                                      "Склад",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              FittedBox(
-                                child: SizedBox(
-                                  width: context.width * .17,
-                                  child: Tab(
-                                    child: Text(
-                                      context.tr("contractor"),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              FittedBox(
-                                child: SizedBox(
-                                  width: context.width * .17,
-                                  child: Tab(
-                                    child: Text(
-                                      "Сотрудники",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox()
-                    ],
-                  ),
-                ),
+                _tabbar(context),
 
                 ///
                 AppUtils.kGap12,
-                Expanded(
-                  child: TabBarView(
-                    children: <Widget>[
-                      Stocks(organization),
-                      Contractor(organization),
-                      Managers(organization),
-                    ],
-                  ),
-                ),
+                _view(context),
               ],
             ),
           ),
@@ -174,16 +91,84 @@ class StocksScreen extends StatelessWidget {
         child: Container(
           width: context.width * .3,
           height: 50,
-          padding: AppUtils.kPaddingL12,
-          alignment: Alignment.centerLeft,
+          padding: AppUtils.kPaddingHor12,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: context.primary,
           ),
-          child: Text(
-            label,
-            style: TextStyle(fontSize: 13, color: context.onPrimary),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: TextStyle(fontSize: 13, color: context.onPrimary),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+                size: 16,
+              ),
+            ],
           ),
+        ),
+      );
+
+  Widget _tabbar(BuildContext context) => Container(
+        color: Colors.yellow,
+        child: TabBar(
+          dividerColor: Colors.transparent,
+          labelColor: Colors.white,
+          tabs: [
+            FittedBox(
+              child: SizedBox(
+                width: context.width * .17,
+                child: Tab(
+                  child: Text(
+                    "Склад",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            FittedBox(
+              child: SizedBox(
+                width: context.width * .17,
+                child: Tab(
+                  child: Text(
+                    context.tr("contractor"),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            FittedBox(
+              child: SizedBox(
+                width: context.width * .17,
+                child: Tab(
+                  child: Text(
+                    "Сотрудники",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _view(BuildContext context) => Expanded(
+        child: TabBarView(
+          children: <Widget>[
+            Stocks(organization),
+            Contractor(organization),
+            Managers(organization),
+          ],
         ),
       );
 }
