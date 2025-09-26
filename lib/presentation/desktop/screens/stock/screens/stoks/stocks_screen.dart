@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/contractor.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/managers.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/stocks.dart';
 
 import '../../../../../../app/router.dart';
-import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../data/dtos/company_dto.dart';
+import '../organizations/widgets/page_title_widget.dart';
 
 @RoutePage()
 class StocksScreen extends StatelessWidget {
@@ -31,10 +32,24 @@ class StocksScreen extends StatelessWidget {
         length: 3,
         child: Scaffold(
           body: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: AppUtils.kPaddingAll10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                /// title
+                PageTitleWidget(label: organization.name ?? ''),
+
+                ///
+                AppUtils.kGap12,
+                CustomBox(
+                  child: SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                  ),
+                ),
+
+                ///
+                AppUtils.kGap12,
                 Container(
                   decoration: BoxDecoration(
                     color: context.theme.cardColor,
@@ -119,65 +134,6 @@ class StocksScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // CustomBox(
-                              //   child: Container(
-                              //     decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(8),
-                              //         color: context.primary),
-                              //     height: 50,
-                              //     width: context.width * .05,
-                              //     child: Center(
-                              //       child: PopupMenuButton<SampleItem>(
-                              //         icon: const Icon(
-                              //           Icons.menu,
-                              //           color: Colors.white,
-                              //         ),
-                              //         initialValue: selectedItem,
-                              //         onSelected: (SampleItem item) {
-                              //           // setState(() {
-                              //           //   selectedItem = item;
-                              //           // });
-                              //         },
-                              //         itemBuilder: (BuildContext context) =>
-                              //             <PopupMenuEntry<SampleItem>>[
-                              //           const PopupMenuItem<SampleItem>(
-                              //               value: SampleItem.itemOne,
-                              //               child: Padding(
-                              //                 padding: EdgeInsets.fromLTRB(
-                              //                     24, 12, 24, 12),
-                              //                 child: ListTile(
-                              //                   leading: Icon(
-                              //                       Icons.download_outlined),
-                              //                   title: Text('Download'),
-                              //                 ),
-                              //               )),
-                              //           const PopupMenuItem<SampleItem>(
-                              //               value: SampleItem.itemTwo,
-                              //               child: Padding(
-                              //                 padding: EdgeInsets.fromLTRB(
-                              //                     24, 12, 24, 12),
-                              //                 child: ListTile(
-                              //                   leading: Icon(
-                              //                       Icons.download_outlined),
-                              //                   title: Text('Download'),
-                              //                 ),
-                              //               )),
-                              //           const PopupMenuItem<SampleItem>(
-                              //               value: SampleItem.itemThree,
-                              //               child: Padding(
-                              //                 padding: EdgeInsets.fromLTRB(
-                              //                     24, 12, 24, 12),
-                              //                 child: ListTile(
-                              //                   leading: Icon(
-                              //                       Icons.download_outlined),
-                              //                   title: Text('Download'),
-                              //                 ),
-                              //               )),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ),
-                              // )
                             ],
                           ),
                         ),
@@ -186,7 +142,9 @@ class StocksScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppSpace.vertical12,
+
+                ///
+                AppUtils.kGap12,
                 Expanded(
                   child: TabBarView(
                     children: <Widget>[

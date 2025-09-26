@@ -25,7 +25,7 @@ class PageTitleWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.theme.cardColor,
           borderRadius: AppUtils.kBorderRadius12,
-          boxShadow: AppUtils.mainShadow,
+          boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
         ),
         child: Text(
           label,
