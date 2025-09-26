@@ -4,7 +4,7 @@ import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
-import 'package:hoomo_pos/domain/repositories/stock.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/repository/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
@@ -12,7 +12,6 @@ import '../../../../../../../data/dtos/transfers/create_transfers.dart';
 import '../../../../../../../data/dtos/transfers/transfer_dto.dart';
 import '../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
 import '../../../../../../../data/dtos/transfers/transfer_product_request.dart';
-import '../../../../../../../domain/repositories/supplier.dart';
 
 part 'add_transfer_state.dart';
 part 'add_transfer_cubit.freezed.dart';

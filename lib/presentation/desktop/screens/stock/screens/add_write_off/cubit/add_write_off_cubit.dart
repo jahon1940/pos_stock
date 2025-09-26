@@ -3,9 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
-import 'package:hoomo_pos/domain/repositories/stock.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/repository/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 
