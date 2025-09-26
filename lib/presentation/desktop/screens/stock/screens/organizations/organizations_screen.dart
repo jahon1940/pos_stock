@@ -82,7 +82,6 @@ class OrganizationScreen extends HookWidget {
                                   itemBuilder: (context, index) => OrganizationItem(
                                     organization: state.organizations[index],
                                     columnWidths: _columnWidths,
-                                    onDelete: () async {},
                                   ),
                                 ),
                               ),

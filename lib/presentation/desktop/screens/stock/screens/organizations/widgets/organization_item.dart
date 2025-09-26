@@ -13,12 +13,10 @@ class OrganizationItem extends StatelessWidget {
     super.key,
     required this.organization,
     required this.columnWidths,
-    this.onDelete,
   });
 
   final CompanyDto organization;
   final Map<int, TableColumnWidth> columnWidths;
-  final VoidCallback? onDelete;
 
   @override
   Widget build(
