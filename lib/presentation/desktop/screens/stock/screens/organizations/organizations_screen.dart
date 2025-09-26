@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
-import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organization_item.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/page_title_widget.dart';
 
 import '../../../../../../core/constants/spaces.dart';
-import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../bloc/stock_bloc.dart';
 import 'widgets/organizations_table_title.dart';
@@ -39,22 +36,7 @@ class OrganizationScreen extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               /// title
-              Container(
-                width: context.width,
-                height: 60,
-                padding: AppUtils.kPaddingL12,
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  color: context.theme.cardColor,
-                  borderRadius: AppUtils.kBorderRadius12,
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                ),
-                child: Text(
-                  "Организации",
-                  style: AppTextStyles.boldType18.withColorPrimary500,
-                  textAlign: TextAlign.start,
-                ),
-              ),
+              PageTitleWidget(label: "Организации"),
 
               /// body
               AppUtils.kGap12,

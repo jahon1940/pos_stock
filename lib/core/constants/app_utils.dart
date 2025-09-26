@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../styles/colors.dart';
+
 sealed class AppUtils {
   AppUtils._();
 
@@ -51,4 +53,7 @@ sealed class AppUtils {
 
   /// custom
   static const BorderRadius kTableRadius = BorderRadius.all(Radius.circular(8));
+
+  /// styles
+  static const mainShadow = [BoxShadow(color: AppColors.stroke, blurRadius: 3)];
 }
