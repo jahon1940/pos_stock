@@ -25,7 +25,6 @@ class StocksScreen extends StatelessWidget {
     BuildContext context,
   ) =>
       DefaultTabController(
-        initialIndex: 0,
         length: 3,
         child: Scaffold(
           body: Padding(

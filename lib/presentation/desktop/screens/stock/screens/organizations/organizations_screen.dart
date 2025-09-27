@@ -20,9 +20,9 @@ class OrganizationScreen extends HookWidget {
   });
 
   static const Map<int, TableColumnWidth> _columnWidths = {
-    0: FlexColumnWidth(1),
+    0: FlexColumnWidth(),
     1: FlexColumnWidth(4),
-    2: FlexColumnWidth(1),
+    2: FlexColumnWidth(),
   };
 
   @override
@@ -44,7 +44,6 @@ class OrganizationScreen extends HookWidget {
                 child: CustomBox(
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       OrganizationsTableTitle(
                         columnWidths: _columnWidths,
