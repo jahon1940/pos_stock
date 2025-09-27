@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 
 extension BuildContextEntension<T> on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -156,4 +159,8 @@ extension BuildContextEntension<T> on BuildContext {
   void hideSnackBar() => ScaffoldMessenger.of(this).hideCurrentSnackBar();
 
   void pop([T? result]) => Navigator.pop(this, result);
+}
+
+extension BlocExtension on BuildContext {
+  StockBloc get stockBloc => read<StockBloc>();
 }
