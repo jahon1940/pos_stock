@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class NetworkConstants {
   static String baseHostName = "kanstik";
   static const String apiVersion = 'v1';
