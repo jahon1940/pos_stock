@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 
 import '../../../../../../../data/dtos/company_dto.dart';
@@ -25,8 +25,8 @@ class OrganizationItem extends StatelessWidget {
       TableProductItem(
         columnWidths: columnWidths,
         onTap: () async {
-          context.read<StockBloc>().add(StockEvent.getStocks(organization.id));
-          await router.push(StocksRoute(organizations: organization));
+          context.stockBloc.add(StockEvent.getStocks(organization.id));
+          await router.push(OrganizationItemRoute(organization: organization));
         },
         children: [
           SizedBox(
@@ -43,20 +43,7 @@ class OrganizationItem extends StatelessWidget {
               child: Text(organization.name ?? ''),
             ),
           ),
-          SizedBox(
-            width: 50,
-            // child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: IconButton.filled(
-            //     onPressed: onDelete,
-            //     icon: Icon(Icons.delete),
-            //     color: AppColors.white,
-            //     style: ButtonStyle(
-            //       backgroundColor: WidgetStatePropertyAll(Colors.red),
-            //     ),
-            //   ),
-            // ),
-          )
+          SizedBox(width: 50)
         ],
       );
 }

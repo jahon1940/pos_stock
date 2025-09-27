@@ -9,11 +9,11 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/
 
 import '../../../../../../data/dtos/company_dto.dart';
 import '../contractor/screens/contractor_screen.dart';
-import '../organizations/widgets/page_title_widget.dart';
+import 'widgets/page_title_widget.dart';
 
 @RoutePage()
-class StocksScreen extends StatelessWidget {
-  const StocksScreen({
+class OrganizationItemScreen extends StatelessWidget {
+  const OrganizationItemScreen({
     super.key,
     required this.organization,
   });

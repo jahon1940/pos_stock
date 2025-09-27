@@ -39,7 +39,7 @@ class AppRouter extends RootStackRouter {
               page: StockParentRoute.page,
               children: [
                 AutoRoute(page: OrganizationRoute.page, initial: true),
-                AutoRoute(page: StocksRoute.page),
+                AutoRoute(page: OrganizationItemRoute.page),
                 AutoRoute(page: StockRoute.page),
                 AutoRoute(page: AddSuppliesRoute.page),
                 AutoRoute(page: AddTransferRoute.page),
