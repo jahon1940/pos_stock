@@ -17,6 +17,7 @@ import '../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../core/widgets/text_field.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 import '../../bloc/stock_bloc.dart';
+import '../../widgets/back_button_widget.dart';
 import '../../widgets/table_title_widget.dart';
 
 @RoutePage()
@@ -40,54 +41,37 @@ class StocksScreen extends HookWidget {
           children: [
             /// search field
             Container(
+              padding: AppUtils.kPaddingAll6,
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
               ),
               height: 60,
-              child: Padding(
-                padding: AppUtils.kPaddingAll6,
-                child: Row(
-                  children: [
-                    /// back button
-                    InkWell(
-                      onTap: () => context.pop(),
-                      child: Container(
-                        width: 48,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          color: AppColors.primary500,
-                          borderRadius: AppUtils.kBorderRadius12,
-                          boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                        ),
-                        child: const Icon(
-                          Icons.arrow_back_ios_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+              child: Row(
+                children: [
+                  /// back button
+                  const BackButtonWidget(),
 
-                    /// search field
-                    AppUtils.kGap6,
-                    Expanded(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.primary100.opcty(.3),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: AppTextField(
-                          height: 50,
-                          hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
-                          contentPadding: const EdgeInsets.all(14),
-                          hint: "Поиск склада",
-                          fieldController: searchController,
-                          suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
-                        ),
+                  /// search field
+                  AppUtils.kGap6,
+                  Expanded(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary100.opcty(.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: AppTextField(
+                        height: 50,
+                        hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
+                        contentPadding: const EdgeInsets.all(14),
+                        hint: "Поиск склада",
+                        fieldController: searchController,
+                        suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             AppUtils.kGap12,

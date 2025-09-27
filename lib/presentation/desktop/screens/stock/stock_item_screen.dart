@@ -13,10 +13,12 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/supplies.dart'
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/write_off.dart';
 
+import '../../../../core/constants/app_utils.dart';
 import '../../../../core/styles/colors.dart';
 import '../../../../data/dtos/stock_dto.dart';
 import '../search/cubit/search_bloc.dart';
 import 'dialogs/currency/currency_dialog.dart';
+import 'widgets/back_button_widget.dart';
 
 enum SampleItem {
   itemOne,
@@ -43,10 +45,12 @@ class StockItemScreen extends HookWidget {
       length: 5,
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: AppUtils.kPaddingAll10,
           child: Column(
             children: [
+              /// title
               Container(
+                padding: AppUtils.kPaddingAll6,
                 decoration: BoxDecoration(
                   color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
@@ -56,38 +60,21 @@ class StockItemScreen extends HookWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.primary500,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                          ),
-                          child: InkWell(
-                            onTap: () => context.pop(),
-                            child: const Padding(
-                              padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )),
-                    ),
+                    /// back button
+                    const BackButtonWidget(),
+
+                    ///
                     SizedBox(
                       width: context.width * .7,
                       child: Center(
                         child: TabBar(
                           labelPadding: EdgeInsets.zero,
-                          padding: const EdgeInsets.all(8),
                           overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.grey,
                           indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: context.primary),
                           tabs: <Widget>[
-                            // for (final index in [0, 1, 2])
                             FittedBox(
                               child: SizedBox(
                                 width: context.width * .15,
@@ -157,62 +144,63 @@ class StockItemScreen extends HookWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: context.primary),
-                        width: context.width * .05,
-                        height: 50,
-                        child: Center(
-                          child: PopupMenuButton<SampleItem>(
-                            initialValue: selectedItem,
-                            onSelected: (SampleItem item) {},
-                            icon: const Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                onTap: () async {
-                                  final bloc = context.read<SearchBloc>();
-                                  final res = await context.showCustomDialog(const CategoryDialog());
-                                  if (res == null) return;
-                                  bloc.add(SearchRemoteTextChanged(''));
-                                },
-                                value: SampleItem.itemOne,
-                                child: const Padding(
-                                  padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                  child: ListTile(
-                                    leading: Icon(Icons.source_rounded),
-                                    title: Text('Категории'),
-                                  ),
-                                ),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                onTap: () async {
-                                  final bloc = context.read<SearchBloc>();
-                                  final res = await context.showCustomDialog(const CurrencyDialog());
-                                  if (res == null) return;
-                                  bloc.add(SearchRemoteTextChanged(''));
-                                },
-                                value: SampleItem.itemTwo,
-                                child: const Padding(
-                                  padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                  child: ListTile(
-                                    leading: Icon(Icons.currency_exchange),
-                                    title: Text('Установить Курс'),
-                                  ),
-                                ),
-                              ),
-                            ],
+
+                    /// menu button
+                    Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: context.primary),
+                      width: context.width * .05,
+                      height: 50,
+                      child: Center(
+                        child: PopupMenuButton<SampleItem>(
+                          initialValue: selectedItem,
+                          onSelected: (SampleItem item) {},
+                          icon: const Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                            size: 25,
                           ),
+                          itemBuilder: (BuildContext context) => [
+                            PopupMenuItem<SampleItem>(
+                              onTap: () async {
+                                final bloc = context.read<SearchBloc>();
+                                final res = await context.showCustomDialog(const CategoryDialog());
+                                if (res == null) return;
+                                bloc.add(SearchRemoteTextChanged(''));
+                              },
+                              value: SampleItem.itemOne,
+                              child: const Padding(
+                                padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                child: ListTile(
+                                  leading: Icon(Icons.source_rounded),
+                                  title: Text('Категории'),
+                                ),
+                              ),
+                            ),
+                            PopupMenuItem<SampleItem>(
+                              onTap: () async {
+                                final bloc = context.read<SearchBloc>();
+                                final res = await context.showCustomDialog(const CurrencyDialog());
+                                if (res == null) return;
+                                bloc.add(SearchRemoteTextChanged(''));
+                              },
+                              value: SampleItem.itemTwo,
+                              child: const Padding(
+                                padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                child: ListTile(
+                                  leading: Icon(Icons.currency_exchange),
+                                  title: Text('Установить Курс'),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
+
+              /// body
               AppSpace.vertical12,
               Expanded(
                 child: TabBarView(
