@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/contractor/screens/contractor_screen.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/managers.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/stocks.dart';
 
 import '../../../../../../data/dtos/company_dto.dart';
+import '../contractor/screens/contractor_screen.dart';
 import '../organizations/widgets/page_title_widget.dart';
 
 @RoutePage()

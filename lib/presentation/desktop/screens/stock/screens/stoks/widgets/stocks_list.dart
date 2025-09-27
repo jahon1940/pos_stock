@@ -26,9 +26,9 @@ class StocksList extends StatelessWidget {
   ) =>
       TableProductItem(
         columnWidths: const {
-          0: FlexColumnWidth(1),
+          0: FlexColumnWidth(),
           1: FlexColumnWidth(4),
-          2: FlexColumnWidth(1),
+          2: FlexColumnWidth(),
         },
         onTap: () async {
           context.stockBloc.add(StockEvent.searchSupplies(stocks.id, true));
