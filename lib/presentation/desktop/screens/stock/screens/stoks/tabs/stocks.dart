@@ -30,7 +30,6 @@ class Stocks extends HookWidget {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
@@ -42,7 +41,6 @@ class Stocks extends HookWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
                     child: DecoratedBox(
@@ -51,17 +49,12 @@ class Stocks extends HookWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
-                        radius: 8,
                         height: 50,
                         hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
                         contentPadding: EdgeInsets.all(14),
                         hint: "Поиск склада",
                         fieldController: searchController,
-                        suffix: Row(
-                          children: [
-                            IconButton(icon: Icon(Icons.close), onPressed: () {}),
-                          ],
-                        ),
+                        suffix: IconButton(icon: Icon(Icons.close), onPressed: () {}),
                       ),
                     ),
                   ),
@@ -107,13 +100,13 @@ class Stocks extends HookWidget {
                             child: ListView.separated(
                               shrinkWrap: true,
                               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                              itemCount: state.stocks.length,
+                              separatorBuilder: (context, index) => AppSpace.vertical12,
                               itemBuilder: (context, index) => StocksList(
                                 organization: organization,
                                 stocks: state.stocks[index],
                                 onDelete: () async {},
                               ),
-                              separatorBuilder: (context, index) => AppSpace.vertical12,
-                              itemCount: state.stocks.length,
                             ),
                           ),
                   )

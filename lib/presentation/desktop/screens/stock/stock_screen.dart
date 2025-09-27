@@ -3,8 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/app/router.dart';
-import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company_dto.dart';
@@ -43,7 +41,6 @@ class StockScreen extends HookWidget {
     ThemeData themeData = Theme.of(context);
     SampleItem? selectedItem;
     return DefaultTabController(
-      initialIndex: 0,
       length: 5,
       child: Scaffold(
         body: Padding(
@@ -59,7 +56,6 @@ class StockScreen extends HookWidget {
                 height: 60,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -70,7 +66,7 @@ class StockScreen extends HookWidget {
                             boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () => router.push(StocksRoute(organizations: organization)),
+                            onTap: () => context.pop(),
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
@@ -86,8 +82,7 @@ class StockScreen extends HookWidget {
                         child: TabBar(
                           labelPadding: EdgeInsets.zero,
                           padding: EdgeInsets.all(8),
-                          indicatorPadding: EdgeInsets.zero,
-                          overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                          overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.grey,
