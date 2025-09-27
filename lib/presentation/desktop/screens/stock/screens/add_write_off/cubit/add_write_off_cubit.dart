@@ -13,19 +13,19 @@ import '../../../../../../../data/dtos/write_offs/create_write_off.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_product_dto.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_product_request.dart';
-import '../../../../../../../domain/repositories/supplier_repository.dart';
 
 part 'add_write_off_state.dart';
+
 part 'add_write_off_cubit.freezed.dart';
 
 @injectable
 class AddWriteOffCubit extends Cubit<AddWriteOffState> {
   AddWriteOffCubit(
-      this._repository, this._productRepository, this._supplierRepository)
-      : super(AddWriteOffState());
+    this._repository,
+    this._productRepository,
+  ) : super(AddWriteOffState());
 
   final StockRepository _repository;
-  final SupplierRepository _supplierRepository;
   final ProductsRepository _productRepository;
 
   void init(WriteOffDto? writeOff, StockDto stock) async {
@@ -43,8 +43,7 @@ class AddWriteOffCubit extends Cubit<AddWriteOffState> {
 
   void addProductByBarcode(String barcode) async {
     try {
-      final products =
-          await _productRepository.searchRemote(SearchRequest(title: barcode));
+      final products = await _productRepository.searchRemote(SearchRequest(title: barcode));
 
       addProduct(products.results.first.id);
     } catch (e) {
@@ -103,8 +102,7 @@ class AddWriteOffCubit extends Cubit<AddWriteOffState> {
     int productId, {
     int? quantity,
   }) {
-    WriteOffProductRequest? product =
-        state.request?.products?.firstWhere((e) => e.productId == productId);
+    WriteOffProductRequest? product = state.request?.products?.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
@@ -114,15 +112,13 @@ class AddWriteOffCubit extends Cubit<AddWriteOffState> {
 
     print("-----------------${quantity} ");
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
   void updateComment(int productId, {String? comment}) {
-    WriteOffProductRequest? product =
-        state.request?.products?.firstWhere((e) => e.productId == productId);
+    WriteOffProductRequest? product = state.request?.products?.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
@@ -130,14 +126,12 @@ class AddWriteOffCubit extends Cubit<AddWriteOffState> {
 
     print("----------------- ${comment}");
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
-  List<WriteOffProductRequest> _returnUpdatedProducts(
-      WriteOffProductRequest product) {
+  List<WriteOffProductRequest> _returnUpdatedProducts(WriteOffProductRequest product) {
     final products = <WriteOffProductRequest>[];
 
     for (WriteOffProductRequest p in state.request?.products ?? []) {
@@ -153,8 +147,7 @@ class AddWriteOffCubit extends Cubit<AddWriteOffState> {
   }
 
   void deleteProduct(int id) {
-    final products =
-        List<WriteOffProductRequest>.from(state.request?.products ?? []);
+    final products = List<WriteOffProductRequest>.from(state.request?.products ?? []);
 
     products.removeWhere((e) => e.productId == id);
 
