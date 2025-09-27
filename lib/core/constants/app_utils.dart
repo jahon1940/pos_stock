@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 sealed class AppUtils {
   AppUtils._();
 
+  static const Gap kGap6 = Gap(6);
   static const Gap kGap8 = Gap(8);
   static const Gap kGap12 = Gap(12);
   static const Gap kGap16 = Gap(16);

@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organization_item.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/page_title_widget.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/widgets/custom_box.dart';

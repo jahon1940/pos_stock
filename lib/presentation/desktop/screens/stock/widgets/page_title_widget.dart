@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
 
-import '../../../../../../../core/constants/app_utils.dart';
-import '../../../../../../../core/styles/colors.dart';
-import '../../../../../../../core/styles/text_style.dart';
+import '../../../../../core/constants/app_utils.dart';
+import '../../../../../core/styles/colors.dart';
+import '../../../../../core/styles/text_style.dart';
 
 class PageTitleWidget extends StatelessWidget {
   const PageTitleWidget({
@@ -30,7 +30,6 @@ class PageTitleWidget extends StatelessWidget {
           boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// back button
             if (canPop)

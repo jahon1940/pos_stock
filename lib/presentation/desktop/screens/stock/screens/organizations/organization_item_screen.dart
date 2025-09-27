@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/tabs/managers.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/tabs/stocks.dart';
 
+import '../../../../../../app/router.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 import '../contractor/screens/contractor_screen.dart';
-import 'widgets/page_title_widget.dart';
+import '../../widgets/page_title_widget.dart';
 
 @RoutePage()
 class OrganizationItemScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class OrganizationItemScreen extends StatelessWidget {
     BuildContext context,
   ) =>
       DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           body: Padding(
             padding: AppUtils.kPaddingAll10,
@@ -50,7 +51,7 @@ class OrganizationItemScreen extends StatelessWidget {
                         _item(
                           context,
                           label: 'Склад',
-                          onPressed: () {},
+                          onPressed: () async => await router.push(StocksRoute(organization: organization)),
                         ),
                         _item(
                           context,
@@ -123,19 +124,6 @@ class OrganizationItemScreen extends StatelessWidget {
                 width: context.width * .17,
                 child: Tab(
                   child: Text(
-                    "Склад",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-            FittedBox(
-              child: SizedBox(
-                width: context.width * .17,
-                child: Tab(
-                  child: Text(
                     context.tr("contractor"),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -164,7 +152,6 @@ class OrganizationItemScreen extends StatelessWidget {
   Widget _view(BuildContext context) => Expanded(
         child: TabBarView(
           children: <Widget>[
-            Stocks(organization),
             ContractorScreen(organization),
             Managers(organization),
           ],
