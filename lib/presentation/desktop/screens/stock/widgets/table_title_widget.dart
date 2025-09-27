@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 
-import '../../../../../../../core/styles/colors.dart';
+import '../../../../../core/styles/colors.dart';
 
-class OrganizationsTableTitle extends StatelessWidget {
-  const OrganizationsTableTitle({
+class TableTitleWidget extends StatelessWidget {
+  const TableTitleWidget({
     super.key,
     required this.columnWidths,
     required this.titles,
@@ -21,12 +21,12 @@ class OrganizationsTableTitle extends StatelessWidget {
     BuildContext context,
   ) =>
       Table(
+        columnWidths: columnWidths,
         border: TableBorder.all(
           borderRadius: _radius,
           color: AppColors.white,
           width: 2,
         ),
-        columnWidths: columnWidths,
         children: [
           TableRow(
             decoration: BoxDecoration(

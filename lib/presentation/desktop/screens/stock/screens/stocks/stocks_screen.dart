@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/widgets/stocks_list.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/widgets/stocks_title.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/widgets/stock_item_widget.dart';
 
 import '../../../../../../core/constants/app_utils.dart';
 import '../../../../../../core/styles/colors.dart';
@@ -15,6 +14,7 @@ import '../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../core/widgets/text_field.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 import '../../bloc/stock_bloc.dart';
+import '../../widgets/table_title_widget.dart';
 
 @RoutePage()
 class StocksScreen extends HookWidget {
@@ -24,6 +24,12 @@ class StocksScreen extends HookWidget {
   });
 
   final CompanyDto organization;
+
+  static const Map<int, TableColumnWidth> _columnWidths = {
+    0: FlexColumnWidth(),
+    1: FlexColumnWidth(4),
+    2: FlexColumnWidth(),
+  };
 
   @override
   Widget build(
@@ -94,7 +100,10 @@ class StocksScreen extends HookWidget {
               child: CustomBox(
                 child: Column(
                   children: [
-                    StocksTitle(),
+                    TableTitleWidget(
+                      columnWidths: _columnWidths,
+                      titles: ['Номер', 'Название', 'Действия'],
+                    ),
                     BlocBuilder<StockBloc, StockState>(
                       buildWhen: (previous, current) => previous.stocks != current.stocks,
                       builder: (context, state) => state.status.isLoading
@@ -105,10 +114,10 @@ class StocksScreen extends HookWidget {
                                 padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
                                 itemCount: state.stocks.length,
                                 separatorBuilder: (context, index) => AppUtils.kGap12,
-                                itemBuilder: (context, index) => StocksList(
+                                itemBuilder: (context, index) => StockItemWidget(
                                   organization: organization,
                                   stocks: state.stocks[index],
-                                  onDelete: () async {},
+                                  columnWidths: _columnWidths,
                                 ),
                               ),
                             ),

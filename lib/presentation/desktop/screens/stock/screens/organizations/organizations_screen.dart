@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/widgets/organization_item.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../bloc/stock_bloc.dart';
-import 'widgets/organizations_table_title.dart';
+import '../../widgets/page_title_widget.dart';
+import '../../widgets/table_title_widget.dart';
+import 'widgets/organization_item_widget.dart';
 
 @RoutePage()
 class OrganizationScreen extends HookWidget {
@@ -45,7 +45,7 @@ class OrganizationScreen extends HookWidget {
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      OrganizationsTableTitle(
+                      TableTitleWidget(
                         columnWidths: _columnWidths,
                         titles: ['Номер', 'Название', 'Действия'],
                       ),
@@ -60,7 +60,7 @@ class OrganizationScreen extends HookWidget {
                                   padding: EdgeInsets.symmetric(vertical: 12).withT0,
                                   itemCount: state.organizations.length,
                                   separatorBuilder: (context, index) => AppSpace.vertical12,
-                                  itemBuilder: (context, index) => OrganizationItem(
+                                  itemBuilder: (context, index) => OrganizationItemWidget(
                                     organization: state.organizations[index],
                                     columnWidths: _columnWidths,
                                   ),

@@ -8,28 +8,24 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dar
 
 import '../../../../../../../data/dtos/stock_dto.dart';
 
-class StocksList extends StatelessWidget {
-  const StocksList({
+class StockItemWidget extends StatelessWidget {
+  const StockItemWidget({
     super.key,
     required this.stocks,
-    this.onDelete,
     required this.organization,
+    required this.columnWidths,
   });
 
   final CompanyDto organization;
   final StockDto stocks;
-  final VoidCallback? onDelete;
+  final Map<int, TableColumnWidth> columnWidths;
 
   @override
   Widget build(
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: const {
-          0: FlexColumnWidth(),
-          1: FlexColumnWidth(4),
-          2: FlexColumnWidth(),
-        },
+        columnWidths: columnWidths,
         onTap: () async {
           context.stockBloc.add(StockEvent.searchSupplies(stocks.id, true));
           await router.push(StockRoute(stock: stocks, organization: organization));

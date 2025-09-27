@@ -8,8 +8,8 @@ import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/company_dto.dart';
 import '../../../bloc/stock_bloc.dart';
 
-class OrganizationItem extends StatelessWidget {
-  const OrganizationItem({
+class OrganizationItemWidget extends StatelessWidget {
+  const OrganizationItemWidget({
     super.key,
     required this.organization,
     required this.columnWidths,
