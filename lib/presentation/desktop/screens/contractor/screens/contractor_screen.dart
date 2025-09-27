@@ -8,18 +8,18 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
-import '../../../../../../../app/router.dart';
-import '../../../../../../../app/router.gr.dart';
-import '../../../../../../../core/constants/spaces.dart';
-import '../../../../../../../core/styles/colors.dart';
-import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
-import '../../../widgets/title_person.dart';
+import '../../../../../app/router.dart';
+import '../../../../../app/router.gr.dart';
+import '../../../../../core/constants/spaces.dart';
+import '../../../../../core/styles/colors.dart';
+import '../../../../../core/styles/text_style.dart';
+import '../../../../../core/widgets/custom_box.dart';
+import '../../../../../core/widgets/text_field.dart';
+import '../../../../../data/dtos/company_dto.dart';
+import '../../stock/widgets/title_person.dart';
 
-class Contractor extends HookWidget {
-  const Contractor(
+class ContractorScreen extends HookWidget {
+  const ContractorScreen(
     this.organizations, {
     super.key,
   });

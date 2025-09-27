@@ -14,7 +14,7 @@ import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../../../domain/repositories/supplier.dart';
+import '../../../../../../../domain/repositories/supplier_repository.dart';
 
 part 'add_supplies_state.dart';
 part 'add_supplies_cubit.freezed.dart';

@@ -13,7 +13,7 @@ import '../../../../../../../data/dtos/write_offs/create_write_off.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_product_dto.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_product_request.dart';
-import '../../../../../../../domain/repositories/supplier.dart';
+import '../../../../../../../domain/repositories/supplier_repository.dart';
 
 part 'add_write_off_state.dart';
 part 'add_write_off_cubit.freezed.dart';

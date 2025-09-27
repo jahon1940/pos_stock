@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/contractor.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/contractor/screens/contractor_screen.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/managers.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stoks/tabs/stocks.dart';
 
@@ -165,7 +165,7 @@ class StocksScreen extends StatelessWidget {
         child: TabBarView(
           children: <Widget>[
             Stocks(organization),
-            Contractor(organization),
+            ContractorScreen(organization),
             Managers(organization),
           ],
         ),

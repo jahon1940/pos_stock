@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'
-    show AlertDialog, TextButton, TextEditingController, showDialog;
+import 'package:flutter/material.dart' show AlertDialog, TextButton, TextEditingController, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
-import 'package:hoomo_pos/domain/repositories/supplier.dart';
+import 'package:hoomo_pos/domain/repositories/supplier_repository.dart';
 import 'package:injectable/injectable.dart';
 
 part 'add_contractor_state.dart';
+
 part 'add_contractor_cubit.freezed.dart';
 
 @injectable
 class AddContractorCubit extends Cubit<AddContractorState> {
-  AddContractorCubit(this._supplierRepository) : super(AddContractorState());
+  AddContractorCubit(
+    this._supplierRepository,
+  ) : super(AddContractorState());
 
   final SupplierRepository _supplierRepository;
 
@@ -33,9 +35,12 @@ class AddContractorCubit extends Cubit<AddContractorState> {
 
   void getSuppliers() async {
     emit(state.copyWith(status: StateStatus.loading));
-
     List<SupplierDto>? suppliers = await _supplierRepository.getSuppliers();
-    emit(state.copyWith(suppliers: suppliers, status: StateStatus.loaded));
+
+    emit(state.copyWith(
+      suppliers: suppliers,
+      status: StateStatus.loaded,
+    ));
   }
 
   void createContractor(BuildContext context) async {
