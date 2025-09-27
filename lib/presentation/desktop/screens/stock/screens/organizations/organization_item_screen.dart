@@ -9,8 +9,8 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/tabs
 
 import '../../../../../../app/router.dart';
 import '../../../../../../data/dtos/company_dto.dart';
-import '../contractor/screens/contractor_screen.dart';
 import '../../widgets/page_title_widget.dart';
+import '../supplier/screens/contractor_screen.dart';
 
 @RoutePage()
 class OrganizationItemScreen extends StatelessWidget {

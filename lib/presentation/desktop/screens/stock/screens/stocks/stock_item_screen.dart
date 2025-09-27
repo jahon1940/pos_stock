@@ -13,12 +13,12 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/supplies.dart'
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/write_off.dart';
 
-import '../../../../core/constants/app_utils.dart';
-import '../../../../core/styles/colors.dart';
-import '../../../../data/dtos/stock_dto.dart';
-import '../search/cubit/search_bloc.dart';
-import 'dialogs/currency/currency_dialog.dart';
-import 'widgets/back_button_widget.dart';
+import '../../../../../../core/constants/app_utils.dart';
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../data/dtos/stock_dto.dart';
+import '../../../search/cubit/search_bloc.dart';
+import '../../dialogs/currency/currency_dialog.dart';
+import '../../widgets/back_button_widget.dart';
 
 enum SampleItem {
   itemOne,
