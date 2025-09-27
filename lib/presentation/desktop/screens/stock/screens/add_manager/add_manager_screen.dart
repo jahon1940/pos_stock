@@ -4,23 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/cubit/add_manager_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/details_manager.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/image_manager.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/manager_navbar.dart';
-import '../../../../../../app/router.dart';
-import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 
 @RoutePage()
 class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
-  const AddManagerScreen(this.organizations, {super.key, this.managerDto});
+  const AddManagerScreen(
+    this.organizations, {
+    super.key,
+    this.managerDto,
+  });
 
   final ManagerDto? managerDto;
   final CompanyDto organizations;
+
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -34,14 +38,10 @@ class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -49,18 +49,12 @@ class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                            ],
+                            boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () {
-                              router.push(
-                                  StocksRoute(organizations: organizations));
-                            },
+                            onTap: () => context.pop(),
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                              padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -69,9 +63,10 @@ class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
                           )),
                     ),
                     AppSpace.horizontal12,
-                    Text('Сотрудник : ${managerDto?.name ?? ""}',
-                        style: AppTextStyles.boldType14
-                            .copyWith(fontWeight: FontWeight.w600)),
+                    Text(
+                      'Сотрудник : ${managerDto?.name ?? ""}',
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
+                    ),
                   ],
                 ),
               ),
