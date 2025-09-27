@@ -45,8 +45,6 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
                 ),
                 height: 60,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(4),
