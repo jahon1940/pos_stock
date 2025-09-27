@@ -10,7 +10,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/tabs
 import '../../../../../../app/router.dart';
 import '../../../../../../data/dtos/company_dto.dart';
 import '../../widgets/page_title_widget.dart';
-import '../supplier/screens/contractor_screen.dart';
 
 @RoutePage()
 class OrganizationItemScreen extends StatelessWidget {
@@ -56,7 +55,7 @@ class OrganizationItemScreen extends StatelessWidget {
                         _item(
                           context,
                           label: context.tr("contractor"),
-                          onPressed: () {},
+                          onPressed: () async => await router.push(SuppliersRoute(organization: organization)),
                         ),
                         _item(
                           context,
@@ -122,19 +121,6 @@ class OrganizationItemScreen extends StatelessWidget {
             FittedBox(
               child: SizedBox(
                 width: context.width * .17,
-                child: Tab(
-                  child: Text(
-                    context.tr("contractor"),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-            FittedBox(
-              child: SizedBox(
-                width: context.width * .17,
                 child: const Tab(
                   child: Text(
                     "Сотрудники",
@@ -152,7 +138,6 @@ class OrganizationItemScreen extends StatelessWidget {
   Widget _view(BuildContext context) => Expanded(
         child: TabBarView(
           children: <Widget>[
-            ContractorScreen(organization),
             Managers(organization),
           ],
         ),
