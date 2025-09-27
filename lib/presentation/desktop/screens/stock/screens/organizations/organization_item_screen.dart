@@ -103,7 +103,7 @@ class OrganizationItemScreen extends StatelessWidget {
                 label,
                 style: TextStyle(fontSize: 13, color: context.onPrimary),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.white,
                 size: 16,
@@ -127,7 +127,7 @@ class OrganizationItemScreen extends StatelessWidget {
                     context.tr("contractor"),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -135,7 +135,7 @@ class OrganizationItemScreen extends StatelessWidget {
             FittedBox(
               child: SizedBox(
                 width: context.width * .17,
-                child: Tab(
+                child: const Tab(
                   child: Text(
                     "Сотрудники",
                     maxLines: 1,
