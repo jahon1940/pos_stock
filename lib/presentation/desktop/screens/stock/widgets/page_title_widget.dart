@@ -33,20 +33,19 @@ class PageTitleWidget extends StatelessWidget {
           children: [
             /// back button
             if (canPop)
-              Container(
-                width: 48,
-                decoration: BoxDecoration(
-                  color: AppColors.primary500,
-                  borderRadius: AppUtils.kBorderRadius12,
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                ),
-                child: Center(
-                  child: InkWell(
-                    onTap: () => context.pop(),
-                    child: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: Colors.white,
-                    ),
+              InkWell(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: 48,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary500,
+                    borderRadius: AppUtils.kBorderRadius12,
+                    boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white,
                   ),
                 ),
               ),
