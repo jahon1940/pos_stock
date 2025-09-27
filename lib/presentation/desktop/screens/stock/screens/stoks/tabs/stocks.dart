@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
@@ -18,11 +19,14 @@ class Stocks extends HookWidget {
     this.organization, {
     super.key,
   });
+
   final CompanyDto organization;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final searchController = useTextEditingController();
-    ThemeData themeData = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Column(
@@ -30,7 +34,7 @@ class Stocks extends HookWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: themeData.cardColor,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
             ),
@@ -43,21 +47,19 @@ class Stocks extends HookWidget {
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: AppColors.primary100.withOpacity(0.3),
+                        color: AppColors.primary100.opcty(.3),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
                         radius: 8,
                         height: 50,
-                        hintStyle: AppTextStyles.mType16
-                            .copyWith(color: AppColors.primary500),
+                        hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
                         contentPadding: EdgeInsets.all(14),
                         hint: "Поиск склада",
                         fieldController: searchController,
                         suffix: Row(
                           children: [
-                            IconButton(
-                                icon: Icon(Icons.close), onPressed: () {}),
+                            IconButton(icon: Icon(Icons.close), onPressed: () {}),
                           ],
                         ),
                       ),
@@ -98,31 +100,22 @@ class Stocks extends HookWidget {
                 children: [
                   StocksTitle(),
                   BlocBuilder<StockBloc, StockState>(
-                    buildWhen: (previous, current) =>
-                        previous.stocks != current.stocks,
-                    builder: (context, state) {
-                      if (state.status == StateStatus.loading) {
-                        return Center(
-                          child: CupertinoActivityIndicator(),
-                        );
-                      }
-
-                      return Expanded(
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          padding:
-                              EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-                          itemBuilder: (context, index) => StocksList(
-                            organization: organization,
-                            stocks: state.stocks[index],
-                            onDelete: () async {},
+                    buildWhen: (previous, current) => previous.stocks != current.stocks,
+                    builder: (context, state) => state.status.isLoading
+                        ? Center(child: CupertinoActivityIndicator())
+                        : Expanded(
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                              itemBuilder: (context, index) => StocksList(
+                                organization: organization,
+                                stocks: state.stocks[index],
+                                onDelete: () async {},
+                              ),
+                              separatorBuilder: (context, index) => AppSpace.vertical12,
+                              itemCount: state.stocks.length,
+                            ),
                           ),
-                          separatorBuilder: (context, index) =>
-                              AppSpace.vertical12,
-                          itemCount: state.stocks.length,
-                        ),
-                      );
-                    },
                   )
                 ],
               ),
