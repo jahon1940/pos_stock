@@ -16,6 +16,7 @@ analyzer:
     non_constant_identifier_names: warning
     use_super_parameters: warning
     no_literal_bool_comparisons: warning
+    prefer_const_constructors: warning
 
     #ignores
     use_build_context_synchronously: ignore
@@ -31,4 +32,5 @@ linter:
     - use_super_parameters
     - no_literal_bool_comparisons
     - use_build_context_synchronously
+    - prefer_const_constructors
 

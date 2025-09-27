@@ -7,14 +7,18 @@ import '../../../../../core/styles/colors.dart';
 class TableTitleWidget extends StatelessWidget {
   const TableTitleWidget({
     super.key,
-    required this.columnWidths,
     required this.titles,
   });
 
-  final Map<int, TableColumnWidth> columnWidths;
   final List<String> titles;
 
   static const _radius = AppUtils.kTableRadius;
+
+  static const Map<int, TableColumnWidth> columnWidths = {
+    0: FlexColumnWidth(),
+    1: FlexColumnWidth(4),
+    2: FlexColumnWidth(),
+  };
 
   @override
   Widget build(
@@ -29,7 +33,7 @@ class TableTitleWidget extends StatelessWidget {
         ),
         children: [
           TableRow(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.stroke,
               borderRadius: _radius,
             ),
@@ -37,7 +41,7 @@ class TableTitleWidget extends StatelessWidget {
                 .map((e) => SizedBox(
                       height: 40,
                       child: Padding(
-                          padding: EdgeInsets.only(top: 11, left: 10),
+                          padding: const EdgeInsets.only(top: 11, left: 10),
                           child: Text(
                             e,
                             style: AppTextStyles.mType14,

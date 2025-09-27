@@ -5,8 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/widgets/stock_item_widget.dart';
+import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_item_widget.dart';
 
+import '../../../../../../app/router.dart';
+import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/app_utils.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
@@ -25,12 +28,6 @@ class StocksScreen extends HookWidget {
 
   final CompanyDto organization;
 
-  static const Map<int, TableColumnWidth> _columnWidths = {
-    0: FlexColumnWidth(),
-    1: FlexColumnWidth(4),
-    2: FlexColumnWidth(),
-  };
-
   @override
   Widget build(
     BuildContext context,
@@ -46,7 +43,7 @@ class StocksScreen extends HookWidget {
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
               ),
               height: 60,
               child: Padding(
@@ -56,7 +53,7 @@ class StocksScreen extends HookWidget {
                     /// back button
                     Container(
                       width: 48,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppColors.primary500,
                         borderRadius: AppUtils.kBorderRadius12,
                         boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
@@ -64,7 +61,7 @@ class StocksScreen extends HookWidget {
                       child: Center(
                         child: InkWell(
                           onTap: () => context.pop(),
-                          child: Icon(
+                          child: const Icon(
                             Icons.arrow_back_ios_rounded,
                             color: Colors.white,
                           ),
@@ -83,10 +80,10 @@ class StocksScreen extends HookWidget {
                         child: AppTextField(
                           height: 50,
                           hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
-                          contentPadding: EdgeInsets.all(14),
+                          contentPadding: const EdgeInsets.all(14),
                           hint: "Поиск склада",
                           fieldController: searchController,
-                          suffix: IconButton(icon: Icon(Icons.close), onPressed: () {}),
+                          suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                         ),
                       ),
                     ),
@@ -98,27 +95,32 @@ class StocksScreen extends HookWidget {
 
             Expanded(
               child: CustomBox(
+                padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
-                    TableTitleWidget(
-                      columnWidths: _columnWidths,
-                      titles: ['Номер', 'Название', 'Действия'],
-                    ),
+                    const TableTitleWidget(titles: ['Номер', 'Название', 'Действия']),
+                    AppUtils.kGap12,
                     BlocBuilder<StockBloc, StockState>(
-                      buildWhen: (previous, current) => previous.stocks != current.stocks,
+                      buildWhen: (p, c) => p.stocks != c.stocks,
                       builder: (context, state) => state.status.isLoading
-                          ? Center(child: CupertinoActivityIndicator())
+                          ? const Center(child: CupertinoActivityIndicator())
                           : Expanded(
                               child: ListView.separated(
                                 shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                                padding: const EdgeInsets.symmetric(vertical: 12).withT0,
                                 itemCount: state.stocks.length,
                                 separatorBuilder: (context, index) => AppUtils.kGap12,
-                                itemBuilder: (context, index) => StockItemWidget(
-                                  organization: organization,
-                                  stocks: state.stocks[index],
-                                  columnWidths: _columnWidths,
-                                ),
+                                itemBuilder: (context, i) {
+                                  final stock = state.stocks.elementAt(i);
+                                  return TableItemWidget(
+                                    leadingLabel: stock.id.toString(),
+                                    bodyLabel: stock.name,
+                                    onTap: () async {
+                                      context.stockBloc.add(StockEvent.searchSupplies(stock.id, true));
+                                      await router.push(StockRoute(stock: stock, organization: organization));
+                                    },
+                                  );
+                                },
                               ),
                             ),
                     )

@@ -4,26 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_item_widget.dart';
 
+import '../../../../../../app/router.dart';
+import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../bloc/stock_bloc.dart';
 import '../../widgets/page_title_widget.dart';
 import '../../widgets/table_title_widget.dart';
-import 'widgets/organization_item_widget.dart';
 
 @RoutePage()
 class OrganizationScreen extends HookWidget {
   const OrganizationScreen({
     super.key,
   });
-
-  static const Map<int, TableColumnWidth> _columnWidths = {
-    0: FlexColumnWidth(),
-    1: FlexColumnWidth(4),
-    2: FlexColumnWidth(),
-  };
 
   @override
   Widget build(
@@ -36,7 +33,7 @@ class OrganizationScreen extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               /// title
-              PageTitleWidget(label: "Организации"),
+              const PageTitleWidget(label: "Организации"),
 
               /// body
               AppUtils.kGap12,
@@ -45,25 +42,29 @@ class OrganizationScreen extends HookWidget {
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      TableTitleWidget(
-                        columnWidths: _columnWidths,
-                        titles: ['Номер', 'Название', 'Действия'],
-                      ),
+                      const TableTitleWidget(titles: ['Номер', 'Название', 'Действия']),
                       AppUtils.kGap12,
                       BlocBuilder<StockBloc, StockState>(
                         buildWhen: (p, c) => p.organizations != c.organizations,
                         builder: (context, state) => state.status.isLoading
-                            ? Center(child: CupertinoActivityIndicator())
+                            ? const Center(child: CupertinoActivityIndicator())
                             : Expanded(
                                 child: ListView.separated(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(vertical: 12).withT0,
+                                  padding: const EdgeInsets.symmetric(vertical: 12).withT0,
                                   itemCount: state.organizations.length,
                                   separatorBuilder: (context, index) => AppSpace.vertical12,
-                                  itemBuilder: (context, index) => OrganizationItemWidget(
-                                    organization: state.organizations[index],
-                                    columnWidths: _columnWidths,
-                                  ),
+                                  itemBuilder: (context, i) {
+                                    final organization = state.organizations.elementAt(i);
+                                    return TableItemWidget(
+                                      leadingLabel: organization.id.toString(),
+                                      bodyLabel: organization.name ?? '',
+                                      onTap: () async {
+                                        context.stockBloc.add(StockEvent.getStocks(organization.id));
+                                        await router.push(OrganizationItemRoute(organization: organization));
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                       )
