@@ -11,7 +11,7 @@ import '../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../data/dtos/supplies_1c/search_supplies.dart';
 import '../../../../../data/dtos/supplies_1c/supplies_1c.dart';
 import '../../../../../data/dtos/supplies_1c/supplies_1c_products.dart';
-import '../../stock/repository/stock_repository.dart';
+import '../../../../../domain/repositories/stock_repository.dart';
 
 part 'supplies_1c_event.dart';
 

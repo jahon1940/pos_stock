@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/transfers/search_transfers.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/repository/stock_repository.dart';
+import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../data/dtos/company_dto.dart';

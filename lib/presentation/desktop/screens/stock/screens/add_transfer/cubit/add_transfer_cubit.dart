@@ -4,7 +4,7 @@ import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/repository/stock_repository.dart';
+import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
@@ -14,6 +14,7 @@ import '../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
 import '../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 
 part 'add_transfer_state.dart';
+
 part 'add_transfer_cubit.freezed.dart';
 
 @injectable
@@ -43,8 +44,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
 
   void addProductByBarcode(String barcode) async {
     try {
-      final products =
-          await _productRepository.searchRemote(SearchRequest(title: barcode));
+      final products = await _productRepository.searchRemote(SearchRequest(title: barcode));
 
       addProduct(products.results.first.id);
     } catch (e) {
@@ -100,21 +100,18 @@ class AddTransferCubit extends Cubit<AddTransferState> {
   }
 
   void updateQuantity(int productId, int? quantity) {
-    TransferProductRequest? product =
-        state.request?.products?.firstWhere((e) => e.productId == productId);
+    TransferProductRequest? product = state.request?.products?.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
     product = product.copyWith(quantity: quantity ?? 0);
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
-  List<TransferProductRequest> _returnUpdatedProducts(
-      TransferProductRequest product) {
+  List<TransferProductRequest> _returnUpdatedProducts(TransferProductRequest product) {
     final products = <TransferProductRequest>[];
 
     for (TransferProductRequest p in state.request?.products ?? []) {
@@ -130,8 +127,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
   }
 
   void deleteProduct(int id) {
-    final products =
-        List<TransferProductRequest>.from(state.request?.products ?? []);
+    final products = List<TransferProductRequest>.from(state.request?.products ?? []);
 
     products.removeWhere((e) => e.productId == id);
 
@@ -148,9 +144,9 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     }
   }
 
-  void getStocks(int OrganizationId) async {
+  void getStocks(int organizationId) async {
     try {
-      final res = await _stockRepository.getStocks(OrganizationId);
+      final res = await _stockRepository.getStocks(organizationId);
       print(res);
       emit(state.copyWith(stocks: res!));
     } catch (e) {
@@ -159,8 +155,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
   }
 
   void selectStock({required int fromStockId, required int toStockId}) {
-    final request =
-        state.request?.copyWith(fromStockId: fromStockId, toStockId: toStockId);
+    final request = state.request?.copyWith(fromStockId: fromStockId, toStockId: toStockId);
 
     emit(state.copyWith(request: request));
   }

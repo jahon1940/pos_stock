@@ -6,7 +6,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/supplies_1c/supplies_1c.dart';
 import 'package:hoomo_pos/data/dtos/supplies_1c/supplies_1c_conduct.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/repository/stock_repository.dart';
+import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:injectable/injectable.dart';
 
 part 'supplies_1c_state.dart';
