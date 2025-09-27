@@ -17,8 +17,10 @@ class SuppliesNavbar extends HookWidget {
     this.organization, {
     super.key,
   });
+
   final CompanyDto organization;
   final StockDto? stock;
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddSuppliesCubit>();
@@ -32,13 +34,9 @@ class SuppliesNavbar extends HookWidget {
             BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
               builder: (context, state) {
                 final isDisabled = ((state.request?.products.isEmpty ?? true) ||
-                        (state.request?.products.any((e) => e.quantity == 0) ??
-                            true) ||
-                        (state.request?.products.any((e) => e.price!.isEmpty) ??
-                            true) ||
-                        (state.request?.products
-                                .any((e) => e.purchasePrice!.isEmpty) ??
-                            true)) ||
+                        (state.request?.products.any((e) => e.quantity == 0) ?? true) ||
+                        (state.request?.products.any((e) => e.price!.isEmpty) ?? true) ||
+                        (state.request?.products.any((e) => e.purchasePrice!.isEmpty) ?? true)) ||
                     (state.request?.supplierId == null);
                 return IgnorePointer(
                   ignoring: isDisabled,
@@ -52,17 +50,15 @@ class SuppliesNavbar extends HookWidget {
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text("Успешно"),
-                            content: Text(""),
+                            title: const Text("Успешно"),
+                            content: const Text(""),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                  router.push(StockRoute(
-                                      stock: stock!,
-                                      organization: organization));
+                                  router.push(StockItemRoute(stock: stock!, organization: organization));
                                 },
-                                child: Text("ОК"),
+                                child: const Text("ОК"),
                               ),
                             ],
                           ),
@@ -70,19 +66,16 @@ class SuppliesNavbar extends HookWidget {
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: context.primary),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                         height: 50,
                         width: context.width * .1,
                         child: Center(
                           child: state.status == StateStatus.loading
-                              ? CupertinoActivityIndicator()
+                              ? const CupertinoActivityIndicator()
                               : Text(
                                   "Сохранить",
                                   maxLines: 2,
-                                  style: TextStyle(
-                                      fontSize: 13, color: context.onPrimary),
+                                  style: TextStyle(fontSize: 13, color: context.onPrimary),
                                 ),
                         ),
                       ),

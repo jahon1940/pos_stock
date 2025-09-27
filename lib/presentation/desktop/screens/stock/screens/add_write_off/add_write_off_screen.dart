@@ -23,6 +23,7 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
     this.writeOff,
     this.stock,
   });
+
   final CompanyDto organization;
   final StockDto? stock;
   final WriteOffDto? writeOff;
@@ -40,9 +41,7 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
@@ -55,16 +54,12 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                            ],
+                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () => router.push(StockRoute(
-                                stock: stock!, organization: organization)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                            onTap: () => router.push(StockItemRoute(stock: stock!, organization: organization)),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -74,8 +69,7 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
                     ),
                     AppSpace.horizontal12,
                     Text('Списание товаров с склада: ${stock?.name ?? ''}',
-                        style: AppTextStyles.boldType14
-                            .copyWith(fontWeight: FontWeight.w600)),
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),
@@ -88,10 +82,11 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
   }
 
   @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AddWriteOffCubit>()..init(writeOff, stock!),
-      child: this,
-    );
-  }
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<AddWriteOffCubit>()..init(writeOff, stock!),
+        child: this,
+      );
 }

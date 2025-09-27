@@ -24,6 +24,7 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
     this.transfer,
     this.stock,
   });
+
   final CompanyDto organization;
   final StockDto? stock;
   final TransferDto? transfer;
@@ -45,14 +46,10 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -60,16 +57,12 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                            ],
+                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () => router.push(StockRoute(
-                                stock: stock!, organization: organization)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                            onTap: () => router.push(StockItemRoute(stock: stock!, organization: organization)),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -80,8 +73,7 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
                     AppSpace.horizontal12,
                     Text(
                         'Перемещение товаров с склада: ${transfer == null ? '' : 'от ${DateParser.dayMonthHString(transfer?.createdAt, 'ru')}'}',
-                        style: AppTextStyles.boldType14
-                            .copyWith(fontWeight: FontWeight.w600)),
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),
@@ -94,10 +86,11 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
   }
 
   @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AddTransferCubit>()..init(transfer, stock!),
-      child: this,
-    );
-  }
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<AddTransferCubit>()..init(transfer, stock!),
+        child: this,
+      );
 }

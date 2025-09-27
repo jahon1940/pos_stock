@@ -117,7 +117,7 @@ class StocksScreen extends HookWidget {
                                     bodyLabel: stock.name,
                                     onTap: () async {
                                       context.stockBloc.add(StockEvent.searchSupplies(stock.id, true));
-                                      await router.push(StockRoute(stock: stock, organization: organization));
+                                      await router.push(StockItemRoute(stock: stock, organization: organization));
                                     },
                                   );
                                 },

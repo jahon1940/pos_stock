@@ -24,8 +24,8 @@ enum SampleItem {
 }
 
 @RoutePage()
-class StockScreen extends HookWidget {
-  const StockScreen({
+class StockItemScreen extends HookWidget {
+  const StockItemScreen({
     required this.stock,
     required this.organization,
     super.key,
@@ -38,7 +38,6 @@ class StockScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    ThemeData themeData = Theme.of(context);
     SampleItem? selectedItem;
     return DefaultTabController(
       length: 5,
@@ -49,9 +48,9 @@ class StockScreen extends HookWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: themeData.cardColor,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
@@ -63,12 +62,12 @@ class StockScreen extends HookWidget {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
                             onTap: () => context.pop(),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -81,7 +80,7 @@ class StockScreen extends HookWidget {
                       child: Center(
                         child: TabBar(
                           labelPadding: EdgeInsets.zero,
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
@@ -92,7 +91,7 @@ class StockScreen extends HookWidget {
                             FittedBox(
                               child: SizedBox(
                                 width: context.width * .15,
-                                child: Tab(
+                                child: const Tab(
                                   child: Text(
                                     "Поступление товаров",
                                     maxLines: 1,
@@ -105,7 +104,7 @@ class StockScreen extends HookWidget {
                             FittedBox(
                               child: SizedBox(
                                 width: context.width * .15,
-                                child: Tab(
+                                child: const Tab(
                                   child: Text(
                                     "Перемещение товаров",
                                     maxLines: 1,
@@ -118,7 +117,7 @@ class StockScreen extends HookWidget {
                             FittedBox(
                               child: SizedBox(
                                 width: context.width * .15,
-                                child: Tab(
+                                child: const Tab(
                                   child: Text(
                                     "Списание товаров",
                                     maxLines: 1,
@@ -131,7 +130,7 @@ class StockScreen extends HookWidget {
                             FittedBox(
                               child: SizedBox(
                                 width: context.width * .15,
-                                child: Tab(
+                                child: const Tab(
                                   child: Text(
                                     "Инвентаризация",
                                     maxLines: 1,
@@ -149,7 +148,7 @@ class StockScreen extends HookWidget {
                                     context.tr("sidebar.catalog"),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 15),
+                                    style: const TextStyle(fontSize: 15),
                                   ),
                                 ),
                               ),
@@ -166,27 +165,23 @@ class StockScreen extends HookWidget {
                         height: 50,
                         child: Center(
                           child: PopupMenuButton<SampleItem>(
+                            initialValue: selectedItem,
+                            onSelected: (SampleItem item) {},
                             icon: const Icon(
                               Icons.menu,
                               color: Colors.white,
                               size: 25,
                             ),
-                            initialValue: selectedItem,
-                            onSelected: (SampleItem item) {
-                              // setState(() {
-                              //   selectedItem = item;
-                              // });
-                            },
                             itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
                               PopupMenuItem<SampleItem>(
                                 onTap: () async {
                                   final bloc = context.read<SearchBloc>();
-                                  final res = await context.showCustomDialog(CategoryDialog());
+                                  final res = await context.showCustomDialog(const CategoryDialog());
                                   if (res == null) return;
                                   bloc.add(SearchRemoteTextChanged(''));
                                 },
                                 value: SampleItem.itemOne,
-                                child: Padding(
+                                child: const Padding(
                                   padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
                                   child: ListTile(
                                     leading: Icon(Icons.source_rounded),
@@ -197,12 +192,12 @@ class StockScreen extends HookWidget {
                               PopupMenuItem<SampleItem>(
                                 onTap: () async {
                                   final bloc = context.read<SearchBloc>();
-                                  final res = await context.showCustomDialog(CurrencyDialog());
+                                  final res = await context.showCustomDialog(const CurrencyDialog());
                                   if (res == null) return;
                                   bloc.add(SearchRemoteTextChanged(''));
                                 },
                                 value: SampleItem.itemTwo,
-                                child: Padding(
+                                child: const Padding(
                                   padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
                                   child: ListTile(
                                     leading: Icon(Icons.currency_exchange),
