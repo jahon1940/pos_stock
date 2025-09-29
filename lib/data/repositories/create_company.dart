@@ -1,4 +1,4 @@
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/create_company/create_company_request.dart';
 import 'package:hoomo_pos/data/sources/network/create_company/create_company_api.dart';
 import 'package:hoomo_pos/domain/repositories/create_company.dart';

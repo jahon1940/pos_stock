@@ -4,7 +4,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pos_manager_dto.dart';
 import 'package:hoomo_pos/domain/services/formatter_service.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/contract/cubit/contract_bloc.dart';

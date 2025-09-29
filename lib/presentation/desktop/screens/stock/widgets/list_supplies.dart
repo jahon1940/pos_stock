@@ -7,7 +7,7 @@ import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 
 import '../../../../../core/constants/spaces.dart';
-import '../../../../../data/dtos/company_dto.dart';
+import '../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
 
 class SuppliesList extends StatelessWidget {

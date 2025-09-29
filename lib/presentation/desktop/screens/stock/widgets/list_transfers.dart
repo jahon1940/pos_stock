@@ -5,7 +5,7 @@ import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import '../../../../../app/router.gr.dart';
 import '../../../../../core/constants/spaces.dart';
-import '../../../../../data/dtos/company_dto.dart';
+import '../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
 import '../../../../../data/dtos/transfers/transfer_dto.dart';
 

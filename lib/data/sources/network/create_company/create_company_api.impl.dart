@@ -1,6 +1,6 @@
 import 'package:hoomo_pos/core/constants/network.dart';
 import 'package:hoomo_pos/core/network/dio_client.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/create_company/create_company_request.dart';
 import 'package:injectable/injectable.dart';
 

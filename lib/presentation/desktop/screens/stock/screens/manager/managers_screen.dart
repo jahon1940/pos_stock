@@ -16,7 +16,7 @@ import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../data/dtos/manager/manager_dto.dart';
 import '../../widgets/back_button_widget.dart';

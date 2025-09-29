@@ -11,7 +11,7 @@ import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../core/widgets/product_table_title.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/inventories/inventory_product_request.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../dialogs/search/cubit/fast_search_bloc.dart';

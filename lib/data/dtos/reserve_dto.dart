@@ -3,7 +3,7 @@ import 'package:hoomo_pos/data/dtos/contract_dto.dart';
 import 'package:hoomo_pos/data/dtos/reserve_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
 
-import 'company_dto.dart';
+import 'company/company_dto.dart';
 
 part 'reserve_dto.freezed.dart';
 part 'reserve_dto.g.dart';
