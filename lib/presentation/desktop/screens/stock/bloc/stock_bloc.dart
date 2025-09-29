@@ -30,7 +30,7 @@ part 'stock_bloc.freezed.dart';
 
 @lazySingleton
 class StockBloc extends Bloc<StockEvent, StockState> {
-  StockBloc(this._stockRepository) : super(_StockState()) {
+  StockBloc(this._stockRepository) : super(const _StockState()) {
     on<_GetOrganizations>(_getOrganizations);
     on<_GetStocks>(_getStocks);
     on<_SearchSupplies>(_searchSupplies);
@@ -45,7 +45,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     on<_SelectedSupplier>(_selectedSupplier);
     on<_dateFrom>(_DateFrom);
     on<_dateTo>(_DateTo);
-    add(_GetOrganizations());
+    add(const _GetOrganizations());
   }
 
   final StockRepository _stockRepository;
