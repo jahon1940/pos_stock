@@ -8,13 +8,15 @@ class TableTitleWidget extends StatelessWidget {
   const TableTitleWidget({
     super.key,
     required this.titles,
+    this.columnWidths,
   });
 
   final List<String> titles;
+  final Map<int, TableColumnWidth>? columnWidths;
 
   static const _radius = AppUtils.kTableRadius;
 
-  static const Map<int, TableColumnWidth> columnWidths = {
+  static const Map<int, TableColumnWidth> defaultColumnWidths = {
     0: FlexColumnWidth(),
     1: FlexColumnWidth(4),
     2: FlexColumnWidth(),
@@ -25,7 +27,7 @@ class TableTitleWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       Table(
-        columnWidths: columnWidths,
+        columnWidths: columnWidths ?? defaultColumnWidths,
         border: TableBorder.all(
           borderRadius: _radius,
           color: AppColors.white,

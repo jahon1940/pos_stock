@@ -42,7 +42,10 @@ class OrganizationScreen extends HookWidget {
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
+                      /// table title
                       const TableTitleWidget(titles: ['Номер', 'Название', 'Действия']),
+
+                      /// items
                       AppUtils.kGap12,
                       BlocBuilder<StockBloc, StockState>(
                         buildWhen: (p, c) => p.organizations != c.organizations,
@@ -67,7 +70,7 @@ class OrganizationScreen extends HookWidget {
                                   },
                                 ),
                               ),
-                      )
+                      ),
                     ],
                   ),
                 ),
