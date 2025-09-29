@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../presentation/desktop/screens/manager/children/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
-import '../../presentation/desktop/screens/stock/screens/manager/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
-import '../../presentation/desktop/screens/stock/screens/supplier/cubit/supplier_cubit.dart';
+import '../../presentation/desktop/screens/supplier/children/cubit/supplier_cubit.dart';
 
 extension BuildContextEntension<T> on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -38,7 +37,9 @@ extension BuildContextEntension<T> on BuildContext {
 
   // RESPONSIBILITY
 
-  bool get isTablet => (orientation != Orientation.landscape ? mq.size.width : mq.size.height) >= 500.0;
+  bool get isTablet =>
+      (orientation != Orientation.landscape ? mq.size.width : mq.size.height) >=
+      500.0;
 
   bool get sizeS => size.shortestSide < 600;
 
@@ -87,13 +88,17 @@ extension BuildContextEntension<T> on BuildContext {
 
   TextStyle? get bodySmall => textTheme.bodySmall;
 
-  TextStyle? get bodyLargeSemibold => bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyLargeSemibold =>
+      bodyMedium?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodyMediumSemibold => bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyMediumSemibold =>
+      bodyMedium?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodySmallSemibold => bodySmall?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodySmallSemibold =>
+      bodySmall?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get bodyMediumUnderline => bodySmall?.copyWith(decoration: TextDecoration.underline);
+  TextStyle? get bodyMediumUnderline =>
+      bodySmall?.copyWith(decoration: TextDecoration.underline);
 
   TextStyle? get headlineSmall2 => headlineSmall?.copyWith(
         fontSize: 22.0,
@@ -105,11 +110,14 @@ extension BuildContextEntension<T> on BuildContext {
         fontWeight: FontWeight.w700,
       );
 
-  TextStyle? get labelLargeSemibold => labelLarge?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get labelLargeSemibold =>
+      labelLarge?.copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle? get labelLargeMedium => labelLarge?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get labelLargeMedium =>
+      labelLarge?.copyWith(fontWeight: FontWeight.w500);
 
-  TextStyle? get labelLargeUnderline => labelLarge?.copyWith(decoration: TextDecoration.underline);
+  TextStyle? get labelLargeUnderline =>
+      labelLarge?.copyWith(decoration: TextDecoration.underline);
 
   // POP UPS
   Future<T?> showBottomSheet(

@@ -7,31 +7,24 @@ import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/manager/children/widgets/manager_item_widget.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
-
-import '../../../../../../../app/router.dart';
-import '../../../../../../../app/router.gr.dart';
-import '../../../../../../../core/constants/app_utils.dart';
-import '../../../../../../../core/styles/colors.dart';
-import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../../core/widgets/product_table_item.dart';
-import '../../../../../../data/dtos/manager/manager_dto.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../../../../../../../app/router.dart';
+import '../../../../../../../../app/router.gr.dart';
+import '../../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../../core/styles/colors.dart';
+import '../../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../../../core/widgets/text_field.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
+import '../../stock/widgets/back_button_widget.dart';
 import 'cubit/manager_cubit.dart';
-
-part 'widgets/manager_item_widget.dart';
 
 @RoutePage()
 class ManagersScreen extends HookWidget {
   const ManagersScreen({
     super.key,
-    required this.organization,
   });
-
-  final CompanyDto organization;
   static const _columnWidths = {
     0: FlexColumnWidth(6),
     1: FlexColumnWidth(4),
@@ -60,12 +53,14 @@ class ManagersScreen extends HookWidget {
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                boxShadow: [
+                  const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                ],
               ),
               child: Row(
                 children: [
-                  /// back button
-                  const BackButtonWidget(),
+                  // /// back button
+                  // const BackButtonWidget(),
 
                   /// search field
                   AppUtils.kGap6,
@@ -76,11 +71,13 @@ class ManagersScreen extends HookWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
-                        hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
+                        hintStyle: AppTextStyles.mType16
+                            .copyWith(color: AppColors.primary500),
                         contentPadding: const EdgeInsets.all(14),
                         hint: "Поиск сотрудников",
                         fieldController: searchController,
-                        suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+                        suffix: IconButton(
+                            icon: const Icon(Icons.close), onPressed: () {}),
                       ),
                     ),
                   ),
@@ -89,18 +86,21 @@ class ManagersScreen extends HookWidget {
                   AppUtils.kGap12,
                   GestureDetector(
                     onTap: () => router
-                        .push(AddManagerRoute(organizations: organization))
+                        .push(AddManagerRoute())
                         .then((_) => context.managerBloc.getManagers()),
                     child: Container(
                       padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: context.primary),
                       height: 50,
                       width: context.width * .1,
                       child: Center(
                         child: Text(
                           "Добавить",
                           maxLines: 2,
-                          style: TextStyle(fontSize: 13, color: context.onPrimary),
+                          style:
+                              TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
                     ),
@@ -134,14 +134,19 @@ class ManagersScreen extends HookWidget {
                         child: state.status.isLoading && state.managers == null
                             ? const Center(child: CircularProgressIndicator())
                             : state.managers?.isEmpty ?? true
-                                ? Center(child: Text(context.tr(Dictionary.not_found)))
+                                ? Center(
+                                    child:
+                                        Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 12)
+                                            .withT0,
                                     itemCount: state.managers!.length,
-                                    separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (context, index) => ManagerItemWidget(
-                                      organization: organization,
+                                    separatorBuilder: (_, __) =>
+                                        AppUtils.kGap12,
+                                    itemBuilder: (context, index) =>
+                                        ManagerItemWidget(
                                       manager: state.managers!.elementAt(index),
                                       columnWidths: _columnWidths,
                                     ),

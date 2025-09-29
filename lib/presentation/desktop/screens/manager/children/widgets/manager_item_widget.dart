@@ -1,14 +1,21 @@
-part of '../managers_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
+
+import '../../../../../../app/router.dart';
+import '../../../../../../app/router.gr.dart';
+import '../../../../../../core/constants/app_utils.dart';
+import '../../../../../../core/styles/colors.dart';
+import '../../../../../../core/widgets/product_table_item.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
+import '../../../../../../data/dtos/manager/manager_dto.dart';
 
 class ManagerItemWidget extends StatelessWidget {
   const ManagerItemWidget({
     super.key,
-    required this.organization,
     required this.manager,
     required this.columnWidths,
   });
 
-  final CompanyDto organization;
   final ManagerDto manager;
   final Map<int, TableColumnWidth>? columnWidths;
 
@@ -37,13 +44,15 @@ class ManagerItemWidget extends StatelessWidget {
                 ///
                 GestureDetector(
                   onTap: () => router
-                      .push(AddManagerRoute(organizations: organization, managerDto: manager))
+                      .push(AddManagerRoute(managerDto: manager))
                       .then((_) => context.managerBloc.getManagers()),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.primary500,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                      boxShadow: [
+                        const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                      ],
                     ),
                     height: 40,
                     width: 40,
@@ -59,7 +68,8 @@ class ManagerItemWidget extends StatelessWidget {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text("Подтверждение"),
-                        content: Text("Вы действительно хотите удалить сотрудника ${manager.name}?"),
+                        content: Text(
+                            "Вы действительно хотите удалить сотрудника ${manager.name}?"),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
@@ -67,7 +77,8 @@ class ManagerItemWidget extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(true),
-                            child: const Text("Удалить", style: TextStyle(color: Colors.red)),
+                            child: const Text("Удалить",
+                                style: TextStyle(color: Colors.red)),
                           ),
                         ],
                       ),
@@ -80,7 +91,9 @@ class ManagerItemWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.error500,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                      boxShadow: [
+                        const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                      ],
                     ),
                     height: 40,
                     width: 40,

@@ -29,15 +29,13 @@
   "credit": "Qarzga",
   "bonus": "Bon. karta",
   "sidebar": {
-    "sale": "Sotish",
     "catalog": "Nomenklatura",
     "clients": "Kontragentlar",
-    "refunds": "Chek / Qaytarishlar",
-    "unsent_reciepts": "Yuborilmagan cheklar",
+    "suppliers": "Поставшики",
+    "managers": "Персонал",
+    "reports": "Отчеты",
     "stock": "Ombor",
-    "shifts": "Smenalar",
     "settings": "Sozlamalar",
-    "reserve": "Mizozlar buyurtmalari"
   },
   "cashier": "Kassir",
   "tin_pinfl": "STIR/JSHIR",

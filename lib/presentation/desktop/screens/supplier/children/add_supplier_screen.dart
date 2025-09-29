@@ -7,25 +7,23 @@ import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/supplier/children/widgets/image_supplier.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/supplier/children/widgets/supplier_details_widget.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/supplier/children/widgets/supplier_navbar.dart';
 
-import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/styles/text_style.dart';
-import '../../../../../../data/dtos/company/company_dto.dart';
-import 'widgets/supplier_details_widget.dart';
+import '../../../../../../../core/styles/colors.dart';
+import '../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
 import 'cubit/supplier_cubit.dart';
-import 'widgets/image_supplier.dart';
-import 'widgets/supplier_navbar.dart';
 
 @RoutePage()
 class AddSupplierScreen extends HookWidget implements AutoRouteWrapper {
-  const AddSupplierScreen(
-    this.organizations, {
+  const AddSupplierScreen({
     super.key,
     this.supplierDto,
   });
 
   final SupplierDto? supplierDto;
-  final CompanyDto organizations;
 
   @override
   Widget build(
@@ -41,7 +39,9 @@ class AddSupplierScreen extends HookWidget implements AutoRouteWrapper {
                 decoration: BoxDecoration(
                   color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  boxShadow: [
+                    const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                  ],
                 ),
                 height: 60,
                 child: Row(
@@ -52,7 +52,10 @@ class AddSupplierScreen extends HookWidget implements AutoRouteWrapper {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                            boxShadow: [
+                              const BoxShadow(
+                                  color: AppColors.stroke, blurRadius: 3)
+                            ],
                           ),
                           child: InkWell(
                             onTap: () => context.pop(),
@@ -67,7 +70,8 @@ class AddSupplierScreen extends HookWidget implements AutoRouteWrapper {
                     ),
                     AppSpace.horizontal12,
                     Text('Поставщик : ${supplierDto?.name ?? ""}',
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
+                        style: AppTextStyles.boldType14
+                            .copyWith(fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),

@@ -24,48 +24,49 @@ class MainScreen extends HookWidget {
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
       name: 'sidebar.catalog',
-      route: SearchRoute(),
+      route: const SearchRoute(),
     ),
     (
       icon: (bool isSelected) => Icon(
-            AppIcons.user,
+            Icons.person_outline,
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
       name: 'sidebar.clients',
-      route: CompaniesRoute(),
+      route: const CompaniesRoute(),
     ),
     (
       icon: (bool isSelected) => Icon(
-            Icons.list_alt,
+            Icons.perm_contact_cal_outlined,
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
-      name: 'sidebar.supplies',
-      route: Supplies1CParentRoute(),
+      name: 'sidebar.suppliers',
+      route: const SupplierParentRoute(),
     ),
+    (
+      icon: (bool isSelected) => Icon(
+            Icons.supervised_user_circle_outlined,
+            color: !isSelected ? AppColors.primary500 : Colors.white,
+          ),
+      name: 'sidebar.managers',
+      route: const ManagersParentRoute(),
+    ),
+
     (
       icon: (bool isSelected) => Icon(
             Icons.document_scanner_outlined,
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
       name: 'sidebar.reports',
-      route: ReportsParentRoute(),
+      route: const ReportsParentRoute(),
     ),
 
     (
       icon: (bool isSelected) => Icon(
-            AppIcons.receipt_3,
-            color: !isSelected ? AppColors.primary500 : Colors.white,
-          ),
-      name: 'sidebar.shifts',
-      route: ShiftsRoute(),
-    ),
-    (
-      icon: (bool isSelected) => Icon(
-            AppIcons.product,
+            AppIcons.shop,
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
       name: 'sidebar.stock',
-      route: StockParentRoute(),
+      route: const StockParentRoute(),
     ),
     (
       icon: (bool isSelected) => Icon(
@@ -73,7 +74,7 @@ class MainScreen extends HookWidget {
             color: !isSelected ? AppColors.primary500 : Colors.white,
           ),
       name: 'sidebar.settings',
-      route: SettingsRoute(),
+      route: const SettingsRoute(),
     ),
     // (
     //   icon: (bool isSelected) => Image.asset(
@@ -135,7 +136,8 @@ class MainScreen extends HookWidget {
                         selectedIndex: tabsRouter.activeIndex,
                         onTap: tabsRouter.setActiveIndex,
                         isCollapsed: isCollapsed.value,
-                        onToggleCollapse: () => isCollapsed.value = !isCollapsed.value,
+                        onToggleCollapse: () =>
+                            isCollapsed.value = !isCollapsed.value,
                       ),
                     );
                   },
@@ -144,8 +146,11 @@ class MainScreen extends HookWidget {
                 Expanded(
                   child: Shortcuts(
                     shortcuts: {
-                      LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyF): ActivateIntent(),
-                      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): ActivateIntent(),
+                      LogicalKeySet(
+                              LogicalKeyboardKey.meta, LogicalKeyboardKey.keyF):
+                          ActivateIntent(),
+                      LogicalKeySet(LogicalKeyboardKey.control,
+                          LogicalKeyboardKey.keyF): ActivateIntent(),
                     },
                     child: Actions(
                       actions: {

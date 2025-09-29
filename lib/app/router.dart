@@ -22,12 +22,6 @@ class AppRouter extends RootStackRouter {
             LockerGuard(),
           ],
           children: [
-            // RedirectRoute(path: '', redirectTo: CartRoute.name),
-            // AutoRoute(page: CartParentRoute.page, children: [
-            //   AutoRoute(page: CartRoute.page, initial: true),
-            //   AutoRoute(page: SiteOrdersRoute.page),
-            //   AutoRoute(page: SiteOrderDetailRoute.page)
-            // ]),
             AutoRoute(page: SearchRoute.page),
             AutoRoute(
               page: CompaniesRoute.page,
@@ -36,37 +30,17 @@ class AppRouter extends RootStackRouter {
               ],
             ),
             AutoRoute(
-              page: StockParentRoute.page,
+              page: SupplierParentRoute.page,
               children: [
-                AutoRoute(page: OrganizationRoute.page, initial: true),
-                AutoRoute(page: OrganizationItemRoute.page),
-                AutoRoute(page: StocksRoute.page),
-                AutoRoute(page: StockItemRoute.page),
-                AutoRoute(page: SuppliersRoute.page),
+                AutoRoute(page: SuppliersRoute.page, initial: true),
                 AutoRoute(page: AddSupplierRoute.page),
-                AutoRoute(page: ManagersRoute.page),
-                AutoRoute(page: AddManagerRoute.page),
-                //
-                AutoRoute(page: AddSuppliesRoute.page),
-                AutoRoute(page: AddTransferRoute.page),
-                AutoRoute(page: AddWriteOffRoute.page),
-                AutoRoute(page: AddInventoryRoute.page),
-                AutoRoute(page: AddProductRoute.page),
               ],
             ),
-            AutoRoute(page: SettingsRoute.page),
-            // AutoRoute(page: ReceiptsRoute.page),
-            AutoRoute(page: ShiftsRoute.page),
-            AutoRoute(page: UnsentRoute.page),
-            AutoRoute(page: OrderRoute.page),
-            // AutoRoute(page: ReserveParentRoute.page, children: [
-            //   AutoRoute(page: ClientOrdersRoute.page, initial: true),
-            //   AutoRoute(page: ReserveRoute.page),
-            // ]),
             AutoRoute(
-              page: Supplies1CParentRoute.page,
+              page: ManagersParentRoute.page,
               children: [
-                AutoRoute(page: Supplies1CRoute.page, initial: true),
+                AutoRoute(page: ManagersRoute.page, initial: true),
+                AutoRoute(page: AddManagerRoute.page),
               ],
             ),
             AutoRoute(
@@ -78,6 +52,21 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: RetailReportRoute.page)
               ],
             ),
+            AutoRoute(
+              page: StockParentRoute.page,
+              children: [
+                AutoRoute(page: OrganizationRoute.page, initial: true),
+                AutoRoute(page: StocksRoute.page),
+                AutoRoute(page: StockItemRoute.page),
+                //
+                AutoRoute(page: AddSuppliesRoute.page),
+                AutoRoute(page: AddTransferRoute.page),
+                AutoRoute(page: AddWriteOffRoute.page),
+                AutoRoute(page: AddInventoryRoute.page),
+                AutoRoute(page: AddProductRoute.page),
+              ],
+            ),
+            AutoRoute(page: SettingsRoute.page),
           ],
         ),
       ];

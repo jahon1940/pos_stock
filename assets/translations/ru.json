@@ -31,17 +31,13 @@
   "credit": "В долг",
   "bonus": "Бон. картой",
   "sidebar": {
-    "sale": "Продажа",
     "catalog": "Номенклатура",
     "clients": "Контрагенты",
-    "refunds": "Чеки / Возвраты",
-    "unsent_reciepts": "Неотправленные чеки",
-    "shifts": "Смены",
-    "stock": "Склад",
-    "settings": "Настройки",
-    "reserve": "Заказ покупателя",
+    "suppliers": "Поставшики",
+    "managers": "Персонал",
     "reports": "Отчеты",
-    "supplies": "Поступление товара"
+    "stock": "Склад",
+    "settings": "Настройки"
   },
   "cashier": "Кассир",
   "tin_pinfl": "ИНН/ПИНФЛ",

@@ -35,6 +35,10 @@ class StocksScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
+    useEffect(() {
+      context.stockBloc.add(StockEvent.getStocks(organization.id));
+      return null;
+    }, const []);
     final searchController = useTextEditingController();
     return Scaffold(
       body: Padding(
@@ -47,7 +51,9 @@ class StocksScreen extends HookWidget {
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                boxShadow: [
+                  const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                ],
               ),
               height: 60,
               child: Row(
@@ -64,11 +70,13 @@ class StocksScreen extends HookWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
-                        hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
+                        hintStyle: AppTextStyles.mType16
+                            .copyWith(color: AppColors.primary500),
                         contentPadding: const EdgeInsets.all(14),
                         hint: "Поиск склада",
                         fieldController: searchController,
-                        suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+                        suffix: IconButton(
+                            icon: const Icon(Icons.close), onPressed: () {}),
                       ),
                     ),
                   ),
@@ -82,7 +90,8 @@ class StocksScreen extends HookWidget {
                 padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
-                    const TableTitleWidget(titles: ['Номер', 'Название', 'Действия']),
+                    const TableTitleWidget(
+                        titles: ['Номер', 'Название', 'Действия']),
                     AppUtils.kGap12,
                     BlocBuilder<StockBloc, StockState>(
                       buildWhen: (p, c) => p.stocks != c.stocks,
@@ -90,20 +99,29 @@ class StocksScreen extends HookWidget {
                         child: state.status.isLoading
                             ? const Center(child: CupertinoActivityIndicator())
                             : state.stocks.isEmpty
-                                ? Center(child: Text(context.tr(Dictionary.not_found)))
+                                ? Center(
+                                    child:
+                                        Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 12)
+                                            .withT0,
                                     itemCount: state.stocks.length,
-                                    separatorBuilder: (context, index) => AppUtils.kGap12,
+                                    separatorBuilder: (context, index) =>
+                                        AppUtils.kGap12,
                                     itemBuilder: (context, i) {
                                       final stock = state.stocks.elementAt(i);
                                       return TableItemWidget(
                                         leadingLabel: stock.id.toString(),
                                         bodyLabel: stock.name,
                                         onTap: () async {
-                                          context.stockBloc.add(StockEvent.searchSupplies(stock.id, true));
-                                          await router.push(StockItemRoute(stock: stock, organization: organization));
+                                          context.stockBloc.add(
+                                              StockEvent.searchSupplies(
+                                                  stock.id, true));
+                                          await router.push(StockItemRoute(
+                                              stock: stock,
+                                              organization: organization));
                                         },
                                       );
                                     },

@@ -19,7 +19,7 @@ import '../../../../../core/widgets/custom_box.dart';
 import '../../../../../core/widgets/text_field.dart';
 import '../../../../../data/dtos/company/company_dto.dart';
 import '../../search/cubit/search_bloc.dart';
-import '../screens/supplier/cubit/supplier_cubit.dart';
+import '../../supplier/children/cubit/supplier_cubit.dart';
 
 class Supplies extends HookWidget {
   const Supplies(
@@ -53,7 +53,9 @@ class Supplies extends HookWidget {
             decoration: BoxDecoration(
               color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+              boxShadow: [
+                const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+              ],
             ),
             height: 60,
             child: Padding(
@@ -93,12 +95,15 @@ class Supplies extends HookWidget {
                             textStyle: const TextStyle(fontSize: 11),
                             controller: supplierController,
                             onSelected: (value) => context
-                              ..read<SearchBloc>().add(SelectSupplier(id: value))
-                              ..stockBloc.add(StockEvent.selectedSupplier(value)),
+                              ..read<SearchBloc>()
+                                  .add(SelectSupplier(id: value))
+                              ..stockBloc
+                                  .add(StockEvent.selectedSupplier(value)),
                             inputDecorationTheme: InputDecorationTheme(
                               hintStyle: const TextStyle(fontSize: 11),
                               isDense: true,
-                              constraints: BoxConstraints.tight(const Size.fromHeight(35)),
+                              constraints: BoxConstraints.tight(
+                                  const Size.fromHeight(35)),
                             ),
                             dropdownMenuEntries: [
                               const DropdownMenuEntry(
@@ -109,7 +114,10 @@ class Supplies extends HookWidget {
                                       ?.map(
                                         (e) => DropdownMenuEntry(
                                           value: e.id,
-                                          label: e.name ?? e.inn ?? e.phoneNumber ?? '',
+                                          label: e.name ??
+                                              e.inn ??
+                                              e.phoneNumber ??
+                                              '',
                                         ),
                                       )
                                       .toList() ??
@@ -145,8 +153,10 @@ class Supplies extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateFrom(picked));
-                                    fromController.text = DateFormat("dd.MM.yyyy").format(picked);
+                                    context.stockBloc
+                                        .add(StockEvent.dateFrom(picked));
+                                    fromController.text =
+                                        DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
                                 child: AbsorbPointer(
@@ -185,16 +195,20 @@ class Supplies extends HookWidget {
                                   );
 
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateTo(picked));
-                                    toController.text = DateFormat("dd.MM.yyyy").format(picked);
+                                    context.stockBloc
+                                        .add(StockEvent.dateTo(picked));
+                                    toController.text =
+                                        DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
                                 child: AbsorbPointer(
                                   child: AppTextField(
                                     width: 150,
                                     label: "До: ",
-                                    labelStyle:
-                                        const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w300),
+                                    labelStyle: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300),
                                     readOnly: true,
                                     enabledBorderWith: 1,
                                     enabledBorderColor: AppColors.stroke,
@@ -207,18 +221,21 @@ class Supplies extends HookWidget {
                             ),
                             AppSpace.horizontal24,
                             GestureDetector(
-                              onTap: () => context.stockBloc.add(StockEvent.searchSupplies(stock.id, false)),
+                              onTap: () => context.stockBloc.add(
+                                  StockEvent.searchSupplies(stock.id, false)),
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration:
-                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: context.primary),
                                 height: 50,
                                 width: context.width * .10,
                                 child: Center(
                                   child: Text(
                                     "Сформировать",
                                     maxLines: 2,
-                                    style: TextStyle(fontSize: 13, color: context.onPrimary),
+                                    style: TextStyle(
+                                        fontSize: 13, color: context.onPrimary),
                                   ),
                                 ),
                               ),
@@ -238,14 +255,17 @@ class Supplies extends HookWidget {
                     )),
                     child: Container(
                       padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.primary800),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.primary800),
                       height: 50,
                       width: context.width * .1,
                       child: Center(
                         child: Text(
                           "Добавить",
                           maxLines: 2,
-                          style: TextStyle(fontSize: 13, color: context.onPrimary),
+                          style:
+                              TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
                     ),
@@ -265,15 +285,18 @@ class Supplies extends HookWidget {
 
                   ///
                   BlocBuilder<StockBloc, StockState>(
-                    buildWhen: (previous, current) => previous.supplies != current.supplies,
+                    buildWhen: (previous, current) =>
+                        previous.supplies != current.supplies,
                     builder: (context, state) => Expanded(
                       child: state.status.isLoading
                           ? const Center(child: CircularProgressIndicator())
                           : (state.supplies?.results ?? []).isEmpty
-                              ? Center(child: Text(context.tr(Dictionary.not_found)))
+                              ? Center(
+                                  child: Text(context.tr(Dictionary.not_found)))
                               : ListView.separated(
                                   shrinkWrap: true,
-                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 8),
                                   itemCount: state.supplies!.results.length,
                                   separatorBuilder: (_, __) => AppUtils.kGap12,
                                   itemBuilder: (_, index) => SuppliesList(
@@ -281,9 +304,13 @@ class Supplies extends HookWidget {
                                     stock: stock,
                                     admission: state.supplies!.results[index],
                                     onDelete: () async {
-                                      final res = await context.showCustomDialog(const DeleteProductWidget());
+                                      final res =
+                                          await context.showCustomDialog(
+                                              const DeleteProductWidget());
                                       if (res == null) return;
-                                      context.stockBloc.add(StockEvent.deleteSupply(state.supplies!.results[index].id));
+                                      context.stockBloc.add(
+                                          StockEvent.deleteSupply(state
+                                              .supplies!.results[index].id));
                                     },
                                   ),
                                 ),
