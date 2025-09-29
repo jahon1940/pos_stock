@@ -12,7 +12,7 @@ import '../../../../../core/enums/states.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/widgets/custom_box.dart';
 import '../../../../../core/widgets/text_field.dart';
-import '../../../../../data/dtos/company_dto.dart';
+import '../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
 import '../widgets/title_supplies.dart';
 

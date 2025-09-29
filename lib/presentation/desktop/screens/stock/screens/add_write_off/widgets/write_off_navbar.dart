@@ -7,7 +7,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../app/router.dart';
 import '../../../../../../../app/router.gr.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
 import '../cubit/add_write_off_cubit.dart';
 

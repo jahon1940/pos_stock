@@ -15,7 +15,7 @@ import '../../../../../core/constants/spaces.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/widgets/custom_box.dart';
 import '../../../../../core/widgets/text_field.dart';
-import '../../../../../data/dtos/company_dto.dart';
+import '../../../../../data/dtos/company/company_dto.dart';
 import '../../search/cubit/search_bloc.dart';
 import '../screens/add_contractor/cubit/add_contractor_cubit.dart';
 

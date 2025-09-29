@@ -13,7 +13,7 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../data/dtos/write_offs/write_off_product_request.dart';
 import '../../../bloc/stock_bloc.dart';
@@ -34,39 +34,30 @@ class WriteOffProducts extends HookWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<AddWriteOffCubit>();
     return BlocBuilder<AddWriteOffCubit, AddWriteOffState>(
-      buildWhen: (previous, current) =>
-          previous.request != current.request ||
-          previous.products != current.products,
+      buildWhen: (previous, current) => previous.request != current.request || previous.products != current.products,
       builder: (context, state) {
         return CustomBox(
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 state.writeOff != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              'Списание товаров с склада: ${stock?.name ?? ''}',
-                              style: AppTextStyles.boldType14
-                                  .copyWith(fontWeight: FontWeight.w600)),
+                          Text('Списание товаров с склада: ${stock?.name ?? ''}',
+                              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
                           GestureDetector(
                             onTap: () async {
-                              context
-                                  .read<StockBloc>()
-                                  .add(StockEvent.downloadWriteOffs(
+                              context.read<StockBloc>().add(StockEvent.downloadWriteOffs(
                                     state.writeOff!.id,
                                   ));
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: context.primary),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                               height: 50,
                               width: context.width * .14,
                               child: Center(
@@ -81,9 +72,7 @@ class WriteOffProducts extends HookWidget {
                                     Text(
                                       "Скачать документ",
                                       maxLines: 2,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: context.onPrimary),
+                                      style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
                                   ],
                                 ),
@@ -95,15 +84,13 @@ class WriteOffProducts extends HookWidget {
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Наменклатура',
-                              style: AppTextStyles.boldType14),
+                          const Text('Наменклатура', style: AppTextStyles.boldType14),
                           GestureDetector(
                             onTap: () async {
                               final res = await showDialog(
                                 context: context,
                                 builder: (context) => BlocProvider(
-                                  create: (context) => getIt<FastSearchBloc>()
-                                    ..add(SearchInit(false)),
+                                  create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
                                   child: SearchDialog(
                                     isDialog: true,
                                     isReserve: false,
@@ -115,8 +102,7 @@ class WriteOffProducts extends HookWidget {
                               if (res == null) return;
 
                               if (res == true) {
-                                final data = await router
-                                    .push(AddProductRoute()) as String?;
+                                final data = await router.push(AddProductRoute()) as String?;
 
                                 if (data == null) return;
 
@@ -130,17 +116,14 @@ class WriteOffProducts extends HookWidget {
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: context.primary),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                               height: 50,
                               width: context.width * .14,
                               child: Center(
                                 child: Text(
                                   "Добавить Наменклатуру",
                                   maxLines: 2,
-                                  style: TextStyle(
-                                      fontSize: 13, color: context.onPrimary),
+                                  style: TextStyle(fontSize: 13, color: context.onPrimary),
                                 ),
                               ),
                             ),
@@ -152,11 +135,11 @@ class WriteOffProducts extends HookWidget {
                   child: TableTitleProducts(
                     fillColor: AppColors.stroke,
                     columnWidths: {
-                      0: FlexColumnWidth(5),
-                      1: FlexColumnWidth(2),
-                      2: FlexColumnWidth(3),
-                      3: FlexColumnWidth(1),
-                      if (state.products == null) 4: FlexColumnWidth(1),
+                      0: const FlexColumnWidth(5),
+                      1: const FlexColumnWidth(2),
+                      2: const FlexColumnWidth(3),
+                      3: const FlexColumnWidth(),
+                      if (state.products == null) 4: const FlexColumnWidth(),
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
@@ -171,9 +154,7 @@ class WriteOffProducts extends HookWidget {
                   height: context.height - 320,
                   child: ListView.separated(
                     shrinkWrap: true,
-                    itemCount: state.products?.length ??
-                        state.request?.products?.length ??
-                        0,
+                    itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
                     separatorBuilder: (context, index) => AppSpace.vertical6,
                     itemBuilder: (context, index) => WriteOffProductList(
                         editable: state.products == null,

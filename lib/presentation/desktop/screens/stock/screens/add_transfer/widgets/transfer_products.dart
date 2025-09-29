@@ -14,7 +14,7 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart
 import '../../../../../../../core/enums/states.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 import '../../../bloc/stock_bloc.dart';

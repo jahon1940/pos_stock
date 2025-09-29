@@ -15,7 +15,7 @@ import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../core/widgets/text_field.dart';
-import '../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../bloc/stock_bloc.dart';
 import '../../widgets/back_button_widget.dart';
 import '../../widgets/table_title_widget.dart';

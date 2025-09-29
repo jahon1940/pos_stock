@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/router.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../../../../app/router.gr.dart';
@@ -11,7 +12,7 @@ import '../../../../../core/enums/states.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/widgets/custom_box.dart';
 import '../../../../../core/widgets/text_field.dart';
-import '../../../../../data/dtos/company_dto.dart';
+import '../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
 import '../widgets/list_write_offs.dart';
 import '../widgets/title_supplies.dart';
@@ -25,6 +26,7 @@ class WriteOff extends HookWidget {
 
   final StockDto stock;
   final CompanyDto organization;
+
   @override
   Widget build(BuildContext context) {
     useEffect(() {
@@ -38,13 +40,12 @@ class WriteOff extends HookWidget {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
               color: themeData.cardColor,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
             ),
             height: 60,
             child: Padding(
@@ -54,7 +55,7 @@ class WriteOff extends HookWidget {
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: AppColors.primary100.withOpacity(0.3),
+                        color: AppColors.primary100.opcty(0.3),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Padding(
@@ -90,18 +91,15 @@ class WriteOff extends HookWidget {
                                   if (picked != null) {
                                     bloc.add(StockEvent.dateFrom(picked));
 
-                                    fromController.text =
-                                        DateFormat("dd.MM.yyyy").format(picked);
+                                    fromController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
                                 child: AbsorbPointer(
                                   child: AppTextField(
                                     width: 150,
                                     label: "От: ",
-                                    labelStyle: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w300),
+                                    labelStyle:
+                                        const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w300),
                                     readOnly: true,
                                     enabledBorderWith: 1,
                                     enabledBorderColor: AppColors.stroke,
@@ -130,18 +128,15 @@ class WriteOff extends HookWidget {
 
                                   if (picked != null) {
                                     bloc.add(StockEvent.dateTo(picked));
-                                    toController.text =
-                                        DateFormat("dd.MM.yyyy").format(picked);
+                                    toController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
                                 child: AbsorbPointer(
                                   child: AppTextField(
                                     width: 150,
                                     label: "До: ",
-                                    labelStyle: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w300),
+                                    labelStyle:
+                                        const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w300),
                                     readOnly: true,
                                     enabledBorderWith: 1,
                                     enabledBorderColor: AppColors.stroke,
@@ -155,23 +150,19 @@ class WriteOff extends HookWidget {
                             AppSpace.horizontal24,
                             GestureDetector(
                               onTap: () async {
-                                context.read<StockBloc>().add(
-                                    StockEvent.searchWriteOffs(
-                                        stock.id, false));
+                                context.read<StockBloc>().add(StockEvent.searchWriteOffs(stock.id, false));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: context.primary),
+                                decoration:
+                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                                 height: 50,
                                 width: context.width * .10,
                                 child: Center(
                                   child: Text(
                                     "Сформировать",
                                     maxLines: 2,
-                                    style: TextStyle(
-                                        fontSize: 13, color: context.onPrimary),
+                                    style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
                                 ),
                               ),
@@ -184,22 +175,18 @@ class WriteOff extends HookWidget {
                   AppSpace.horizontal12,
                   GestureDetector(
                     onTap: () async {
-                      router.push(AddWriteOffRoute(
-                          stock: stock, organization: organization));
+                      router.push(AddWriteOffRoute(stock: stock, organization: organization));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: AppColors.primary800),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.primary800),
                       height: 50,
                       width: context.width * .1,
                       child: Center(
                         child: Text(
                           "Добавить",
                           maxLines: 2,
-                          style:
-                              TextStyle(fontSize: 13, color: context.onPrimary),
+                          style: TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
                     ),
@@ -213,53 +200,45 @@ class WriteOff extends HookWidget {
             child: CustomBox(
               child: Column(
                 children: [
-                  TitleSupplies(
+                  const TitleSupplies(
                     isSupplies: false,
                   ),
                   BlocBuilder<StockBloc, StockState>(
-                    buildWhen: (previous, current) =>
-                        previous.writeOffs != current.writeOffs,
+                    buildWhen: (previous, current) => previous.writeOffs != current.writeOffs,
                     builder: (context, state) {
                       if (state.status == StateStatus.loading) {
-                        return Expanded(
-                            child: const Center(
-                                child: CircularProgressIndicator()));
+                        return const Expanded(child: Center(child: CircularProgressIndicator()));
                       } else if (state.status == StateStatus.loaded) {
                         return Expanded(
                           child: state.writeOffs?.results == []
-                              ? SizedBox()
+                              ? const SizedBox()
                               : ListView.separated(
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 8),
-                                  itemBuilder: (context, index) =>
-                                      state.inventories?.results == []
-                                          ? SizedBox()
-                                          : WriteOffList(
-                                              admission: state
-                                                  .writeOffs!.results[index],
-                                              onDelete: () async {
-                                                // final bloc = context.read<StockBloc>();
-                                                // final res = await context.showCustomDialog(
-                                                //   DeleteProductWidget(),
-                                                // );
-                                                //
-                                                // if (res == null) return;
-                                                //
-                                                // bloc.add(StockEvent.deleteSupply(
-                                                //     state.supplies[index].id));
-                                              },
-                                              stock: stock,
-                                              organization: organization,
-                                            ),
-                                  separatorBuilder: (context, index) =>
-                                      AppSpace.vertical12,
-                                  itemCount:
-                                      state.writeOffs?.results.length ?? 0,
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                  itemBuilder: (context, index) => state.inventories?.results == []
+                                      ? const SizedBox()
+                                      : WriteOffList(
+                                          admission: state.writeOffs!.results[index],
+                                          onDelete: () async {
+                                            // final bloc = context.read<StockBloc>();
+                                            // final res = await context.showCustomDialog(
+                                            //   DeleteProductWidget(),
+                                            // );
+                                            //
+                                            // if (res == null) return;
+                                            //
+                                            // bloc.add(StockEvent.deleteSupply(
+                                            //     state.supplies[index].id));
+                                          },
+                                          stock: stock,
+                                          organization: organization,
+                                        ),
+                                  separatorBuilder: (context, index) => AppSpace.vertical12,
+                                  itemCount: state.writeOffs?.results.length ?? 0,
                                 ),
                         );
                       }
-                      return Center(child: Text("Ошибка загрузки"));
+                      return const Center(child: Text("Ошибка загрузки"));
                     },
                   )
                 ],
