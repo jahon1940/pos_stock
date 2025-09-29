@@ -10,7 +10,6 @@ analyzer:
 
     # warnings
     avoid_redundant_argument_values: warning
-    constant_identifier_names: warning
     deprecated_member_use: warning
     invalid_annotation_target: warning
     non_constant_identifier_names: warning
@@ -21,6 +20,7 @@ analyzer:
 
     #ignores
     use_build_context_synchronously: ignore
+    constant_identifier_names: ignore
 
 
 linter:

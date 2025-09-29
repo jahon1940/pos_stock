@@ -12,7 +12,6 @@ import 'package:hoomo_pos/data/dtos/transfers/search_transfers.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../data/dtos/company_dto.dart';
 import '../../../../../data/dtos/inventories/inventory_dto.dart';
 import '../../../../../data/dtos/inventories/search_inventories.dart';
 import '../../../../../data/dtos/pagination_dto.dart';
@@ -31,7 +30,6 @@ part 'stock_bloc.freezed.dart';
 @lazySingleton
 class StockBloc extends Bloc<StockEvent, StockState> {
   StockBloc(this._stockRepository) : super(const _StockState()) {
-    on<_GetOrganizations>(_getOrganizations);
     on<_GetStocks>(_getStocks);
     on<_SearchSupplies>(_searchSupplies);
     on<_DownloadSupplies>(_downloadSupplies);
@@ -45,23 +43,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     on<_SelectedSupplier>(_selectedSupplier);
     on<_dateFrom>(_DateFrom);
     on<_dateTo>(_DateTo);
-    add(const _GetOrganizations());
   }
 
   final StockRepository _stockRepository;
-
-  FutureOr<void> _getOrganizations(
-    _GetOrganizations event,
-    Emitter<StockState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      final res = await _stockRepository.getOrganizations();
-      emit(state.copyWith(status: StateStatus.initial, organizations: res ?? []));
-    } catch (e) {
-      emit(state.copyWith(status: StateStatus.initial));
-    }
-  }
 
   FutureOr<void> _getStocks(
     _GetStocks event,

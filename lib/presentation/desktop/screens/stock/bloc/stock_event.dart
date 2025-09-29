@@ -2,7 +2,6 @@ part of 'stock_bloc.dart';
 
 @freezed
 class StockEvent with _$StockEvent {
-  const factory StockEvent.getOrganizations() = _GetOrganizations;
   const factory StockEvent.getStocks(int id) = _GetStocks;
   const factory StockEvent.searchSupplies(int stockId, bool? initial) =
       _SearchSupplies;

@@ -25,6 +25,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/settings/cubit/settings_c
 import 'package:hoomo_pos/presentation/desktop/screens/shifts/cubit/shift_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/supplies_1c/bloc/supplies_1c_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -47,30 +48,38 @@ void main() async {
             supportedLocales: [const Locale('ru'), const Locale('uz')],
             path: 'assets/translations',
             fallbackLocale: const Locale('ru'),
-            child: MultiBlocProvider(providers: [
-              BlocProvider(create: (context) => getIt<ShiftCubit>()),
-              BlocProvider(create: (context) => getIt<CashInOutCubit>()),
-              BlocProvider(create: (context) => getIt<ProductDetailCubit>()),
-              BlocProvider(create: (context) => getIt<OrderScreenCubit>()),
-              BlocProvider(create: (context) => getIt<UpdateCubit>()),
-              BlocProvider(create: (context) => getIt<SocketCubit>()),
-              BlocProvider(create: (context) => getIt<SearchBloc>()),
-              BlocProvider(create: (context) => getIt<CompanySearchBloc>()),
-              BlocProvider(create: (context) => getIt<ContractBloc>()),
-              BlocProvider(create: (context) => getIt<StockBloc>()),
-              BlocProvider(create: (context) => getIt<AddContractorCubit>()),
-              BlocProvider(create: (context) => getIt<ManagerCubit>()),
-              BlocProvider(create: (context) => getIt<UserCubit>()),
-              BlocProvider(create: (context) => getIt<ContractPaymentCubit>()),
-              BlocProvider(create: (context) => getIt<UnSaleProductsCubit>()),
-              BlocProvider(create: (context) => getIt<EndProductsCubit>()),
-              BlocProvider(create: (context) => getIt<CreateCompanyCubit>()),
-              BlocProvider(create: (context) => getIt<Supplies1cBloc>()),
-              BlocProvider(create: (context) => getIt<ReportsCubit>()),
-              BlocProvider(create: (context) => getIt<ReportManagerCubit>()),
-              BlocProvider(create: (context) => getIt<CategoryBloc>()),
-              BlocProvider(create: (context) => getIt<SettingsCubit>()..init(TableType.products)),
-            ], child: const POSApp()),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => getIt<ShiftCubit>()),
+                BlocProvider(create: (context) => getIt<CashInOutCubit>()),
+                BlocProvider(create: (context) => getIt<ProductDetailCubit>()),
+                BlocProvider(create: (context) => getIt<OrderScreenCubit>()),
+                BlocProvider(create: (context) => getIt<UpdateCubit>()),
+                BlocProvider(create: (context) => getIt<SocketCubit>()),
+                BlocProvider(create: (context) => getIt<SearchBloc>()),
+                BlocProvider(create: (context) => getIt<CompanySearchBloc>()),
+                BlocProvider(create: (context) => getIt<ContractBloc>()),
+                BlocProvider(create: (context) => getIt<AddContractorCubit>()),
+
+                /// stock
+                BlocProvider(create: (context) => getIt<OrganizationCubit>()),
+                BlocProvider(create: (context) => getIt<StockBloc>()),
+                BlocProvider(create: (context) => getIt<ManagerCubit>()),
+
+                ///
+                BlocProvider(create: (context) => getIt<UserCubit>()),
+                BlocProvider(create: (context) => getIt<ContractPaymentCubit>()),
+                BlocProvider(create: (context) => getIt<UnSaleProductsCubit>()),
+                BlocProvider(create: (context) => getIt<EndProductsCubit>()),
+                BlocProvider(create: (context) => getIt<CreateCompanyCubit>()),
+                BlocProvider(create: (context) => getIt<Supplies1cBloc>()),
+                BlocProvider(create: (context) => getIt<ReportsCubit>()),
+                BlocProvider(create: (context) => getIt<ReportManagerCubit>()),
+                BlocProvider(create: (context) => getIt<CategoryBloc>()),
+                BlocProvider(create: (context) => getIt<SettingsCubit>()..init(TableType.products)),
+              ],
+              child: const POSApp(),
+            ),
           ),
         ),
       ),

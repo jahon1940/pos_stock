@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
@@ -133,7 +134,7 @@ class ManagersScreen extends HookWidget {
                         child: state.status.isLoading && state.managers == null
                             ? const Center(child: CircularProgressIndicator())
                             : state.managers?.isEmpty ?? true
-                                ? Center(child: Text(context.tr("not_found")))
+                                ? Center(child: Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
                                     padding: const EdgeInsets.symmetric(vertical: 12).withT0,
