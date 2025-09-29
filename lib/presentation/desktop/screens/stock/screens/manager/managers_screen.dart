@@ -19,7 +19,7 @@ import '../../../../../../../data/dtos/company_dto.dart';
 import '../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../data/dtos/manager/manager_dto.dart';
 import '../../widgets/back_button_widget.dart';
-import '../add_manager/cubit/add_manager_cubit.dart';
+import 'cubit/manager_cubit.dart';
 
 part 'widgets/manager_item_widget.dart';
 
@@ -128,7 +128,7 @@ class ManagersScreen extends HookWidget {
 
                     /// items
                     AppUtils.kGap12,
-                    BlocBuilder<AddManagerCubit, AddManagerState>(
+                    BlocBuilder<ManagerCubit, ManagerState>(
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading && state.managers == null
                             ? const Center(child: CircularProgressIndicator())

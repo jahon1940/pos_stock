@@ -8,15 +8,15 @@ import 'package:hoomo_pos/domain/repositories/manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
-part 'add_manager_state.dart';
+part 'manager_state.dart';
 
-part 'add_manager_cubit.freezed.dart';
+part 'manager_cubit.freezed.dart';
 
 @injectable
-class AddManagerCubit extends Cubit<AddManagerState> {
-  AddManagerCubit(
+class ManagerCubit extends Cubit<ManagerState> {
+  ManagerCubit(
     this._managerRepository,
-  ) : super(const AddManagerState());
+  ) : super(const ManagerState());
 
   final ManagerRepository _managerRepository;
 
@@ -88,9 +88,7 @@ class AddManagerCubit extends Cubit<AddManagerState> {
         content: Text(isNew ? "Сотрудник создан" : "Сотрудник обновлён"),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text("ОК"),
           ),
         ],

@@ -6,13 +6,13 @@ import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/cubit/add_manager_cubit.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/details_manager.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/image_manager.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/widgets/manager_navbar.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/manager/widgets/details_manager.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/manager/widgets/image_manager.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/manager/widgets/manager_navbar.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../data/dtos/company_dto.dart';
+import 'cubit/manager_cubit.dart';
 
 @RoutePage()
 class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
@@ -113,7 +113,7 @@ class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
     BuildContext context,
   ) =>
       BlocProvider(
-        create: (context) => getIt<AddManagerCubit>()..init(managerDto),
+        create: (context) => getIt<ManagerCubit>()..init(managerDto),
         child: this,
       );
 }

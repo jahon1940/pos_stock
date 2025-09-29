@@ -4,10 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/cubit/add_manager_cubit.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../core/widgets/text_field.dart';
+import '../cubit/manager_cubit.dart';
 
 class DetailsManager extends HookWidget {
   const DetailsManager({
@@ -22,7 +22,7 @@ class DetailsManager extends HookWidget {
     return CustomBox(
       child: Padding(
           padding: const EdgeInsets.all(24),
-          child: BlocBuilder<AddManagerCubit, AddManagerState>(builder: (context, state) {
+          child: BlocBuilder<ManagerCubit, ManagerState>(builder: (context, state) {
             if (state.status == StateStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }

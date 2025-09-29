@@ -25,11 +25,11 @@ import 'package:hoomo_pos/presentation/desktop/screens/settings/cubit/settings_c
 import 'package:hoomo_pos/presentation/desktop/screens/shifts/cubit/shift_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_manager/cubit/add_manager_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/supplies_1c/bloc/supplies_1c_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'core/styles/theme_provider.dart';
+import 'presentation/desktop/screens/stock/screens/manager/cubit/manager_cubit.dart';
 
 void main() async {
   try {
@@ -59,7 +59,7 @@ void main() async {
               BlocProvider(create: (context) => getIt<ContractBloc>()),
               BlocProvider(create: (context) => getIt<StockBloc>()),
               BlocProvider(create: (context) => getIt<AddContractorCubit>()),
-              BlocProvider(create: (context) => getIt<AddManagerCubit>()),
+              BlocProvider(create: (context) => getIt<ManagerCubit>()),
               BlocProvider(create: (context) => getIt<UserCubit>()),
               BlocProvider(create: (context) => getIt<ContractPaymentCubit>()),
               BlocProvider(create: (context) => getIt<UnSaleProductsCubit>()),
