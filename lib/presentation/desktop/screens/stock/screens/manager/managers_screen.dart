@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
 
 import '../../../../../../../app/router.dart';
@@ -19,6 +20,8 @@ import '../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../data/dtos/manager/manager_dto.dart';
 import '../../widgets/back_button_widget.dart';
 import '../add_manager/cubit/add_manager_cubit.dart';
+
+part 'widgets/manager_item_widget.dart';
 
 @RoutePage()
 class ManagersScreen extends HookWidget {
@@ -109,6 +112,7 @@ class ManagersScreen extends HookWidget {
             AppUtils.kGap12,
             Expanded(
               child: CustomBox(
+                padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
                     /// table title
@@ -132,124 +136,14 @@ class ManagersScreen extends HookWidget {
                                 ? Center(child: Text(context.tr("not_found")))
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.all(8),
-                                    separatorBuilder: (context, index) => AppUtils.kGap12,
-                                    itemCount: state.managers?.length ?? 0,
-                                    itemBuilder: (context, index) {
-                                      ManagerDto manager = state.managers![index];
-                                      return Material(
-                                        child: TableProductItem(
-                                          columnWidths: const {
-                                            0: FlexColumnWidth(6),
-                                            1: FlexColumnWidth(4),
-                                            2: FlexColumnWidth(4),
-                                            3: FlexColumnWidth(2),
-                                          },
-                                          onTap: () async {},
-                                          children: [
-                                            SizedBox(
-                                              height: 60,
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
-                                                child: Text(manager.name ?? ""),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 60,
-                                              child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
-                                                  child: Text(manager.phoneNumber ?? "")),
-                                            ),
-                                            SizedBox(
-                                              height: 60,
-                                              child: Center(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(top: 5),
-                                                  child: Text(manager.position ?? ""),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 60,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () => router
-                                                          .push(AddManagerRoute(
-                                                              organizations: organization, managerDto: manager))
-                                                          .then((_) {
-                                                        context.read<AddManagerCubit>().getManagers();
-                                                      }),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          color: AppColors.primary500,
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          boxShadow: [
-                                                            const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                                                          ],
-                                                        ),
-                                                        height: 40,
-                                                        width: 40,
-                                                        child: const Icon(
-                                                          Icons.edit,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    AppUtils.kGap12,
-                                                    GestureDetector(
-                                                      onTap: () async {
-                                                        final confirm = await showDialog<bool>(
-                                                          context: context,
-                                                          builder: (context) => AlertDialog(
-                                                            title: const Text("Подтверждение"),
-                                                            content: Text(
-                                                                "Вы действительно хотите удалить сотрудника ${manager.name}?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () => Navigator.of(context).pop(false),
-                                                                child: const Text("Отмена"),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed: () => Navigator.of(context).pop(true),
-                                                                child: const Text("Удалить",
-                                                                    style: TextStyle(color: Colors.red)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-
-                                                        if (confirm == true) {
-                                                          context.read<AddManagerCubit>().deleteManager(manager.cid);
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          color: AppColors.error500,
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          boxShadow: [
-                                                            const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                                                          ],
-                                                        ),
-                                                        height: 40,
-                                                        width: 40,
-                                                        child: const Icon(
-                                                          Icons.delete,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
+                                    padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                    itemCount: state.managers!.length,
+                                    separatorBuilder: (_, __) => AppUtils.kGap12,
+                                    itemBuilder: (context, index) => ManagerItemWidget(
+                                      organization: organization,
+                                      manager: state.managers!.elementAt(index),
+                                      columnWidths: _columnWidths,
+                                    ),
                                   ),
                       ),
                     ),
