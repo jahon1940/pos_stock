@@ -60,7 +60,7 @@ class OrganizationItemScreen extends StatelessWidget {
                         _item(
                           context,
                           label: 'Сотрудники',
-                          onPressed: () {},
+                          onPressed: () async => await router.push(ManagersRoute(organization: organization)),
                         ),
                       ],
                     ),
