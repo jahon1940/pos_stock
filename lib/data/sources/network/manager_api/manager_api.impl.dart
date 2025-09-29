@@ -1,9 +1,4 @@
-import 'package:hoomo_pos/core/constants/network.dart';
-import 'package:hoomo_pos/core/network/dio_client.dart';
-import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
-import 'package:injectable/injectable.dart';
-
-import 'manager_api.dart';
+part of 'manager_api.dart';
 
 @LazySingleton(as: ManagerApi)
 class ManagerApiImpl extends ManagerApi {

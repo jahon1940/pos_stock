@@ -1,15 +1,12 @@
-import 'package:dio/dio.dart';
-import 'package:hoomo_pos/core/exceptions/server_exception.dart';
-import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
-import 'package:hoomo_pos/data/sources/network/manager_api/manager_api.dart';
-import 'package:hoomo_pos/domain/repositories/manager_repository.dart';
-import 'package:injectable/injectable.dart';
+part of '../../domain/repositories/manager_repository.dart';
 
 @LazySingleton(as: ManagerRepository)
 class ManagerRepositoryImpl implements ManagerRepository {
-  final ManagerApi _managerApi;
+  ManagerRepositoryImpl(
+    this._managerApi,
+  );
 
-  ManagerRepositoryImpl(this._managerApi);
+  final ManagerApi _managerApi;
 
   @override
   Future<void> createManager(

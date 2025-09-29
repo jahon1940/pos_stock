@@ -1,4 +1,10 @@
 import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../../../core/constants/network.dart';
+import '../../../../core/network/dio_client.dart';
+
+part 'manager_api.impl.dart';
 
 abstract class ManagerApi {
   Future<List<ManagerDto>?> getManagers();
