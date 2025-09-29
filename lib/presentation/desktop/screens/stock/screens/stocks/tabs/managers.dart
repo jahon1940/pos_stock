@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
@@ -22,51 +23,48 @@ class Managers extends HookWidget {
     this.organizations, {
     super.key,
   });
+
   final CompanyDto organizations;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     useEffect(() {
       context.read<AddManagerCubit>().getManagers();
       return null;
     }, const []);
-
     final searchController = useTextEditingController();
-    ThemeData themeData = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: themeData.cardColor,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
             ),
             height: 60,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: AppColors.primary100.withOpacity(0.3),
+                        color: AppColors.primary100.opcty(.3),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
-                        radius: 8,
                         height: 50,
-                        hintStyle: AppTextStyles.mType16
-                            .copyWith(color: AppColors.primary500),
-                        contentPadding: EdgeInsets.all(14),
+                        hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
+                        contentPadding: const EdgeInsets.all(14),
                         hint: "Поиск сотрудников",
                         fieldController: searchController,
                         suffix: Row(
                           children: [
-                            IconButton(
-                                icon: Icon(Icons.close), onPressed: () {}),
+                            IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                           ],
                         ),
                       ),
@@ -75,25 +73,20 @@ class Managers extends HookWidget {
                   AppSpace.horizontal12,
                   GestureDetector(
                     onTap: () {
-                      router
-                          .push(AddManagerRoute(organizations: organizations))
-                          .then((_) {
+                      router.push(AddManagerRoute(organizations: organizations)).then((_) {
                         context.read<AddManagerCubit>().getManagers();
                       });
                     },
                     child: Container(
                       padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: context.primary),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                       height: 50,
                       width: context.width * .1,
                       child: Center(
                         child: Text(
                           "Добавить",
                           maxLines: 2,
-                          style:
-                              TextStyle(fontSize: 13, color: context.onPrimary),
+                          style: TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
                     ),
@@ -107,11 +100,9 @@ class Managers extends HookWidget {
             child: CustomBox(
               child: Column(
                 children: [
-                  TitleManager(),
-                  BlocBuilder<AddManagerCubit, AddManagerState>(
-                      builder: (context, state) {
-                    if (state.status == StateStatus.loading &&
-                        state.managers == null) {
+                  const TitleManager(),
+                  BlocBuilder<AddManagerCubit, AddManagerState>(builder: (context, state) {
+                    if (state.status == StateStatus.loading && state.managers == null) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
@@ -139,16 +130,14 @@ class Managers extends HookWidget {
                                 SizedBox(
                                   height: 60,
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 5, 5, 5),
+                                    padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                     child: Text(manager.name ?? ""),
                                   ),
                                 ),
                                 SizedBox(
                                   height: 60,
                                   child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 5, 0, 0),
+                                      padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
                                       child: Text(manager.phoneNumber ?? "")),
                                 ),
                                 SizedBox(
@@ -165,33 +154,23 @@ class Managers extends HookWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         GestureDetector(
                                           onTap: () => router
-                                              .push(AddManagerRoute(
-                                                  organizations: organizations,
-                                                  managerDto: manager))
+                                              .push(AddManagerRoute(organizations: organizations, managerDto: manager))
                                               .then((_) {
-                                            context
-                                                .read<AddManagerCubit>()
-                                                .getManagers();
+                                            context.read<AddManagerCubit>().getManagers();
                                           }),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: AppColors.primary500,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: AppColors.stroke,
-                                                    blurRadius: 3)
-                                              ],
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                                             ),
                                             height: 40,
                                             width: 40,
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.edit,
                                               color: Colors.white,
                                             ),
@@ -200,52 +179,38 @@ class Managers extends HookWidget {
                                         AppSpace.horizontal12,
                                         GestureDetector(
                                           onTap: () async {
-                                            final confirm =
-                                                await showDialog<bool>(
+                                            final confirm = await showDialog<bool>(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                title: Text("Подтверждение"),
-                                                content: Text(
-                                                    "Вы действительно хотите удалить сотрудника ${manager.name}?"),
+                                                title: const Text("Подтверждение"),
+                                                content:
+                                                    Text("Вы действительно хотите удалить сотрудника ${manager.name}?"),
                                                 actions: [
                                                   TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(false),
-                                                    child: Text("Отмена"),
+                                                    onPressed: () => Navigator.of(context).pop(false),
+                                                    child: const Text("Отмена"),
                                                   ),
                                                   TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(true),
-                                                    child: Text("Удалить",
-                                                        style: TextStyle(
-                                                            color: Colors.red)),
+                                                    onPressed: () => Navigator.of(context).pop(true),
+                                                    child: const Text("Удалить", style: TextStyle(color: Colors.red)),
                                                   ),
                                                 ],
                                               ),
                                             );
 
                                             if (confirm == true) {
-                                              context
-                                                  .read<AddManagerCubit>()
-                                                  .deleteManager(manager.cid);
+                                              context.read<AddManagerCubit>().deleteManager(manager.cid);
                                             }
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: AppColors.error500,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: AppColors.stroke,
-                                                    blurRadius: 3)
-                                              ],
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                                             ),
                                             height: 40,
                                             width: 40,
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.delete,
                                               color: Colors.white,
                                             ),
@@ -259,8 +224,7 @@ class Managers extends HookWidget {
                             ),
                           );
                         },
-                        separatorBuilder: (context, index) =>
-                            AppSpace.vertical12,
+                        separatorBuilder: (context, index) => AppSpace.vertical12,
                         itemCount: state.managers?.length ?? 0,
                       ),
                     );
