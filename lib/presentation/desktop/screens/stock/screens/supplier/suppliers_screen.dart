@@ -108,133 +108,138 @@ class SuppliersScreen extends HookWidget {
                   children: [
                     const TitlePerson(),
                     BlocBuilder<AddContractorCubit, AddContractorState>(
-                      builder: (context, state) {
-                        if (state.status.isLoading && state.suppliers == null) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                        if (state.suppliers?.isEmpty ?? true) {
-                          return Center(child: Text(context.tr("not_found")));
-                        }
-                        return Expanded(
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(8.0),
-                            itemCount: state.suppliers?.length ?? 0,
-                            separatorBuilder: (context, index) => AppUtils.kGap12,
-                            itemBuilder: (context, index) {
-                              SupplierDto supplier = state.suppliers![index];
-                              return Material(
-                                child: TableProductItem(
-                                  columnWidths: const {
-                                    0: FlexColumnWidth(6),
-                                    1: FlexColumnWidth(4),
-                                    2: FlexColumnWidth(4),
-                                    3: FlexColumnWidth(2),
-                                  },
-                                  onTap: () async {},
-                                  children: [
-                                    SizedBox(
-                                      height: 60,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
-                                        child: Text(supplier.name ?? ""),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 60,
-                                      child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
-                                          child: Text(supplier.phoneNumber ?? "")),
-                                    ),
-                                    SizedBox(
-                                      height: 60,
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: Text(supplier.inn ?? ""),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 60,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                      builder: (context, state) => Expanded(
+                        child: state.status.isLoading && state.suppliers == null
+                            ? const Center(child: CircularProgressIndicator())
+                            : state.suppliers?.isEmpty ?? true
+                                ? Center(child: Text(context.tr("not_found")))
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(8.0),
+                                    itemCount: state.suppliers?.length ?? 0,
+                                    separatorBuilder: (context, index) => AppUtils.kGap12,
+                                    itemBuilder: (context, index) {
+                                      SupplierDto supplier = state.suppliers![index];
+                                      return Material(
+                                        child: TableProductItem(
+                                          columnWidths: const {
+                                            0: FlexColumnWidth(6),
+                                            1: FlexColumnWidth(4),
+                                            2: FlexColumnWidth(4),
+                                            3: FlexColumnWidth(2),
+                                          },
+                                          onTap: () async {},
                                           children: [
-                                            GestureDetector(
-                                              onTap: () => router
-                                                  .push(AddContractorRoute(
-                                                      supplierDto: supplier, organizations: organization))
-                                                  .then((_) {
-                                                context.read<AddContractorCubit>().getSuppliers();
-                                              }),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.primary500,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                                                ),
-                                                height: 40,
-                                                width: 40,
-                                                child: const Icon(
-                                                  Icons.edit,
-                                                  color: Colors.white,
+                                            SizedBox(
+                                              height: 60,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
+                                                child: Text(supplier.name ?? ""),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 60,
+                                              child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
+                                                  child: Text(supplier.phoneNumber ?? "")),
+                                            ),
+                                            SizedBox(
+                                              height: 60,
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 5),
+                                                  child: Text(supplier.inn ?? ""),
                                                 ),
                                               ),
                                             ),
-                                            AppUtils.kGap16,
-                                            GestureDetector(
-                                              onTap: () async {
-                                                final confirm = await showDialog<bool>(
-                                                  context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    title: const Text("Подтверждение"),
-                                                    content: Text(
-                                                        "Вы действительно хотите удалить поставщика ${supplier.name}?"),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () => Navigator.of(context).pop(false),
-                                                        child: const Text("Отмена"),
+                                            SizedBox(
+                                              height: 60,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () => router
+                                                          .push(AddContractorRoute(
+                                                              supplierDto: supplier, organizations: organization))
+                                                          .then((_) {
+                                                        context.read<AddContractorCubit>().getSuppliers();
+                                                      }),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: AppColors.primary500,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          boxShadow: [
+                                                            const BoxShadow(color: AppColors.stroke, blurRadius: 3)
+                                                          ],
+                                                        ),
+                                                        height: 40,
+                                                        width: 40,
+                                                        child: const Icon(
+                                                          Icons.edit,
+                                                          color: Colors.white,
+                                                        ),
                                                       ),
-                                                      TextButton(
-                                                        onPressed: () => Navigator.of(context).pop(true),
-                                                        child:
-                                                            const Text("Удалить", style: TextStyle(color: Colors.red)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
+                                                    ),
+                                                    AppUtils.kGap16,
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        final confirm = await showDialog<bool>(
+                                                          context: context,
+                                                          builder: (context) => AlertDialog(
+                                                            title: const Text("Подтверждение"),
+                                                            content: Text(
+                                                              "Вы действительно хотите удалить поставщика ${supplier.name}?",
+                                                            ),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () => Navigator.of(context).pop(false),
+                                                                child: const Text("Отмена"),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () => Navigator.of(context).pop(true),
+                                                                child: const Text(
+                                                                  "Удалить",
+                                                                  style: TextStyle(color: Colors.red),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
 
-                                                if (confirm == true) {
-                                                  context.read<AddContractorCubit>().deleteSupplier(supplier.id);
-                                                }
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.error500,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                                                ),
-                                                height: 40,
-                                                width: 40,
-                                                child: const Icon(
-                                                  Icons.delete,
-                                                  color: Colors.white,
+                                                        if (confirm == true) {
+                                                          context
+                                                              .read<AddContractorCubit>()
+                                                              .deleteSupplier(supplier.id);
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: AppColors.error500,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          boxShadow: [
+                                                            const BoxShadow(color: AppColors.stroke, blurRadius: 3),
+                                                          ],
+                                                        ),
+                                                        height: 40,
+                                                        width: 40,
+                                                        child: const Icon(
+                                                          Icons.delete,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
+                                      );
+                                    },
+                                  ),
+                      ),
                     ),
                   ],
                 ),
