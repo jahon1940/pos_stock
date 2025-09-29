@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../dtos/company/company_dto.dart';
 
-part 'organization_api.impl.dart';
+part 'organization_api_impl.dart';
 
 abstract class OrganizationApi {
   Future<List<CompanyDto>?> getOrganizations();

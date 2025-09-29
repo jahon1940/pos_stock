@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/constants/network.dart';
 import '../../../../core/network/dio_client.dart';
 
-part 'manager_api.impl.dart';
+part 'manager_api_impl.dart';
 
 abstract class ManagerApi {
   Future<List<ManagerDto>?> getManagers();

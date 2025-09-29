@@ -1,9 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:hoomo_pos/core/exceptions/server_exception.dart';
-import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
-import 'package:hoomo_pos/data/sources/network/supplier/supplier_api.dart';
-import 'package:hoomo_pos/domain/repositories/supplier_repository.dart';
-import 'package:injectable/injectable.dart';
+part of '../../domain/repositories/supplier_repository.dart';
 
 @LazySingleton(as: SupplierRepository)
 class SupplierRepositoryImpl implements SupplierRepository {

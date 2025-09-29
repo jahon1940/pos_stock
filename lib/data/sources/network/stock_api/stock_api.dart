@@ -26,7 +26,7 @@ import '../../../dtos/write_offs/search_write_off.dart';
 import '../../../dtos/write_offs/write_off_dto.dart';
 import '../../../dtos/write_offs/write_off_product_dto.dart';
 
-part 'stock_api.impl.dart';
+part 'stock_api_impl.dart';
 
 abstract class StockApi {
   Future<List<StockDto>?> getStocks(int organizationsId);
