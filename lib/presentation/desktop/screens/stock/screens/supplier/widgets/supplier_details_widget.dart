@@ -17,7 +17,7 @@ class SupplierDetailsWidget extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    final cubit = context.read<SupplierCubit>();
+    final cubit = context.supplierBloc;
     return CustomBox(
       child: Padding(
           padding: const EdgeInsets.all(24),

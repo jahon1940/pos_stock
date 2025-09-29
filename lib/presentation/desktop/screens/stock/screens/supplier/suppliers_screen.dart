@@ -208,7 +208,7 @@ class SuppliersScreen extends HookWidget {
                                                         );
 
                                                         if (confirm == true) {
-                                                          context.read<SupplierCubit>().deleteSupplier(supplier.id);
+                                                          context.supplierBloc.deleteSupplier(supplier.id);
                                                         }
                                                       },
                                                       child: Container(
