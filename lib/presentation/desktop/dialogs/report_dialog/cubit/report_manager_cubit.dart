@@ -8,7 +8,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/manager/manager_dto.dart';
 import 'package:hoomo_pos/data/dtos/manager_report/manager_report_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
-import 'package:hoomo_pos/domain/repositories/manager.dart';
+import 'package:hoomo_pos/domain/repositories/manager_repository.dart';
 import 'package:hoomo_pos/domain/repositories/reports.dart';
 import 'package:injectable/injectable.dart';
 

@@ -12,15 +12,16 @@ class ManagerApiImpl extends ManagerApi {
   ManagerApiImpl(this._dioClient);
 
   @override
-  Future<void> createManager(ManagerDto manager) async {
-    await _dioClient.postRequest(NetworkConstants.managers,
-        data: manager.toJson());
-  }
+  Future<void> createManager(
+    ManagerDto manager,
+  ) async =>
+      _dioClient.postRequest(NetworkConstants.managers, data: manager.toJson());
 
   @override
-  Future<void> deleteManager(String managerId) async {
-    await _dioClient.deleteRequest("${NetworkConstants.managers}/$managerId");
-  }
+  Future<void> deleteManager(
+    String managerId,
+  ) async =>
+      _dioClient.deleteRequest("${NetworkConstants.managers}/$managerId");
 
   @override
   Future<List<ManagerDto>?> getManagers() async {
@@ -37,8 +38,8 @@ class ManagerApiImpl extends ManagerApi {
   }
 
   @override
-  Future<void> updateManager(ManagerDto manager) async {
-    await _dioClient.putRequest("${NetworkConstants.managers}/${manager.cid}",
-        data: manager.toJson());
-  }
+  Future<void> updateManager(
+    ManagerDto manager,
+  ) async =>
+      _dioClient.putRequest("${NetworkConstants.managers}/${manager.cid}", data: manager.toJson());
 }
