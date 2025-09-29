@@ -21,7 +21,7 @@ class TableItemWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: TableTitleWidget.columnWidths,
+        columnWidths: TableTitleWidget.defaultColumnWidths,
         onTap: onTap,
         children: [
           SizedBox(

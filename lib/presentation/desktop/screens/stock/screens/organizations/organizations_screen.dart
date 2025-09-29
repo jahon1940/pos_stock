@@ -10,7 +10,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_item_
 
 import '../../../../../../app/router.dart';
 import '../../../../../../app/router.gr.dart';
-import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../bloc/stock_bloc.dart';
 import '../../widgets/page_title_widget.dart';
@@ -56,7 +55,7 @@ class OrganizationScreen extends HookWidget {
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.symmetric(vertical: 12).withT0,
                                   itemCount: state.organizations.length,
-                                  separatorBuilder: (context, index) => AppSpace.vertical12,
+                                  separatorBuilder: (_, __) => AppUtils.kGap12,
                                   itemBuilder: (context, i) {
                                     final organization = state.organizations.elementAt(i);
                                     return TableItemWidget(
