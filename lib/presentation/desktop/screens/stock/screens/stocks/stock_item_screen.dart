@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/inventories.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/transfers.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/supplies.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/supplies.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/transfers.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/write_off.dart';
 
 import '../../../../../../core/constants/app_utils.dart';

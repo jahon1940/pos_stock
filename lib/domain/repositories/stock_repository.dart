@@ -1,30 +1,32 @@
+import 'package:flutter/foundation.dart';
+import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
-import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
+import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../data/dtos/company_dto.dart';
 import '../../data/dtos/inventories/create_inventory_request.dart';
 import '../../data/dtos/inventories/inventory_dto.dart';
 import '../../data/dtos/inventories/inventory_product_dto.dart';
 import '../../data/dtos/inventories/search_inventories.dart';
-import '../../data/dtos/transfers/create_transfers.dart';
-import '../../data/dtos/transfers/transfer_product_dto.dart';
-import '../../data/dtos/write_offs/create_write_off.dart';
 import '../../data/dtos/supplies/search_supplies.dart';
-import '../../data/dtos/transfers/search_transfers.dart';
-import '../../data/dtos/write_offs/search_write_off.dart';
-import '../../data/dtos/transfers/transfer_dto.dart';
-import '../../data/dtos/write_offs/write_off_dto.dart';
 import '../../data/dtos/supplies_1c/supplies_1c.dart';
 import '../../data/dtos/supplies_1c/supplies_1c_conduct.dart';
+import '../../data/dtos/transfers/create_transfers.dart';
+import '../../data/dtos/transfers/search_transfers.dart';
+import '../../data/dtos/transfers/transfer_dto.dart';
+import '../../data/dtos/transfers/transfer_product_dto.dart';
+import '../../data/dtos/write_offs/create_write_off.dart';
+import '../../data/dtos/write_offs/search_write_off.dart';
+import '../../data/dtos/write_offs/write_off_dto.dart';
 import '../../data/dtos/write_offs/write_off_product_dto.dart';
+import '../../data/sources/network/stock_api/stock_api.dart';
+
+part '../../data/repositories/stock_repository_impl.dart';
 
 abstract class StockRepository {
-  Future<List<CompanyDto>?> getOrganizations();
-
   Future<List<StockDto>?> getStocks(int organizationsId);
 
   Future<PaginatedDto<InventoryDto>> searchInventory(SearchInventories request);

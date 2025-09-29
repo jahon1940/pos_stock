@@ -1,30 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
-import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
-import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
-import 'package:hoomo_pos/data/sources/network/stock_api.dart';
-import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
-import 'package:injectable/injectable.dart';
-
-import '../dtos/company_dto.dart';
-import '../dtos/inventories/create_inventory_request.dart';
-import '../dtos/inventories/inventory_dto.dart';
-import '../dtos/inventories/inventory_product_dto.dart';
-import '../dtos/inventories/search_inventories.dart';
-import '../dtos/stock_dto.dart';
-import '../dtos/transfers/create_transfers.dart';
-import '../dtos/transfers/transfer_product_dto.dart';
-import '../dtos/write_offs/create_write_off.dart';
-import '../dtos/supplies/search_supplies.dart';
-import '../dtos/transfers/search_transfers.dart';
-import '../dtos/write_offs/search_write_off.dart';
-import '../dtos/transfers/transfer_dto.dart';
-import '../dtos/write_offs/write_off_dto.dart';
-import '../dtos/supplies_1c/supplies_1c.dart';
-import '../dtos/supplies_1c/supplies_1c_conduct.dart';
-import '../dtos/write_offs/write_off_product_dto.dart';
+part of '../../domain/repositories/stock_repository.dart';
 
 @LazySingleton(as: StockRepository)
 class StockRepositoryImpl implements StockRepository {
@@ -33,17 +7,6 @@ class StockRepositoryImpl implements StockRepository {
   );
 
   final StockApi _stockApi;
-
-  @override
-  Future<List<CompanyDto>?> getOrganizations() async {
-    try {
-      final res = await _stockApi.getOrganizations();
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      return null;
-    }
-  }
 
   @override
   Future<List<StockDto>?> getStocks(

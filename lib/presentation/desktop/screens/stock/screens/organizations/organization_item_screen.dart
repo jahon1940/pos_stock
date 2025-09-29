@@ -7,7 +7,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 
 import '../../../../../../app/router.dart';
-import '../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../widgets/page_title_widget.dart';
 
 @RoutePage()
@@ -51,21 +51,21 @@ class OrganizationItemScreen extends StatelessWidget {
                           _item(
                             context,
                             label: 'Склад',
-                            onPressed: () async => await router.push(StocksRoute(organization: organization)),
+                            onPressed: () async => router.push(StocksRoute(organization: organization)),
                           ),
 
                           ///
                           _item(
                             context,
                             label: context.tr("contractor"),
-                            onPressed: () async => await router.push(SuppliersRoute(organization: organization)),
+                            onPressed: () async => router.push(SuppliersRoute(organization: organization)),
                           ),
 
                           ///
                           _item(
                             context,
                             label: 'Сотрудники',
-                            onPressed: () async => await router.push(ManagersRoute(organization: organization)),
+                            onPressed: () async => router.push(ManagersRoute(organization: organization)),
                           ),
                         ],
                       ),

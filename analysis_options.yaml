@@ -18,6 +18,9 @@ analyzer:
     prefer_const_constructors: warning
     unnecessary_await_in_return: warning
     directives_ordering: warning
+    prefer_final_fields: warning
+    unnecessary_string_interpolations: warning
+    unawaited_futures: warning
 
     #ignores
     use_build_context_synchronously: ignore
@@ -37,4 +40,7 @@ linter:
     - prefer_const_constructors
     - unnecessary_await_in_return
     - directives_ordering
+    - prefer_final_fields
+    - unnecessary_string_interpolations
+    - unawaited_futures
 
