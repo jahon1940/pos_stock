@@ -38,7 +38,7 @@ class TableTitleProducts extends StatelessWidget {
                   .map((e) => SizedBox(
                         height: 40,
                         child: Padding(
-                            padding: EdgeInsets.only(top: 11, left: 10),
+                            padding: const EdgeInsets.only(top: 11, left: 10),
                             child: Text(
                               e,
                               style: AppTextStyles.mType14,
