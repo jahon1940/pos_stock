@@ -66,7 +66,6 @@ class SuppliersScreen extends HookWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: AppTextField(
-                        height: 50,
                         hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
                         contentPadding: const EdgeInsets.all(14),
                         hint: "Поиск поставщиков",

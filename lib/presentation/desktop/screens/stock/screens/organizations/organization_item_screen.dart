@@ -5,7 +5,6 @@ import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/tabs/managers.dart';
 
 import '../../../../../../app/router.dart';
 import '../../../../../../data/dtos/company_dto.dart';
@@ -37,43 +36,42 @@ class OrganizationItemScreen extends StatelessWidget {
                   canPop: true,
                 ),
 
-                ///
+                /// items
                 AppUtils.kGap12,
-                CustomBox(
-                  padding: AppUtils.kPaddingAll12,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      spacing: AppUtils.kGap12.mainAxisExtent,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _item(
-                          context,
-                          label: 'Склад',
-                          onPressed: () async => await router.push(StocksRoute(organization: organization)),
-                        ),
-                        _item(
-                          context,
-                          label: context.tr("contractor"),
-                          onPressed: () async => await router.push(SuppliersRoute(organization: organization)),
-                        ),
-                        _item(
-                          context,
-                          label: 'Сотрудники',
-                          onPressed: () async => await router.push(ManagersRoute(organization: organization)),
-                        ),
-                      ],
+                Expanded(
+                  child: CustomBox(
+                    padding: AppUtils.kPaddingAll12,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        spacing: AppUtils.kGap12.mainAxisExtent,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///
+                          _item(
+                            context,
+                            label: 'Склад',
+                            onPressed: () async => await router.push(StocksRoute(organization: organization)),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: context.tr("contractor"),
+                            onPressed: () async => await router.push(SuppliersRoute(organization: organization)),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: 'Сотрудники',
+                            onPressed: () async => await router.push(ManagersRoute(organization: organization)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-
-                ///
-                AppUtils.kGap12,
-                _tabbar(context),
-
-                ///
-                AppUtils.kGap12,
-                _view(context),
               ],
             ),
           ),
@@ -109,37 +107,6 @@ class OrganizationItemScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      );
-
-  Widget _tabbar(BuildContext context) => Container(
-        color: Colors.yellow,
-        child: TabBar(
-          dividerColor: Colors.transparent,
-          labelColor: Colors.white,
-          tabs: [
-            FittedBox(
-              child: SizedBox(
-                width: context.width * .17,
-                child: const Tab(
-                  child: Text(
-                    "Сотрудники",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget _view(BuildContext context) => Expanded(
-        child: TabBarView(
-          children: <Widget>[
-            Managers(organization),
-          ],
         ),
       );
 }
