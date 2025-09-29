@@ -89,9 +89,7 @@ class SupplierCubit extends Cubit<SupplierState> {
         content: Text(isNew ? "Поставщик создан" : "Поставщик обновлён"),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text("ОК"),
           ),
         ],
