@@ -15,23 +15,20 @@ class DetailsManager extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AddManagerCubit>();
-
+  Widget build(
+    BuildContext context,
+  ) {
+    final cubit = context.managerBloc;
     return CustomBox(
       child: Padding(
           padding: const EdgeInsets.all(24),
-          child: BlocBuilder<AddManagerCubit, AddManagerState>(
-              builder: (context, state) {
-                if (state.status == StateStatus.loading) {
-                  return const Center(
-                      child: CircularProgressIndicator());
-                }
+          child: BlocBuilder<AddManagerCubit, AddManagerState>(builder: (context, state) {
+            if (state.status == StateStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
             return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text('Данные Сотрудника',
-                    style: AppTextStyles.boldType14),
+                const Text('Данные Сотрудника', style: AppTextStyles.boldType14),
                 AppSpace.vertical24,
                 AppTextField(
                   prefix: Icon(
@@ -40,14 +37,10 @@ class DetailsManager extends HookWidget {
                   ),
                   fieldController: cubit.nameController,
                   width: double.maxFinite,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                   label: 'Название ...',
                   alignLabelWithHint: true,
-                  maxLines: 1,
-                  textInputType: TextInputType.text,
-                  style: AppTextStyles.boldType14
-                      .copyWith(fontWeight: FontWeight.w400),
+                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                 ),
                 AppSpace.vertical24,
                 AppTextField(
@@ -57,18 +50,13 @@ class DetailsManager extends HookWidget {
                   ),
                   fieldController: cubit.positionController,
                   width: double.maxFinite,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                   label: 'Должность ...',
                   alignLabelWithHint: true,
-                  maxLines: 1,
-                  textInputType: TextInputType.text,
-                  style: AppTextStyles.boldType14
-                      .copyWith(fontWeight: FontWeight.w400),
+                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                 ),
                 AppSpace.vertical24,
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       flex: 2,
@@ -79,14 +67,10 @@ class DetailsManager extends HookWidget {
                         ),
                         fieldController: cubit.phoneController,
                         width: double.maxFinite,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 18),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                         label: 'Номер телефона...',
                         alignLabelWithHint: true,
-                        maxLines: 1,
-                        textInputType: TextInputType.text,
-                        style: AppTextStyles.boldType14
-                            .copyWith(fontWeight: FontWeight.w400),
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],

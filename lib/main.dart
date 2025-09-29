@@ -37,16 +37,16 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   } finally {
     runApp(
       Phoenix(
         child: ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
           child: EasyLocalization(
-            supportedLocales: [Locale('ru'), Locale('uz')],
+            supportedLocales: [const Locale('ru'), const Locale('uz')],
             path: 'assets/translations',
-            fallbackLocale: Locale('ru'),
+            fallbackLocale: const Locale('ru'),
             child: MultiBlocProvider(providers: [
               BlocProvider(create: (context) => getIt<ShiftCubit>()),
               BlocProvider(create: (context) => getIt<CashInOutCubit>()),
@@ -69,9 +69,7 @@ void main() async {
               BlocProvider(create: (context) => getIt<ReportsCubit>()),
               BlocProvider(create: (context) => getIt<ReportManagerCubit>()),
               BlocProvider(create: (context) => getIt<CategoryBloc>()),
-              BlocProvider(
-                  create: (context) =>
-                      getIt<SettingsCubit>()..init(TableType.products)),
+              BlocProvider(create: (context) => getIt<SettingsCubit>()..init(TableType.products)),
             ], child: const POSApp()),
           ),
         ),

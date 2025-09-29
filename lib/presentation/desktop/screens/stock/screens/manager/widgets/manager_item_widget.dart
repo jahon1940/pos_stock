@@ -36,9 +36,9 @@ class ManagerItemWidget extends StatelessWidget {
               children: [
                 ///
                 GestureDetector(
-                  onTap: () => router.push(AddManagerRoute(organizations: organization, managerDto: manager)).then((_) {
-                    context.read<AddManagerCubit>().getManagers();
-                  }),
+                  onTap: () => router
+                      .push(AddManagerRoute(organizations: organization, managerDto: manager))
+                      .then((_) => context.managerBloc.getManagers()),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.primary500,
@@ -73,7 +73,7 @@ class ManagerItemWidget extends StatelessWidget {
                       ),
                     );
                     if (confirm == true) {
-                      context.read<AddManagerCubit>().deleteManager(manager.cid);
+                      context.managerBloc.deleteManager(manager.cid);
                     }
                   },
                   child: Container(

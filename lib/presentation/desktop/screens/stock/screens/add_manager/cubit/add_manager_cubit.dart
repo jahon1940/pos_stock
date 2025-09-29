@@ -9,11 +9,14 @@ import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 part 'add_manager_state.dart';
+
 part 'add_manager_cubit.freezed.dart';
 
 @injectable
 class AddManagerCubit extends Cubit<AddManagerState> {
-  AddManagerCubit(this._managerRepository) : super(AddManagerState());
+  AddManagerCubit(
+    this._managerRepository,
+  ) : super(const AddManagerState());
 
   final ManagerRepository _managerRepository;
 
@@ -21,33 +24,34 @@ class AddManagerCubit extends Cubit<AddManagerState> {
   final positionController = TextEditingController();
   final phoneController = TextEditingController();
 
-  void init(ManagerDto? manager) async {
+  void init(
+    ManagerDto? manager,
+  ) async {
     if (manager == null) return;
-
     nameController.text = manager.name ?? '';
     positionController.text = manager.position ?? '';
     phoneController.text = manager.phoneNumber ?? '';
-
     emit(state.copyWith(manager: manager));
   }
 
   void getManagers() async {
     emit(state.copyWith(status: StateStatus.loading));
-
     List<ManagerDto>? managers = await _managerRepository.getManagers();
     emit(state.copyWith(managers: managers, status: StateStatus.loaded));
   }
 
-  void createManager(BuildContext context) async {
-    if(nameController.text.isEmpty) {
+  void createManager(
+    BuildContext context,
+  ) async {
+    if (nameController.text.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Заполните все поля"),
+          title: const Text("Заполните все поля"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("ОК"),
+              child: const Text("ОК"),
             ),
           ],
         ),
@@ -80,14 +84,14 @@ class AddManagerCubit extends Cubit<AddManagerState> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Успешно"),
+        title: const Text("Успешно"),
         content: Text(isNew ? "Сотрудник создан" : "Сотрудник обновлён"),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("ОК"),
+            child: const Text("ОК"),
           ),
         ],
       ),
@@ -95,7 +99,9 @@ class AddManagerCubit extends Cubit<AddManagerState> {
     Navigator.pop(context);
   }
 
-  void deleteManager(String managerId) async {
+  void deleteManager(
+    String managerId,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     await _managerRepository.deleteManager(managerId);
     getManagers();

@@ -43,7 +43,7 @@ class ManagersScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.read<AddManagerCubit>().getManagers();
+      context.managerBloc.getManagers();
       return null;
     }, const []);
     final searchController = useTextEditingController();
@@ -87,9 +87,9 @@ class ManagersScreen extends HookWidget {
                   /// add button
                   AppUtils.kGap12,
                   GestureDetector(
-                    onTap: () => router.push(AddManagerRoute(organizations: organization)).then((_) {
-                      context.read<AddManagerCubit>().getManagers();
-                    }),
+                    onTap: () => router
+                        .push(AddManagerRoute(organizations: organization))
+                        .then((_) => context.managerBloc.getManagers()),
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),

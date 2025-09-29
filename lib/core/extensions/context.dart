@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
+import '../../presentation/desktop/screens/stock/screens/add_manager/cubit/add_manager_cubit.dart';
 
 extension BuildContextEntension<T> on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -163,4 +164,6 @@ extension BuildContextEntension<T> on BuildContext {
 
 extension BlocExtension on BuildContext {
   StockBloc get stockBloc => read<StockBloc>();
+
+  AddManagerCubit get managerBloc => read<AddManagerCubit>();
 }

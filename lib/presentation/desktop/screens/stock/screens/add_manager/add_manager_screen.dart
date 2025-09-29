@@ -26,94 +26,94 @@ class AddManagerScreen extends HookWidget implements AutoRouteWrapper {
   final CompanyDto organizations;
 
   @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Scaffold(
-        backgroundColor: AppColors.softGrey,
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: themeData.cardColor,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                ),
-                height: 60,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.primary500,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                          ),
-                          child: InkWell(
-                            onTap: () => context.pop(),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                              ),
+  Widget build(
+    BuildContext context,
+  ) =>
+      Scaffold(
+          backgroundColor: AppColors.softGrey,
+          body: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: context.theme.cardColor,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.primary500,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                             ),
-                          )),
-                    ),
-                    AppSpace.horizontal12,
-                    Text(
-                      'Сотрудник : ${managerDto?.name ?? ""}',
-                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-              AppSpace.vertical12,
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 24, 24),
-                        children: const [
-                          DetailsManager(),
-                          AppSpace.vertical24,
-                        ],
+                            child: InkWell(
+                              onTap: () => context.pop(),
+                              child: const Padding(
+                                padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
+                                child: Icon(Icons.arrow_back_ios, color: Colors.white),
+                              ),
+                            )),
                       ),
-                    ),
-                    SizedBox(
-                      height: double.maxFinite,
-                      width: 360,
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.fromLTRB(0, 11, 24, 24),
-                        children: const [
-                          ImageManager(),
-                          // AppSpace.vertical24,
-                          // ProductPublicationStatus()
-                        ],
+                      AppSpace.horizontal12,
+                      Text(
+                        'Сотрудник : ${managerDto?.name ?? ""}',
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+
+                ///
+                AppSpace.vertical12,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          padding: const EdgeInsets.fromLTRB(24, 10, 24, 24),
+                          children: const [
+                            DetailsManager(),
+                            AppSpace.vertical24,
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: double.maxFinite,
+                        width: 360,
+                        child: ListView(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.fromLTRB(0, 11, 24, 24),
+                          children: const [
+                            ImageManager(),
+                            // AppSpace.vertical24,
+                            // ProductPublicationStatus()
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(12),
-          child: const ManagerNavbar(),
-        ));
-  }
+          bottomNavigationBar: const Padding(
+            padding: EdgeInsets.all(12),
+            child: ManagerNavbar(),
+          ));
 
   @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AddManagerCubit>()..init(managerDto),
-      child: this,
-    );
-  }
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<AddManagerCubit>()..init(managerDto),
+        child: this,
+      );
 }
