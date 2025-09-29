@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_item_
 import '../../../../../../app/router.dart';
 import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/app_utils.dart';
+import '../../../../../../core/constants/dictionary.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../core/widgets/custom_box.dart';
@@ -84,27 +86,29 @@ class StocksScreen extends HookWidget {
                     AppUtils.kGap12,
                     BlocBuilder<StockBloc, StockState>(
                       buildWhen: (p, c) => p.stocks != c.stocks,
-                      builder: (context, state) => state.status.isLoading
-                          ? const Center(child: CupertinoActivityIndicator())
-                          : Expanded(
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(vertical: 12).withT0,
-                                itemCount: state.stocks.length,
-                                separatorBuilder: (context, index) => AppUtils.kGap12,
-                                itemBuilder: (context, i) {
-                                  final stock = state.stocks.elementAt(i);
-                                  return TableItemWidget(
-                                    leadingLabel: stock.id.toString(),
-                                    bodyLabel: stock.name,
-                                    onTap: () async {
-                                      context.stockBloc.add(StockEvent.searchSupplies(stock.id, true));
-                                      await router.push(StockItemRoute(stock: stock, organization: organization));
+                      builder: (context, state) => Expanded(
+                        child: state.status.isLoading
+                            ? const Center(child: CupertinoActivityIndicator())
+                            : state.stocks.isEmpty
+                                ? Center(child: Text(context.tr(Dictionary.not_found)))
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                    itemCount: state.stocks.length,
+                                    separatorBuilder: (context, index) => AppUtils.kGap12,
+                                    itemBuilder: (context, i) {
+                                      final stock = state.stocks.elementAt(i);
+                                      return TableItemWidget(
+                                        leadingLabel: stock.id.toString(),
+                                        bodyLabel: stock.name,
+                                        onTap: () async {
+                                          context.stockBloc.add(StockEvent.searchSupplies(stock.id, true));
+                                          await router.push(StockItemRoute(stock: stock, organization: organization));
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                              ),
-                            ),
+                                  ),
+                      ),
                     )
                   ],
                 ),
