@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/router.dart';
-import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
@@ -12,6 +12,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/list_supplies.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/title_supplies.dart';
 import '../../../../../app/router.gr.dart';
+import '../../../../../core/constants/dictionary.dart';
 import '../../../../../core/constants/spaces.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/widgets/custom_box.dart';
@@ -33,13 +34,12 @@ class Supplies extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      context.supplierBloc.getSuppliers();
-      context.read<StockBloc>().add(StockEvent.searchSupplies(stock.id, true));
+      context
+        ..supplierBloc.getSuppliers()
+        ..stockBloc.add(StockEvent.searchSupplies(stock.id, true));
       return null;
     }, const []);
 
-    ThemeData themeData = Theme.of(context);
-    final bloc = context.read<StockBloc>();
     final fromController = useTextEditingController();
     final toController = useTextEditingController();
     final supplierController = useTextEditingController();
@@ -49,7 +49,7 @@ class Supplies extends HookWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: themeData.cardColor,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
             ),
@@ -58,6 +58,7 @@ class Supplies extends HookWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
+                  ///
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
@@ -72,7 +73,9 @@ class Supplies extends HookWidget {
                       ),
                     ),
                   ),
-                  AppSpace.horizontal12,
+
+                  ///
+                  AppUtils.kGap12,
                   BlocBuilder<SupplierCubit, SupplierState>(
                     builder: (context, state) {
                       return Padding(
@@ -118,9 +121,11 @@ class Supplies extends HookWidget {
                       );
                     },
                   ),
-                  AppSpace.horizontal12,
-                  BlocBuilder<StockBloc, StockState>(builder: (context, state) {
-                    return Row(
+
+                  ///
+                  AppUtils.kGap12,
+                  BlocBuilder<StockBloc, StockState>(
+                    builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
@@ -141,8 +146,7 @@ class Supplies extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    bloc.add(StockEvent.dateFrom(picked));
-
+                                    context.stockBloc.add(StockEvent.dateFrom(picked));
                                     fromController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -150,8 +154,11 @@ class Supplies extends HookWidget {
                                   child: AppTextField(
                                     width: 150,
                                     label: "От: ",
-                                    labelStyle:
-                                        const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w300),
+                                    labelStyle: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w300,
+                                    ),
                                     readOnly: true,
                                     enabledBorderWith: 1,
                                     enabledBorderColor: AppColors.stroke,
@@ -179,7 +186,7 @@ class Supplies extends HookWidget {
                                   );
 
                                   if (picked != null) {
-                                    bloc.add(StockEvent.dateTo(picked));
+                                    context.stockBloc.add(StockEvent.dateTo(picked));
                                     toController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -222,9 +229,11 @@ class Supplies extends HookWidget {
                           ],
                         ),
                       ],
-                    );
-                  }),
-                  AppSpace.horizontal12,
+                    ),
+                  ),
+
+                  ///
+                  AppUtils.kGap12,
                   GestureDetector(
                     onTap: () async => router.push(AddSuppliesRoute(
                       stock: stock,
@@ -248,50 +257,40 @@ class Supplies extends HookWidget {
               ),
             ),
           ),
-          AppSpace.vertical12,
+
+          ///
+          AppUtils.kGap12,
           Expanded(
             child: CustomBox(
               child: Column(
                 children: [
-                  const TitleSupplies(
-                    isSupplies: true,
-                  ),
+                  const TitleSupplies(isSupplies: true),
+
+                  ///
                   BlocBuilder<StockBloc, StockState>(
                     buildWhen: (previous, current) => previous.supplies != current.supplies,
-                    builder: (context, state) {
-                      if (state.status == StateStatus.loading) {
-                        return const Expanded(child: Center(child: CircularProgressIndicator()));
-                      } else if (state.status == StateStatus.loaded) {
-                        return Expanded(
-                          child: state.supplies?.results == []
-                              ? const SizedBox()
+                    builder: (context, state) => Expanded(
+                      child: state.status.isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : (state.supplies?.results ?? []).isEmpty
+                              ? Center(child: Text(context.tr(Dictionary.not_found)))
                               : ListView.separated(
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                                  itemBuilder: (context, index) => state.inventories?.results == []
-                                      ? const SizedBox()
-                                      : SuppliesList(
-                                          organization: organization,
-                                          stock: stock,
-                                          admission: state.supplies!.results[index],
-                                          onDelete: () async {
-                                            final bloc = context.read<StockBloc>();
-                                            final res = await context.showCustomDialog(
-                                              const DeleteProductWidget(),
-                                            );
-
-                                            if (res == null) return;
-
-                                            bloc.add(StockEvent.deleteSupply(state.supplies!.results[index].id));
-                                          },
-                                        ),
-                                  separatorBuilder: (context, index) => AppSpace.vertical12,
                                   itemCount: state.supplies!.results.length,
+                                  separatorBuilder: (_, __) => AppUtils.kGap12,
+                                  itemBuilder: (_, index) => SuppliesList(
+                                    organization: organization,
+                                    stock: stock,
+                                    admission: state.supplies!.results[index],
+                                    onDelete: () async {
+                                      final res = await context.showCustomDialog(const DeleteProductWidget());
+                                      if (res == null) return;
+                                      context.stockBloc.add(StockEvent.deleteSupply(state.supplies!.results[index].id));
+                                    },
+                                  ),
                                 ),
-                        );
-                      }
-                      return const Center(child: Text("Ошибка загрузки"));
-                    },
+                    ),
                   )
                 ],
               ),
