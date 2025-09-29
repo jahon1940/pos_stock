@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../presentation/desktop/screens/stock/screens/manager/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
+import '../../presentation/desktop/screens/stock/screens/supplier/cubit/supplier_cubit.dart';
 
 extension BuildContextEntension<T> on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -147,14 +148,15 @@ extension BuildContextEntension<T> on BuildContext {
             );
           });
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(dynamic message) {
-    return ScaffoldMessenger.of(this).showSnackBar(
-      SnackBar(
-        content: message is String ? Text(message) : message,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
+    dynamic message,
+  ) =>
+      ScaffoldMessenger.of(this).showSnackBar(
+        SnackBar(
+          content: message is String ? Text(message) : message,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
 
   void removeSnackBar() => ScaffoldMessenger.of(this).removeCurrentSnackBar();
 
@@ -167,6 +169,8 @@ extension BlocExtension on BuildContext {
   OrganizationCubit get organizationBloc => read<OrganizationCubit>();
 
   StockBloc get stockBloc => read<StockBloc>();
+
+  SupplierCubit get supplierBloc => read<SupplierCubit>();
 
   ManagerCubit get managerBloc => read<ManagerCubit>();
 }

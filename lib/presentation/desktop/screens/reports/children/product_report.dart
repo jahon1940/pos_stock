@@ -24,7 +24,7 @@ import '../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../dialogs/search/cubit/fast_search_bloc.dart';
 import '../../../dialogs/search/search_dialog.dart';
 import '../../search/cubit/search_bloc.dart';
-import '../../stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
+import '../../stock/screens/supplier/cubit/supplier_cubit.dart';
 import 'cubit/reports_cubit.dart';
 
 @RoutePage()
@@ -35,7 +35,7 @@ class ProductReportScreen extends HookWidget {
   Widget build(BuildContext context) {
     useEffect(() {
       context.read<ReportsCubit>().getReports();
-      context.read<AddContractorCubit>().getSuppliers();
+      context.read<SupplierCubit>().getSuppliers();
       context.read<CategoryBloc>().add(GetCategory());
       return null;
     }, const []);
@@ -152,7 +152,7 @@ class ProductReportScreen extends HookWidget {
                           },
                         ),
                         AppSpace.horizontal12,
-                        BlocBuilder<AddContractorCubit, AddContractorState>(
+                        BlocBuilder<SupplierCubit, SupplierState>(
                           builder: (context, state) {
                             return Padding(
                               padding: const EdgeInsets.all(3),
@@ -284,8 +284,8 @@ class ProductReportScreen extends HookWidget {
                                       height: 60,
                                       child: Padding(
                                         padding: EdgeInsets.all(8),
-                                        child: BlocBuilder<AddContractorCubit,
-                                            AddContractorState>(
+                                        child: BlocBuilder<SupplierCubit,
+                                            SupplierState>(
                                           builder: (context, state) {
                                             return Text(
                                               "Всего поставщиков: \n ( ${state.suppliers?.length ?? ""} )",

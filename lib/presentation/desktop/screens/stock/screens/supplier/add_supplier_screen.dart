@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/di.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/widgets/contractor_navbar.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/widgets/details_contractor.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/widgets/image_contractor.dart';
+
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../data/dtos/company/company_dto.dart';
+import 'widgets/supplier_details_widget.dart';
+import 'cubit/supplier_cubit.dart';
+import 'widgets/image_supplier.dart';
+import 'widgets/supplier_navbar.dart';
 
 @RoutePage()
-class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
-  const AddContractorScreen(
+class AddSupplierScreen extends HookWidget implements AutoRouteWrapper {
+  const AddSupplierScreen(
     this.organizations, {
     super.key,
     this.supplierDto,
@@ -26,19 +28,20 @@ class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
   final CompanyDto organizations;
 
   @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Scaffold(
+  Widget build(
+    BuildContext context,
+  ) =>
+      Scaffold(
         backgroundColor: AppColors.softGrey,
         body: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: AppUtils.kPaddingAll12,
           child: Column(
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: themeData.cardColor,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
@@ -49,12 +52,12 @@ class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                            boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
                             onTap: () => context.pop(),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -77,7 +80,7 @@ class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
                       child: ListView(
                         padding: const EdgeInsets.fromLTRB(24, 10, 24, 24),
                         children: const [
-                          DetailsContractor(),
+                          SupplierDetailsWidget(),
                           AppSpace.vertical24,
                         ],
                       ),
@@ -89,7 +92,7 @@ class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
                         shrinkWrap: true,
                         padding: const EdgeInsets.fromLTRB(0, 11, 24, 24),
                         children: const [
-                          ImageContractor(),
+                          ImageSupplier(),
                           // AppSpace.vertical24,
                           // ProductPublicationStatus()
                         ],
@@ -101,17 +104,18 @@ class AddContractorScreen extends HookWidget implements AutoRouteWrapper {
             ],
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(12),
-          child: const ContractorNavbar(),
-        ));
-  }
+        bottomNavigationBar: const Padding(
+          padding: EdgeInsets.all(12),
+          child: SupplierNavbar(),
+        ),
+      );
 
   @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AddContractorCubit>()..init(supplierDto),
-      child: this,
-    );
-  }
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<SupplierCubit>()..init(supplierDto),
+        child: this,
+      );
 }

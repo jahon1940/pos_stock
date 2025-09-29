@@ -7,7 +7,7 @@ import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/data/dtos/product_in_stocks_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplier/cubit/supplier_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/title_products.dart';
 import '../../../../../app/router.gr.dart';
 import '../../../../../core/constants/spaces.dart';
@@ -56,7 +56,7 @@ class StockProducts extends HookWidget {
               .add(LoadMoreSearch(remote: selectedFilter.value == "remote"));
         }
       });
-      context.read<AddContractorCubit>().getSuppliers();
+      context.read<SupplierCubit>().getSuppliers();
       context.read<CategoryBloc>().add(GetCategory());
       context
           .read<SearchBloc>()
@@ -150,7 +150,7 @@ class StockProducts extends HookWidget {
                               },
                             ),
                             AppSpace.horizontal12,
-                            BlocBuilder<AddContractorCubit, AddContractorState>(
+                            BlocBuilder<SupplierCubit, SupplierState>(
                               builder: (context, state) {
                                 return Padding(
                                   padding: const EdgeInsets.all(3),

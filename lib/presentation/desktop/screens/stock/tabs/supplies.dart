@@ -17,7 +17,7 @@ import '../../../../../core/widgets/custom_box.dart';
 import '../../../../../core/widgets/text_field.dart';
 import '../../../../../data/dtos/company/company_dto.dart';
 import '../../search/cubit/search_bloc.dart';
-import '../screens/add_contractor/cubit/add_contractor_cubit.dart';
+import '../screens/supplier/cubit/supplier_cubit.dart';
 
 class Supplies extends HookWidget {
   const Supplies(
@@ -31,7 +31,7 @@ class Supplies extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      context.read<AddContractorCubit>().getSuppliers();
+      context.read<SupplierCubit>().getSuppliers();
       context.read<StockBloc>().add(StockEvent.searchSupplies(stock.id, true));
       return null;
     }, const []);
@@ -72,7 +72,7 @@ class Supplies extends HookWidget {
                     ),
                   ),
                   AppSpace.horizontal12,
-                  BlocBuilder<AddContractorCubit, AddContractorState>(
+                  BlocBuilder<SupplierCubit, SupplierState>(
                     builder: (context, state) {
                       return Padding(
                         padding: const EdgeInsets.all(3),

@@ -24,7 +24,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/settings/blocs/update_cub
 import 'package:hoomo_pos/presentation/desktop/screens/settings/cubit/settings_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/shifts/cubit/shift_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/cubit/add_contractor_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplier/cubit/supplier_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/supplies_1c/bloc/supplies_1c_bloc.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ void main() async {
                 BlocProvider(create: (context) => getIt<SearchBloc>()),
                 BlocProvider(create: (context) => getIt<CompanySearchBloc>()),
                 BlocProvider(create: (context) => getIt<ContractBloc>()),
-                BlocProvider(create: (context) => getIt<AddContractorCubit>()),
+                BlocProvider(create: (context) => getIt<SupplierCubit>()),
 
                 /// stock
                 BlocProvider(create: (context) => getIt<OrganizationCubit>()),

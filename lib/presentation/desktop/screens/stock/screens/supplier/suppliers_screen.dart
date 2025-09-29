@@ -13,12 +13,12 @@ import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../core/widgets/product_table_item.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../data/dtos/suppliers/supplier_dto.dart';
 import '../../widgets/back_button_widget.dart';
 import '../../widgets/title_person.dart';
-import '../add_contractor/cubit/add_contractor_cubit.dart';
+import 'cubit/supplier_cubit.dart';
 
 @RoutePage()
 class SuppliersScreen extends HookWidget {
@@ -34,7 +34,7 @@ class SuppliersScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.read<AddContractorCubit>().getSuppliers();
+      context.supplierBloc.getSuppliers();
       return null;
     }, const []);
     final searchController = useTextEditingController();
@@ -78,9 +78,9 @@ class SuppliersScreen extends HookWidget {
                   /// add button
                   AppUtils.kGap12,
                   GestureDetector(
-                    onTap: () => router.push(AddContractorRoute(organizations: organization)).then((_) {
-                      context.read<AddContractorCubit>().getSuppliers();
-                    }),
+                    onTap: () => router
+                        .push(AddSupplierRoute(organizations: organization))
+                        .then((_) => context.supplierBloc.getSuppliers()),
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
@@ -106,7 +106,7 @@ class SuppliersScreen extends HookWidget {
                 child: Column(
                   children: [
                     const TitlePerson(),
-                    BlocBuilder<AddContractorCubit, AddContractorState>(
+                    BlocBuilder<SupplierCubit, SupplierState>(
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading && state.suppliers == null
                             ? const Center(child: CircularProgressIndicator())
@@ -160,11 +160,11 @@ class SuppliersScreen extends HookWidget {
                                                   children: [
                                                     GestureDetector(
                                                       onTap: () => router
-                                                          .push(AddContractorRoute(
-                                                              supplierDto: supplier, organizations: organization))
-                                                          .then((_) {
-                                                        context.read<AddContractorCubit>().getSuppliers();
-                                                      }),
+                                                          .push(AddSupplierRoute(
+                                                            supplierDto: supplier,
+                                                            organizations: organization,
+                                                          ))
+                                                          .then((_) => context.supplierBloc.getSuppliers()),
                                                       child: Container(
                                                         decoration: BoxDecoration(
                                                           color: AppColors.primary500,
@@ -208,9 +208,7 @@ class SuppliersScreen extends HookWidget {
                                                         );
 
                                                         if (confirm == true) {
-                                                          context
-                                                              .read<AddContractorCubit>()
-                                                              .deleteSupplier(supplier.id);
+                                                          context.read<SupplierCubit>().deleteSupplier(supplier.id);
                                                         }
                                                       },
                                                       child: Container(

@@ -5,36 +5,32 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 
-class ImageContractor extends HookWidget {
-  const ImageContractor({
+class ImageSupplier extends HookWidget {
+  const ImageSupplier({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    int drag = 1;
-    final oneCTitleController = useTextEditingController();
-    final barcodeController = useTextEditingController();
-    final codeController = useTextEditingController();
-    final quantityController = useTextEditingController();
-    List<TextEditingController> charactersDescriptionController = [
-      TextEditingController()
-    ];
-    List<TextEditingController> charactersController = [
-      TextEditingController()
-    ];
+  Widget build(
+    BuildContext context,
+  ) {
+    // int drag = 1;
+    // final oneCTitleController = useTextEditingController();
+    // final barcodeController = useTextEditingController();
+    // final codeController = useTextEditingController();
+    // final quantityController = useTextEditingController();
+    // List<TextEditingController> charactersDescriptionController = [TextEditingController()];
+    // List<TextEditingController> charactersController = [TextEditingController()];
     return CustomBox(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: SizedBox(
           height: context.height * .43,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 'Фото',
-                style: AppTextStyles.boldType14
-                    .copyWith(fontWeight: FontWeight.w500),
+                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500),
               ),
               AppSpace.vertical24,
               // DraggableFile(

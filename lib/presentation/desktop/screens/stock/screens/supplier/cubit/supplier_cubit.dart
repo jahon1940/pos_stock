@@ -7,15 +7,15 @@ import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 import 'package:hoomo_pos/domain/repositories/supplier_repository.dart';
 import 'package:injectable/injectable.dart';
 
-part 'add_contractor_state.dart';
+part 'supplier_state.dart';
 
-part 'add_contractor_cubit.freezed.dart';
+part 'supplier_cubit.freezed.dart';
 
 @injectable
-class AddContractorCubit extends Cubit<AddContractorState> {
-  AddContractorCubit(
+class SupplierCubit extends Cubit<SupplierState> {
+  SupplierCubit(
     this._supplierRepository,
-  ) : super(AddContractorState());
+  ) : super(const SupplierState());
 
   final SupplierRepository _supplierRepository;
 
@@ -23,13 +23,13 @@ class AddContractorCubit extends Cubit<AddContractorState> {
   final tinController = TextEditingController();
   final phoneController = TextEditingController();
 
-  void init(SupplierDto? supplier) async {
+  void init(
+    SupplierDto? supplier,
+  ) async {
     if (supplier == null) return;
-
     nameController.text = supplier.name ?? '';
     tinController.text = supplier.inn ?? '';
     phoneController.text = supplier.phoneNumber ?? '';
-
     emit(state.copyWith(supplier: supplier));
   }
 
@@ -45,14 +45,14 @@ class AddContractorCubit extends Cubit<AddContractorState> {
 
   void createContractor(BuildContext context) async {
     if (nameController.text.isEmpty) {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Заполните все поля"),
+          title: const Text("Заполните все поля"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("ОК"),
+              child: const Text("ОК"),
             ),
           ],
         ),
@@ -82,17 +82,17 @@ class AddContractorCubit extends Cubit<AddContractorState> {
     }
 
     // Показываем диалог
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Успешно"),
+        title: const Text("Успешно"),
         content: Text(isNew ? "Поставщик создан" : "Поставщик обновлён"),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("ОК"),
+            child: const Text("ОК"),
           ),
         ],
       ),
