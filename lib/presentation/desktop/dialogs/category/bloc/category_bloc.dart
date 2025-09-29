@@ -3,15 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
 import 'package:hoomo_pos/domain/repositories/category.dart';
-import 'package:hoomo_pos/domain/repositories/companies.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
-import '../../../../../data/dtos/add_user/add_user_request.dart';
 import '../../../../../data/dtos/category/category_dto.dart';
 
 part 'category_state.dart';
@@ -24,7 +18,7 @@ part 'category_bloc.freezed.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository _categoryRepository;
 
-  CategoryBloc(this._categoryRepository) : super(CategoryState()) {
+  CategoryBloc(this._categoryRepository) : super(const CategoryState()) {
     on<GetCategory>(_getCategory);
     on<GetCategoryId>(_getCategoryId);
     on<CreateCategory>(_createCategory);
@@ -32,8 +26,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<DeleteCategoryId>(_deleteId);
   }
 
-  Future<void> _getCategory(
-      GetCategory event, Emitter<CategoryState> emit) async {
+  Future<void> _getCategory(GetCategory event, Emitter<CategoryState> emit) async {
     if (state.status == StateStatus.loading) return;
 
     try {
@@ -50,8 +43,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
-  Future<void> _getCategoryId(
-      GetCategoryId event, Emitter<CategoryState> emit) async {
+  Future<void> _getCategoryId(GetCategoryId event, Emitter<CategoryState> emit) async {
     if (state.status == StateStatus.loading) return;
 
     try {
@@ -68,8 +60,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
-  Future<void> _createCategory(
-      CreateCategory event, Emitter<CategoryState> emit) async {
+  Future<void> _createCategory(CreateCategory event, Emitter<CategoryState> emit) async {
     if (state.status == StateStatus.loading) return;
 
     try {
@@ -85,23 +76,20 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
-  Future<void> _updateCategory(
-      UpdateCategory event, Emitter<CategoryState> emit) async {
+  Future<void> _updateCategory(UpdateCategory event, Emitter<CategoryState> emit) async {
     if (state.status == StateStatus.loading) return;
 
     try {
       emit(state.copyWith(status: StateStatus.loading));
 
-      final res =
-          await _categoryRepository.updateCategory(event.id!, event.request);
+      final res = await _categoryRepository.updateCategory(event.id!, event.request);
       add(GetCategory());
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future<void> _deleteId(
-      DeleteCategoryId event, Emitter<CategoryState> emit) async {
+  Future<void> _deleteId(DeleteCategoryId event, Emitter<CategoryState> emit) async {
     emit(state.copyWith(
       status: StateStatus.loading,
     ));

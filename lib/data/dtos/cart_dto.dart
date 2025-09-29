@@ -5,7 +5,7 @@ import 'package:hoomo_pos/data/dtos/reserve_dto.dart';
 
 import 'cart_price_dto.dart';
 import 'cart_product_dto.dart';
-import 'company_dto.dart';
+import 'company/company_dto.dart';
 import 'contract_dto.dart';
 
 part 'cart_dto.freezed.dart';

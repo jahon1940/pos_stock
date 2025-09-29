@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
@@ -21,7 +21,7 @@ part 'company_search_bloc.freezed.dart';
 class CompanySearchBloc extends Bloc<CompanySearchEvent, CompanySearchState> {
   final CompaniesRepository _companiesRepository;
 
-  CompanySearchBloc(this._companiesRepository) : super(CompanySearchState()) {
+  CompanySearchBloc(this._companiesRepository) : super(const CompanySearchState()) {
     on<CompanySearchTextChanged>(_onSearchTextChanged,
         transformer: _debounce());
     on<CompanyLoadMore>(_onLoadMore);

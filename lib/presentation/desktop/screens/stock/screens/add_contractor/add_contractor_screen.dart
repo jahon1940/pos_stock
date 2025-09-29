@@ -12,7 +12,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contrac
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_contractor/widgets/image_contractor.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
-import '../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 
 @RoutePage()
 class AddContractorScreen extends HookWidget implements AutoRouteWrapper {

@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
 import 'package:hoomo_pos/data/sources/local/tables/company_table.dart';
@@ -10,7 +10,7 @@ part 'company_dao.g.dart';
 @DriftAccessor(tables: [CompaniesTable])
 @lazySingleton
 class CompanyDao extends DatabaseAccessor<AppDatabase> with _$CompanyDaoMixin {
-  CompanyDao(AppDatabase db) : super(db);
+  CompanyDao(super.db);
 
   int _totalPages = 1;
   int _totalCount = 0;
@@ -56,16 +56,11 @@ class CompanyDao extends DatabaseAccessor<AppDatabase> with _$CompanyDaoMixin {
     return ((totalCount ?? 0) / itemsPerPage).ceil();
   }
 
-  Future<void> insertCompanies(List<Companies> product) async {
-    return await batch((batch) {
-      batch.insertAll(companiesTable, product,
-          mode: InsertMode.insertOrReplace);
-    });
-  }
+  Future<void> insertCompanies(List<Companies> product) async => batch((batch) {
+        batch.insertAll(companiesTable, product, mode: InsertMode.insertOrReplace);
+      });
 
-  Future<List<Companies>> getAll() async {
-    return await (select(companiesTable)).get();
-  }
+  Future<List<Companies>> getAll() async => (select(companiesTable)).get();
 
   Future<PaginatedDto<CompanyDto>> searchPaginatedItems({
     int page = 1,
@@ -79,10 +74,8 @@ class CompanyDao extends DatabaseAccessor<AppDatabase> with _$CompanyDaoMixin {
 
     // Фильтрация по barcode, title и vendorCode
     if (searchQuery != null && searchQuery.isNotEmpty) {
-      query.where((t) =>
-          t.name.like('%$searchQuery%') |
-          t.full_name.like('%$searchQuery%') |
-          t.inn.like('%$searchQuery%'));
+      query.where(
+          (t) => t.name.like('%$searchQuery%') | t.full_name.like('%$searchQuery%') | t.inn.like('%$searchQuery%'));
     }
 
     final results = await query.get();
@@ -102,20 +95,13 @@ class CompanyDao extends DatabaseAccessor<AppDatabase> with _$CompanyDaoMixin {
     final query = selectOnly(companiesTable)..addColumns([countAll()]);
 
     if (searchQuery != null && searchQuery.isNotEmpty) {
-      final barcodeResults = await (select(companiesTable)
-            ..where((t) => t.name.like('%$searchQuery%')))
-          .get();
+      final barcodeResults = await (select(companiesTable)..where((t) => t.name.like('%$searchQuery%'))).get();
 
-      final titleResults = await (select(companiesTable)
-            ..where((t) => t.full_name.like('%$searchQuery%')))
-          .get();
+      final titleResults = await (select(companiesTable)..where((t) => t.full_name.like('%$searchQuery%'))).get();
 
-      final vendorCodeResults = await (select(companiesTable)
-            ..where((t) => t.inn.like('%$searchQuery%')))
-          .get();
+      final vendorCodeResults = await (select(companiesTable)..where((t) => t.inn.like('%$searchQuery%'))).get();
 
-      final allResults =
-          {...barcodeResults, ...titleResults, ...vendorCodeResults}.toList();
+      final allResults = {...barcodeResults, ...titleResults, ...vendorCodeResults}.toList();
       return allResults.length;
     }
 

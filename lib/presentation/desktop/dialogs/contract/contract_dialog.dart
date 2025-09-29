@@ -10,7 +10,7 @@ import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/product_table_title.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/contract_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/contract/widgets/create_contract.dart';
 

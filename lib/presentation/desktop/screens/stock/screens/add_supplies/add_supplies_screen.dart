@@ -12,7 +12,7 @@ import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
-import '../../../../../../data/dtos/company_dto.dart';
+import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../data/dtos/stock_dto.dart';
 import 'cubit/add_supplies_cubit.dart';
 

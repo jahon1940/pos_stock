@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:hoomo_pos/core/constants/network.dart';
 import 'package:hoomo_pos/core/network/dio_client.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/company_bonus_dto.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
@@ -39,11 +39,9 @@ class CompaniesApiImpl implements CompaniesApi {
   }
 
   @override
-  Future<PaginatedDto<Companies>> getCompanies(int page,
-      {CancelToken? cancelToken}) async {
+  Future<PaginatedDto<Companies>> getCompanies(int page, {CancelToken? cancelToken}) async {
     try {
-      final res = await _dioClient.getRequest<PaginatedDto<Companies>>(
-          NetworkConstants.companies,
+      final res = await _dioClient.getRequest<PaginatedDto<Companies>>(NetworkConstants.companies,
           queryParameters: {"page": page, "page_size": 100},
           converter: (response) => PaginatedDto.fromJson(
                 response,
@@ -60,10 +58,8 @@ class CompaniesApiImpl implements CompaniesApi {
   @override
   Future<CompanyDto> getCompany(int id, {CancelToken? cancelToken}) async {
     try {
-      final res = await _dioClient.getRequest<CompanyDto>(
-          "${NetworkConstants.companies}/$id",
-          converter: (response) => CompanyDto.fromJson(response),
-          cancelToken: cancelToken);
+      final res = await _dioClient.getRequest<CompanyDto>("${NetworkConstants.companies}/$id",
+          converter: (response) => CompanyDto.fromJson(response), cancelToken: cancelToken);
       return res;
     } catch (e) {
       rethrow;
@@ -80,8 +76,7 @@ class CompaniesApiImpl implements CompaniesApi {
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? "Server Error", e.response?.statusCode ?? 500);
       }
       rethrow;
     }

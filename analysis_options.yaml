@@ -17,6 +17,7 @@ analyzer:
     no_literal_bool_comparisons: warning
     prefer_const_constructors: warning
     unnecessary_await_in_return: warning
+    directives_ordering: warning
 
     #ignores
     use_build_context_synchronously: ignore
@@ -35,4 +36,5 @@ linter:
     - use_build_context_synchronously
     - prefer_const_constructors
     - unnecessary_await_in_return
+    - directives_ordering
 

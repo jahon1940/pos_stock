@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/company_bonus_dto.dart';
-import 'package:hoomo_pos/data/dtos/company_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
@@ -34,8 +34,7 @@ class CompaniesRepositoryImpl implements CompaniesRepository {
   @override
   Future<(int, int)> synchronize(int page, {CancelToken? cancelToken}) async {
     try {
-      final response =
-          await _companiesApi.getCompanies(page, cancelToken: cancelToken);
+      final response = await _companiesApi.getCompanies(page, cancelToken: cancelToken);
       await _companiesDao.insertCompanies(response.results);
       return (response.pageNumber, response.totalPages);
     } catch (e) {
