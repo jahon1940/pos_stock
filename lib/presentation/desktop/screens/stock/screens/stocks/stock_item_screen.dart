@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
@@ -154,11 +153,7 @@ class StockItemScreen extends HookWidget {
                         child: PopupMenuButton<SampleItem>(
                           initialValue: selectedItem,
                           onSelected: (SampleItem item) {},
-                          icon: const Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                            size: 25,
-                          ),
+                          icon: const Icon(Icons.menu, color: Colors.white, size: 25),
                           itemBuilder: (BuildContext context) => [
                             PopupMenuItem<SampleItem>(
                               onTap: () async {
@@ -201,7 +196,7 @@ class StockItemScreen extends HookWidget {
               ),
 
               /// body
-              AppSpace.vertical12,
+              AppUtils.kGap12,
               Expanded(
                 child: TabBarView(
                   children: <Widget>[

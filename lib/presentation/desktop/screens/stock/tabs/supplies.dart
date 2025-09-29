@@ -32,7 +32,9 @@ class Supplies extends HookWidget {
   final CompanyDto organization;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     useEffect(() {
       context
         ..supplierBloc.getSuppliers()
@@ -90,12 +92,9 @@ class Supplies extends HookWidget {
                             hintText: 'Выбор поставщика',
                             textStyle: const TextStyle(fontSize: 11),
                             controller: supplierController,
-                            onSelected: (value) {
-                              context.read<SearchBloc>().add(
-                                    SelectSupplier(id: value),
-                                  );
-                              context.read<StockBloc>().add(StockEvent.selectedSupplier(value));
-                            },
+                            onSelected: (value) => context
+                              ..read<SearchBloc>().add(SelectSupplier(id: value))
+                              ..stockBloc.add(StockEvent.selectedSupplier(value)),
                             inputDecorationTheme: InputDecorationTheme(
                               hintStyle: const TextStyle(fontSize: 11),
                               isDense: true,
@@ -208,9 +207,7 @@ class Supplies extends HookWidget {
                             ),
                             AppSpace.horizontal24,
                             GestureDetector(
-                              onTap: () async {
-                                context.read<StockBloc>().add(StockEvent.searchSupplies(stock.id, false));
-                              },
+                              onTap: () => context.stockBloc.add(StockEvent.searchSupplies(stock.id, false)),
                               child: Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration:
