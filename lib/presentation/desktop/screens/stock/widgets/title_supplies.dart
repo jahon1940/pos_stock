@@ -17,7 +17,7 @@ class TitleSupplies extends StatelessWidget {
       height: 50,
       child: TableTitleProducts(
         fillColor: AppColors.stroke,
-        columnWidths: isSupplies == true
+        columnWidths: isSupplies
             ? const {
                 0: FlexColumnWidth(2),
                 1: FlexColumnWidth(2),
@@ -32,15 +32,8 @@ class TitleSupplies extends StatelessWidget {
                 2: FlexColumnWidth(2),
                 3: FlexColumnWidth(2),
               },
-        titles: isSupplies == true
-            ? [
-                'Номер',
-                'Дата создания',
-                'Поставщик',
-                'Продукты',
-                'Сумма прихода',
-                'Действия'
-              ]
+        titles: isSupplies
+            ? ['Номер', 'Дата создания', 'Поставщик', 'Продукты', 'Сумма прихода', 'Действия']
             : ['Номер', 'Дата создания', 'Продукты', 'Действия'],
       ),
     );

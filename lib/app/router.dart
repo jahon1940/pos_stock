@@ -58,6 +58,7 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: OrganizationRoute.page, initial: true),
                 AutoRoute(page: StocksRoute.page),
                 AutoRoute(page: StockItemRoute.page),
+                AutoRoute(page: SuppliesRoute.page),
                 //
                 AutoRoute(page: AddSuppliesRoute.page),
                 AutoRoute(page: AddTransferRoute.page),
