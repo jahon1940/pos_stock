@@ -6,24 +6,26 @@ import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 
-import '../../../../../core/constants/spaces.dart';
-import '../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../../../core/constants/spaces.dart';
+import '../../../../../../../../../data/dtos/company/company_dto.dart';
+import '../../../../../../../../../data/dtos/stock_dto.dart';
 
 class SuppliesList extends StatelessWidget {
-  const SuppliesList(
-      {super.key,
-      required this.admission,
-      this.onDelete,
-      required this.stock,
-      required this.organization});
+  const SuppliesList({
+    super.key,
+    required this.admission,
+    this.onDelete,
+    required this.stock,
+    required this.organization,
+  });
+
   final StockDto stock;
   final SupplyDto admission;
   final VoidCallback? onDelete;
   final CompanyDto organization;
+
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
     return TableProductItem(
       columnWidths: const {
         0: FlexColumnWidth(2),
@@ -34,8 +36,7 @@ class SuppliesList extends StatelessWidget {
         5: FlexColumnWidth(2),
       },
       onTap: () async {
-        await router.push(AddSuppliesRoute(
-            supply: admission, stock: stock, organization: organization));
+        await router.push(AddSuppliesRoute(supply: admission, stock: stock, organization: organization));
       },
       children: [
         SizedBox(
@@ -97,13 +98,11 @@ class SuppliesList extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.primary500,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                        ],
+                        boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                       ),
                       height: 40,
                       width: 40,
-                      child: Icon(
+                      child: const Icon(
                         Icons.edit,
                         color: Colors.white,
                       ),
@@ -116,13 +115,11 @@ class SuppliesList extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.error500,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                        ],
+                        boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                       ),
                       height: 40,
                       width: 40,
-                      child: Icon(
+                      child: const Icon(
                         Icons.delete,
                         color: Colors.white,
                       ),

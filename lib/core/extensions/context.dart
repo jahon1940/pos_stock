@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import '../../presentation/desktop/screens/manager/children/cubit/manager_cubit.dart';
+import '../../presentation/desktop/screens/reports/children/cubit/reports_cubit.dart';
 import '../../presentation/desktop/screens/search/cubit/search_bloc.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
@@ -175,4 +177,8 @@ extension BlocExtension on BuildContext {
   ManagerCubit get managerBloc => read<ManagerCubit>();
 
   SearchBloc get searchBloc => read<SearchBloc>();
+
+  ReportsCubit get reportsBloc => read<ReportsCubit>();
+
+  CategoryBloc get categoryBloc => read<CategoryBloc>();
 }

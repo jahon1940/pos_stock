@@ -22,7 +22,6 @@ import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
-import '../../../../../reports/children/cubit/reports_cubit.dart';
 import '../../../../../search/cubit/search_bloc.dart';
 import '../../../../../supplier/children/cubit/supplier_cubit.dart';
 import '../../../../widgets/back_button_widget.dart';
@@ -57,13 +56,13 @@ class StockProductsScreen extends HookWidget {
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
-          context.read<SearchBloc>().add(LoadMoreSearch(remote: selectedFilter.value == "remote"));
+          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == "remote"));
         }
       });
       context.supplierBloc.getSuppliers();
-      context.read<CategoryBloc>().add(GetCategory());
+      context.categoryBloc.add(GetCategory());
       context.searchBloc.add(SearchRemoteTextChanged("", stockId: stock.id));
-      context.read<ReportsCubit>().getReports();
+      context.reportsBloc.getReports();
       return null;
     }, const []);
 
