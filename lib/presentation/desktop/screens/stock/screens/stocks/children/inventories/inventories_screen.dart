@@ -8,22 +8,23 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
-import '../../../../../../../../app/router.dart';
-import '../../../../../../../../app/router.gr.dart';
-import '../../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../../../app/router.dart';
+import '../../../../../../../../../app/router.gr.dart';
+import '../../../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../../../core/styles/colors.dart';
+import '../../../../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../../../../core/widgets/text_field.dart';
+import '../../../../../../../../../data/dtos/company/company_dto.dart';
+import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../core/constants/dictionary.dart';
-import '../../../../../../../../core/styles/colors.dart';
-import '../../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../dialogs/inventories_product/inventories_product.dart';
 import '../../../../bloc/stock_bloc.dart';
-import '../../../../widgets/list_transfers.dart';
+import '../../../../widgets/list_inventories.dart';
 import '../../../../widgets/title_supplies.dart';
 
 @RoutePage()
-class TransfersScreen extends HookWidget {
-  const TransfersScreen(
+class InventoriesScreen extends HookWidget {
+  const InventoriesScreen(
     this.stock,
     this.organization, {
     super.key,
@@ -37,7 +38,7 @@ class TransfersScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.stockBloc.add(StockEvent.searchTransfers(stock.id, true));
+      context.stockBloc.add(StockEvent.searchInventories(stock.id, true));
       return null;
     }, const []);
     final fromController = useTextEditingController();
@@ -74,7 +75,7 @@ class TransfersScreen extends HookWidget {
                         borderRadius: AppUtils.kBorderRadius12,
                       ),
                       child: Text(
-                        "Перемещение товаров с склада : ${stock.name}",
+                        "Инвентаризация товаров в складе : ${stock.name}",
                         style: const TextStyle(fontSize: 13),
                         maxLines: 1,
                       ),
@@ -172,7 +173,7 @@ class TransfersScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () async => context.stockBloc.add(StockEvent.searchTransfers(stock.id, false)),
+                              onTap: () async => context.stockBloc.add(StockEvent.searchInventories(stock.id, false)),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -198,7 +199,37 @@ class TransfersScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () async => router.push(AddTransferRoute(stock: stock, organization: organization)),
+                    onTap: () async => context.showCustomDialog(InventoriesProductDialog(stock)),
+                    child: Container(
+                      height: 48,
+                      width: context.width * .12,
+                      decoration: const BoxDecoration(
+                        borderRadius: AppUtils.kBorderRadius12,
+                        color: AppColors.primary500,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.download,
+                            color: AppColors.white,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Скачать номенклатуру",
+                            maxLines: 2,
+                            style: TextStyle(fontSize: 11, color: context.onPrimary),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  ///
+                  AppUtils.kGap6,
+                  GestureDetector(
+                    onTap: () async => router.push(AddInventoryRoute(stock: stock, organization: organization)),
                     child: Container(
                       height: 48,
                       width: context.width * .1,
@@ -229,33 +260,36 @@ class TransfersScreen extends HookWidget {
 
                     ///
                     BlocBuilder<StockBloc, StockState>(
-                      buildWhen: (previous, current) => previous.transfers != current.transfers,
+                      buildWhen: (p, c) => p.inventories != c.inventories,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
                             ? const Center(child: CircularProgressIndicator())
-                            : (state.transfers?.results ?? []).isEmpty
+                            : (state.inventories?.results ?? []).isEmpty
                                 ? Center(child: Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                    itemCount: state.inventories!.results.length,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemCount: state.transfers?.results.length ?? 0,
-                                    itemBuilder: (context, index) => TransfersList(
-                                      admission: state.transfers!.results[index],
+                                    itemBuilder: (context, index) => InventoryList(
+                                      admission: state.inventories!.results[index],
+                                      stock: stock,
+                                      organization: organization,
                                       onDelete: () async {
+                                        // final bloc = context.read<StockBloc>();
                                         // final res = await context.showCustomDialog(
                                         //   DeleteProductWidget(),
                                         // );
+                                        //
                                         // if (res == null) return;
-                                        // context.stockBloc.add(StockEvent.deleteSupply(
+                                        //
+                                        // bloc.add(StockEvent.deleteSupply(
                                         //     state.supplies[index].id));
                                       },
-                                      stock: stock,
-                                      organization: organization,
                                     ),
                                   ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -202,8 +202,8 @@ class WriteOffsScreen extends HookWidget {
                     child: Container(
                       height: 48,
                       width: context.width * .1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                      decoration: const BoxDecoration(
+                        borderRadius: AppUtils.kBorderRadius12,
                         color: AppColors.primary800,
                       ),
                       child: Center(
