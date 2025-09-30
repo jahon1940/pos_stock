@@ -8,6 +8,7 @@ import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 
 import '../cubit/add_supplies_cubit.dart';
 
+
 class SuppliesProductList extends HookWidget {
   const SuppliesProductList({
     super.key,

@@ -14,8 +14,8 @@ import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
-import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../cubit/add_supplies_cubit.dart';
 import 'supplies_product_list.dart';
 

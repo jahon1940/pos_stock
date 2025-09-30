@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/data/dtos/stock_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
+import 'package:hoomo_pos/data/dtos/stock_dto.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
+import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
@@ -14,16 +14,19 @@ import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../../../domain/repositories/supplier_repository.dart';
+import '../../../../../../../../../domain/repositories/supplier_repository.dart';
+
+part 'add_supplies_cubit.freezed.dart';
 
 part 'add_supplies_state.dart';
-part 'add_supplies_cubit.freezed.dart';
 
 @injectable
 class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   AddSuppliesCubit(
-      this._repository, this._productRepository, this._supplierRepository)
-      : super(AddSuppliesState());
+    this._repository,
+    this._productRepository,
+    this._supplierRepository,
+  ) : super(const AddSuppliesState());
 
   final StockRepository _repository;
   final SupplierRepository _supplierRepository;
@@ -47,8 +50,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
 
   void addProductByBarcode(String barcode) async {
     try {
-      final products =
-          await _productRepository.searchRemote(SearchRequest(title: barcode));
+      final products = await _productRepository.searchRemote(SearchRequest(title: barcode));
 
       addProduct(products.results.first.id);
     } catch (e) {
@@ -108,49 +110,42 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   }
 
   void updateQuantity(int productId, int? quantity) {
-    SupplyProductRequest? product =
-        state.request?.products.firstWhere((e) => e.productId == productId);
+    SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
     product = product.copyWith(quantity: quantity ?? 0);
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
   void updatePurchasePrice(int productId, String? price) {
-    SupplyProductRequest? product =
-        state.request?.products.firstWhere((e) => e.productId == productId);
+    SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
     product = product.copyWith(purchasePrice: price ?? '');
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
   void updatePrice(int productId, String? price) {
-    SupplyProductRequest? product =
-        state.request?.products.firstWhere((e) => e.productId == productId);
+    SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
 
     if (product == null) return;
 
     product = product.copyWith(price: price ?? '');
 
-    final request =
-        state.request?.copyWith(products: _returnUpdatedProducts(product));
+    final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
 
     emit(state.copyWith(request: request));
   }
 
-  List<SupplyProductRequest> _returnUpdatedProducts(
-      SupplyProductRequest product) {
+  List<SupplyProductRequest> _returnUpdatedProducts(SupplyProductRequest product) {
     final products = <SupplyProductRequest>[];
 
     for (SupplyProductRequest p in state.request?.products ?? []) {
@@ -185,8 +180,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   }
 
   void deleteProduct(int id) {
-    final products =
-        List<SupplyProductRequest>.from(state.request?.products ?? []);
+    final products = List<SupplyProductRequest>.from(state.request?.products ?? []);
 
     products.removeWhere((e) => e.productId == id);
 
