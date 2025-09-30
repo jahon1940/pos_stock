@@ -17,16 +17,13 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
-import '../../../../../search/cubit/search_bloc.dart';
-import '../../../../../supplier/children/cubit/supplier_cubit.dart';
 import '../../../../bloc/stock_bloc.dart';
-import '../../../../tabs/stock_products.dart';
-import '../../../../widgets/list_supplies.dart';
+import '../../../../widgets/list_transfers.dart';
 import '../../../../widgets/title_supplies.dart';
 
 @RoutePage()
-class SuppliesScreen extends HookWidget {
-  const SuppliesScreen(
+class TransfersScreen extends HookWidget {
+  const TransfersScreen(
     this.stock,
     this.organization, {
     super.key,
@@ -40,14 +37,11 @@ class SuppliesScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context
-        ..supplierBloc.getSuppliers()
-        ..stockBloc.add(StockEvent.searchSupplies(stock.id, true));
+      context.stockBloc.add(StockEvent.searchTransfers(stock.id, true));
       return null;
     }, const []);
     final fromController = useTextEditingController();
     final toController = useTextEditingController();
-    final supplierController = useTextEditingController();
 
     return Scaffold(
       body: Padding(
@@ -80,51 +74,9 @@ class SuppliesScreen extends HookWidget {
                         borderRadius: AppUtils.kBorderRadius12,
                       ),
                       child: Text(
-                        "Поступление товаров в склад : ${stock.name}",
+                        "Перемещение товаров с склада : ${stock.name}",
                         style: const TextStyle(fontSize: 13),
                         maxLines: 1,
-                      ),
-                    ),
-                  ),
-
-                  ///
-                  AppUtils.kGap6,
-                  BlocBuilder<SupplierCubit, SupplierState>(
-                    builder: (context, state) => Container(
-                      height: 48,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: AppUtils.kBorderRadius12,
-                      ),
-                      child: DropdownMenu<int?>(
-                        width: 220,
-                        hintText: 'Выбор поставщика',
-                        textStyle: const TextStyle(fontSize: 11),
-                        controller: supplierController,
-                        onSelected: (value) => context
-                          ..read<SearchBloc>().add(SelectSupplier(id: value))
-                          ..stockBloc.add(StockEvent.selectedSupplier(value)),
-                        inputDecorationTheme: InputDecorationTheme(
-                          hintStyle: const TextStyle(fontSize: 11),
-                          isDense: true,
-                          constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                        ),
-                        dropdownMenuEntries: [
-                          const DropdownMenuEntry(
-                            value: null,
-                            label: 'Все поставщики',
-                          ),
-                          ...state.suppliers
-                                  ?.map(
-                                    (e) => DropdownMenuEntry(
-                                      value: e.id,
-                                      label: e.name ?? e.inn ?? e.phoneNumber ?? '',
-                                    ),
-                                  )
-                                  .toList() ??
-                              []
-                        ],
                       ),
                     ),
                   ),
@@ -138,6 +90,7 @@ class SuppliesScreen extends HookWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            ///
                             Container(
                               height: 48,
                               alignment: Alignment.center,
@@ -219,7 +172,7 @@ class SuppliesScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () => context.stockBloc.add(StockEvent.searchSupplies(stock.id, false)),
+                              onTap: () async => context.stockBloc.add(StockEvent.searchTransfers(stock.id, false)),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -230,7 +183,7 @@ class SuppliesScreen extends HookWidget {
                                 child: Center(
                                   child: Text(
                                     "Сформировать",
-                                    maxLines: 1,
+                                    maxLines: 2,
                                     style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
                                 ),
@@ -245,21 +198,17 @@ class SuppliesScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () async => router.push(AddSuppliesRoute(
-                      stock: stock,
-                      organization: organization,
-                    )),
+                    onTap: () async => router.push(AddTransferRoute(stock: stock, organization: organization)),
                     child: Container(
                       height: 48,
-                      decoration: const BoxDecoration(
-                        borderRadius: AppUtils.kBorderRadius12,
+                      width: context.width * .1,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
                         color: AppColors.primary800,
                       ),
-                      width: context.width * .1,
                       child: Center(
                         child: Text(
                           "Добавить",
-                          maxLines: 2,
                           style: TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
@@ -269,38 +218,40 @@ class SuppliesScreen extends HookWidget {
               ),
             ),
 
-            ///
+            /// body
             AppUtils.kGap12,
             Expanded(
               child: CustomBox(
                 padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
-                    const TitleSupplies(isSupplies: true),
+                    const TitleSupplies(isSupplies: false),
 
                     ///
                     BlocBuilder<StockBloc, StockState>(
-                      buildWhen: (previous, current) => previous.supplies != current.supplies,
+                      buildWhen: (previous, current) => previous.transfers != current.transfers,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
                             ? const Center(child: CircularProgressIndicator())
-                            : (state.supplies?.results ?? []).isEmpty
+                            : (state.transfers?.results ?? []).isEmpty
                                 ? Center(child: Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                                    itemCount: state.supplies!.results.length,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (_, index) => SuppliesList(
-                                      organization: organization,
-                                      stock: stock,
-                                      admission: state.supplies!.results[index],
+                                    itemCount: state.transfers?.results.length ?? 0,
+                                    itemBuilder: (context, index) => TransfersList(
+                                      admission: state.transfers!.results[index],
                                       onDelete: () async {
-                                        final res = await context.showCustomDialog(const DeleteProductWidget());
-                                        if (res == null) return;
-                                        context.stockBloc
-                                            .add(StockEvent.deleteSupply(state.supplies!.results[index].id));
+                                        // final res = await context.showCustomDialog(
+                                        //   DeleteProductWidget(),
+                                        // );
+                                        // if (res == null) return;
+                                        // context.stockBloc.add(StockEvent.deleteSupply(
+                                        //     state.supplies[index].id));
                                       },
+                                      stock: stock,
+                                      organization: organization,
                                     ),
                                   ),
                       ),
