@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 
 import '../../../../../../../app/router.dart';
@@ -107,12 +106,12 @@ class StockItemScreen extends HookWidget {
                         _item(
                           context,
                           label: 'Категории',
-                          onPressed: () async {
-                            final res = await context.showCustomDialog(const CategoryDialog());
-                            if (res == null) return;
-                            final bloc = context.read<SearchBloc>();
-                            bloc.add(SearchRemoteTextChanged(''));
-                          },
+                          onPressed: () => router.push(const CategoriesRoute()),
+                          // onPressed: () async {
+                          //   final res = await context.showCustomDialog(const CategoryDialog());
+                          //   if (res == null) return;
+                          //   context.searchBloc.add(SearchRemoteTextChanged(''));
+                          // },
                         ),
 
                         ///
