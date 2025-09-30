@@ -6,14 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_item_widget.dart';
 
 import '../../../../../../app/router.dart';
 import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/widgets/custom_box.dart';
-import '../../bloc/stock_bloc.dart';
 import '../../widgets/page_title_widget.dart';
 import '../../widgets/table_title_widget.dart';
 import 'cubit/organization_cubit.dart';
@@ -45,8 +43,7 @@ class OrganizationScreen extends HookWidget {
                   child: Column(
                     children: [
                       /// table title
-                      const TableTitleWidget(
-                          titles: ['Номер', 'Название', 'Действия']),
+                      const TableTitleWidget(titles: ['Номер', 'Название', 'Действия']),
 
                       /// items
                       AppUtils.kGap12,
@@ -54,31 +51,20 @@ class OrganizationScreen extends HookWidget {
                         buildWhen: (p, c) => p.organizations != c.organizations,
                         builder: (context, state) => Expanded(
                           child: state.status.isLoading
-                              ? const Center(
-                                  child: CupertinoActivityIndicator())
+                              ? const Center(child: CupertinoActivityIndicator())
                               : state.organizations.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                          context.tr(Dictionary.not_found)))
+                                  ? Center(child: Text(context.tr(Dictionary.not_found)))
                                   : ListView.separated(
                                       shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(
-                                              vertical: 12)
-                                          .withT0,
+                                      padding: const EdgeInsets.symmetric(vertical: 12).withT0,
                                       itemCount: state.organizations.length,
-                                      separatorBuilder: (_, __) =>
-                                          AppUtils.kGap12,
+                                      separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemBuilder: (context, i) {
-                                        final organization =
-                                            state.organizations.elementAt(i);
+                                        final organization = state.organizations.elementAt(i);
                                         return TableItemWidget(
-                                          leadingLabel:
-                                              organization.id.toString(),
+                                          leadingLabel: organization.id.toString(),
                                           bodyLabel: organization.name ?? '',
-                                          onTap: () {
-                                            router.push(StocksRoute(
-                                                organization: organization));
-                                          },
+                                          onTap: () => router.push(StocksRoute(organization: organization)),
                                         );
                                       },
                                     ),
