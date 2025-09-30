@@ -7,11 +7,12 @@ import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../../../../data/dtos/stock_dto.dart';
-import '../../../../../../../data/dtos/transfers/create_transfers.dart';
-import '../../../../../../../data/dtos/transfers/transfer_dto.dart';
-import '../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
-import '../../../../../../../data/dtos/transfers/transfer_product_request.dart';
+
+import '../../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../../../data/dtos/transfers/create_transfers.dart';
+import '../../../../../../../../../data/dtos/transfers/transfer_dto.dart';
+import '../../../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
+import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 
 part 'add_transfer_state.dart';
 
@@ -23,7 +24,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     this._repository,
     this._productRepository,
     this._stockRepository,
-  ) : super(AddTransferState());
+  ) : super(const AddTransferState());
 
   final StockRepository _repository;
   final ProductsRepository _productRepository;

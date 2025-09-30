@@ -11,13 +11,13 @@ import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/product_table_title.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
-import '../../../../../../../core/enums/states.dart';
-import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../../../data/dtos/stock_dto.dart';
-import '../../../../../../../data/dtos/transfers/transfer_product_request.dart';
-import '../../../bloc/stock_bloc.dart';
+import '../../../../../../../../../core/enums/states.dart';
+import '../../../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../../../../data/dtos/company/company_dto.dart';
+import '../../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
+import '../../../../../bloc/stock_bloc.dart';
 import '../cubit/add_transfer_cubit.dart';
 import 'transfer_product_list.dart';
 
@@ -27,8 +27,10 @@ class TransferProducts extends HookWidget {
     this.organization, {
     super.key,
   });
+
   final CompanyDto organization;
   final StockDto? stock;
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddTransferCubit>();
@@ -38,31 +40,24 @@ class TransferProducts extends HookWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 state.transfer != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              'Склад перемещение: ${state.transfer!.toStock?.name}',
-                              style: AppTextStyles.boldType14
-                                  .copyWith(fontWeight: FontWeight.w600)),
+                          Text('Склад перемещение: ${state.transfer!.toStock?.name}',
+                              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
                           GestureDetector(
                             onTap: () async {
-                              context
-                                  .read<StockBloc>()
-                                  .add(StockEvent.downloadTransfers(
+                              context.read<StockBloc>().add(StockEvent.downloadTransfers(
                                     state.transfer!.id,
                                   ));
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: context.primary),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                               height: 50,
                               width: context.width * .14,
                               child: Center(
@@ -77,9 +72,7 @@ class TransferProducts extends HookWidget {
                                     Text(
                                       "Скачать документ",
                                       maxLines: 2,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: context.onPrimary),
+                                      style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
                                   ],
                                 ),
@@ -93,8 +86,7 @@ class TransferProducts extends HookWidget {
                           DropdownMenu<int>(
                             width: 400,
                             hintText: 'Выберите Склад',
-                            onSelected: (value) => cubit.selectStock(
-                                fromStockId: stock!.id, toStockId: value ?? 1),
+                            onSelected: (value) => cubit.selectStock(fromStockId: stock!.id, toStockId: value ?? 1),
                             dropdownMenuEntries: state.stocks
                                 .map(
                                   (e) => DropdownMenuEntry(
@@ -105,8 +97,7 @@ class TransferProducts extends HookWidget {
                                 .toList(),
                           ),
                           AppSpace.horizontal24,
-                          if (state.stocks.isEmpty &&
-                              state.status != StateStatus.loading)
+                          if (state.stocks.isEmpty && state.status != StateStatus.loading)
                             GestureDetector(
                               onTap: () {
                                 cubit.getStocks(organization.id);
@@ -114,17 +105,15 @@ class TransferProducts extends HookWidget {
                               behavior: HitTestBehavior.opaque,
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: context.primary),
+                                decoration:
+                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                                 height: 50,
                                 width: context.width * .1,
                                 child: Center(
                                   child: Text(
                                     "Обновить",
                                     maxLines: 2,
-                                    style: TextStyle(
-                                        fontSize: 13, color: context.onPrimary),
+                                    style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
                                 ),
                               ),
@@ -136,15 +125,13 @@ class TransferProducts extends HookWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Наменклатура',
-                          style: AppTextStyles.boldType14),
+                      const Text('Наменклатура', style: AppTextStyles.boldType14),
                       GestureDetector(
                         onTap: () async {
                           final res = await showDialog(
                             context: context,
                             builder: (context) => BlocProvider(
-                              create: (context) => getIt<FastSearchBloc>()
-                                ..add(SearchInit(false)),
+                              create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
                               child: SearchDialog(
                                 isDialog: true,
                                 isReserve: false,
@@ -156,8 +143,7 @@ class TransferProducts extends HookWidget {
                           if (res == null) return;
 
                           if (res == true) {
-                            final data =
-                                await router.push(AddProductRoute()) as String?;
+                            final data = await router.push(AddProductRoute()) as String?;
 
                             if (data == null) return;
 
@@ -171,17 +157,14 @@ class TransferProducts extends HookWidget {
                         behavior: HitTestBehavior.opaque,
                         child: Container(
                           padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: context.primary),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                           height: 50,
                           width: context.width * .14,
                           child: Center(
                             child: Text(
                               "Добавить Наменклатуру",
                               maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 13, color: context.onPrimary),
+                              style: TextStyle(fontSize: 13, color: context.onPrimary),
                             ),
                           ),
                         ),
@@ -193,10 +176,10 @@ class TransferProducts extends HookWidget {
                   child: TableTitleProducts(
                     fillColor: AppColors.stroke,
                     columnWidths: {
-                      0: FlexColumnWidth(6),
-                      1: FlexColumnWidth(2),
-                      2: FlexColumnWidth(1),
-                      if (state.products == null) 4: FlexColumnWidth(1),
+                      0: const FlexColumnWidth(6),
+                      1: const FlexColumnWidth(2),
+                      2: const FlexColumnWidth(),
+                      if (state.products == null) 4: const FlexColumnWidth(),
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
@@ -210,9 +193,7 @@ class TransferProducts extends HookWidget {
                   height: context.height - 390,
                   child: ListView.separated(
                     shrinkWrap: true,
-                    itemCount: state.products?.length ??
-                        state.request?.products?.length ??
-                        0,
+                    itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
                     separatorBuilder: (context, index) => AppSpace.vertical6,
                     itemBuilder: (context, index) => TransferProductList(
                         editable: state.products == null,

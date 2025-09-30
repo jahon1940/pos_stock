@@ -5,14 +5,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_transfer/widgets/transfer_navbar.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_transfer/widgets/transfer_products.dart';
-import '../../../../../../core/constants/spaces.dart';
-import '../../../../../../core/styles/colors.dart';
-import '../../../../../../core/styles/text_style.dart';
-import '../../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../../data/dtos/stock_dto.dart';
-import '../../../../../../data/dtos/transfers/transfer_dto.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/children/transfer/widgets/transfer_navbar.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stocks/children/transfer/widgets/transfer_products.dart';
+import '../../../../../../../../core/constants/spaces.dart';
+import '../../../../../../../../core/styles/colors.dart';
+import '../../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../../data/dtos/company/company_dto.dart';
+import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../../data/dtos/transfers/transfer_dto.dart';
 import 'cubit/add_transfer_cubit.dart';
 
 @RoutePage()

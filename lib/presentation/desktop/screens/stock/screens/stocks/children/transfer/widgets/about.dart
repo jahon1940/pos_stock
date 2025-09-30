@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
-import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../core/widgets/text_field.dart';
+import '../../../../../../../../../core/styles/text_style.dart';
+import '../../../../../../../../../core/widgets/custom_box.dart';
+import '../../../../../../../../../core/widgets/text_field.dart';
 
 class About extends HookWidget {
   const About({
