@@ -20,9 +20,9 @@ import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../search/cubit/search_bloc.dart';
 import '../../../../../supplier/children/cubit/supplier_cubit.dart';
 import '../../../../bloc/stock_bloc.dart';
-import '../../../../tabs/stock_products.dart';
 import '../../../../widgets/list_supplies.dart';
 import '../../../../widgets/title_supplies.dart';
+import '../../widgets/delete_product_widget.dart';
 
 @RoutePage()
 class SuppliesScreen extends HookWidget {

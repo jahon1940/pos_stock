@@ -6,7 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 
 import '../../../../../../../app/router.dart';
@@ -32,154 +31,107 @@ class StockItemScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) =>
-      DefaultTabController(
-        length: 1, // todo delete
-        child: Scaffold(
-          body: Padding(
-            padding: AppUtils.kPaddingAll10,
-            child: Column(
-              children: [
-                /// title
-                PageTitleWidget(
-                  label: stock.name,
-                  canPop: true,
-                ),
+      Scaffold(
+        body: Padding(
+          padding: AppUtils.kPaddingAll10,
+          child: Column(
+            children: [
+              /// title
+              PageTitleWidget(
+                label: stock.name,
+                canPop: true,
+              ),
 
-                /// items
-                AppUtils.kGap12,
-                Expanded(
-                  flex: 2,
-                  child: CustomBox(
-                    padding: AppUtils.kPaddingAll12,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        spacing: AppUtils.kGap12.mainAxisExtent,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ///
-                          _item(
-                            context,
-                            label: 'Поступление товаров',
-                            onPressed: () => router.push(SuppliesRoute(
-                              stock: stock,
-                              organization: organization,
-                            )),
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: "Перемещение товаров",
-                            onPressed: () => router.push(TransfersRoute(
-                              stock: stock,
-                              organization: organization,
-                            )),
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: 'Списание товаров',
-                            onPressed: () => router.push(WriteOffsRoute(
-                              stock: stock,
-                              organization: organization,
-                            )),
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: 'Инвентаризация',
-                            onPressed: () => router.push(InventoriesRoute(
-                              stock: stock,
-                              organization: organization,
-                            )),
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: context.tr("sidebar.catalog"),
-                            onPressed: () {},
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: 'Категории',
-                            onPressed: () async {
-                              final res = await context.showCustomDialog(const CategoryDialog());
-                              if (res == null) return;
-                              final bloc = context.read<SearchBloc>();
-                              bloc.add(SearchRemoteTextChanged(''));
-                            },
-                          ),
-
-                          ///
-                          _item(
-                            context,
-                            label: 'Установить Курс',
-                            onPressed: () async {
-                              final bloc = context.read<SearchBloc>();
-                              final res = await context.showCustomDialog(const CurrencyDialog());
-                              if (res == null) return;
-                              bloc.add(SearchRemoteTextChanged(''));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                /// title
-                AppUtils.kGap12,
-                Row(
-                  children: [
-                    SizedBox(
-                      width: context.width * .7,
-                      child: Center(
-                        child: TabBar(
-                          labelPadding: EdgeInsets.zero,
-                          overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-                          dividerColor: Colors.transparent,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.grey,
-                          indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: context.primary),
-                          tabs: [
-                            /// todo
-                            FittedBox(
-                              child: SizedBox(
-                                width: context.width * .15,
-                                child: Tab(
-                                  child: Text(
-                                    context.tr("sidebar.catalog"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+              /// items
+              AppUtils.kGap12,
+              Expanded(
+                child: CustomBox(
+                  padding: AppUtils.kPaddingAll12,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      spacing: AppUtils.kGap12.mainAxisExtent,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ///
+                        _item(
+                          context,
+                          label: 'Поступление товаров',
+                          onPressed: () => router.push(SuppliesRoute(
+                            stock: stock,
+                            organization: organization,
+                          )),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
 
-                /// body
-                AppUtils.kGap12,
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      StockProducts(stock, organization),
-                    ],
+                        ///
+                        _item(
+                          context,
+                          label: "Перемещение товаров",
+                          onPressed: () => router.push(TransfersRoute(
+                            stock: stock,
+                            organization: organization,
+                          )),
+                        ),
+
+                        ///
+                        _item(
+                          context,
+                          label: 'Списание товаров',
+                          onPressed: () => router.push(WriteOffsRoute(
+                            stock: stock,
+                            organization: organization,
+                          )),
+                        ),
+
+                        ///
+                        _item(
+                          context,
+                          label: 'Инвентаризация',
+                          onPressed: () => router.push(InventoriesRoute(
+                            stock: stock,
+                            organization: organization,
+                          )),
+                        ),
+
+                        ///
+                        _item(
+                          context,
+                          label: context.tr("sidebar.catalog"),
+                          onPressed: () => router.push(StockProductsRoute(
+                            stock: stock,
+                            organization: organization,
+                          )),
+                        ),
+
+                        ///
+                        _item(
+                          context,
+                          label: 'Категории',
+                          onPressed: () async {
+                            final res = await context.showCustomDialog(const CategoryDialog());
+                            if (res == null) return;
+                            final bloc = context.read<SearchBloc>();
+                            bloc.add(SearchRemoteTextChanged(''));
+                          },
+                        ),
+
+                        ///
+                        _item(
+                          context,
+                          label: 'Установить Курс',
+                          onPressed: () async {
+                            final bloc = context.read<SearchBloc>();
+                            final res = await context.showCustomDialog(const CurrencyDialog());
+                            if (res == null) return;
+                            bloc.add(SearchRemoteTextChanged(''));
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
