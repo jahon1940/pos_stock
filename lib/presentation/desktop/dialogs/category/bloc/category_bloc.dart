@@ -16,9 +16,9 @@ part 'category_bloc.freezed.dart';
 
 @injectable
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final CategoryRepository _categoryRepository;
-
-  CategoryBloc(this._categoryRepository) : super(const CategoryState()) {
+  CategoryBloc(
+    this._categoryRepository,
+  ) : super(const CategoryState()) {
     on<GetCategory>(_getCategory);
     on<GetCategoryId>(_getCategoryId);
     on<CreateCategory>(_createCategory);
@@ -26,14 +26,16 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<DeleteCategoryId>(_deleteId);
   }
 
-  Future<void> _getCategory(GetCategory event, Emitter<CategoryState> emit) async {
-    if (state.status == StateStatus.loading) return;
+  final CategoryRepository _categoryRepository;
 
+  Future<void> _getCategory(
+    GetCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
+    if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
-
       final res = await _categoryRepository.getCategory();
-
       emit(state.copyWith(
         status: StateStatus.loaded,
         categories: res,
@@ -43,14 +45,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
-  Future<void> _getCategoryId(GetCategoryId event, Emitter<CategoryState> emit) async {
-    if (state.status == StateStatus.loading) return;
-
+  Future<void> _getCategoryId(
+    GetCategoryId event,
+    Emitter<CategoryState> emit,
+  ) async {
+    if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
-
       final res = await _categoryRepository.getCategoryId(event.id!);
-
       emit(state.copyWith(
         status: StateStatus.loaded,
         category: res,
@@ -60,48 +62,45 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
-  Future<void> _createCategory(CreateCategory event, Emitter<CategoryState> emit) async {
-    if (state.status == StateStatus.loading) return;
-
+  Future<void> _createCategory(
+    CreateCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
+    if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
-
       await _categoryRepository.createCategory(event.request);
       add(GetCategory());
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-      ));
+      emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future<void> _updateCategory(UpdateCategory event, Emitter<CategoryState> emit) async {
-    if (state.status == StateStatus.loading) return;
-
+  Future<void> _updateCategory(
+    UpdateCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
+    if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
-
-      final res = await _categoryRepository.updateCategory(event.id!, event.request);
+      await _categoryRepository.updateCategory(event.id!, event.request);
       add(GetCategory());
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future<void> _deleteId(DeleteCategoryId event, Emitter<CategoryState> emit) async {
-    emit(state.copyWith(
-      status: StateStatus.loading,
-    ));
-    print(event.id);
+  Future<void> _deleteId(
+    DeleteCategoryId event,
+    Emitter<CategoryState> emit,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
     try {
       emit(state.copyWith(status: StateStatus.loading));
-
       await _categoryRepository.deleteCategory(event.id!);
       add(GetCategory());
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-      ));
+      emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());
     }
