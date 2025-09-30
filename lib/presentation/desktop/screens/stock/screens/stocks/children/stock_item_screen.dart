@@ -8,7 +8,6 @@ import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/category_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/inventories.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/stock_products.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/tabs/write_off.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 
 import '../../../../../../../app/router.dart';
@@ -35,7 +34,7 @@ class StockItemScreen extends HookWidget {
     BuildContext context,
   ) =>
       DefaultTabController(
-        length: 3, // todo delete
+        length: 2, // todo delete
         child: Scaffold(
           body: Padding(
             padding: AppUtils.kPaddingAll10,
@@ -83,7 +82,10 @@ class StockItemScreen extends HookWidget {
                           _item(
                             context,
                             label: 'Списание товаров',
-                            onPressed: () {},
+                            onPressed: () => router.push(WriteOffsRoute(
+                              stock: stock,
+                              organization: organization,
+                            )),
                           ),
 
                           ///
@@ -150,19 +152,6 @@ class StockItemScreen extends HookWidget {
                                 width: context.width * .15,
                                 child: const Tab(
                                   child: Text(
-                                    "Списание товаров",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            FittedBox(
-                              child: SizedBox(
-                                width: context.width * .15,
-                                child: const Tab(
-                                  child: Text(
                                     "Инвентаризация",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -195,8 +184,7 @@ class StockItemScreen extends HookWidget {
                 AppUtils.kGap12,
                 Expanded(
                   child: TabBarView(
-                    children: <Widget>[
-                      WriteOff(stock, organization),
+                    children: [
                       Inventories(stock, organization),
                       StockProducts(stock, organization),
                     ],

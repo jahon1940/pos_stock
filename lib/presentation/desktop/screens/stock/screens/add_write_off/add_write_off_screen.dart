@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/di.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_write_off/widgets/write_off_navbar.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/add_write_off/widgets/write_off_products.dart';
-import '../../../../../../app/router.dart';
-import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/spaces.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/styles/text_style.dart';
@@ -55,7 +54,7 @@ class AddWriteOffScreen extends HookWidget implements AutoRouteWrapper {
                             boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                           ),
                           child: InkWell(
-                            onTap: () => router.push(StockItemRoute(stock: stock!, organization: organization)),
+                            onTap: () => context.pop(),
                             child: const Padding(
                               padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
                               child: Icon(
