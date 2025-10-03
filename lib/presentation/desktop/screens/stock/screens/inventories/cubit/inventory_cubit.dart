@@ -15,16 +15,16 @@ import '../../../../../../../../../data/dtos/inventories/inventory_product_reque
 import '../../../../../../../data/dtos/inventories/search_inventories.dart';
 import '../../../../../../../data/dtos/pagination_dto.dart';
 
-part 'add_inventory_state.dart';
+part 'inventory_state.dart';
 
-part 'add_inventory_cubit.freezed.dart';
+part 'inventory_cubit.freezed.dart';
 
 @injectable
-class AddInventoryCubit extends Cubit<AddInventoryState> {
-  AddInventoryCubit(
+class InventoryCubit extends Cubit<InventoryState> {
+  InventoryCubit(
     this._repo,
     this._productRepository,
-  ) : super(const AddInventoryState());
+  ) : super(const InventoryState());
 
   final InventoryRepository _repo;
   final ProductsRepository _productRepository;

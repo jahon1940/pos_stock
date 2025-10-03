@@ -9,7 +9,7 @@ import '../../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
-import '../cubit/add_inventory_cubit.dart';
+import '../cubit/inventory_cubit.dart';
 
 class AddInventoryNavbar extends HookWidget {
   const AddInventoryNavbar(
@@ -25,14 +25,14 @@ class AddInventoryNavbar extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    final cubit = context.read<AddInventoryCubit>();
+    final cubit = context.read<InventoryCubit>();
     return Padding(
       padding: const EdgeInsets.all(12),
       child: CustomBox(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            BlocBuilder<AddInventoryCubit, AddInventoryState>(
+            BlocBuilder<InventoryCubit, InventoryState>(
               builder: (context, state) {
                 final isDisabled = ((state.request?.products.isEmpty ?? true) ||
                     (state.request?.products.any((e) => e.realQuantity == 0) ?? true));

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/add_inventory_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
 import '../../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/styles/text_style.dart';
@@ -23,7 +23,7 @@ class AddInventoryScreen extends StatelessWidget {
     this.inventory,
   });
 
-  final AddInventoryCubit inventoryBloc;
+  final InventoryCubit inventoryBloc;
   final CompanyDto organization;
   final StockDto? stock;
   final InventoryDto? inventory;

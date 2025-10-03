@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/add_inventory_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../../app/router.dart';
@@ -80,7 +80,7 @@ class InventoriesScreen extends HookWidget implements AutoRouteWrapper {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<AddInventoryCubit, AddInventoryState>(
+                  BlocBuilder<InventoryCubit, InventoryState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -259,7 +259,7 @@ class InventoriesScreen extends HookWidget implements AutoRouteWrapper {
                     const TitleSupplies(isSupplies: false),
 
                     ///
-                    BlocBuilder<AddInventoryCubit, AddInventoryState>(
+                    BlocBuilder<InventoryCubit, InventoryState>(
                       buildWhen: (p, c) => p.inventories != c.inventories,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
@@ -305,7 +305,7 @@ class InventoriesScreen extends HookWidget implements AutoRouteWrapper {
     BuildContext context,
   ) =>
       BlocProvider(
-        create: (context) => getIt<AddInventoryCubit>()..searchInventories(stock.id, true),
+        create: (context) => getIt<InventoryCubit>()..searchInventories(stock.id, true),
         child: this,
       );
 }

@@ -1,8 +1,8 @@
-part of 'add_inventory_cubit.dart';
+part of 'inventory_cubit.dart';
 
 @freezed
-class AddInventoryState with _$AddInventoryState {
-  const factory AddInventoryState({
+class InventoryState with _$InventoryState {
+  const factory InventoryState({
     @Default(StateStatus.initial) StateStatus status,
     PaginatedDto<InventoryDto>? inventories,
     DateTime? dateFrom,
@@ -11,5 +11,5 @@ class AddInventoryState with _$AddInventoryState {
     InventoryDto? inventory,
     List<InventoryProductDto>? products,
     @Default(false) bool isActivaBtn,
-  }) = _AddInventoryState;
+  }) = _InventoryState;
 }

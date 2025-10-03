@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../../../app/di.dart';
 import '../../../../../../../../../app/router.dart';
@@ -16,7 +17,7 @@ import '../../../../../../../../../data/dtos/inventories/inventory_product_reque
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../dialogs/search/cubit/fast_search_bloc.dart';
 import '../../../../../dialogs/search/search_dialog.dart';
-import '../cubit/add_inventory_cubit.dart';
+import '../cubit/inventory_cubit.dart';
 import 'inventory_product_list.dart';
 
 class AddInventoryProducts extends HookWidget {
@@ -32,14 +33,12 @@ class AddInventoryProducts extends HookWidget {
   @override
   Widget build(
     BuildContext context,
-  ) {
-    final cubit = context.read<AddInventoryCubit>();
-    return BlocBuilder<AddInventoryCubit, AddInventoryState>(
-      buildWhen: (previous, current) => previous.request != current.request || previous.products != current.products,
-      builder: (context, state) {
-        return CustomBox(
+  ) =>
+      BlocBuilder<InventoryCubit, InventoryState>(
+        buildWhen: (p, c) => p.request != c.request || p.products != c.products,
+        builder: (context, state) => CustomBox(
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: AppUtils.kPaddingAll12,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -101,10 +100,10 @@ class AddInventoryProducts extends HookWidget {
                               if (res == true) {
                                 final data = await router.push(AddProductRoute()) as String?;
                                 if (data == null) return;
-                                cubit.addProductByBarcode(data);
+                                context.inventoryBloc.addProductByBarcode(data);
                                 return;
                               }
-                              cubit.addProduct(res);
+                              context.inventoryBloc.addProduct(res);
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Container(
@@ -168,8 +167,6 @@ class AddInventoryProducts extends HookWidget {
               ],
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
