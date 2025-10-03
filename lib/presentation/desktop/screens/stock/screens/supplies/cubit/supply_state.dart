@@ -1,8 +1,8 @@
-part of 'add_supplies_cubit.dart';
+part of 'supply_cubit.dart';
 
 @freezed
-class AddSuppliesState with _$AddSuppliesState {
-  const factory AddSuppliesState({
+class SupplyState with _$SupplyState {
+  const factory SupplyState({
     @Default(StateStatus.initial) StateStatus status,
     CreateSupplyRequest? request,
     @Default(<SupplierDto>[]) List<SupplierDto> suppliers,
@@ -13,5 +13,5 @@ class AddSuppliesState with _$AddSuppliesState {
     int? supplierId,
     List<SupplyProductDto>? products,
     @Default(false) bool isActivaBtn,
-  }) = _AddSuppliesState;
+  }) = _SupplyState;
 }

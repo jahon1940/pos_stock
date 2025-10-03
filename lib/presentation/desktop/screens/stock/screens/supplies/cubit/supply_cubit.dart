@@ -18,17 +18,17 @@ import '../../../../../../../../../domain/repositories/supplier_repository.dart'
 import '../../../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../../../data/dtos/supplies/search_supplies.dart';
 
-part 'add_supplies_cubit.freezed.dart';
+part 'supply_cubit.freezed.dart';
 
-part 'add_supplies_state.dart';
+part 'supply_state.dart';
 
 @injectable
-class AddSuppliesCubit extends Cubit<AddSuppliesState> {
-  AddSuppliesCubit(
+class SupplyCubit extends Cubit<SupplyState> {
+  SupplyCubit(
     this._repo,
     this._productRepository,
     this._supplierRepository,
-  ) : super(const AddSuppliesState());
+  ) : super(const SupplyState());
 
   final SupplyRepository _repo;
   final SupplierRepository _supplierRepository;

@@ -6,8 +6,7 @@ import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 
-import '../cubit/add_supplies_cubit.dart';
-
+import '../cubit/supply_cubit.dart';
 
 class SuppliesProductList extends HookWidget {
   const SuppliesProductList({
@@ -20,15 +19,13 @@ class SuppliesProductList extends HookWidget {
   final bool editable;
 
   @override
-  Widget build(BuildContext context) {
-    if (product == null) return SizedBox();
-
-    final cubit = context.read<AddSuppliesCubit>();
-
+  Widget build(
+    BuildContext context,
+  ) {
+    if (product == null) return const SizedBox();
+    final cubit = context.read<SupplyCubit>();
     final priceController = useTextEditingController(text: product?.price);
-    final purchasePriceController =
-        useTextEditingController(text: product?.purchasePrice);
-
+    final purchasePriceController = useTextEditingController(text: product?.purchasePrice);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: TableProductItem(
@@ -57,8 +54,7 @@ class SuppliesProductList extends HookWidget {
                 child: editable
                     ? AppTextField(
                         hint: 'Количество',
-                        onChange: (p0) => cubit.updateQuantity(
-                            product?.productId ?? 0, int.tryParse(p0)),
+                        onChange: (p0) => cubit.updateQuantity(product?.productId ?? 0, int.tryParse(p0)),
                       )
                     : Center(child: Text(product?.quantity.toString() ?? '0'))),
           ),
@@ -71,8 +67,7 @@ class SuppliesProductList extends HookWidget {
                     ? AppTextField(
                         hint: 'Приходная цена',
                         fieldController: purchasePriceController,
-                        onChange: (p0) => cubit.updatePurchasePrice(
-                            product?.productId ?? 0, p0),
+                        onChange: (p0) => cubit.updatePurchasePrice(product?.productId ?? 0, p0),
                       )
                     : Center(child: Text(product?.purchasePrice ?? ''))),
           ),
@@ -85,8 +80,7 @@ class SuppliesProductList extends HookWidget {
                     ? AppTextField(
                         hint: 'Цена продажи',
                         fieldController: priceController,
-                        onChange: (p0) =>
-                            cubit.updatePrice(product?.productId ?? 0, p0),
+                        onChange: (p0) => cubit.updatePrice(product?.productId ?? 0, p0),
                       )
                     : Center(child: Text(product?.price ?? ''))),
           ),
@@ -101,16 +95,11 @@ class SuppliesProductList extends HookWidget {
                     decoration: BoxDecoration(
                       color: AppColors.error500,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                      ],
+                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                     ),
                     height: 40,
                     width: 40,
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
+                    child: const Icon(Icons.delete, color: Colors.white),
                   ),
                 ),
               ),

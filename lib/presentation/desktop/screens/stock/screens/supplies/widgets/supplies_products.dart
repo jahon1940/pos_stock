@@ -15,7 +15,7 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
-import '../cubit/add_supplies_cubit.dart';
+import '../cubit/supply_cubit.dart';
 import 'supplies_product_list.dart';
 
 class SuppliesProducts extends HookWidget {
@@ -27,7 +27,7 @@ class SuppliesProducts extends HookWidget {
   Widget build(
     BuildContext context,
   ) =>
-      BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
+      BlocBuilder<SupplyCubit, SupplyState>(
         buildWhen: (p, c) => p.suppliers != c.suppliers || p.request != c.request || p.products != c.products,
         builder: (context, state) {
           return CustomBox(

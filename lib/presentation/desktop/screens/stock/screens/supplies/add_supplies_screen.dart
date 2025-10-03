@@ -6,7 +6,7 @@ import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/add_supplies_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/supply_cubit.dart';
 import '../../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/styles/text_style.dart';
@@ -25,7 +25,7 @@ class AddSuppliesScreen extends HookWidget {
     required this.stock,
   });
 
-  final AddSuppliesCubit supplyBloc;
+  final SupplyCubit supplyBloc;
   final CompanyDto organization;
   final StockDto stock;
   final SupplyDto? supply;

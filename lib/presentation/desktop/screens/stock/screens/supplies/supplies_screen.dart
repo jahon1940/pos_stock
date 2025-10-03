@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/add_supplies_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/supply_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../app/router.dart';
@@ -132,7 +132,7 @@ class SuppliesScreen extends HookWidget implements AutoRouteWrapper {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
+                  BlocBuilder<SupplyCubit, SupplyState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -281,7 +281,7 @@ class SuppliesScreen extends HookWidget implements AutoRouteWrapper {
                     const TitleSupplies(isSupplies: true),
 
                     ///
-                    BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
+                    BlocBuilder<SupplyCubit, SupplyState>(
                       buildWhen: (p, c) => p.supplies != c.supplies,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
@@ -321,7 +321,7 @@ class SuppliesScreen extends HookWidget implements AutoRouteWrapper {
     BuildContext context,
   ) =>
       BlocProvider(
-        create: (context) => getIt<AddSuppliesCubit>(),
+        create: (context) => getIt<SupplyCubit>(),
         child: this,
       );
 }
