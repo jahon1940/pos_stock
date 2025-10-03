@@ -22,17 +22,6 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
-  Future<List<SupplyDto>?> getSupplies() async {
-    try {
-      final res = await _stockApi.getSupplies();
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      return null;
-    }
-  }
-
-  @override
   Future<PaginatedDto<Supplies1C>?> getSupplies1C(
     SearchSupplies1C request,
   ) async {

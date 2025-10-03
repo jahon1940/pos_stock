@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
 import 'package:injectable/injectable.dart';
@@ -14,8 +13,6 @@ part '../../data/repositories/stock_repository_impl.dart';
 
 abstract class StockRepository {
   Future<List<StockDto>?> getStocks(int organizationsId);
-
-  Future<List<SupplyDto>?> getSupplies();
 
   Future<PaginatedDto<Supplies1C>?> getSupplies1C(SearchSupplies1C request);
 

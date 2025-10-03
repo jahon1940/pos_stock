@@ -19,7 +19,5 @@ abstract class SupplyRepository {
 
   Future<void> deleteSupply(int id);
 
-  Future<void> downloadSupplies({
-    required int id,
-  });
+  Future<void> downloadSupplies({required int id});
 }

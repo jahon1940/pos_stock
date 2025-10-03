@@ -24,21 +24,9 @@ class StockApiImpl implements StockApi {
   }
 
   @override
-  Future<List<SupplyDto>?> getSupplies() async {
-    try {
-      final res = await _dioClient.getRequest(
-        NetworkConstants.supplies,
-        converter: (response) => List.from(response['results']).map((e) => SupplyDto.fromJson(e)).toList(),
-      );
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      return null;
-    }
-  }
-
-  @override
-  Future<PaginatedDto<Supplies1C>?> getSupplies1C(SearchSupplies1C request) async {
+  Future<PaginatedDto<Supplies1C>?> getSupplies1C(
+    SearchSupplies1C request,
+  ) async {
     try {
       final res = await _dioClient.postRequest(
         '${NetworkConstants.supplies1C}/search',
