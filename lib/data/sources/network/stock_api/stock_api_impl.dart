@@ -211,18 +211,6 @@ class StockApiImpl implements StockApi {
   }
 
   @override
-  Future<void> downloadSupplies({
-    required int id,
-  }) async {
-    try {
-      final directory = await FilePicker.platform.getDirectoryPath();
-      if (directory == null) return;
-      String savePath = "$directory/поступление_$id.xlsx";
-      await _dioClient.downloadRequest("${NetworkConstants.apiManagerUrl}/supplies/$id/download-excel", savePath);
-    } catch (_) {}
-  }
-
-  @override
   Future<void> downloadTransfers({
     required int id,
   }) async {

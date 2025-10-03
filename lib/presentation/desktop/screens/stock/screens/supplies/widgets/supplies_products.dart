@@ -13,7 +13,6 @@ import 'package:hoomo_pos/core/widgets/product_table_title.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../cubit/add_supplies_cubit.dart';
@@ -41,15 +40,19 @@ class SuppliesProducts extends HookWidget {
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Поставщик: ${state.supply!.supplier?.name}',
-                                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
+                            Text(
+                              'Поставщик: ${state.supply!.supplier?.name}',
+                              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
+                            ),
                             GestureDetector(
-                              onTap: () => context.stockBloc.add(StockEvent.downloadSupplies(state.supply!.id)),
+                              onTap: () => context.supplyBloc.downloadSupplies(state.supply!.id),
                               behavior: HitTestBehavior.opaque,
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration:
-                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: context.primary,
+                                ),
                                 height: 50,
                                 width: context.width * .14,
                                 child: Center(

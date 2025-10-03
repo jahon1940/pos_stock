@@ -54,4 +54,15 @@ class SupplyRepositoryImpl implements SupplyRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> downloadSupplies({
+    required int id,
+  }) async {
+    try {
+      await _supplyApi.downloadSupplies(id: id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -168,17 +168,6 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
-  Future<void> downloadSupplies({
-    required int id,
-  }) async {
-    try {
-      await _stockApi.downloadSupplies(id: id);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> downloadTransfers({
     required int id,
   }) async {

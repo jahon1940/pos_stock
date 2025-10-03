@@ -234,4 +234,16 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
       emit(state.copyWith(status: StateStatus.initial));
     }
   }
+
+  Future<void> downloadSupplies(
+    int id,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    try {
+      await _repo.downloadSupplies(id: id);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    emit(state.copyWith(status: StateStatus.loaded));
+  }
 }

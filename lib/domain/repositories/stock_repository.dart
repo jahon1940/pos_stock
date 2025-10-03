@@ -47,10 +47,6 @@ abstract class StockRepository {
 
   Future<void> conductSupplies1C(SuppliesConduct request);
 
-  Future<void> downloadSupplies({
-    required int id,
-  });
-
   Future<void> downloadWriteOffs({
     required int id,
   });

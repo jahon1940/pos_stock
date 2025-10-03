@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hoomo_pos/core/constants/network.dart';
 import 'package:hoomo_pos/core/network/dio_client.dart';
@@ -19,4 +20,8 @@ abstract class SupplyApi {
   Future<PaginatedDto<SupplyDto>> searchSupplies(SearchSupplies request);
 
   Future<void> deleteSupply(int id);
+
+  Future<void> downloadSupplies({
+    required int id,
+  });
 }

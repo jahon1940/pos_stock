@@ -18,4 +18,8 @@ abstract class SupplyRepository {
   Future<PaginatedDto<SupplyDto>> searchSupplies(SearchSupplies request);
 
   Future<void> deleteSupply(int id);
+
+  Future<void> downloadSupplies({
+    required int id,
+  });
 }

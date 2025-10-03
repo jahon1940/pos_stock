@@ -27,7 +27,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     this._stockRepository,
   ) : super(const _StockState()) {
     on<_GetStocks>(_getStocks);
-    on<_DownloadSupplies>(_downloadSupplies);
     on<_SearchTransfers>(_searchTransfers);
     on<_DownloadTransfers>(_downloadTransfers);
     on<_SearchWriteOffs>(_searchWriteOffs);
@@ -137,19 +136,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
     }
-  }
-
-  Future<void> _downloadSupplies(
-    _DownloadSupplies event,
-    Emitter<StockState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      await _stockRepository.downloadSupplies(id: event.id);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _downloadTransfers(
