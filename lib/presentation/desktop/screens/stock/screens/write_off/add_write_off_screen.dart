@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hoomo_pos/app/di.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -14,14 +14,16 @@ import 'widgets/write_off_navbar.dart';
 import 'widgets/write_off_products.dart';
 
 @RoutePage()
-class AddWriteOffScreen extends StatelessWidget implements AutoRouteWrapper {
+class AddWriteOffScreen extends StatelessWidget {
   const AddWriteOffScreen(
+    this.writeOffBloc,
     this.organization, {
     super.key,
     this.writeOff,
     this.stock,
   });
 
+  final WriteOffCubit writeOffBloc;
   final CompanyDto organization;
   final StockDto? stock;
   final WriteOffDto? writeOff;
@@ -30,10 +32,12 @@ class AddWriteOffScreen extends StatelessWidget implements AutoRouteWrapper {
   Widget build(
     BuildContext context,
   ) =>
-      Scaffold(
+      BlocProvider.value(
+        value: writeOffBloc..init(writeOff, stock!),
+        child: Scaffold(
           backgroundColor: AppColors.softGrey,
           body: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: AppUtils.kPaddingAll12,
             child: Column(
               children: [
                 Container(
@@ -77,14 +81,7 @@ class AddWriteOffScreen extends StatelessWidget implements AutoRouteWrapper {
               ],
             ),
           ),
-          bottomNavigationBar: WriteOffNavbar(stock, organization));
-
-  @override
-  Widget wrappedRoute(
-    BuildContext context,
-  ) =>
-      BlocProvider(
-        create: (context) => getIt<WriteOffCubit>()..init(writeOff, stock!),
-        child: this,
+          bottomNavigationBar: WriteOffNavbar(stock, organization),
+        ),
       );
 }

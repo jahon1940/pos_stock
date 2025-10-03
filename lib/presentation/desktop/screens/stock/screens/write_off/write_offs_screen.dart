@@ -18,11 +18,12 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
-import '../../widgets/list_write_offs.dart';
+import '../../../../../../app/di.dart';
 import '../../widgets/title_supplies.dart';
+import 'widgets/write_off_item_widget.dart';
 
 @RoutePage()
-class WriteOffsScreen extends HookWidget {
+class WriteOffsScreen extends HookWidget implements AutoRouteWrapper {
   const WriteOffsScreen(
     this.stock,
     this.organization, {
@@ -36,13 +37,8 @@ class WriteOffsScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    useEffect(() {
-      context.writeOffBloc.searchWriteOffs(stock.id, true);
-      return null;
-    }, const []);
     final fromController = useTextEditingController();
     final toController = useTextEditingController();
-
     return Scaffold(
       body: Padding(
         padding: AppUtils.kPaddingAll10,
@@ -198,7 +194,11 @@ class WriteOffsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () async => router.push(AddWriteOffRoute(stock: stock, organization: organization)),
+                    onTap: () async => router.push(AddWriteOffRoute(
+                      writeOffBloc: context.writeOffBloc,
+                      stock: stock,
+                      organization: organization,
+                    )),
                     child: Container(
                       height: 48,
                       width: context.width * .1,
@@ -240,7 +240,7 @@ class WriteOffsScreen extends HookWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                                     itemCount: state.writeOffs?.results.length ?? 0,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (context, index) => WriteOffList(
+                                    itemBuilder: (context, index) => WriteOffItemWidget(
                                       admission: state.writeOffs!.results[index],
                                       stock: stock,
                                       organization: organization,
@@ -258,4 +258,13 @@ class WriteOffsScreen extends HookWidget {
       ),
     );
   }
+
+  @override
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<WriteOffCubit>()..searchWriteOffs(stock.id, true),
+        child: this,
+      );
 }
