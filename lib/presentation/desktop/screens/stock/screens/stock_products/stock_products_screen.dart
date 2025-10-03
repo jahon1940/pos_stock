@@ -26,7 +26,7 @@ import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
 import '../../widgets/back_button_widget.dart';
 import '../../widgets/delete_product_widget.dart';
-import '../../widgets/title_products.dart';
+import 'widgets/products_table_title_widget.dart';
 
 @RoutePage()
 class StockProductsScreen extends HookWidget {
@@ -285,7 +285,7 @@ class StockProductsScreen extends HookWidget {
                 padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
-                    const TitleProducts(showSupply: true),
+                    const ProductsTableTitleWidget(),
 
                     ///
                     BlocBuilder<SearchBloc, SearchState>(
@@ -315,15 +315,7 @@ class StockProductsScreen extends HookWidget {
                                     final product = state.products?.results[index];
                                     final productInStocks = product?.stocks.firstOrNull;
                                     return TableProductItem(
-                                      columnWidths: const {
-                                        0: FlexColumnWidth(6),
-                                        1: FlexColumnWidth(4),
-                                        2: FlexColumnWidth(3),
-                                        3: FlexColumnWidth(3),
-                                        4: FlexColumnWidth(3),
-                                        5: FlexColumnWidth(3),
-                                        6: FlexColumnWidth(3),
-                                      },
+                                      columnWidths: ProductsTableTitleWidget.columnWidths,
                                       onTap: () {
                                         showDialog(
                                           context: context,
