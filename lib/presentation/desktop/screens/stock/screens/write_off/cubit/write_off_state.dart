@@ -6,6 +6,9 @@ class WriteOffState with _$WriteOffState {
     @Default(StateStatus.initial) StateStatus status,
     CreateWriteOff? request,
     WriteOffDto? writeOff,
+    PaginatedDto<WriteOffDto>? writeOffs,
+    DateTime? dateFrom,
+    DateTime? dateTo,
     List<WriteOffProductDto>? products,
     @Default(false) bool isActivaBtn,
   }) = _WriteOffState;

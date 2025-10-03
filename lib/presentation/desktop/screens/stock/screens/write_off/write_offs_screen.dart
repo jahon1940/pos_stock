@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/cubit/write_off_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../app/router.dart';
@@ -17,7 +18,6 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
-import '../../bloc/stock_bloc.dart';
 import '../../widgets/list_write_offs.dart';
 import '../../widgets/title_supplies.dart';
 
@@ -37,7 +37,7 @@ class WriteOffsScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.stockBloc.add(StockEvent.searchWriteOffs(stock.id, true));
+      context.writeOffBloc.searchWriteOffs(stock.id, true);
       return null;
     }, const []);
     final fromController = useTextEditingController();
@@ -83,7 +83,7 @@ class WriteOffsScreen extends HookWidget {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<StockBloc, StockState>(
+                  BlocBuilder<WriteOffCubit, WriteOffState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -107,7 +107,7 @@ class WriteOffsScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateFrom(picked));
+                                    context.writeOffBloc.dateFrom(picked);
                                     fromController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -147,7 +147,7 @@ class WriteOffsScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateTo(picked));
+                                    context.writeOffBloc.dateTo(picked);
                                     toController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -172,7 +172,7 @@ class WriteOffsScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () async => context.stockBloc.add(StockEvent.searchWriteOffs(stock.id, false)),
+                              onTap: () async => context.writeOffBloc.searchWriteOffs(stock.id, false),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -228,7 +228,7 @@ class WriteOffsScreen extends HookWidget {
                     const TitleSupplies(isSupplies: false),
 
                     ///
-                    BlocBuilder<StockBloc, StockState>(
+                    BlocBuilder<WriteOffCubit, WriteOffState>(
                       buildWhen: (p, c) => p.writeOffs != c.writeOffs,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
