@@ -156,4 +156,14 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     final request = state.request?.copyWith(fromStockId: fromStockId, toStockId: toStockId);
     emit(state.copyWith(request: request));
   }
+
+  void dateFrom(
+    DateTime dateFrom,
+  ) =>
+      emit(state.copyWith(status: StateStatus.initial, dateFrom: dateFrom));
+
+  void dateTo(
+    DateTime dateTo,
+  ) =>
+      emit(state.copyWith(status: StateStatus.initial, dateTo: dateTo));
 }
