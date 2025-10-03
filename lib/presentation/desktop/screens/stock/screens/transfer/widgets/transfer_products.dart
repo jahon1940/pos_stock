@@ -18,7 +18,7 @@ import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 import '../../../bloc/stock_bloc.dart';
-import '../cubit/add_transfer_cubit.dart';
+import '../cubit/transfer_cubit.dart';
 import 'transfer_product_list.dart';
 
 class TransferProducts extends HookWidget {
@@ -32,11 +32,11 @@ class TransferProducts extends HookWidget {
   final StockDto? stock;
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AddTransferCubit>();
-    return BlocBuilder<AddTransferCubit, AddTransferState>(
-      builder: (context, state) {
-        return CustomBox(
+  Widget build(
+    BuildContext context,
+  ) =>
+      BlocBuilder<TransferCubit, TransferState>(
+        builder: (context, state) => CustomBox(
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -46,14 +46,19 @@ class TransferProducts extends HookWidget {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Склад перемещение: ${state.transfer!.toStock?.name}',
-                              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
+                          Text(
+                            'Склад перемещение: ${state.transfer!.toStock?.name}',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
+                          ),
                           GestureDetector(
                             onTap: () => context.stockBloc.add(StockEvent.downloadTransfers(state.transfer!.id)),
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: context.primary,
+                              ),
                               height: 50,
                               width: context.width * .14,
                               child: Center(
@@ -82,7 +87,10 @@ class TransferProducts extends HookWidget {
                           DropdownMenu<int>(
                             width: 400,
                             hintText: 'Выберите Склад',
-                            onSelected: (value) => cubit.selectStock(fromStockId: stock!.id, toStockId: value ?? 1),
+                            onSelected: (value) => context.transferBloc.selectStock(
+                              fromStockId: stock!.id,
+                              toStockId: value ?? 1,
+                            ),
                             dropdownMenuEntries: state.stocks
                                 .map(
                                   (e) => DropdownMenuEntry(
@@ -95,9 +103,7 @@ class TransferProducts extends HookWidget {
                           AppSpace.horizontal24,
                           if (state.stocks.isEmpty && state.status != StateStatus.loading)
                             GestureDetector(
-                              onTap: () {
-                                cubit.getStocks(organization.id);
-                              },
+                              onTap: () => context.transferBloc.getStocks(organization.id),
                               behavior: HitTestBehavior.opaque,
                               child: Container(
                                 padding: const EdgeInsets.all(5),
@@ -121,7 +127,10 @@ class TransferProducts extends HookWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Наменклатура', style: AppTextStyles.boldType14),
+                      const Text(
+                        'Наменклатура',
+                        style: AppTextStyles.boldType14,
+                      ),
                       GestureDetector(
                         onTap: () async {
                           final res = await showDialog(
@@ -135,20 +144,14 @@ class TransferProducts extends HookWidget {
                               ),
                             ),
                           );
-
                           if (res == null) return;
-
                           if (res == true) {
                             final data = await router.push(AddProductRoute()) as String?;
-
                             if (data == null) return;
-
-                            cubit.addProductByBarcode(data);
-
+                            context.transferBloc.addProductByBarcode(data);
                             return;
                           }
-
-                          cubit.addProduct(res);
+                          context.transferBloc.addProduct(res);
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Container(
@@ -205,8 +208,6 @@ class TransferProducts extends HookWidget {
               ],
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

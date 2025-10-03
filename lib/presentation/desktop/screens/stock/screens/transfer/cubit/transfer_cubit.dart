@@ -16,17 +16,17 @@ import '../../../../../../../../../data/dtos/transfers/transfer_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 
-part 'add_transfer_state.dart';
+part 'transfer_state.dart';
 
-part 'add_transfer_cubit.freezed.dart';
+part 'transfer_cubit.freezed.dart';
 
 @injectable
-class AddTransferCubit extends Cubit<AddTransferState> {
-  AddTransferCubit(
+class TransferCubit extends Cubit<TransferState> {
+  TransferCubit(
     this._repository,
     this._productRepository,
     this._stockRepository,
-  ) : super(const AddTransferState());
+  ) : super(const TransferState());
 
   final StockRepository _repository;
   final ProductsRepository _productRepository;

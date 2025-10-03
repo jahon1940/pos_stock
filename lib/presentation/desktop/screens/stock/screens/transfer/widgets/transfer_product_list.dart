@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
-import '../cubit/add_transfer_cubit.dart';
 
 class TransferProductList extends HookWidget {
   const TransferProductList({
@@ -22,7 +21,6 @@ class TransferProductList extends HookWidget {
     BuildContext context,
   ) {
     if (product == null) return const SizedBox();
-    final cubit = context.read<AddTransferCubit>();
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: TableProductItem(
@@ -50,7 +48,8 @@ class TransferProductList extends HookWidget {
                 child: editable
                     ? AppTextField(
                         hint: 'Количество',
-                        onChange: (p0) => cubit.updateQuantity(product?.productId ?? 0, int.tryParse(p0)),
+                        onChange: (p0) =>
+                            context.transferBloc.updateQuantity(product?.productId ?? 0, int.tryParse(p0)),
                       )
                     : Text(product?.quantity.toString() ?? '0')),
           ),
@@ -60,7 +59,7 @@ class TransferProductList extends HookWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap: () => cubit.deleteProduct(product!.productId),
+                  onTap: () => context.transferBloc.deleteProduct(product!.productId),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.error500,

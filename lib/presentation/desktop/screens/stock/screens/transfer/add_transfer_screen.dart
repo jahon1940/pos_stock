@@ -11,7 +11,7 @@ import '../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../data/dtos/transfers/transfer_dto.dart';
-import 'cubit/add_transfer_cubit.dart';
+import 'cubit/transfer_cubit.dart';
 import 'widgets/transfer_navbar.dart';
 import 'widgets/transfer_products.dart';
 
@@ -31,7 +31,7 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      context.read<AddTransferCubit>().getStocks(organization.id);
+      context.transferBloc.getStocks(organization.id);
       return null;
     }, const []);
     ThemeData themeData = Theme.of(context);
@@ -89,7 +89,7 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
     BuildContext context,
   ) =>
       BlocProvider(
-        create: (context) => getIt<AddTransferCubit>()..init(transfer, stock!),
+        create: (context) => getIt<TransferCubit>()..init(transfer, stock!),
         child: this,
       );
 }

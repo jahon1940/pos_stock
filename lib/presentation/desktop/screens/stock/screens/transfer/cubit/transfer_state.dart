@@ -1,8 +1,8 @@
-part of 'add_transfer_cubit.dart';
+part of 'transfer_cubit.dart';
 
 @freezed
-class AddTransferState with _$AddTransferState {
-  const factory AddTransferState({
+class TransferState with _$TransferState {
+  const factory TransferState({
     @Default(StateStatus.initial) StateStatus status,
     CreateTransfers? request,
     TransferDto? transfer,
@@ -12,5 +12,5 @@ class AddTransferState with _$AddTransferState {
     StockDto? stock,
     List<TransferProductDto>? products,
     @Default(false) bool isActivaBtn,
-  }) = _AddTransferState;
+  }) = _TransferState;
 }

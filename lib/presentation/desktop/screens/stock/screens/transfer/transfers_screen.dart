@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/add_transfer_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/transfer_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../app/router.dart';
@@ -84,7 +84,7 @@ class TransfersScreen extends HookWidget {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<AddTransferCubit, AddTransferState>(
+                  BlocBuilder<TransferCubit, TransferState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
