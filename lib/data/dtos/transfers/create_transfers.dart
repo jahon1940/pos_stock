@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hoomo_pos/data/dtos/add_product/add_product_request.dart';
 import 'package:hoomo_pos/data/dtos/transfers/transfer_product_request.dart';
 
 part 'create_transfers.freezed.dart';
