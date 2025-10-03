@@ -18,11 +18,12 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../app/di.dart';
 import '../../widgets/title_supplies.dart';
 import 'widgets/transfer_item_widget.dart';
 
 @RoutePage()
-class TransfersScreen extends HookWidget {
+class TransfersScreen extends HookWidget implements AutoRouteWrapper {
   const TransfersScreen(
     this.stock,
     this.organization, {
@@ -198,7 +199,11 @@ class TransfersScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () async => router.push(AddTransferRoute(stock: stock, organization: organization)),
+                    onTap: () async => router.push(AddTransferRoute(
+                      transferBloc: context.transferBloc,
+                      stock: stock,
+                      organization: organization,
+                    )),
                     child: Container(
                       height: 48,
                       width: context.width * .1,
@@ -258,4 +263,13 @@ class TransfersScreen extends HookWidget {
       ),
     );
   }
+
+  @override
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<TransferCubit>(),
+        child: this,
+      );
 }

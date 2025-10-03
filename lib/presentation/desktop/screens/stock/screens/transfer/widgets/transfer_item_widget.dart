@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/app/router.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
@@ -33,7 +34,12 @@ class TransfersItemWidget extends StatelessWidget {
           2: FlexColumnWidth(2),
           3: FlexColumnWidth(2),
         },
-        onTap: () => router.push(AddTransferRoute(transfer: admission, stock: stock, organization: organization)),
+        onTap: () => router.push(AddTransferRoute(
+          transferBloc: context.transferBloc,
+          transfer: admission,
+          stock: stock,
+          organization: organization,
+        )),
         children: [
           SizedBox(
             height: 60,
