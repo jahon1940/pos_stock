@@ -37,7 +37,6 @@ class SuppliesProducts extends HookWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 state.supply != null
@@ -45,22 +44,13 @@ class SuppliesProducts extends HookWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Поставщик: ${state.supply!.supplier?.name}',
-                              style: AppTextStyles.boldType14
-                                  .copyWith(fontWeight: FontWeight.w600)),
+                              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600)),
                           GestureDetector(
-                            onTap: () async {
-                              context
-                                  .read<StockBloc>()
-                                  .add(StockEvent.downloadSupplies(
-                                    state.supply!.id,
-                                  ));
-                            },
+                            onTap: () => context.stockBloc.add(StockEvent.downloadSupplies(state.supply!.id)),
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: context.primary),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                               height: 50,
                               width: context.width * .14,
                               child: Center(
@@ -75,9 +65,7 @@ class SuppliesProducts extends HookWidget {
                                     Text(
                                       "Скачать документ",
                                       maxLines: 2,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: context.onPrimary),
+                                      style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
                                   ],
                                 ),
@@ -91,21 +79,18 @@ class SuppliesProducts extends HookWidget {
                           DropdownMenu<int>(
                             width: 400,
                             hintText: 'Выберите поставщика',
-                            onSelected: (value) =>
-                                cubit.selectSupplier(value ?? 1),
+                            onSelected: (value) => cubit.selectSupplier(value ?? 1),
                             dropdownMenuEntries: state.suppliers
                                 .map(
                                   (e) => DropdownMenuEntry(
                                     value: e.id,
-                                    label:
-                                        e.name ?? e.inn ?? e.phoneNumber ?? '',
+                                    label: e.name ?? e.inn ?? e.phoneNumber ?? '',
                                   ),
                                 )
                                 .toList(),
                           ),
                           AppSpace.horizontal24,
-                          if (state.suppliers.isEmpty &&
-                              state.status != StateStatus.loading)
+                          if (state.suppliers.isEmpty && state.status != StateStatus.loading)
                             GestureDetector(
                               onTap: () {
                                 cubit.getSuppliers();
@@ -113,17 +98,15 @@ class SuppliesProducts extends HookWidget {
                               behavior: HitTestBehavior.opaque,
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: context.primary),
+                                decoration:
+                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                                 height: 50,
                                 width: context.width * .1,
                                 child: Center(
                                   child: Text(
                                     "Обновить",
                                     maxLines: 2,
-                                    style: TextStyle(
-                                        fontSize: 13, color: context.onPrimary),
+                                    style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
                                 ),
                               ),
@@ -135,25 +118,21 @@ class SuppliesProducts extends HookWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Наменклатура',
-                          style: AppTextStyles.boldType14),
+                      const Text('Наменклатура', style: AppTextStyles.boldType14),
                       GestureDetector(
                         onTap: () async {
                           final res = await showDialog(
                             context: context,
                             builder: (context) => BlocProvider(
-                              create: (context) => getIt<FastSearchBloc>()
-                                ..add(SearchInit(false)),
-                              child: SearchDialog(
-                                  isDialog: true, isReserve: false),
+                              create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
+                              child: const SearchDialog(isDialog: true, isReserve: false),
                             ),
                           );
 
                           if (res == null) return;
 
                           if (res == true) {
-                            final data =
-                                await router.push(AddProductRoute()) as String?;
+                            final data = await router.push(AddProductRoute()) as String?;
 
                             if (data == null) return;
 
@@ -167,17 +146,14 @@ class SuppliesProducts extends HookWidget {
                         behavior: HitTestBehavior.opaque,
                         child: Container(
                           padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: context.primary),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                           height: 50,
                           width: context.width * .14,
                           child: Center(
                             child: Text(
                               "Добавить Наменклатуру",
                               maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 13, color: context.onPrimary),
+                              style: TextStyle(fontSize: 13, color: context.onPrimary),
                             ),
                           ),
                         ),
@@ -189,11 +165,11 @@ class SuppliesProducts extends HookWidget {
                   child: TableTitleProducts(
                     fillColor: AppColors.stroke,
                     columnWidths: {
-                      0: FlexColumnWidth(4),
-                      1: FlexColumnWidth(2),
-                      2: FlexColumnWidth(2),
-                      3: FlexColumnWidth(2),
-                      if (state.products == null) 4: FlexColumnWidth(1),
+                      0: const FlexColumnWidth(4),
+                      1: const FlexColumnWidth(2),
+                      2: const FlexColumnWidth(2),
+                      3: const FlexColumnWidth(2),
+                      if (state.products == null) 4: const FlexColumnWidth(),
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
@@ -209,9 +185,7 @@ class SuppliesProducts extends HookWidget {
                   height: context.height - 390,
                   child: ListView.separated(
                     shrinkWrap: true,
-                    itemCount: state.products?.length ??
-                        state.request?.products.length ??
-                        0,
+                    itemCount: state.products?.length ?? state.request?.products.length ?? 0,
                     separatorBuilder: (context, index) => AppSpace.vertical6,
                     itemBuilder: (context, index) => SuppliesProductList(
                         editable: state.products == null,
@@ -220,9 +194,7 @@ class SuppliesProducts extends HookWidget {
                                 title: state.products![index].product?.title,
                                 productId: state.products![index].id,
                                 quantity: state.products?[index].quantity ?? 0,
-                                purchasePrice: state
-                                    .products![index].purchasePrice
-                                    .toString(),
+                                purchasePrice: state.products![index].purchasePrice.toString(),
                                 price: state.products![index].price.toString())
                             : state.request?.products[index]),
                   ),
