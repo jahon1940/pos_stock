@@ -22,53 +22,6 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
-  Future<PaginatedDto<TransferDto>> searchTransfers(
-    SearchTransfers request,
-  ) async {
-    try {
-      final res = await _stockApi.searchTransfers(request);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> createTransfers(
-    CreateTransfers request,
-  ) async {
-    try {
-      final res = await _stockApi.createTransfers(request);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  @override
-  Future<List<TransferProductDto>> getTransfersProducts(
-    int id,
-  ) async {
-    try {
-      final res = await _stockApi.getTransfersProducts(id);
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> deleteTransfers(int id) async {
-    try {
-      final res = await _stockApi.deleteTransfers(id);
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Future<PaginatedDto<WriteOffDto>> searchWriteOff(
     SearchWriteOff request,
   ) async {
@@ -162,17 +115,6 @@ class StockRepositoryImpl implements StockRepository {
     try {
       final res = await _stockApi.getSupply1CProducts(id);
       return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> downloadTransfers({
-    required int id,
-  }) async {
-    try {
-      await _stockApi.downloadTransfers(id: id);
     } catch (e) {
       rethrow;
     }
