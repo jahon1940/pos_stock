@@ -32,37 +32,37 @@ class AddTransferCubit extends Cubit<AddTransferState> {
   final ProductsRepository _productRepository;
   final StockRepository _stockRepository;
 
-  void init(TransferDto? transfer, StockDto stock) async {
+  void init(
+    TransferDto? transfer,
+    StockDto stock,
+  ) async {
     final request = CreateTransfers(
       fromStockId: stock.id,
       products: [],
     );
-
     emit(state.copyWith(request: request, transfer: transfer));
-
     if (transfer == null) return;
-
     getTransferProducts();
   }
 
-  void addProductByBarcode(String barcode) async {
+  void addProductByBarcode(
+    String barcode,
+  ) async {
     try {
       final products = await _productRepository.searchRemote(SearchRequest(title: barcode));
-
       addProduct(products.results.first.id);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  void addProduct(int id) async {
+  void addProduct(
+    int id,
+  ) async {
     if (state.request == null) return;
-
     try {
       final product = await _productRepository.getProductDetail(id);
-
       final products = <TransferProductRequest>[];
-
       products.addAll(state.request!.products!);
       if (!state.request!.products!.contains(TransferProductRequest(
         title: product.title,
@@ -75,9 +75,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
           quantity: 0,
         ));
       }
-
       final request = state.request!.copyWith(products: products);
-
       emit(state.copyWith(request: request));
     } catch (e) {
       debugPrint(e.toString());
@@ -86,13 +84,11 @@ class AddTransferCubit extends Cubit<AddTransferState> {
 
   void create() async {
     if (state.request == null) return;
-
     try {
       final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
       await _repository.createTransfers(state.request!);
       bloc?.add(StockEvent.searchTransfers(state.request!.fromStockId!, true));
-
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
@@ -100,38 +96,36 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     }
   }
 
-  void updateQuantity(int productId, int? quantity) {
+  void updateQuantity(
+    int productId,
+    int? quantity,
+  ) {
     TransferProductRequest? product = state.request?.products?.firstWhere((e) => e.productId == productId);
-
     if (product == null) return;
-
     product = product.copyWith(quantity: quantity ?? 0);
-
     final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
-
     emit(state.copyWith(request: request));
   }
 
-  List<TransferProductRequest> _returnUpdatedProducts(TransferProductRequest product) {
+  List<TransferProductRequest> _returnUpdatedProducts(
+    TransferProductRequest product,
+  ) {
     final products = <TransferProductRequest>[];
-
     for (TransferProductRequest p in state.request?.products ?? []) {
       if (p.productId == product.productId) {
         products.add(product);
         continue;
       }
-
       products.add(p);
     }
-
     return products;
   }
 
-  void deleteProduct(int id) {
+  void deleteProduct(
+    int id,
+  ) {
     final products = List<TransferProductRequest>.from(state.request?.products ?? []);
-
     products.removeWhere((e) => e.productId == id);
-
     emit(state.copyWith(request: state.request?.copyWith(products: products)));
   }
 
@@ -144,7 +138,9 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     }
   }
 
-  void getStocks(int organizationId) async {
+  void getStocks(
+    int organizationId,
+  ) async {
     try {
       final res = await _stockRepository.getStocks(organizationId);
       emit(state.copyWith(stocks: res!));
@@ -153,9 +149,11 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     }
   }
 
-  void selectStock({required int fromStockId, required int toStockId}) {
+  void selectStock({
+    required int fromStockId,
+    required int toStockId,
+  }) {
     final request = state.request?.copyWith(fromStockId: fromStockId, toStockId: toStockId);
-
     emit(state.copyWith(request: request));
   }
 }
