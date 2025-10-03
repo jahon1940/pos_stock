@@ -7,6 +7,10 @@ class AddSuppliesState with _$AddSuppliesState {
     CreateSupplyRequest? request,
     @Default(<SupplierDto>[]) List<SupplierDto> suppliers,
     SupplyDto? supply,
+    PaginatedDto<SupplyDto>? supplies,
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    int? supplierId,
     List<SupplyProductDto>? products,
     @Default(false) bool isActivaBtn,
   }) = _AddSuppliesState;

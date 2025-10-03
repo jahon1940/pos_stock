@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
@@ -13,10 +11,12 @@ import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:hoomo_pos/domain/repositories/supply_repository.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../../../domain/repositories/supplier_repository.dart';
+import '../../../../../../../data/dtos/pagination_dto.dart';
+import '../../../../../../../data/dtos/supplies/search_supplies.dart';
 
 part 'add_supplies_cubit.freezed.dart';
 
@@ -34,19 +34,18 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   final SupplierRepository _supplierRepository;
   final ProductsRepository _productRepository;
 
-  void init(SupplyDto? supply, StockDto stock) async {
+  void init(
+    SupplyDto? supply,
+    StockDto stock,
+  ) async {
     final request = CreateSupplyRequest(
       supplierId: supply?.supplier?.id,
       stockId: stock.id,
       products: [],
     );
-
     emit(state.copyWith(request: request, supply: supply));
-
     getSuppliers();
-
     if (supply == null) return;
-
     getSupplyProducts();
   }
 
@@ -97,10 +96,9 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
     if (state.request == null) return;
 
     try {
-      final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
       await _repo.createSupply(state.request!);
-      bloc?.add(StockEvent.searchSupplies(state.request!.stockId, true));
+      await searchSupplies(state.request!.stockId, true);
 
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
@@ -109,81 +107,72 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
     }
   }
 
-  void updateQuantity(int productId, int? quantity) {
+  void updateQuantity(
+    int productId,
+    int? quantity,
+  ) {
     SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
-
     if (product == null) return;
-
     product = product.copyWith(quantity: quantity ?? 0);
-
     final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
-
     emit(state.copyWith(request: request));
   }
 
-  void updatePurchasePrice(int productId, String? price) {
+  void updatePurchasePrice(
+    int productId,
+    String? price,
+  ) {
     SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
-
     if (product == null) return;
-
     product = product.copyWith(purchasePrice: price ?? '');
-
     final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
-
     emit(state.copyWith(request: request));
   }
 
-  void updatePrice(int productId, String? price) {
+  void updatePrice(
+    int productId,
+    String? price,
+  ) {
     SupplyProductRequest? product = state.request?.products.firstWhere((e) => e.productId == productId);
-
     if (product == null) return;
-
     product = product.copyWith(price: price ?? '');
-
     final request = state.request?.copyWith(products: _returnUpdatedProducts(product));
-
     emit(state.copyWith(request: request));
   }
 
-  List<SupplyProductRequest> _returnUpdatedProducts(SupplyProductRequest product) {
+  List<SupplyProductRequest> _returnUpdatedProducts(
+    SupplyProductRequest product,
+  ) {
     final products = <SupplyProductRequest>[];
-
     for (SupplyProductRequest p in state.request?.products ?? []) {
       if (p.productId == product.productId) {
         products.add(product);
         continue;
       }
-
       products.add(p);
     }
-
     return products;
   }
 
   void selectSupplier(int id) {
     final request = state.request?.copyWith(supplierId: id);
-
     emit(state.copyWith(request: request));
   }
 
   void getSuppliers() async {
     emit(state.copyWith(status: StateStatus.loading));
-
     try {
       final res = await _supplierRepository.getSuppliers();
       emit(state.copyWith(suppliers: res!));
     } catch (e) {
       debugPrint(e.toString());
     }
-
     emit(state.copyWith(status: StateStatus.initial));
   }
 
   void deleteProduct(int id) {
     final products = List<SupplyProductRequest>.from(state.request?.products ?? []);
-
     products.removeWhere((e) => e.productId == id);
-
     emit(state.copyWith(request: state.request?.copyWith(products: products)));
   }
 
@@ -193,6 +182,56 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
       emit(state.copyWith(products: res));
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  void dateFrom(
+    DateTime dateFrom,
+  ) =>
+      emit(state.copyWith(status: StateStatus.initial, dateFrom: dateFrom));
+
+  void dateTo(
+    DateTime dateTo,
+  ) =>
+      emit(state.copyWith(status: StateStatus.initial, dateTo: dateTo));
+
+  Future<void> searchSupplies(
+    int stockId,
+    bool? initial,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    if (initial == true) {
+      emit(state.copyWith(dateFrom: null, dateTo: null));
+    }
+    final request = SearchSupplies(
+      supplierId: state.supplierId,
+      stockId: stockId,
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+    );
+
+    try {
+      final res = await _repo.searchSupplies(request);
+      emit(state.copyWith(
+        status: StateStatus.loaded,
+        supplies: res,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void selectedSupplier(int? id) => emit(state.copyWith(supplierId: id));
+
+  Future<void> deleteSupply(
+    int id,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    try {
+      await _repo.deleteSupply(id);
+      emit(state.copyWith(status: StateStatus.initial));
+    } catch (e) {
+      emit(state.copyWith(status: StateStatus.initial));
     }
   }
 }

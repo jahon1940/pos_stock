@@ -4,11 +4,7 @@ part of 'stock_bloc.dart';
 class StockEvent with _$StockEvent {
   const factory StockEvent.getStocks(int id) = _GetStocks;
 
-  const factory StockEvent.searchSupplies(int stockId, bool? initial) = _SearchSupplies;
-
   const factory StockEvent.downloadSupplies(int id) = _DownloadSupplies;
-
-  const factory StockEvent.deleteSupply(int id) = _DeleteSupply;
 
   const factory StockEvent.searchTransfers(int stockId, bool? initial) = _SearchTransfers;
 
@@ -23,8 +19,6 @@ class StockEvent with _$StockEvent {
   const factory StockEvent.deleteWriteOff(int id) = _DeleteWriteOff;
 
   const factory StockEvent.deleteInventory(int id) = _DeleteInventory;
-
-  const factory StockEvent.selectedSupplier(int? id) = _SelectedSupplier;
 
   const factory StockEvent.toStockId(int? id) = _ToStockId;
 

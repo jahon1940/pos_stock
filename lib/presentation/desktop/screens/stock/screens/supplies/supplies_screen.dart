@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/add_supplies_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../app/router.dart';
@@ -17,15 +18,15 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../app/di.dart';
 import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
-import '../../bloc/stock_bloc.dart';
 import '../../widgets/delete_product_widget.dart';
 import '../../widgets/title_supplies.dart';
-import 'widgets/list_supplies.dart';
+import 'widgets/supply_item_widget.dart';
 
 @RoutePage()
-class SuppliesScreen extends HookWidget {
+class SuppliesScreen extends HookWidget implements AutoRouteWrapper {
   const SuppliesScreen(
     this.stock,
     this.organization, {
@@ -42,7 +43,7 @@ class SuppliesScreen extends HookWidget {
     useEffect(() {
       context
         ..supplierBloc.getSuppliers()
-        ..stockBloc.add(StockEvent.searchSupplies(stock.id, true));
+        ..supplyBloc.searchSupplies(stock.id, true);
       return null;
     }, const []);
     final fromController = useTextEditingController();
@@ -103,8 +104,8 @@ class SuppliesScreen extends HookWidget {
                         textStyle: const TextStyle(fontSize: 11),
                         controller: supplierController,
                         onSelected: (value) => context
-                          ..read<SearchBloc>().add(SelectSupplier(id: value))
-                          ..stockBloc.add(StockEvent.selectedSupplier(value)),
+                          ..searchBloc.add(SelectSupplier(id: value))
+                          ..supplyBloc.selectedSupplier(value),
                         inputDecorationTheme: InputDecorationTheme(
                           hintStyle: const TextStyle(fontSize: 11),
                           isDense: true,
@@ -131,7 +132,7 @@ class SuppliesScreen extends HookWidget {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<StockBloc, StockState>(
+                  BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -154,7 +155,7 @@ class SuppliesScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateFrom(picked));
+                                    context.supplyBloc.dateFrom(picked);
                                     fromController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -194,7 +195,7 @@ class SuppliesScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateTo(picked));
+                                    context.supplyBloc.dateTo(picked);
                                     toController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -219,7 +220,7 @@ class SuppliesScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () => context.stockBloc.add(StockEvent.searchSupplies(stock.id, false)),
+                              onTap: () => context.supplyBloc.searchSupplies(stock.id, false),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -246,6 +247,7 @@ class SuppliesScreen extends HookWidget {
                   AppUtils.kGap6,
                   GestureDetector(
                     onTap: () async => router.push(AddSuppliesRoute(
+                      supplyBloc: context.supplyBloc,
                       stock: stock,
                       organization: organization,
                     )),
@@ -279,8 +281,8 @@ class SuppliesScreen extends HookWidget {
                     const TitleSupplies(isSupplies: true),
 
                     ///
-                    BlocBuilder<StockBloc, StockState>(
-                      buildWhen: (previous, current) => previous.supplies != current.supplies,
+                    BlocBuilder<AddSuppliesCubit, AddSuppliesState>(
+                      buildWhen: (p, c) => p.supplies != c.supplies,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
                             ? const Center(child: CircularProgressIndicator())
@@ -291,15 +293,14 @@ class SuppliesScreen extends HookWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                                     itemCount: state.supplies!.results.length,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (_, index) => SuppliesList(
+                                    itemBuilder: (_, index) => SupplyItemWidget(
                                       organization: organization,
                                       stock: stock,
                                       admission: state.supplies!.results[index],
                                       onDelete: () async {
                                         final res = await context.showCustomDialog(const DeleteProductWidget());
                                         if (res == null) return;
-                                        context.stockBloc
-                                            .add(StockEvent.deleteSupply(state.supplies!.results[index].id));
+                                        await context.supplyBloc.deleteSupply(state.supplies!.results[index].id);
                                       },
                                     ),
                                   ),
@@ -314,4 +315,13 @@ class SuppliesScreen extends HookWidget {
       ),
     );
   }
+
+  @override
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<AddSuppliesCubit>(),
+        child: this,
+      );
 }
