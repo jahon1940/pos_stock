@@ -162,37 +162,6 @@ class StockApiImpl implements StockApi {
   }
 
   @override
-  Future<PaginatedDto<SupplyDto>> search(
-    SearchSupplies request,
-  ) async {
-    try {
-      final res = await _dioClient.postRequest<PaginatedDto<SupplyDto>>(
-        "${NetworkConstants.supplies}/search",
-        queryParameters: {"page": 1, "page_size": 200},
-        data: request,
-        converter: (response) => PaginatedDto.fromJson(
-          response,
-          (json) => SupplyDto.fromJson(json),
-        ),
-      );
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> deleteSupply(
-    int id,
-  ) async {
-    try {
-      await _dioClient.deleteRequest('${NetworkConstants.supplies}/$id');
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Future<PaginatedDto<Supplies1C>?> getSupplies1C(SearchSupplies1C request) async {
     try {
       final res = await _dioClient.postRequest(

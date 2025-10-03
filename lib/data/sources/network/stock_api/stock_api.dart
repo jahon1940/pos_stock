@@ -9,7 +9,6 @@ import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../dtos/stock_dto.dart';
-import '../../../dtos/supplies/search_supplies.dart';
 import '../../../dtos/supplies_1c/supplies_1c.dart';
 import '../../../dtos/supplies_1c/supplies_1c_conduct.dart';
 import '../../../dtos/transfers/create_transfers.dart';
@@ -42,11 +41,7 @@ abstract class StockApi {
 
   Future<void> deleteWriteOff(int id);
 
-  Future<PaginatedDto<SupplyDto>> search(SearchSupplies request);
-
   Future<List<SupplyDto>?> getSupplies();
-
-  Future<void> deleteSupply(int id);
 
   Future<PaginatedDto<Supplies1C>?> getSupplies1C(SearchSupplies1C request);
 
