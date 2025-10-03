@@ -144,7 +144,6 @@ class TransferCubit extends Cubit<TransferState> {
     int organizationId,
   ) async {
     try {
-      /// todo why need stocks
       final res = await _stockRepository.getStocks(organizationId);
       emit(state.copyWith(stocks: res!));
     } catch (e) {

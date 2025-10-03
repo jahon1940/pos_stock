@@ -11,7 +11,6 @@ import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/product_table_title.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/search/search_dialog.dart';
-import '../../../../../../../../../core/enums/states.dart';
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
@@ -100,14 +99,16 @@ class TransferProducts extends HookWidget {
                                 .toList(),
                           ),
                           AppSpace.horizontal24,
-                          if (state.stocks.isEmpty && state.status != StateStatus.loading)
+                          if (state.stocks.isEmpty && !state.status.isLoading)
                             GestureDetector(
                               onTap: () => context.transferBloc.getStocks(organization.id),
                               behavior: HitTestBehavior.opaque,
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration:
-                                    BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: context.primary,
+                                ),
                                 height: 50,
                                 width: context.width * .1,
                                 child: Center(
