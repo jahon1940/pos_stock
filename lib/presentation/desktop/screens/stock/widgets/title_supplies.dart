@@ -12,30 +12,31 @@ class TitleSupplies extends StatelessWidget {
   final bool isSupplies;
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: TableTitleProducts(
-        fillColor: AppColors.stroke,
-        columnWidths: isSupplies
-            ? const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(2),
-                2: FlexColumnWidth(2),
-                3: FlexColumnWidth(2),
-                4: FlexColumnWidth(2),
-                5: FlexColumnWidth(2),
-              }
-            : const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(2),
-                2: FlexColumnWidth(2),
-                3: FlexColumnWidth(2),
-              },
-        titles: isSupplies
-            ? ['Номер', 'Дата создания', 'Поставщик', 'Продукты', 'Сумма прихода', 'Действия']
-            : ['Номер', 'Дата создания', 'Продукты', 'Действия'],
-      ),
-    );
-  }
+  Widget build(
+    BuildContext context,
+  ) =>
+      SizedBox(
+        height: 50,
+        child: TableTitleProducts(
+          fillColor: AppColors.stroke,
+          columnWidths: isSupplies
+              ? const {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(2),
+                  2: FlexColumnWidth(2),
+                  3: FlexColumnWidth(2),
+                  4: FlexColumnWidth(2),
+                  5: FlexColumnWidth(2),
+                }
+              : const {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(2),
+                  2: FlexColumnWidth(2),
+                  3: FlexColumnWidth(2),
+                },
+          titles: isSupplies
+              ? ['Номер', 'Дата создания', 'Поставщик', 'Продукты', 'Сумма прихода', 'Действия']
+              : ['Номер', 'Дата создания', 'Продукты', 'Действия'],
+        ),
+      );
 }
