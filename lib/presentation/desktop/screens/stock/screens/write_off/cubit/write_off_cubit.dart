@@ -16,16 +16,16 @@ import '../../../../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../../../../../../../../data/dtos/write_offs/write_off_product_dto.dart';
 import '../../../../../../../../../data/dtos/write_offs/write_off_product_request.dart';
 
-part 'add_write_off_state.dart';
+part 'write_off_state.dart';
 
-part 'add_write_off_cubit.freezed.dart';
+part 'write_off_cubit.freezed.dart';
 
 @injectable
-class AddWriteOffCubit extends Cubit<AddWriteOffState> {
-  AddWriteOffCubit(
+class WriteOffCubit extends Cubit<WriteOffState> {
+  WriteOffCubit(
     this._repository,
     this._productRepository,
-  ) : super(const AddWriteOffState());
+  ) : super(const WriteOffState());
 
   final StockRepository _repository;
   final ProductsRepository _productRepository;

@@ -1,12 +1,12 @@
-part of 'add_write_off_cubit.dart';
+part of 'write_off_cubit.dart';
 
 @freezed
-class AddWriteOffState with _$AddWriteOffState {
-  const factory AddWriteOffState({
+class WriteOffState with _$WriteOffState {
+  const factory WriteOffState({
     @Default(StateStatus.initial) StateStatus status,
     CreateWriteOff? request,
     WriteOffDto? writeOff,
     List<WriteOffProductDto>? products,
     @Default(false) bool isActivaBtn,
-  }) = _AddWriteOffState;
+  }) = _WriteOffState;
 }
