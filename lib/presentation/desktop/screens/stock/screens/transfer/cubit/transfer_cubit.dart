@@ -27,12 +27,10 @@ class TransferCubit extends Cubit<TransferState> {
   TransferCubit(
     this._repository,
     this._productRepository,
-    this._stockRepository,
   ) : super(const TransferState());
 
   final StockRepository _repository;
   final ProductsRepository _productRepository;
-  final StockRepository _stockRepository;
 
   void init(
     TransferDto? transfer,
@@ -143,7 +141,7 @@ class TransferCubit extends Cubit<TransferState> {
     int organizationId,
   ) async {
     try {
-      final res = await _stockRepository.getStocks(organizationId);
+      final res = await _repository.getStocks(organizationId);
       emit(state.copyWith(stocks: res!));
     } catch (e) {
       debugPrint(e.toString());
@@ -183,7 +181,7 @@ class TransferCubit extends Cubit<TransferState> {
     );
 
     try {
-      final res = await _stockRepository.searchTransfers(request);
+      final res = await _repository.searchTransfers(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
         transfers: res,
