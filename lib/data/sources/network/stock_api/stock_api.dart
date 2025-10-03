@@ -11,10 +11,6 @@ import 'package:injectable/injectable.dart';
 import '../../../dtos/stock_dto.dart';
 import '../../../dtos/supplies_1c/supplies_1c.dart';
 import '../../../dtos/supplies_1c/supplies_1c_conduct.dart';
-import '../../../dtos/transfers/create_transfers.dart';
-import '../../../dtos/transfers/search_transfers.dart';
-import '../../../dtos/transfers/transfer_dto.dart';
-import '../../../dtos/transfers/transfer_product_dto.dart';
 import '../../../dtos/write_offs/create_write_off.dart';
 import '../../../dtos/write_offs/search_write_off.dart';
 import '../../../dtos/write_offs/write_off_dto.dart';
@@ -24,14 +20,6 @@ part 'stock_api_impl.dart';
 
 abstract class StockApi {
   Future<List<StockDto>?> getStocks(int organizationsId);
-
-  Future<PaginatedDto<TransferDto>> searchTransfers(SearchTransfers request);
-
-  Future<void> createTransfers(CreateTransfers request);
-
-  Future<List<TransferProductDto>> getTransfersProducts(int id);
-
-  Future<void> deleteTransfers(int id);
 
   Future<PaginatedDto<WriteOffDto>> searchWriteOff(SearchWriteOff request);
 
@@ -50,10 +38,6 @@ abstract class StockApi {
   Future<void> conductSupplies1C(SuppliesConduct request);
 
   Future<void> downloadWriteOffs({
-    required int id,
-  });
-
-  Future<void> downloadTransfers({
     required int id,
   });
 }

@@ -17,7 +17,6 @@ import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
-import '../../../bloc/stock_bloc.dart';
 import '../cubit/transfer_cubit.dart';
 import 'transfer_product_list.dart';
 
@@ -51,7 +50,7 @@ class TransferProducts extends HookWidget {
                             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
                           ),
                           GestureDetector(
-                            onTap: () => context.stockBloc.add(StockEvent.downloadTransfers(state.transfer!.id)),
+                            onTap: () => context.transferBloc.downloadTransfers(state.transfer!.id),
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),

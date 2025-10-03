@@ -7,6 +7,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
+import 'package:hoomo_pos/domain/repositories/transfer_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 
@@ -25,11 +26,13 @@ part 'transfer_cubit.freezed.dart';
 @injectable
 class TransferCubit extends Cubit<TransferState> {
   TransferCubit(
-    this._repository,
+    this._repo,
+    this._stockRepository,
     this._productRepository,
   ) : super(const TransferState());
 
-  final StockRepository _repository;
+  final TransferRepository _repo;
+  final StockRepository _stockRepository;
   final ProductsRepository _productRepository;
 
   void init(
@@ -86,7 +89,7 @@ class TransferCubit extends Cubit<TransferState> {
     if (state.request == null) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
-      await _repository.createTransfers(state.request!);
+      await _repo.createTransfers(state.request!);
       unawaited(searchTransfers(state.request!.fromStockId!, true));
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
@@ -130,7 +133,7 @@ class TransferCubit extends Cubit<TransferState> {
 
   void getTransferProducts() async {
     try {
-      final res = await _repository.getTransfersProducts(state.transfer!.id);
+      final res = await _repo.getTransfersProducts(state.transfer!.id);
       emit(state.copyWith(products: res));
     } catch (e) {
       debugPrint(e.toString());
@@ -141,7 +144,8 @@ class TransferCubit extends Cubit<TransferState> {
     int organizationId,
   ) async {
     try {
-      final res = await _repository.getStocks(organizationId);
+      /// todo why need stocks
+      final res = await _stockRepository.getStocks(organizationId);
       emit(state.copyWith(stocks: res!));
     } catch (e) {
       debugPrint(e.toString());
@@ -181,7 +185,7 @@ class TransferCubit extends Cubit<TransferState> {
     );
 
     try {
-      final res = await _repository.searchTransfers(request);
+      final res = await _repo.searchTransfers(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
         transfers: res,
@@ -190,4 +194,18 @@ class TransferCubit extends Cubit<TransferState> {
       debugPrint(e.toString());
     }
   }
+
+  downloadTransfers(
+    int id,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    try {
+      await _repo.downloadTransfers(id: id);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    emit(state.copyWith(status: StateStatus.loaded));
+  }
+
+  void deleteTransfer(int id) {}
 }
