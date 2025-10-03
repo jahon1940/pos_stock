@@ -12,7 +12,7 @@ import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
-import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
+import 'package:hoomo_pos/domain/repositories/supply_repository.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -25,12 +25,12 @@ part 'add_supplies_state.dart';
 @injectable
 class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   AddSuppliesCubit(
-    this._repository,
+    this._repo,
     this._productRepository,
     this._supplierRepository,
   ) : super(const AddSuppliesState());
 
-  final StockRepository _repository;
+  final SupplyRepository _repo;
   final SupplierRepository _supplierRepository;
   final ProductsRepository _productRepository;
 
@@ -99,7 +99,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
     try {
       final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
-      await _repository.createSupply(state.request!);
+      await _repo.createSupply(state.request!);
       bloc?.add(StockEvent.searchSupplies(state.request!.stockId, true));
 
       emit(state.copyWith(status: StateStatus.initial));
@@ -189,7 +189,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
 
   void getSupplyProducts() async {
     try {
-      final res = await _repository.getSupplyProducts(state.supply!.id);
+      final res = await _repo.getSupplyProducts(state.supply!.id);
       emit(state.copyWith(products: res));
     } catch (e) {
       debugPrint(e.toString());

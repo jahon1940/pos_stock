@@ -120,18 +120,6 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
-  Future<void> createSupply(
-    CreateSupplyRequest request,
-  ) async {
-    try {
-      final res = await _stockApi.createSupply(request);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  @override
   Future<PaginatedDto<SupplyDto>> search(
     SearchSupplies request,
   ) async {
@@ -140,18 +128,6 @@ class StockRepositoryImpl implements StockRepository {
       return res;
     } catch (e) {
       debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<SupplyProductDto>> getSupplyProducts(
-    int id,
-  ) async {
-    try {
-      final res = await _stockApi.getSupplyProducts(id);
-      return res;
-    } catch (e) {
       rethrow;
     }
   }

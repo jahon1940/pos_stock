@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
-import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
@@ -44,10 +43,6 @@ abstract class StockRepository {
   Future<PaginatedDto<SupplyDto>> search(SearchSupplies request);
 
   Future<List<SupplyDto>?> getSupplies();
-
-  Future<void> createSupply(CreateSupplyRequest request);
-
-  Future<List<SupplyProductDto>> getSupplyProducts(int id);
 
   Future<void> deleteSupply(int id);
 
