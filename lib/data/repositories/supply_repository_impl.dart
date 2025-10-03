@@ -31,4 +31,27 @@ class SupplyRepositoryImpl implements SupplyRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<PaginatedDto<SupplyDto>> searchSupplies(
+    SearchSupplies request,
+  ) async {
+    try {
+      final res = await _supplyApi.searchSupplies(request);
+      return res;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteSupply(int id) async {
+    try {
+      final res = await _supplyApi.deleteSupply(id);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
