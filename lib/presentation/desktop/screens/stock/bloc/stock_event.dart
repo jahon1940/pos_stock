@@ -4,8 +4,6 @@ part of 'stock_bloc.dart';
 class StockEvent with _$StockEvent {
   const factory StockEvent.getStocks(int id) = _GetStocks;
 
-  const factory StockEvent.searchTransfers(int stockId, bool? initial) = _SearchTransfers;
-
   const factory StockEvent.downloadTransfers(int id) = _DownloadTransfers;
 
   const factory StockEvent.deleteTransfer(int id) = _DeleteTransfer;

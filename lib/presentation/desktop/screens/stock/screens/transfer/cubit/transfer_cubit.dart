@@ -1,20 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/create_transfers.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
+import '../../../../../../../data/dtos/pagination_dto.dart';
+import '../../../../../../../data/dtos/transfers/search_transfers.dart';
 
 part 'transfer_state.dart';
 
@@ -85,10 +87,9 @@ class TransferCubit extends Cubit<TransferState> {
   void create() async {
     if (state.request == null) return;
     try {
-      final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
       await _repository.createTransfers(state.request!);
-      bloc?.add(StockEvent.searchTransfers(state.request!.fromStockId!, true));
+      unawaited(searchTransfers(state.request!.fromStockId!, true));
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
@@ -166,4 +167,29 @@ class TransferCubit extends Cubit<TransferState> {
     DateTime dateTo,
   ) =>
       emit(state.copyWith(status: StateStatus.initial, dateTo: dateTo));
+
+  Future<void> searchTransfers(
+    int stockId,
+    bool? initial,
+  ) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    if (initial == true) {
+      emit(state.copyWith(dateFrom: null, dateTo: null));
+    }
+    final request = SearchTransfers(
+      stockId: stockId,
+      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
+      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
+    );
+
+    try {
+      final res = await _stockRepository.searchTransfers(request);
+      emit(state.copyWith(
+        status: StateStatus.loaded,
+        transfers: res,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }

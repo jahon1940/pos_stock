@@ -6,6 +6,7 @@ class TransferState with _$TransferState {
     @Default(StateStatus.initial) StateStatus status,
     CreateTransfers? request,
     TransferDto? transfer,
+    PaginatedDto<TransferDto>? transfers,
     DateTime? dateFrom,
     DateTime? dateTo,
     @Default(<StockDto>[]) List<StockDto> stocks,

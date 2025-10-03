@@ -5,13 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/data/dtos/transfers/search_transfers.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
-import '../../../../../data/dtos/transfers/transfer_dto.dart';
 import '../../../../../data/dtos/write_offs/search_write_off.dart';
 import '../../../../../data/dtos/write_offs/write_off_dto.dart';
 
@@ -27,7 +25,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     this._stockRepository,
   ) : super(const _StockState()) {
     on<_GetStocks>(_getStocks);
-    on<_SearchTransfers>(_searchTransfers);
     on<_DownloadTransfers>(_downloadTransfers);
     on<_SearchWriteOffs>(_searchWriteOffs);
     on<_DownloadWriteOffs>(_downloadWriteOffs);
@@ -47,35 +44,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       emit(state.copyWith(status: StateStatus.initial, stocks: res ?? []));
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
-    }
-  }
-
-  Future<void> _searchTransfers(
-    _SearchTransfers event,
-    Emitter<StockState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-
-    if (event.initial == true) {
-      emit(state.copyWith(
-        dateFrom: null,
-        dateTo: null,
-      ));
-    }
-    final request = SearchTransfers(
-      stockId: event.stockId,
-      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
-    );
-
-    try {
-      final res = await _stockRepository.searchTransfers(request);
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-        transfers: res,
-      ));
-    } catch (e) {
-      debugPrint(e.toString());
     }
   }
 

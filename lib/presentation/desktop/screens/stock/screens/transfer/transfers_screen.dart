@@ -18,9 +18,8 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
-import '../../bloc/stock_bloc.dart';
-import '../../widgets/list_transfers.dart';
 import '../../widgets/title_supplies.dart';
+import 'widgets/transfer_item_widget.dart';
 
 @RoutePage()
 class TransfersScreen extends HookWidget {
@@ -38,7 +37,7 @@ class TransfersScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.stockBloc.add(StockEvent.searchTransfers(stock.id, true));
+      context.transferBloc.searchTransfers(stock.id, true);
       return null;
     }, const []);
     final fromController = useTextEditingController();
@@ -173,7 +172,7 @@ class TransfersScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () async => context.stockBloc.add(StockEvent.searchTransfers(stock.id, false)),
+                              onTap: () async => context.transferBloc.searchTransfers(stock.id, false),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -229,8 +228,8 @@ class TransfersScreen extends HookWidget {
                     const TitleSupplies(isSupplies: false),
 
                     ///
-                    BlocBuilder<StockBloc, StockState>(
-                      buildWhen: (previous, current) => previous.transfers != current.transfers,
+                    BlocBuilder<TransferCubit, TransferState>(
+                      buildWhen: (p, c) => p.transfers != c.transfers,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
                             ? const Center(child: CircularProgressIndicator())
@@ -241,7 +240,7 @@ class TransfersScreen extends HookWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
                                     itemCount: state.transfers?.results.length ?? 0,
-                                    itemBuilder: (context, index) => TransfersList(
+                                    itemBuilder: (context, index) => TransfersItemWidget(
                                       admission: state.transfers!.results[index],
                                       onDelete: () {},
                                       stock: stock,
@@ -249,7 +248,7 @@ class TransfersScreen extends HookWidget {
                                     ),
                                   ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
