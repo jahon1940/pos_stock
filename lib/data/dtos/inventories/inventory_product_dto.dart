@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 
 part 'inventory_product_dto.freezed.dart';
+
 part 'inventory_product_dto.g.dart';
 
 @freezed
@@ -16,6 +17,8 @@ class InventoryProductDto with _$InventoryProductDto {
     int? priceDiff,
   }) = _InventoryProductDto;
 
-  factory InventoryProductDto.fromJson(Map<String, dynamic> json) =>
+  factory InventoryProductDto.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$InventoryProductDtoFromJson(json);
 }

@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/add_inventory_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../../app/router.dart';
@@ -17,13 +18,13 @@ import '../../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../core/constants/dictionary.dart';
+import '../../../../../../app/di.dart';
 import '../../../../dialogs/inventories_product/inventories_product.dart';
-import '../../bloc/stock_bloc.dart';
-import '../../widgets/list_inventories.dart';
 import '../../widgets/title_supplies.dart';
+import 'widgets/inventory_item_widget.dart';
 
 @RoutePage()
-class InventoriesScreen extends HookWidget {
+class InventoriesScreen extends HookWidget implements AutoRouteWrapper {
   const InventoriesScreen(
     this.stock,
     this.organization, {
@@ -37,13 +38,8 @@ class InventoriesScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    useEffect(() {
-      context.stockBloc.add(StockEvent.searchInventories(stock.id, true));
-      return null;
-    }, const []);
     final fromController = useTextEditingController();
     final toController = useTextEditingController();
-
     return Scaffold(
       body: Padding(
         padding: AppUtils.kPaddingAll10,
@@ -84,7 +80,7 @@ class InventoriesScreen extends HookWidget {
 
                   ///
                   AppUtils.kGap6,
-                  BlocBuilder<StockBloc, StockState>(
+                  BlocBuilder<AddInventoryCubit, AddInventoryState>(
                     builder: (context, state) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -108,7 +104,7 @@ class InventoriesScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateFrom(picked));
+                                    context.inventoryBloc.dateFrom(picked);
                                     fromController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -148,7 +144,7 @@ class InventoriesScreen extends HookWidget {
                                     lastDate: DateTime(2100),
                                   );
                                   if (picked != null) {
-                                    context.stockBloc.add(StockEvent.dateTo(picked));
+                                    context.inventoryBloc.dateTo(picked);
                                     toController.text = DateFormat("dd.MM.yyyy").format(picked);
                                   }
                                 },
@@ -173,7 +169,7 @@ class InventoriesScreen extends HookWidget {
                             ///
                             AppUtils.kGap6,
                             GestureDetector(
-                              onTap: () async => context.stockBloc.add(StockEvent.searchInventories(stock.id, false)),
+                              onTap: () => context.inventoryBloc.searchInventories(stock.id, false),
                               child: Container(
                                 height: 48,
                                 width: context.width * .10,
@@ -229,7 +225,11 @@ class InventoriesScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () async => router.push(AddInventoryRoute(stock: stock, organization: organization)),
+                    onTap: () async => router.push(AddInventoryRoute(
+                      inventoryBloc: context.inventoryBloc,
+                      stock: stock,
+                      organization: organization,
+                    )),
                     child: Container(
                       height: 48,
                       width: context.width * .1,
@@ -259,7 +259,7 @@ class InventoriesScreen extends HookWidget {
                     const TitleSupplies(isSupplies: false),
 
                     ///
-                    BlocBuilder<StockBloc, StockState>(
+                    BlocBuilder<AddInventoryCubit, AddInventoryState>(
                       buildWhen: (p, c) => p.inventories != c.inventories,
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading
@@ -271,7 +271,7 @@ class InventoriesScreen extends HookWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                                     itemCount: state.inventories!.results.length,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (context, index) => InventoryList(
+                                    itemBuilder: (context, index) => InventoryItemWidget(
                                       admission: state.inventories!.results[index],
                                       stock: stock,
                                       organization: organization,
@@ -299,4 +299,13 @@ class InventoriesScreen extends HookWidget {
       ),
     );
   }
+
+  @override
+  Widget wrappedRoute(
+    BuildContext context,
+  ) =>
+      BlocProvider(
+        create: (context) => getIt<AddInventoryCubit>()..searchInventories(stock.id, true),
+        child: this,
+      );
 }

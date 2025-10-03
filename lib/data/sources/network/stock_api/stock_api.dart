@@ -9,10 +9,6 @@ import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies_1c/search_supplies.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../dtos/inventories/create_inventory_request.dart';
-import '../../../dtos/inventories/inventory_dto.dart';
-import '../../../dtos/inventories/inventory_product_dto.dart';
-import '../../../dtos/inventories/search_inventories.dart';
 import '../../../dtos/stock_dto.dart';
 import '../../../dtos/supplies/search_supplies.dart';
 import '../../../dtos/supplies_1c/supplies_1c.dart';
@@ -30,14 +26,6 @@ part 'stock_api_impl.dart';
 
 abstract class StockApi {
   Future<List<StockDto>?> getStocks(int organizationsId);
-
-  Future<PaginatedDto<InventoryDto>> searchInventory(SearchInventories request);
-
-  Future<void> createInventory(CreateInventoryRequest request);
-
-  Future<List<InventoryProductDto>> getInventoryProducts(int id);
-
-  Future<void> deleteInventory(int id);
 
   Future<PaginatedDto<TransferDto>> searchTransfers(SearchTransfers request);
 
@@ -76,10 +64,6 @@ abstract class StockApi {
   });
 
   Future<void> downloadWriteOffs({
-    required int id,
-  });
-
-  Future<void> downloadInventories({
     required int id,
   });
 

@@ -16,7 +16,6 @@ import '../../../../../../../../../data/dtos/inventories/inventory_product_reque
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../dialogs/search/cubit/fast_search_bloc.dart';
 import '../../../../../dialogs/search/search_dialog.dart';
-import '../../../bloc/stock_bloc.dart';
 import '../cubit/add_inventory_cubit.dart';
 import 'inventory_product_list.dart';
 
@@ -44,7 +43,7 @@ class AddInventoryProducts extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                state.Inventory != null
+                state.inventory != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -53,7 +52,7 @@ class AddInventoryProducts extends HookWidget {
                             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
                           ),
                           GestureDetector(
-                            onTap: () => context.stockBloc.add(StockEvent.downloadInventory(state.Inventory!.id)),
+                            onTap: () => context.inventoryBloc.downloadInventory(state.inventory!.id),
                             behavior: HitTestBehavior.opaque,
                             child: Container(
                               padding: const EdgeInsets.all(5),

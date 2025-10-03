@@ -60,17 +60,14 @@ void main() async {
 
                 ///
                 BlocProvider(create: (context) => getIt<UserCubit>()),
-                BlocProvider(
-                    create: (context) => getIt<ContractPaymentCubit>()),
+                BlocProvider(create: (context) => getIt<ContractPaymentCubit>()),
                 BlocProvider(create: (context) => getIt<UnSaleProductsCubit>()),
                 BlocProvider(create: (context) => getIt<EndProductsCubit>()),
                 BlocProvider(create: (context) => getIt<CreateCompanyCubit>()),
                 BlocProvider(create: (context) => getIt<ReportsCubit>()),
                 BlocProvider(create: (context) => getIt<ReportManagerCubit>()),
                 BlocProvider(create: (context) => getIt<CategoryBloc>()),
-                BlocProvider(
-                    create: (context) =>
-                        getIt<SettingsCubit>()..init(TableType.products)),
+                BlocProvider(create: (context) => getIt<SettingsCubit>()..init(TableType.products)),
               ],
               child: const POSApp(),
             ),

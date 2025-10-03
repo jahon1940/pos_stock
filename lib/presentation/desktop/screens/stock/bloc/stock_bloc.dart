@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -12,8 +10,6 @@ import 'package:hoomo_pos/data/dtos/transfers/search_transfers.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../data/dtos/inventories/inventory_dto.dart';
-import '../../../../../data/dtos/inventories/search_inventories.dart';
 import '../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../data/dtos/stock_dto.dart';
 import '../../../../../data/dtos/supplies/search_supplies.dart';
@@ -29,7 +25,9 @@ part 'stock_bloc.freezed.dart';
 
 @lazySingleton
 class StockBloc extends Bloc<StockEvent, StockState> {
-  StockBloc(this._stockRepository) : super(const _StockState()) {
+  StockBloc(
+    this._stockRepository,
+  ) : super(const _StockState()) {
     on<_GetStocks>(_getStocks);
     on<_SearchSupplies>(_searchSupplies);
     on<_DownloadSupplies>(_downloadSupplies);
@@ -37,12 +35,10 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     on<_DownloadTransfers>(_downloadTransfers);
     on<_SearchWriteOffs>(_searchWriteOffs);
     on<_DownloadWriteOffs>(_downloadWriteOffs);
-    on<_SearchInventories>(_searchInventories);
-    on<_DownloadInventory>(_downloadInventory);
     on<_DeleteSupply>(_onDeleteSupply);
     on<_SelectedSupplier>(_selectedSupplier);
-    on<_dateFrom>(_DateFrom);
-    on<_dateTo>(_DateTo);
+    on<_DateFrom>(_dateFrom);
+    on<_DateTo>(_dateTo);
   }
 
   final StockRepository _stockRepository;
@@ -148,35 +144,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
   }
 
-  Future<void> _searchInventories(
-    _SearchInventories event,
-    Emitter<StockState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-
-    if (event.initial == true) {
-      emit(state.copyWith(
-        dateFrom: null,
-        dateTo: null,
-      ));
-    }
-    final request = SearchInventories(
-      stockId: event.stockId,
-      fromDate: state.dateFrom == null ? null : DateFormat('yyyy-MM-dd').format(state.dateFrom!),
-      toDate: state.dateTo == null ? null : DateFormat('yyyy-MM-dd').format(state.dateTo!),
-    );
-
-    try {
-      final res = await _stockRepository.searchInventory(request);
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-        inventories: res,
-      ));
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
   FutureOr<void> _onDeleteSupply(
     _DeleteSupply event,
     Emitter<StockState> emit,
@@ -192,8 +159,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
   }
 
-  FutureOr<void> _DateFrom(
-    _dateFrom event,
+  FutureOr<void> _dateFrom(
+    _DateFrom event,
     Emitter<StockState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
@@ -207,8 +174,8 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     }
   }
 
-  FutureOr<void> _DateTo(
-    _dateTo event,
+  FutureOr<void> _dateTo(
+    _DateTo event,
     Emitter<StockState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
@@ -262,19 +229,6 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       await _stockRepository.downloadWriteOffs(id: event.id);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    emit(state.copyWith(status: StateStatus.loaded));
-  }
-
-  Future<void> _downloadInventory(
-    _DownloadInventory event,
-    Emitter<StockState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      await _stockRepository.downloadInventories(id: event.id);
     } catch (e) {
       debugPrint(e.toString());
     }

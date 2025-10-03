@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 
 import '../stock_dto.dart';
 
 part 'inventory_dto.freezed.dart';
+
 part 'inventory_dto.g.dart';
 
 @freezed
@@ -18,6 +18,8 @@ class InventoryDto with _$InventoryDto {
     int? supplyProductsCount,
   }) = _InventoryDto;
 
-  factory InventoryDto.fromJson(Map<String, dynamic> json) =>
+  factory InventoryDto.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$InventoryDtoFromJson(json);
 }

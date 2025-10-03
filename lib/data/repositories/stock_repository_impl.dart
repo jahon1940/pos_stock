@@ -22,57 +22,6 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
-  Future<PaginatedDto<InventoryDto>> searchInventory(
-    SearchInventories request,
-  ) async {
-    try {
-      final res = await _stockApi.searchInventory(request);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> createInventory(
-    CreateInventoryRequest request,
-  ) async {
-    try {
-      final res = await _stockApi.createInventory(request);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<InventoryProductDto>> getInventoryProducts(
-    int id,
-  ) async {
-    try {
-      final res = await _stockApi.getInventoryProducts(id);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> deleteInventory(int id) async {
-    try {
-      final res = await _stockApi.deleteInventory(id);
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
   Future<PaginatedDto<TransferDto>> searchTransfers(
     SearchTransfers request,
   ) async {
@@ -271,17 +220,6 @@ class StockRepositoryImpl implements StockRepository {
   }) async {
     try {
       await _stockApi.downloadSupplies(id: id);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> downloadInventories({
-    required int id,
-  }) async {
-    try {
-      await _stockApi.downloadInventories(id: id);
     } catch (e) {
       rethrow;
     }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 
 import '../../../../../../../../../data/dtos/inventories/inventory_product_request.dart';
-import '../cubit/add_inventory_cubit.dart';
 
 class AddInventoryProductList extends HookWidget {
   const AddInventoryProductList({
@@ -19,11 +18,10 @@ class AddInventoryProductList extends HookWidget {
   final bool editable;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     if (product == null) return const SizedBox();
-
-    final cubit = context.read<AddInventoryCubit>();
-
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: TableProductItem(
@@ -53,7 +51,7 @@ class AddInventoryProductList extends HookWidget {
                 child: editable
                     ? AppTextField(
                         hint: 'Количество',
-                        onChange: (p0) => cubit.updateQuantity(product?.productId ?? 0, int.tryParse(p0)),
+                        onChange: (p0) => context.inventoryBloc.updateQuantity(product?.productId ?? 0, int.tryParse(p0)),
                       )
                     : Center(child: Text(product?.oldQuantity.toString() ?? '0'))),
           ),
@@ -79,7 +77,7 @@ class AddInventoryProductList extends HookWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap: () => cubit.deleteProduct(product!.productId),
+                  onTap: () => context.inventoryBloc.deleteProduct(product!.productId),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.error500,

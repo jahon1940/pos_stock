@@ -8,7 +8,6 @@ class StockState with _$StockState {
     PaginatedDto<SupplyDto>? supplies,
     PaginatedDto<TransferDto>? transfers,
     PaginatedDto<WriteOffDto>? writeOffs,
-    PaginatedDto<InventoryDto>? inventories,
     DateTime? dateFrom,
     DateTime? dateTo,
     int? supplierId,
