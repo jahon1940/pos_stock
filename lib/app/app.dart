@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/theme.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:hoomo_pos/core/styles/theme_provider.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/settings/blocs/update_cubit/update_cubit_cubit.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -74,6 +74,7 @@ class _POSAppState extends State<POSApp> {
     setState(() {});
   }
 
+  // ignore: unused_element
   Widget _updateWidget({
     required String appVersion,
     required void Function() checkForUpdate,
@@ -116,34 +117,35 @@ class _POSAppState extends State<POSApp> {
                 decoration: BoxDecoration(
                   color: context.cardColor,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 1, color: context.colorScheme.onSurface),
+                  border: Border.all(color: context.colorScheme.onSurface),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Доступна новая версия $latestVersion'),
-                      SizedBox(width: 24),
+                      const SizedBox(width: 24),
                       FilledButton(
-                          onPressed: status == UpdatStatus.downloading
-                              ? null
-                              : status == UpdatStatus.readyToInstall
-                                  ? launchInstaller
-                                  : startUpdate,
-                          style: ButtonStyle(
-                            padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 32)),
-                          ),
-                          child: status == UpdatStatus.downloading
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  status == UpdatStatus.available ? 'Скачать' : 'Установить',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )),
+                        onPressed: status == UpdatStatus.downloading
+                            ? null
+                            : status == UpdatStatus.readyToInstall
+                                ? launchInstaller
+                                : startUpdate,
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 32)),
+                        ),
+                        child: status == UpdatStatus.downloading
+                            ? const CircularProgressIndicator()
+                            : Text(
+                                status == UpdatStatus.available ? 'Скачать' : 'Установить',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                      ),
                     ],
                   ),
                 ),
