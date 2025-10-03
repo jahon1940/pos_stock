@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/supply_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/add_transfer_cubit.dart';
 import '../../presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import '../../presentation/desktop/screens/manager/children/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/reports/children/cubit/reports_cubit.dart';
@@ -187,4 +188,6 @@ extension BlocExtension on BuildContext {
   InventoryCubit get inventoryBloc => read<InventoryCubit>();
 
   SupplyCubit get supplyBloc => read<SupplyCubit>();
+
+  AddTransferCubit get transferBloc => read<AddTransferCubit>();
 }
