@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
@@ -49,7 +51,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
 
       addProduct(products.results.first.id);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -77,10 +79,8 @@ class AddTransferCubit extends Cubit<AddTransferState> {
       final request = state.request!.copyWith(products: products);
 
       emit(state.copyWith(request: request));
-
-      print("-------------------${request}");
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -88,7 +88,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
     if (state.request == null) return;
 
     try {
-      final bloc = router.navigatorKey.currentContext?.read<StockBloc>();
+      final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
       await _repository.createTransfers(state.request!);
       bloc?.add(StockEvent.searchTransfers(state.request!.fromStockId!, true));
@@ -96,7 +96,7 @@ class AddTransferCubit extends Cubit<AddTransferState> {
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -138,20 +138,18 @@ class AddTransferCubit extends Cubit<AddTransferState> {
   void getTransferProducts() async {
     try {
       final res = await _repository.getTransfersProducts(state.transfer!.id);
-      print(res);
       emit(state.copyWith(products: res));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
   void getStocks(int organizationId) async {
     try {
       final res = await _stockRepository.getStocks(organizationId);
-      print(res);
       emit(state.copyWith(stocks: res!));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
