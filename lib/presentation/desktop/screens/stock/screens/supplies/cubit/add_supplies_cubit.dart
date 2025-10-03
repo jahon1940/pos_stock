@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/dtos/stock_dto.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
@@ -54,7 +56,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
 
       addProduct(products.results.first.id);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -86,10 +88,8 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
       final request = state.request!.copyWith(products: products);
 
       emit(state.copyWith(request: request));
-
-      print("-------------------$request");
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -97,7 +97,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
     if (state.request == null) return;
 
     try {
-      final bloc = router.navigatorKey.currentContext?.read<StockBloc>();
+      final bloc = router.navigatorKey.currentContext?.stockBloc;
       emit(state.copyWith(status: StateStatus.loading));
       await _repository.createSupply(state.request!);
       bloc?.add(StockEvent.searchSupplies(state.request!.stockId, true));
@@ -105,7 +105,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
       emit(state.copyWith(status: StateStatus.initial));
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -173,7 +173,7 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
       final res = await _supplierRepository.getSuppliers();
       emit(state.copyWith(suppliers: res!));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
     emit(state.copyWith(status: StateStatus.initial));
@@ -190,10 +190,9 @@ class AddSuppliesCubit extends Cubit<AddSuppliesState> {
   void getSupplyProducts() async {
     try {
       final res = await _repository.getSupplyProducts(state.supply!.id);
-      print(res);
       emit(state.copyWith(products: res));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }
