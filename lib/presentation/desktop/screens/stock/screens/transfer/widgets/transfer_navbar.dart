@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import '../../../../../../../../../app/router.dart';
 import '../../../../../../../../../app/router.gr.dart';
@@ -42,7 +41,7 @@ class TransferNavbar extends HookWidget {
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
-                          if (state.status == StateStatus.loading) return;
+                          if (state.status.isLoading) return;
                           context.transferBloc.create();
                           await showDialog(
                             context: context,
@@ -67,7 +66,7 @@ class TransferNavbar extends HookWidget {
                           height: 50,
                           width: context.width * .1,
                           child: Center(
-                            child: state.status == StateStatus.loading
+                            child: state.status.isLoading
                                 ? const CupertinoActivityIndicator()
                                 : Text(
                                     "Сохранить",
