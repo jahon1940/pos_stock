@@ -244,17 +244,7 @@ class WriteOffsScreen extends HookWidget {
                                       admission: state.writeOffs!.results[index],
                                       stock: stock,
                                       organization: organization,
-                                      onDelete: () async {
-                                        // final bloc = context.read<StockBloc>();
-                                        // final res = await context.showCustomDialog(
-                                        //   DeleteProductWidget(),
-                                        // );
-                                        //
-                                        // if (res == null) return;
-                                        //
-                                        // bloc.add(StockEvent.deleteSupply(
-                                        //     state.supplies[index].id));
-                                      },
+                                      onDelete: () {},
                                     ),
                                   ),
                       ),

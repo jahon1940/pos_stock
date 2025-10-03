@@ -275,17 +275,7 @@ class InventoriesScreen extends HookWidget implements AutoRouteWrapper {
                                       admission: state.inventories!.results[index],
                                       stock: stock,
                                       organization: organization,
-                                      onDelete: () async {
-                                        // final bloc = context.read<StockBloc>();
-                                        // final res = await context.showCustomDialog(
-                                        //   DeleteProductWidget(),
-                                        // );
-                                        //
-                                        // if (res == null) return;
-                                        //
-                                        // bloc.add(StockEvent.deleteSupply(
-                                        //     state.supplies[index].id));
-                                      },
+                                      onDelete: () {},
                                     ),
                                   ),
                       ),

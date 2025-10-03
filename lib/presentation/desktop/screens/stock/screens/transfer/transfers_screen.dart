@@ -242,14 +242,7 @@ class TransfersScreen extends HookWidget {
                                     itemCount: state.transfers?.results.length ?? 0,
                                     itemBuilder: (context, index) => TransfersList(
                                       admission: state.transfers!.results[index],
-                                      onDelete: () async {
-                                        // final res = await context.showCustomDialog(
-                                        //   DeleteProductWidget(),
-                                        // );
-                                        // if (res == null) return;
-                                        // context.stockBloc.add(StockEvent.deleteSupply(
-                                        //     state.supplies[index].id));
-                                      },
+                                      onDelete: () {},
                                       stock: stock,
                                       organization: organization,
                                     ),
