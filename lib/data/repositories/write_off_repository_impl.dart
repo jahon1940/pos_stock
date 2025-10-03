@@ -1,6 +1,6 @@
 part of '../../domain/repositories/write_off_repository.dart';
 
-@LazySingleton(as: WriteOffRepositoryImpl)
+@LazySingleton(as: WriteOffRepository)
 class WriteOffRepositoryImpl implements WriteOffRepository {
   WriteOffRepositoryImpl(
     this._writeOffApi,
