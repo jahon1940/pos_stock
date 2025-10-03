@@ -77,7 +77,7 @@ class InventoryCubit extends Cubit<InventoryState> {
     }
   }
 
-  void create() async {
+  Future<void> create() async {
     if (state.request == null) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));

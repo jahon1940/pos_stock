@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
 import '../../../../../../../../../app/router.dart';
@@ -24,67 +27,65 @@ class AddInventoryNavbar extends HookWidget {
   @override
   Widget build(
     BuildContext context,
-  ) {
-    final cubit = context.read<InventoryCubit>();
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: CustomBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            BlocBuilder<InventoryCubit, InventoryState>(
-              builder: (context, state) {
-                final isDisabled = ((state.request?.products.isEmpty ?? true) ||
-                    (state.request?.products.any((e) => e.realQuantity == 0) ?? true));
-                return IgnorePointer(
-                  ignoring: isDisabled,
-                  child: Opacity(
-                    opacity: isDisabled ? .5 : 1,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        if (state.status.isLoading) return;
-                        cubit.create();
-                        await showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Успешно"),
-                            content: const Text(""),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  router.push(StockItemRoute(stock: stock!, organization: organization));
-                                },
-                                child: const Text("ОК"),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
-                        height: 50,
-                        width: context.width * .1,
-                        child: Center(
-                          child: state.status.isLoading
-                              ? const CupertinoActivityIndicator()
-                              : Text(
-                                  "Сохранить",
-                                  maxLines: 2,
-                                  style: TextStyle(fontSize: 13, color: context.onPrimary),
+  ) =>
+      Padding(
+        padding: AppUtils.kPaddingAll12,
+        child: CustomBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BlocBuilder<InventoryCubit, InventoryState>(
+                builder: (context, state) {
+                  final isDisabled = ((state.request?.products.isEmpty ?? true) ||
+                      (state.request?.products.any((e) => e.realQuantity == 0) ?? true));
+                  return IgnorePointer(
+                    ignoring: isDisabled,
+                    child: Opacity(
+                      opacity: isDisabled ? .5 : 1,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () async {
+                          if (state.status.isLoading) return;
+                          unawaited(context.inventoryBloc.create());
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Успешно"),
+                              content: const Text(""),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    router.push(StockItemRoute(stock: stock!, organization: organization));
+                                  },
+                                  child: const Text("ОК"),
                                 ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
+                          height: 50,
+                          width: context.width * .1,
+                          child: Center(
+                            child: state.status.isLoading
+                                ? const CupertinoActivityIndicator()
+                                : Text(
+                                    "Сохранить",
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 13, color: context.onPrimary),
+                                  ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            )
-          ],
+                  );
+                },
+              )
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
