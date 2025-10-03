@@ -34,7 +34,6 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
       context.transferBloc.getStocks(organization.id);
       return null;
     }, const []);
-    ThemeData themeData = Theme.of(context);
     return Scaffold(
         backgroundColor: AppColors.softGrey,
         body: Padding(
@@ -43,7 +42,7 @@ class AddTransferScreen extends HookWidget implements AutoRouteWrapper {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: themeData.cardColor,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
