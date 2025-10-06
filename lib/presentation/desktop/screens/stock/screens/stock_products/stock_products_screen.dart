@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,6 @@ import '../../widgets/back_button_widget.dart';
 import '../../widgets/delete_product_widget.dart';
 import 'widgets/products_table_title_widget.dart';
 
-@RoutePage()
 class StockProductsScreen extends HookWidget {
   const StockProductsScreen(
     this.stock,
@@ -56,12 +54,12 @@ class StockProductsScreen extends HookWidget {
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
-          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == "remote"));
+          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
         }
       });
       context.supplierBloc.getSuppliers();
       context.categoryBloc.add(GetCategory());
-      context.searchBloc.add(SearchRemoteTextChanged("", stockId: stock.id));
+      context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id));
       context.reportsBloc.getReports();
       return null;
     }, const []);
@@ -98,7 +96,7 @@ class StockProductsScreen extends HookWidget {
                         radius: 12,
                         hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
                         contentPadding: const EdgeInsets.all(14),
-                        hint: context.tr("search_product"),
+                        hint: context.tr('search_product'),
                         fieldController: searchController,
                         suffix: Row(
                           children: [
@@ -204,7 +202,7 @@ class StockProductsScreen extends HookWidget {
                         ),
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (selectedFilter.value == "local") {
+                            if (selectedFilter.value == 'local') {
                               context.searchBloc.add(value.isEmpty ? GetLocalProducts() : SearchTextChanged(value));
                             } else {
                               context.searchBloc.add(value.isEmpty
@@ -242,7 +240,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.searchBloc.add(SearchRemoteTextChanged("", stockId: stock.id)),
+                    onTap: () => context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id)),
                     child: Container(
                       width: 48,
                       height: 48,
@@ -268,7 +266,7 @@ class StockProductsScreen extends HookWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "Добавить",
+                          'Добавить',
                           style: TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
@@ -382,14 +380,14 @@ class StockProductsScreen extends HookWidget {
                                                 Text(
                                                   productInStocks?.quantity == 0
                                                       ? 'Нет в наличии'
-                                                      : "Ост./Резерв: ${productInStocks?.quantity}/${productInStocks?.quantityReserve}",
+                                                      : 'Ост./Резерв: ${productInStocks?.quantity}/${productInStocks?.quantityReserve}',
                                                   style: const TextStyle(fontSize: 11),
                                                 ),
                                                 if ((productInStocks?.freeQuantity ?? 0) > 0)
                                                   Text(
                                                     productInStocks?.freeQuantity == 0
                                                         ? ''
-                                                        : "Своб. ост : ${productInStocks?.freeQuantity}",
+                                                        : 'Своб. ост : ${productInStocks?.freeQuantity}',
                                                     style: const TextStyle(fontSize: 11, color: AppColors.success600),
                                                   ),
                                               ],
@@ -508,7 +506,7 @@ class StockProductsScreen extends HookWidget {
                             ),
                           );
                         }
-                        return const Expanded(child: Center(child: Text("Ошибка загрузки")));
+                        return const Expanded(child: Center(child: Text('Ошибка загрузки')));
                       },
                     ),
                   ],

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import '../../../../../../../../data/dtos/category/category_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../dialogs/create_category/create_category_dialog.dart';
 
-@RoutePage()
 class CategoriesScreen extends HookWidget {
   const CategoriesScreen({
     super.key,
@@ -80,12 +78,12 @@ class CategoriesScreen extends HookWidget {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: const Text("Успешно"),
-                              content: const Text("Котегория создан"),
+                              title: const Text('Успешно'),
+                              content: const Text('Котегория создан'),
                               actions: [
                                 TextButton(
                                   onPressed: () {},
-                                  child: const Text("ОК"),
+                                  child: const Text('ОК'),
                                 ),
                               ],
                             ),
@@ -93,7 +91,7 @@ class CategoriesScreen extends HookWidget {
                         }
                       }),
                       child: Text(
-                        "Создать Котегорию",
+                        'Создать Котегорию',
                         style: TextStyle(fontSize: 13, color: context.onPrimary),
                       ),
                     ),
@@ -112,7 +110,7 @@ class CategoriesScreen extends HookWidget {
                     ///
                     TableTitleProducts(
                       fillColor: AppColors.stroke,
-                      titles: ["ID", context.tr(Dictionary.name), "Действия"],
+                      titles: ['ID', context.tr(Dictionary.name), 'Действия'],
                       columnWidths: _columnWidths,
                     ),
 
@@ -138,13 +136,13 @@ class CategoriesScreen extends HookWidget {
                                             height: 50,
                                             child: Padding(
                                               padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
-                                              child: Text("${category.id}"),
+                                              child: Text('${category.id}'),
                                             ),
                                           ),
                                           SizedBox(
                                             child: Padding(
                                                 padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
-                                                child: Text(category.name ?? "")),
+                                                child: Text(category.name ?? '')),
                                           ),
                                           Container(
                                             height: 60,
