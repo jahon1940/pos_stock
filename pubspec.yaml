@@ -64,6 +64,7 @@ dependencies:
   translit: ^2.0.2
   url_launcher: ^6.3.2
   gap: ^3.0.1
+  tabbed_view: ^2.0.0
 
 dev_dependencies:
   flutter_test:
