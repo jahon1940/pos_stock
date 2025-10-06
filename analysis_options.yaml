@@ -45,4 +45,5 @@ linter:
     - unnecessary_string_interpolations
     - unawaited_futures
     - avoid_void_async
+    - prefer_single_quotes
 
