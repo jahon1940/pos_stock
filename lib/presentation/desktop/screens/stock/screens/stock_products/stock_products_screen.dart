@@ -23,7 +23,6 @@ import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
-import '../../widgets/back_button_widget.dart';
 import '../../widgets/delete_product_widget.dart';
 import 'widgets/products_table_title_widget.dart';
 
@@ -81,11 +80,10 @@ class StockProductsScreen extends HookWidget {
               ),
               child: Row(
                 children: [
-                  ///
-                  const BackButtonWidget(),
+                  // const BackButtonWidget(),
+                  // AppUtils.kGap6,
 
                   ///
-                  AppUtils.kGap6,
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(

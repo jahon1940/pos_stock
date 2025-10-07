@@ -6,7 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -54,10 +53,7 @@ class CategoriesScreen extends HookWidget {
               ),
               child: Row(
                 children: [
-                  ///
-                  const BackButtonWidget(),
-
-                  ///
+                  // const BackButtonWidget(),
                   const Spacer(),
 
                   ///

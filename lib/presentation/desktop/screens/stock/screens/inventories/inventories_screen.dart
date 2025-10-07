@@ -6,7 +6,6 @@ import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/back_button_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../../../app/router.dart';
@@ -58,11 +57,10 @@ class InventoriesScreen extends HookWidget {
                 ),
                 child: Row(
                   children: [
-                    ///
-                    const BackButtonWidget(),
+                    // const BackButtonWidget(),
+                    // AppUtils.kGap6,
 
                     ///
-                    AppUtils.kGap6,
                     Expanded(
                       child: Container(
                         padding: AppUtils.kPaddingAll12,
