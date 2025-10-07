@@ -4,6 +4,9 @@ import 'package:gap/gap.dart';
 sealed class AppUtils {
   AppUtils._();
 
+  static const double mainSpacing = 12;
+
+  /// gap
   static const Gap kGap6 = Gap(6);
   static const Gap kGap8 = Gap(8);
   static const Gap kGap12 = Gap(12);

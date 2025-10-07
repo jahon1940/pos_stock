@@ -95,7 +95,9 @@ class _StockItemScreenState extends State<StockItemScreen> {
               AppUtils.kGap12,
               Expanded(
                 child: Row(
+                  spacing: AppUtils.mainSpacing,
                   children: [
+                    ///
                     CustomBox(
                       padding: AppUtils.kPaddingAll12,
                       child: SizedBox(
@@ -185,7 +187,8 @@ class _StockItemScreenState extends State<StockItemScreen> {
                         ),
                       ),
                     ),
-                    AppUtils.kGap12,
+
+                    /// tabbed view
                     Expanded(
                       child: TabbedViewTheme(
                         data: TabbedViewThemeData.classic(tabRadius: 12),
