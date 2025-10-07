@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/data/dtos/add_product/add_product_request.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
@@ -19,8 +20,8 @@ import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import 'cubit/add_product_cubit.dart';
 import 'widgets/details_1c.dart';
-import 'widgets/images.dart';
 import 'widgets/pricing.dart';
+import 'widgets/product_images_widget.dart';
 
 @RoutePage()
 class AddProductScreen extends HookWidget implements AutoRouteWrapper {
@@ -29,13 +30,13 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
     this.product,
     this.organization,
     this.stock,
-    this.isDialog,
+    this.isDialog = false,
   });
 
   final ProductDto? product;
   final CompanyDto? organization;
   final StockDto? stock;
-  final bool? isDialog;
+  final bool isDialog;
 
   @override
   Widget build(
@@ -45,40 +46,43 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
       context.categoryBloc.add(GetCategory());
       return null;
     }, const []);
-    final SearchBloc searchBloc = BlocProvider.of<SearchBloc>(context);
-    final cubit = context.read<AddProductCubit>();
+    final cubit = context.addProductBloc;
     return Scaffold(
-      backgroundColor: AppColors.softGrey,
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: AppUtils.kPaddingAll10.withB0,
         child: Column(
           children: [
+            /// title
             Container(
+              width: double.infinity,
+              height: 60,
+              padding: AppUtils.kPaddingAll6,
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                borderRadius: AppUtils.kBorderRadius12,
+                boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
               ),
-              height: 60,
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4),
+                  /// back button
+                  InkWell(
+                    onTap: () => isDialog ? context.pop() : router.back(),
                     child: Container(
-                      decoration: BoxDecoration(
+                      width: 48,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
                         color: AppColors.primary500,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                        borderRadius: AppUtils.kBorderRadius12,
+                        boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                       ),
-                      child: InkWell(
-                        onTap: () => isDialog == true ? Navigator.pop(context) : router.back(),
-                        child: const Padding(
-                          padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
-                          child: Icon(Icons.arrow_back_ios, color: Colors.white),
-                        ),
+                      child: const Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
                       ),
                     ),
                   ),
+
+                  /// label
                   AppUtils.kGap12,
                   Text(
                     'Наменклатура : ${product?.title ?? ""} ${product?.vendorCode ?? ""}',
@@ -87,37 +91,28 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
                 ],
               ),
             ),
-            AppUtils.kGap12,
+
+            /// body
+            AppUtils.kMainObjectsGap,
             Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppUtils.mainSpacing,
                 children: [
                   Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.fromLTRB(24, 10, 24, 24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Details1C(product, isDialog: isDialog),
-                        AppUtils.kGap24,
-                        // About(),
+                        AppUtils.kMainObjectsGap,
                         const Pricing(),
-                        AppUtils.kGap24,
+                        // About(),
                         // AddCategories(),
                         // Characteristics(),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: double.maxFinite,
-                    width: 360,
-                    child: ListView(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.fromLTRB(0, 11, 24, 24),
-                      children: const [
-                        Images(),
-                        // ProductPublicationStatus()
-                      ],
-                    ),
-                  )
+                  const ProductImagesWidget(),
                 ],
               ),
             ),
@@ -125,7 +120,7 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: AppUtils.kPaddingAll10,
         child: CustomBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -152,7 +147,7 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
                 },
                 builder: (context, state) => InkWell(
                   onTap: () => product == null
-                      ? searchBloc.add(AddProduct(
+                      ? context.searchBloc.add(AddProduct(
                           AddProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,
@@ -164,7 +159,7 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
                             categoryId: cubit.state.categoryId,
                           ),
                           context))
-                      : searchBloc.add(PutProduct(
+                      : context.searchBloc.add(PutProduct(
                           AddProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,
@@ -173,7 +168,7 @@ class AddProductScreen extends HookWidget implements AutoRouteWrapper {
                             purchasePrice: cubit.incomeController.text,
                             barcode: cubit.barcodeController.text.isNotEmpty ? [cubit.barcodeController.text] : null,
                             price: cubit.sellController.text,
-                            categoryId: searchBloc.state.request?.categoryId,
+                            categoryId: context.searchBloc.state.request?.categoryId,
                           ),
                           product!.id,
                           context)),
