@@ -19,8 +19,8 @@ sealed class AppUtils {
 
   /// padding All
   static const EdgeInsets kPadding = EdgeInsets.zero;
+  static const EdgeInsets kPaddingAll2 = EdgeInsets.all(2);
   static const EdgeInsets kPaddingAll6 = EdgeInsets.all(6);
-  static const EdgeInsets kPaddingAll4 = EdgeInsets.all(4);
   static const EdgeInsets kPaddingAll10 = EdgeInsets.all(10);
   static const EdgeInsets kPaddingAll12 = EdgeInsets.all(12);
   static const EdgeInsets kPaddingAll16 = EdgeInsets.all(16);
@@ -41,8 +41,8 @@ sealed class AppUtils {
   static const EdgeInsets kPaddingVer10 = EdgeInsets.symmetric(vertical: 10);
 
   /// padding symmetric HorVer
-  static const EdgeInsets kPaddingHor16Ver10 = EdgeInsets.symmetric(horizontal: 16, vertical: 10);
-  static const EdgeInsets kPaddingHor12B8 = EdgeInsets.fromLTRB(12, 0, 12, 8);
+  static const EdgeInsets kPaddingH8V4 = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+  static const EdgeInsets kPaddingH16V10 = EdgeInsets.symmetric(horizontal: 16, vertical: 10);
 
   /// radius
   static const Radius kRadius = Radius.zero;

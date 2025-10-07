@@ -15,15 +15,13 @@ import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
-import '../../widgets/delete_product_widget.dart';
+import 'widgets/product_item_widget.dart';
 import 'widgets/products_table_title_widget.dart';
 
 class StockProductsScreen extends HookWidget {
@@ -45,11 +43,6 @@ class StockProductsScreen extends HookWidget {
     final selectedFilter = useState<String>('remote');
     final supplierController = useTextEditingController();
     final categoryController = useTextEditingController();
-    final currencyFormatter = NumberFormat.currency(
-      locale: 'ru_RU',
-      symbol: '',
-      decimalDigits: 0,
-    );
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
@@ -285,227 +278,32 @@ class StockProductsScreen extends HookWidget {
 
                     ///
                     BlocBuilder<SearchBloc, SearchState>(
-                      builder: (context, state) {
-                        if (state.status.isLoading) {
-                          return const Expanded(child: Center(child: CupertinoActivityIndicator()));
-                        } else if ((state.products?.results ?? []).isEmpty || state.products == null) {
-                          return Expanded(child: Center(child: Text(context.tr(Dictionary.not_found))));
-                        } else if (state.status.isLoaded || state.status.isLoadingMore) {
-                          return Expanded(
-                            child: BarcodeKeyboardListener(
-                              onBarcodeScanned: (value) {
-                                if (value.isEmpty) value = searchController.text;
-                                searchController.clear();
-                                searchController.text = value;
-                                context.searchBloc.add(SearchRemoteTextChanged(value, stockId: stock.id));
-                              },
-                              child: SizedBox(
-                                height: context.height - 250,
-                                child: ListView.separated(
-                                  shrinkWrap: true,
-                                  controller: scrollController,
-                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                                  itemCount: state.products?.results.length ?? 0,
-                                  separatorBuilder: (_, __) => AppUtils.kGap12,
-                                  itemBuilder: (context, index) {
-                                    final product = state.products?.results[index];
-                                    final productInStocks = product?.stocks.firstOrNull;
-                                    return TableProductItem(
-                                      columnWidths: ProductsTableTitleWidget.columnWidths,
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => Center(
-                                            child: product == null
-                                                ? const SizedBox()
-                                                : ProductDetailDialog(productDto: product),
-                                          ),
-                                        );
-                                      },
-                                      children: [
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(8, 2, 5, 2),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      AppUtils.kGap12,
-                                                      Text(
-                                                        "${context.tr("article")}: ${product?.vendorCode ?? 'Не найдено'}",
-                                                        maxLines: 1,
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.w400, fontSize: 9),
-                                                      ),
-                                                      Text(
-                                                        product?.title ?? '',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-                                                      ),
-                                                      AppUtils.kGap12,
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: Text(product?.category?.name ?? ''),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: Text(product?.supplier?.name ?? ''),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(8, 12, 5, 5),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  productInStocks?.quantity == 0
-                                                      ? 'Нет в наличии'
-                                                      : 'Ост./Резерв: ${productInStocks?.quantity}/${productInStocks?.quantityReserve}',
-                                                  style: const TextStyle(fontSize: 11),
-                                                ),
-                                                if ((productInStocks?.freeQuantity ?? 0) > 0)
-                                                  Text(
-                                                    productInStocks?.freeQuantity == 0
-                                                        ? ''
-                                                        : 'Своб. ост : ${productInStocks?.freeQuantity}',
-                                                    style: const TextStyle(fontSize: 11, color: AppColors.success600),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(15, 5, 10, 5),
-                                            child: product?.price == null
-                                                ? const SizedBox()
-                                                : Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        "${currencyFormatter.format(product?.purchasePriceDollar).replaceAll('.', ' ')} \$",
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                                                      ),
-                                                      const Divider(),
-                                                      Text(
-                                                        "${currencyFormatter.format(product?.purchasePriceUzs).replaceAll('.', ' ')} сум",
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                                                      ),
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-                                            child: product?.price == null
-                                                ? const SizedBox()
-                                                : Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        "${currencyFormatter.format(product?.priceDollar).replaceAll('.', ' ')} \$",
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                                                      ),
-                                                      const Divider(),
-                                                      Text(
-                                                        "${currencyFormatter.format(product?.price).replaceAll('.', ' ')} сум",
-                                                        style:
-                                                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                                                      ),
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-
-                                        /// buttons
-                                        Container(
-                                          height: 60,
-                                          padding: const EdgeInsets.all(8),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () async => router.push(AddProductRoute(
-                                                  product: product,
-                                                  stock: stock,
-                                                  organization: organization,
-                                                )),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.primary500,
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    boxShadow: [
-                                                      const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                                                    ],
-                                                  ),
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: const Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  final bloc = context.read<SearchBloc>();
-                                                  final res =
-                                                      await context.showCustomDialog(const DeleteProductWidget());
-                                                  if (res == null) return;
-                                                  bloc.add(DeleteProduct(product?.id ?? 0));
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.error500,
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    boxShadow: [
-                                                      const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                                                    ],
-                                                  ),
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: const Icon(Icons.delete, color: Colors.white),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        return const Expanded(child: Center(child: Text('Ошибка загрузки')));
-                      },
+                      builder: (context, state) => Expanded(
+                        child: state.status.isLoading && (state.products?.results ?? []).isEmpty
+                            ? const Center(child: CupertinoActivityIndicator())
+                            : (state.products?.results ?? []).isEmpty
+                                ? Center(child: Text(context.tr(Dictionary.not_found)))
+                                : BarcodeKeyboardListener(
+                                    onBarcodeScanned: (value) {
+                                      if (value.isEmpty) value = searchController.text;
+                                      searchController.clear();
+                                      searchController.text = value;
+                                      context.searchBloc.add(SearchRemoteTextChanged(value, stockId: stock.id));
+                                    },
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      controller: scrollController,
+                                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                      itemCount: state.products!.results.length,
+                                      separatorBuilder: (_, __) => AppUtils.kGap12,
+                                      itemBuilder: (context, index) => ProductItemWidget(
+                                        product: state.products!.results.elementAt(index),
+                                        stock: stock,
+                                        organization: organization,
+                                      ),
+                                    ),
+                                  ),
+                      ),
                     ),
                   ],
                 ),
