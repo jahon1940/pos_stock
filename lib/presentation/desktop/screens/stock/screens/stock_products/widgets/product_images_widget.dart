@@ -27,12 +27,14 @@ class ProductImagesWidget extends HookWidget {
       padding: AppUtils.kPaddingAll12,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
+          AppUtils.kGap16,
           Text(
             'Фото продукта',
             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
           ),
-          AppUtils.kMainObjectsGap,
+          AppUtils.kGap20,
           const _EmptyImageWidget(),
         ],
       ),
