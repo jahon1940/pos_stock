@@ -11,6 +11,7 @@ sealed class AppUtils {
   static const Gap kGap8 = Gap(8);
   static const Gap kGap12 = Gap(12);
   static const Gap kGap16 = Gap(16);
+  static const Gap kGap24 = Gap(24);
 
   /// box sliver
   static const kSliverGap8 = SliverGap(8);
