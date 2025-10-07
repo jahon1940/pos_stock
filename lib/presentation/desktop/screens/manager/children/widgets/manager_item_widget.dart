@@ -6,7 +6,6 @@ import '../../../../../../app/router.gr.dart';
 import '../../../../../../core/constants/app_utils.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/widgets/product_table_item.dart';
-import '../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../data/dtos/manager/manager_dto.dart';
 
 class ManagerItemWidget extends StatelessWidget {
@@ -28,13 +27,13 @@ class ManagerItemWidget extends StatelessWidget {
         onTap: () async {},
         children: [
           ///
-          _item(Text(manager.name ?? "")),
+          _item(Text(manager.name ?? '')),
 
           ///
-          _item(Text(manager.phoneNumber ?? "")),
+          _item(Text(manager.phoneNumber ?? '')),
 
           ///
-          _item(Text(manager.position ?? "")),
+          _item(Text(manager.position ?? '')),
 
           /// buttons
           _item(
@@ -43,16 +42,13 @@ class ManagerItemWidget extends StatelessWidget {
               children: [
                 ///
                 GestureDetector(
-                  onTap: () => router
-                      .push(AddManagerRoute(managerDto: manager))
-                      .then((_) => context.managerBloc.getManagers()),
+                  onTap: () =>
+                      router.push(AddManagerRoute(managerDto: manager)).then((_) => context.managerBloc.getManagers()),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.primary500,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                      ],
+                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                     ),
                     height: 40,
                     width: 40,
@@ -67,18 +63,16 @@ class ManagerItemWidget extends StatelessWidget {
                     final confirm = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text("Подтверждение"),
-                        content: Text(
-                            "Вы действительно хотите удалить сотрудника ${manager.name}?"),
+                        title: const Text('Подтверждение'),
+                        content: Text('Вы действительно хотите удалить сотрудника ${manager.name}?'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
-                            child: const Text("Отмена"),
+                            child: const Text('Отмена'),
                           ),
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(true),
-                            child: const Text("Удалить",
-                                style: TextStyle(color: Colors.red)),
+                            child: const Text('Удалить', style: TextStyle(color: Colors.red)),
                           ),
                         ],
                       ),
@@ -91,9 +85,7 @@ class ManagerItemWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.error500,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                      ],
+                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                     ),
                     height: 40,
                     width: 40,
@@ -109,11 +101,9 @@ class ManagerItemWidget extends StatelessWidget {
   Widget _item(
     Widget child,
   ) =>
-      SizedBox(
+      Container(
         height: 60,
-        child: Padding(
-          padding: AppUtils.kPaddingAll12,
-          child: child,
-        ),
+        padding: AppUtils.kPaddingAll12,
+        child: child,
       );
 }
