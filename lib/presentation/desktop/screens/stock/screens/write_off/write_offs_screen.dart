@@ -224,7 +224,7 @@ class WriteOffsScreen extends HookWidget {
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      const TitleSupplies(isSupplies: false),
+                      const TitleSupplies(),
 
                       ///
                       BlocBuilder<WriteOffCubit, WriteOffState>(

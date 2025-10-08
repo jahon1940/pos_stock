@@ -11,6 +11,7 @@ import '../../../../../../../../../data/dtos/stock_dto.dart';
 class SupplyItemWidget extends StatelessWidget {
   const SupplyItemWidget({
     super.key,
+    required this.columnWidths,
     required this.stock,
     required this.organization,
     required this.supply,
@@ -18,6 +19,7 @@ class SupplyItemWidget extends StatelessWidget {
     required this.onTap,
   });
 
+  final Map<int, TableColumnWidth> columnWidths;
   final StockDto stock;
   final CompanyDto organization;
   final SupplyDto supply;
@@ -29,14 +31,7 @@ class SupplyItemWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: const {
-          0: FlexColumnWidth(2),
-          1: FlexColumnWidth(2),
-          2: FlexColumnWidth(2),
-          3: FlexColumnWidth(2),
-          4: FlexColumnWidth(2),
-          5: FlexColumnWidth(2),
-        },
+        columnWidths: columnWidths,
         onTap: onTap,
         children: [
           SizedBox(
