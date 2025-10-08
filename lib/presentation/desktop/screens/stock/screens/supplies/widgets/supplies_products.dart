@@ -64,7 +64,7 @@ class SuppliesProducts extends HookWidget {
                                     ),
                                     AppSpace.horizontal12,
                                     Text(
-                                      "Скачать документ",
+                                      'Скачать документ',
                                       maxLines: 2,
                                       style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
@@ -103,7 +103,7 @@ class SuppliesProducts extends HookWidget {
                                 width: context.width * .1,
                                 child: Center(
                                   child: Text(
-                                    "Обновить",
+                                    'Обновить',
                                     maxLines: 2,
                                     style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
@@ -144,7 +144,7 @@ class SuppliesProducts extends HookWidget {
                           width: context.width * .14,
                           child: Center(
                             child: Text(
-                              "Добавить Наменклатуру",
+                              'Добавить Наменклатуру',
                               maxLines: 2,
                               style: TextStyle(fontSize: 13, color: context.onPrimary),
                             ),
@@ -166,10 +166,10 @@ class SuppliesProducts extends HookWidget {
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
-                      context.tr("count_short"),
-                      context.tr("priceFrom"),
-                      context.tr("priceTo"),
-                      if (state.products == null) "Действия",
+                      context.tr('count_short'),
+                      context.tr('priceFrom'),
+                      context.tr('priceTo'),
+                      if (state.products == null) 'Действия',
                     ],
                   ),
                 ),
