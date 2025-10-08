@@ -17,6 +17,7 @@ import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../../data/dtos/transfers/transfer_product_request.dart';
 import '../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../core/constants/dictionary.dart';
 import '../cubit/transfer_cubit.dart';
 import 'transfer_product_list.dart';
 
@@ -122,6 +123,8 @@ class TransferProducts extends HookWidget {
                           )
                       ],
                     ),
+
+              ///
               AppSpace.vertical24,
               if (state.transfer == null)
                 Row(
@@ -170,6 +173,8 @@ class TransferProducts extends HookWidget {
                     )
                   ],
                 ),
+
+              ///
               SizedBox(
                 height: 40,
                 child: TableTitleProducts(
@@ -187,23 +192,26 @@ class TransferProducts extends HookWidget {
                   ],
                 ),
               ),
-              AppSpace.vertical12,
-              SizedBox(
-                height: context.height - 390,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
-                  separatorBuilder: (context, index) => AppSpace.vertical6,
-                  itemBuilder: (context, index) => TransferProductList(
-                      editable: state.products == null,
-                      product: state.products != null
-                          ? TransferProductRequest(
-                              title: state.products![index].product?.title,
-                              productId: state.products![index].id,
-                              quantity: state.products?[index].quantity ?? 0,
-                            )
-                          : state.request?.products?[index]),
-                ),
+
+              ///
+              AppUtils.kMainObjectsGap,
+              Expanded(
+                child: (state.products ?? []).isEmpty && (state.request?.products ?? []).isEmpty
+                    ? Center(child: Text(context.tr(Dictionary.not_found)))
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
+                        separatorBuilder: (context, index) => AppSpace.vertical6,
+                        itemBuilder: (context, index) => TransferProductList(
+                            editable: state.products == null,
+                            product: state.products != null
+                                ? TransferProductRequest(
+                                    title: state.products![index].product?.title,
+                                    productId: state.products![index].id,
+                                    quantity: state.products?[index].quantity ?? 0,
+                                  )
+                                : state.request?.products?[index]),
+                      ),
               ),
             ],
           ),
