@@ -35,6 +35,7 @@ sealed class AppUtils {
   static const EdgeInsets kPaddingL10 = EdgeInsets.only(left: 10);
   static const EdgeInsets kPaddingL12 = EdgeInsets.only(left: 12);
   static const EdgeInsets kPaddingL24 = EdgeInsets.only(left: 24);
+  static const EdgeInsets kPaddingB12 = EdgeInsets.only(bottom: 12);
 
   /// padding symmetric Hor
   static const EdgeInsets kPaddingHor10 = EdgeInsets.symmetric(horizontal: 10);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
@@ -9,6 +10,7 @@ import '../../../../../../../data/dtos/transfers/transfer_dto.dart';
 class TransferItemWidget extends StatelessWidget {
   const TransferItemWidget({
     super.key,
+    required this.columnWidths,
     required this.transfer,
     this.onDelete,
     required this.stock,
@@ -16,6 +18,7 @@ class TransferItemWidget extends StatelessWidget {
     required this.onTap,
   });
 
+  final Map<int, TableColumnWidth> columnWidths;
   final StockDto stock;
   final TransferDto transfer;
   final VoidCallback? onDelete;
@@ -27,12 +30,7 @@ class TransferItemWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: const {
-          0: FlexColumnWidth(2),
-          1: FlexColumnWidth(2),
-          2: FlexColumnWidth(2),
-          3: FlexColumnWidth(2),
-        },
+        columnWidths: columnWidths,
         onTap: onTap,
         children: [
           SizedBox(
@@ -78,19 +76,20 @@ class TransferItemWidget extends StatelessWidget {
                       child: const Icon(Icons.edit, color: Colors.white),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: onDelete,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.error500,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  if (onDelete.isNotNull)
+                    GestureDetector(
+                      onTap: onDelete,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.error500,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                        ),
+                        height: 40,
+                        width: 40,
+                        child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      height: 40,
-                      width: 40,
-                      child: const Icon(Icons.delete, color: Colors.white),
                     ),
-                  ),
                 ],
               ),
             ),

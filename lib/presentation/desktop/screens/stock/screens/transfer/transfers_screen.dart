@@ -17,7 +17,7 @@ import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../data/dtos/transfers/transfer_dto.dart';
-import '../../widgets/title_supplies.dart';
+import '../../widgets/table_title_widget.dart';
 import 'add_transfer_screen.dart';
 import 'widgets/transfer_item_widget.dart';
 
@@ -32,6 +32,13 @@ class TransfersScreen extends HookWidget {
   final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
+
+  static const _columnWidths = {
+    0: FlexColumnWidth(2),
+    1: FlexColumnWidth(2),
+    2: FlexColumnWidth(2),
+    3: FlexColumnWidth(2),
+  };
 
   @override
   Widget build(
@@ -223,9 +230,14 @@ class TransfersScreen extends HookWidget {
                   padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      const TitleSupplies(isSupplies: false),
+                      /// table title
+                      const TableTitleWidget(
+                        columnWidths: _columnWidths,
+                        titles: ['Номер', 'Дата создания', 'Продукты', 'Действия'],
+                      ),
 
                       ///
+                      AppUtils.kGap12,
                       BlocBuilder<TransferCubit, TransferState>(
                         buildWhen: (p, c) => p.transfers != c.transfers,
                         builder: (context, state) => Expanded(
@@ -235,12 +247,12 @@ class TransfersScreen extends HookWidget {
                                   ? Center(child: Text(context.tr(Dictionary.not_found)))
                                   : ListView.separated(
                                       shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                      padding: AppUtils.kPaddingB12,
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemCount: state.transfers?.results.length ?? 0,
-                                      itemBuilder: (context, index) => TransferItemWidget(
+                                      itemBuilder: (_, index) => TransferItemWidget(
+                                        columnWidths: _columnWidths,
                                         transfer: state.transfers!.results[index],
-                                        onDelete: () {},
                                         stock: stock,
                                         organization: organization,
                                         onTap: () => _push(blocContext, state.transfers!.results[index]),
