@@ -70,7 +70,7 @@ class StocksScreen extends HookWidget {
                       child: AppTextField(
                         hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
                         contentPadding: const EdgeInsets.all(14),
-                        hint: "Поиск склада",
+                        hint: 'Поиск склада',
                         fieldController: searchController,
                         suffix: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                       ),
