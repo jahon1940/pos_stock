@@ -33,7 +33,7 @@ class OrganizationScreen extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               /// title
-              const PageTitleWidget(label: "Организации"),
+              const PageTitleWidget(label: 'Организации'),
 
               /// body
               AppUtils.kGap12,
