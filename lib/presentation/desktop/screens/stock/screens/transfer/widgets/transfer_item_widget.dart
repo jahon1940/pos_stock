@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
@@ -76,20 +75,19 @@ class TransferItemWidget extends StatelessWidget {
                       child: const Icon(Icons.edit, color: Colors.white),
                     ),
                   ),
-                  if (onDelete.isNotNull)
-                    GestureDetector(
-                      onTap: onDelete,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.error500,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                        ),
-                        height: 40,
-                        width: 40,
-                        child: const Icon(Icons.delete, color: Colors.white),
+                  GestureDetector(
+                    onTap: onDelete,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.error500,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                       ),
+                      height: 40,
+                      width: 40,
+                      child: const Icon(Icons.delete, color: Colors.white),
                     ),
+                  ),
                 ],
               ),
             ),
