@@ -33,5 +33,6 @@
     "strings": false
   },
   "CodeGPT.apiKey": "Ollama",
-  "dart.flutterSdkPath": ".fvm/versions/3.24.1"
+  "dart.flutterSdkPath": ".fvm/versions/3.24.1",
+  "cmake.sourceDirectory": "/Users/jimmy.rakh/Documents/GitHub/pos_stock/linux"
 }
