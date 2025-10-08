@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/page_title_widget.dart';
 import 'package:tabbed_view/tabbed_view.dart';
 
 import '../../../../../../core/constants/app_utils.dart';
@@ -12,6 +11,7 @@ import '../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../data/dtos/stock_dto.dart';
 import '../../search/cubit/search_bloc.dart';
 import '../dialogs/currency/currency_dialog.dart';
+import '../widgets/page_title_widget.dart';
 import 'category/categories_screen.dart';
 import 'inventories/inventories_screen.dart';
 import 'stock_products/stock_products_screen.dart';
@@ -38,11 +38,17 @@ class _StockItemScreenState extends State<StockItemScreen> {
   StockDto get stock => widget.stock;
 
   CompanyDto get organization => widget.organization;
+
+  late final GlobalKey<NavigatorState> _suppliesNavKey;
+  late final GlobalKey<NavigatorState> _transfersNavKey;
+
   late final TabbedViewController _controller;
 
   @override
   void initState() {
     super.initState();
+    _suppliesNavKey = GlobalKey<NavigatorState>();
+    _transfersNavKey = GlobalKey<NavigatorState>();
     _controller = TabbedViewController([]);
   }
 
@@ -110,22 +116,40 @@ class _StockItemScreenState extends State<StockItemScreen> {
                             _item(
                               context,
                               label: 'Поступление товаров',
-                              onPressed: () => _addTab('Поступление', SuppliesScreen(stock, organization)),
-                              // onPressed: () => router.push(SuppliesRoute(
-                              //   stock: stock,
-                              //   organization: organization,
-                              // )),
+                              // onPressed: () => _addTab('Поступление', SuppliesScreen(stock, organization)),
+                              onPressed: () => _addTab(
+                                'Поступление',
+                                Navigator(
+                                  key: _suppliesNavKey,
+                                  onGenerateRoute: (_) => MaterialPageRoute(
+                                    builder: (_) => SuppliesScreen(
+                                      stock,
+                                      organization,
+                                      navigationKey: _suppliesNavKey,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                             ///
                             _item(
                               context,
                               label: 'Перемещение товаров',
-                              onPressed: () => _addTab('Перемещение', TransfersScreen(stock, organization)),
-                              // onPressed: () => router.push(TransfersRoute(
-                              //   stock: stock,
-                              //   organization: organization,
-                              // )),
+                              // onPressed: () => _addTab('Перемещение', TransfersScreen(stock, organization)),
+                              onPressed: () => _addTab(
+                                'Перемещение',
+                                Navigator(
+                                  key: _transfersNavKey,
+                                  onGenerateRoute: (_) => MaterialPageRoute(
+                                    builder: (_) => TransfersScreen(
+                                      navigationKey: _transfersNavKey,
+                                      stock: stock,
+                                      organization: organization,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                             ///

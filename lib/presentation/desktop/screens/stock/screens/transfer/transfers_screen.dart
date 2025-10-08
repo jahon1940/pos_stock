@@ -8,8 +8,6 @@ import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/transfer_cubit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../../../app/router.dart';
-import '../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/constants/dictionary.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -18,16 +16,20 @@ import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
+import '../../../../../../data/dtos/transfers/transfer_dto.dart';
 import '../../widgets/title_supplies.dart';
+import 'add_transfer_screen.dart';
 import 'widgets/transfer_item_widget.dart';
 
 class TransfersScreen extends HookWidget {
-  const TransfersScreen(
-    this.stock,
-    this.organization, {
+  const TransfersScreen({
     super.key,
+    required this.navigationKey,
+    required this.stock,
+    required this.organization,
   });
 
+  final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
 
@@ -194,11 +196,7 @@ class TransfersScreen extends HookWidget {
                     ///
                     AppUtils.kGap6,
                     GestureDetector(
-                      onTap: () async => router.push(AddTransferRoute(
-                        transferBloc: blocContext.transferBloc,
-                        stock: stock,
-                        organization: organization,
-                      )),
+                      onTap: () => _push(blocContext),
                       child: Container(
                         height: 48,
                         width: context.width * .1,
@@ -240,11 +238,12 @@ class TransfersScreen extends HookWidget {
                                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemCount: state.transfers?.results.length ?? 0,
-                                      itemBuilder: (context, index) => TransfersItemWidget(
-                                        admission: state.transfers!.results[index],
+                                      itemBuilder: (context, index) => TransferItemWidget(
+                                        transfer: state.transfers!.results[index],
                                         onDelete: () {},
                                         stock: stock,
                                         organization: organization,
+                                        onTap: () => _push(blocContext, state.transfers!.results[index]),
                                       ),
                                     ),
                         ),
@@ -259,4 +258,19 @@ class TransfersScreen extends HookWidget {
       ),
     );
   }
+
+  void _push(
+    BuildContext context, [
+    TransferDto? transfer,
+  ]) =>
+      navigationKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (_) => AddTransferScreen(
+            transferBloc: context.transferBloc,
+            organization: organization,
+            stock: stock,
+            transfer: transfer,
+          ),
+        ),
+      );
 }

@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:hoomo_pos/app/router.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
-import '../../../../../../../app/router.gr.dart';
 import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../data/dtos/transfers/transfer_dto.dart';
 
-class TransfersItemWidget extends StatelessWidget {
-  const TransfersItemWidget({
+class TransferItemWidget extends StatelessWidget {
+  const TransferItemWidget({
     super.key,
-    required this.admission,
+    required this.transfer,
     this.onDelete,
     required this.stock,
     required this.organization,
+    required this.onTap,
   });
 
   final StockDto stock;
-  final TransferDto admission;
+  final TransferDto transfer;
   final VoidCallback? onDelete;
   final CompanyDto organization;
+  final VoidCallback onTap;
 
   @override
   Widget build(
@@ -34,25 +33,20 @@ class TransfersItemWidget extends StatelessWidget {
           2: FlexColumnWidth(2),
           3: FlexColumnWidth(2),
         },
-        onTap: () => router.push(AddTransferRoute(
-          transferBloc: context.transferBloc,
-          transfer: admission,
-          stock: stock,
-          organization: organization,
-        )),
+        onTap: onTap,
         children: [
           SizedBox(
             height: 60,
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Text(admission.id.toString()),
+              child: Text(transfer.id.toString()),
             ),
           ),
           SizedBox(
             height: 60,
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Text(DateParser.dayMonthHString(admission.createdAt, 'ru')),
+              child: Text(DateParser.dayMonthHString(transfer.createdAt, 'ru')),
             ),
           ),
           SizedBox(
@@ -60,7 +54,7 @@ class TransfersItemWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Center(
-                child: Text("${admission.supplyProductsCount ?? ''}"),
+                child: Text("${transfer.supplyProductsCount ?? ''}"),
               ),
             ),
           ),
