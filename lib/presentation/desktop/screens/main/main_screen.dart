@@ -105,7 +105,7 @@ class MainScreen extends HookWidget {
       buildWhen: (previous, current) => previous.manager != current.manager,
       builder: (context, state) {
         if (state.manager == null) {
-          return SizedBox();
+          return const SizedBox();
         }
 
         if (state.manager?.pos?.integration_with_1c ?? false) {
@@ -136,8 +136,7 @@ class MainScreen extends HookWidget {
                         selectedIndex: tabsRouter.activeIndex,
                         onTap: tabsRouter.setActiveIndex,
                         isCollapsed: isCollapsed.value,
-                        onToggleCollapse: () =>
-                            isCollapsed.value = !isCollapsed.value,
+                        onToggleCollapse: () => isCollapsed.value = !isCollapsed.value,
                       ),
                     );
                   },
@@ -146,11 +145,8 @@ class MainScreen extends HookWidget {
                 Expanded(
                   child: Shortcuts(
                     shortcuts: {
-                      LogicalKeySet(
-                              LogicalKeyboardKey.meta, LogicalKeyboardKey.keyF):
-                          ActivateIntent(),
-                      LogicalKeySet(LogicalKeyboardKey.control,
-                          LogicalKeyboardKey.keyF): ActivateIntent(),
+                      LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyF): const ActivateIntent(),
+                      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): const ActivateIntent(),
                     },
                     child: Actions(
                       actions: {

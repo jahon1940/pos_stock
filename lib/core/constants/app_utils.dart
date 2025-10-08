@@ -4,13 +4,16 @@ import 'package:gap/gap.dart';
 sealed class AppUtils {
   AppUtils._();
 
-  static const double mainSpacing = 12;
+  static const double mainSpacing = 10;
 
   /// gap
+  static const Gap kMainObjectsGap = Gap(mainSpacing);
   static const Gap kGap6 = Gap(6);
   static const Gap kGap8 = Gap(8);
   static const Gap kGap12 = Gap(12);
   static const Gap kGap16 = Gap(16);
+  static const Gap kGap20 = Gap(20);
+  static const Gap kGap24 = Gap(24);
 
   /// box sliver
   static const kSliverGap8 = SliverGap(8);
@@ -32,13 +35,14 @@ sealed class AppUtils {
   static const EdgeInsets kPaddingL10 = EdgeInsets.only(left: 10);
   static const EdgeInsets kPaddingL12 = EdgeInsets.only(left: 12);
   static const EdgeInsets kPaddingL24 = EdgeInsets.only(left: 24);
+  static const EdgeInsets kPaddingB12 = EdgeInsets.only(bottom: 12);
 
   /// padding symmetric Hor
   static const EdgeInsets kPaddingHor10 = EdgeInsets.symmetric(horizontal: 10);
   static const EdgeInsets kPaddingHor12 = EdgeInsets.symmetric(horizontal: 12);
 
   /// padding symmetric Ver
-  static const EdgeInsets kPaddingVer10 = EdgeInsets.symmetric(vertical: 10);
+  static const EdgeInsets kPaddingV12 = EdgeInsets.symmetric(vertical: 12);
 
   /// padding symmetric HorVer
   static const EdgeInsets kPaddingH8V4 = EdgeInsets.symmetric(horizontal: 8, vertical: 4);

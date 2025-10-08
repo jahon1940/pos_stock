@@ -1,23 +1,25 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/icons/app_icons.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/cubit/user_cubit.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../core/constants/spaces.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../domain/services/user_data.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/cubit/user_cubit.dart';
+part 'sidebar_item.dart';
 
 part 'user_card.dart';
-
-part 'sidebar_item.dart';
 
 class AppSidebar extends StatelessWidget {
   const AppSidebar({
@@ -56,7 +58,7 @@ class AppSidebar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: themeData.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: AppColors.stroke, blurRadius: 3)],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -68,11 +70,11 @@ class AppSidebar extends StatelessWidget {
                         if (isCollapsed)
                           CircleAvatar(
                             radius: 20,
-                            backgroundColor: AppColors.primary100.withOpacity(0.5),
+                            backgroundColor: AppColors.primary100.opcty(0.5),
                             child: Align(
                                 alignment: Alignment.centerRight,
                                 child: IconButton(
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.person,
                                     color: AppColors.primary500,
                                   ),
@@ -80,9 +82,9 @@ class AppSidebar extends StatelessWidget {
                                 )),
                           )
                         else
-                          Flexible(
+                          const Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 15),
+                              padding: EdgeInsets.only(top: 15),
                               child: UserCard(),
                             ),
                           ),
@@ -92,7 +94,7 @@ class AppSidebar extends StatelessWidget {
                 ),
               ),
               AppSpace.vertical12,
-              Divider(height: 10),
+              const Divider(height: 10),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
                 child: Row(
@@ -121,8 +123,8 @@ class AppSidebar extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(height: 10),
-              SizedBox(height: 16),
+              const Divider(height: 10),
+              const SizedBox(height: 16),
               Expanded(
                 child: ListView.builder(
                   itemCount: items.length,
@@ -132,7 +134,7 @@ class AppSidebar extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: SidebarItem(
                         leadingIcon: item.icon(index == selectedIndex),
-                        label: isCollapsed ? "" : item.name.tr(),
+                        label: isCollapsed ? '' : item.name.tr(),
                         selectedColor: context.primary,
                         isSelected: index == selectedIndex,
                         selectedTextColor: Colors.white,
@@ -144,15 +146,15 @@ class AppSidebar extends StatelessWidget {
               ),
               if (!isCollapsed) ...[
                 SidebarItem(
-                  leadingIcon: Icon(AppIcons.lock, color: AppColors.primary500),
-                  label: context.tr("lock"),
-                  selectedColor: AppColors.primary100.withOpacity(0.5),
+                  leadingIcon: const Icon(AppIcons.lock, color: AppColors.primary500),
+                  label: context.tr('lock'),
+                  selectedColor: AppColors.primary100.opcty(0.5),
                   selectedTextColor: AppColors.primary500,
                   onTap: () async {
-                    userDataService.setUnlocked(true);
+                    unawaited(userDataService.setUnlocked(true));
                     await context.router.push(LockerRoute(
                       isFirstAuth: false,
-                      onResult: () => context.router.replace(MainRoute()),
+                      onResult: () => context.router.replace(const MainRoute()),
                     ));
                   },
                 ),

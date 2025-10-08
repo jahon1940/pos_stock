@@ -8,6 +8,6 @@ class StockParentScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoRouter();
+    return const AutoRouter();
   }
 }

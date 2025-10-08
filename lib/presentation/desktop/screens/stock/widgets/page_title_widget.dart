@@ -11,10 +11,12 @@ class PageTitleWidget extends StatelessWidget {
     super.key,
     required this.label,
     this.canPop = false,
+    this.isMain = true,
   });
 
   final String label;
   final bool canPop;
+  final bool isMain;
 
   @override
   Widget build(
@@ -39,8 +41,10 @@ class PageTitleWidget extends StatelessWidget {
             AppUtils.kGap6,
             Text(
               label,
-              style: AppTextStyles.boldType18.withColorPrimary500,
               textAlign: TextAlign.start,
+              style: isMain
+                  ? AppTextStyles.boldType18.withColorPrimary500
+                  : AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
             ),
           ],
         ),

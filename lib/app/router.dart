@@ -58,16 +58,15 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: OrganizationRoute.page, initial: true),
                 AutoRoute(page: StocksRoute.page),
                 AutoRoute(page: StockItemRoute.page),
-                // AutoRoute(page: SuppliesRoute.page),
-                // AutoRoute(page: TransfersRoute.page),
-                // AutoRoute(page: WriteOffsRoute.page),
-                // AutoRoute(page: InventoriesRoute.page),
                 AutoRoute(page: AddInventoryRoute.page),
+<<<<<<< HEAD
                 // AutoRoute(page: StockProductsRoute.page),
                 // AutoRoute(page: CategoriesRoute.page),
                 //
                 AutoRoute(page: AddSuppliesRoute.page),
                 AutoRoute(page: AddTransferRoute.page),
+=======
+>>>>>>> refs/remotes/origin/stock_with_tabs
                 AutoRoute(page: AddWriteOffRoute.page),
                 AutoRoute(page: AddProductRoute.page),
               ],

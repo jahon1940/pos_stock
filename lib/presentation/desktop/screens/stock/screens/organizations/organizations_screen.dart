@@ -33,7 +33,7 @@ class OrganizationScreen extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               /// title
-              const PageTitleWidget(label: "Организации"),
+              const PageTitleWidget(label: 'Организации'),
 
               /// body
               AppUtils.kGap12,
@@ -56,7 +56,7 @@ class OrganizationScreen extends HookWidget {
                                   ? Center(child: Text(context.tr(Dictionary.not_found)))
                                   : ListView.separated(
                                       shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                      padding: AppUtils.kPaddingB12,
                                       itemCount: state.organizations.length,
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemBuilder: (context, i) {

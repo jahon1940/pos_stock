@@ -10,6 +10,7 @@ import '../../presentation/desktop/screens/reports/children/cubit/reports_cubit.
 import '../../presentation/desktop/screens/search/cubit/search_bloc.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
+import '../../presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
 import '../../presentation/desktop/screens/supplier/children/cubit/supplier_cubit.dart';
 
 extension BuildContextEntension<T> on BuildContext {
@@ -193,4 +194,6 @@ extension BlocExtension on BuildContext {
   TransferCubit get transferBloc => read<TransferCubit>();
 
   WriteOffCubit get writeOffBloc => read<WriteOffCubit>();
+
+  AddProductCubit get addProductBloc => read<AddProductCubit>();
 }
