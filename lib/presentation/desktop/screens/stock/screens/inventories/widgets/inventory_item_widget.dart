@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hoomo_pos/app/router.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/utils/date_parser.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
-import '../../../../../../../app/router.gr.dart';
 import '../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/inventories/inventory_dto.dart';
@@ -13,16 +10,18 @@ import '../../../../../../../data/dtos/stock_dto.dart';
 class InventoryItemWidget extends StatelessWidget {
   const InventoryItemWidget({
     super.key,
-    required this.admission,
-    this.onDelete,
+    required this.inventory,
     required this.stock,
     required this.organization,
+    required this.onTap,
+    this.onDelete,
   });
 
   final StockDto stock;
-  final InventoryDto admission;
-  final VoidCallback? onDelete;
+  final InventoryDto inventory;
   final CompanyDto organization;
+  final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(
@@ -35,19 +34,14 @@ class InventoryItemWidget extends StatelessWidget {
           2: FlexColumnWidth(2),
           3: FlexColumnWidth(2),
         },
-        onTap: () async => router.push(AddInventoryRoute(
-          inventory: admission,
-          stock: stock,
-          organization: organization,
-          inventoryBloc: context.inventoryBloc,
-        )),
+        onTap: onTap,
         children: [
           SizedBox(
             height: 60,
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
-                admission.id.toString(),
+                inventory.id.toString(),
               ),
             ),
           ),
@@ -55,7 +49,7 @@ class InventoryItemWidget extends StatelessWidget {
             height: 60,
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Text(DateParser.dayMonthHString(admission.createdAt, 'ru')),
+              child: Text(DateParser.dayMonthHString(inventory.createdAt, 'ru')),
             ),
           ),
           SizedBox(
@@ -64,7 +58,7 @@ class InventoryItemWidget extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: Center(
                 child: Text(
-                  "${admission.supplyProductsCount ?? ''}",
+                  "${inventory.supplyProductsCount ?? ''}",
                 ),
               ),
             ),
@@ -105,7 +99,7 @@ class InventoryItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       );
 }

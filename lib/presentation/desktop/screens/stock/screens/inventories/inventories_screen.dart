@@ -5,11 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/add_inventory_screen.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../../../../app/router.dart';
-import '../../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
@@ -18,16 +17,20 @@ import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../core/constants/dictionary.dart';
 import '../../../../../../app/di.dart';
+import '../../../../../../data/dtos/inventories/inventory_dto.dart';
 import '../../../../dialogs/inventories_product/inventories_product.dart';
 import '../../widgets/title_supplies.dart';
 import 'widgets/inventory_item_widget.dart';
 
 class InventoriesScreen extends HookWidget {
-  const InventoriesScreen(
-    this.stock,
-    this.organization, {
+  const InventoriesScreen({
     super.key,
+    required this.navigationKey,
+    required this.stock,
+    required this.organization,
   });
+
+  final GlobalKey<NavigatorState> navigationKey;
 
   final StockDto stock;
   final CompanyDto organization;
@@ -224,11 +227,7 @@ class InventoriesScreen extends HookWidget {
                     ///
                     AppUtils.kGap6,
                     GestureDetector(
-                      onTap: () async => router.push(AddInventoryRoute(
-                        inventoryBloc: blocContext.inventoryBloc,
-                        stock: stock,
-                        organization: organization,
-                      )),
+                      onTap: () => _push(blocContext),
                       child: Container(
                         height: 48,
                         width: context.width * .1,
@@ -249,7 +248,7 @@ class InventoriesScreen extends HookWidget {
               ),
 
               /// body
-              AppUtils.kGap12,
+              AppUtils.kMainObjectsGap,
               Expanded(
                 child: CustomBox(
                   padding: AppUtils.kPaddingAll12.withB0,
@@ -271,10 +270,10 @@ class InventoriesScreen extends HookWidget {
                                       itemCount: state.inventories!.results.length,
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemBuilder: (context, index) => InventoryItemWidget(
-                                        admission: state.inventories!.results[index],
+                                        inventory: state.inventories!.results[index],
                                         stock: stock,
                                         organization: organization,
-                                        onDelete: () {},
+                                        onTap: () => _push(blocContext, state.inventories!.results[index]),
                                       ),
                                     ),
                         ),
@@ -289,4 +288,19 @@ class InventoriesScreen extends HookWidget {
       ),
     );
   }
+
+  void _push(
+    BuildContext context, [
+    InventoryDto? inventory,
+  ]) =>
+      navigationKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (_) => AddInventoryScreen(
+            inventoryBloc: context.inventoryBloc,
+            stock: stock,
+            organization: organization,
+            inventory: inventory,
+          ),
+        ),
+      );
 }

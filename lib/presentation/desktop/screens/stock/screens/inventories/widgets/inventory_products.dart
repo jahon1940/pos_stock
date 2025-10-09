@@ -15,6 +15,7 @@ import '../../../../../../../../../core/widgets/product_table_title.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/inventories/inventory_product_request.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../core/constants/dictionary.dart';
 import '../../../../../dialogs/search/cubit/fast_search_bloc.dart';
 import '../../../../../dialogs/search/search_dialog.dart';
 import '../cubit/inventory_cubit.dart';
@@ -68,7 +69,7 @@ class AddInventoryProducts extends HookWidget {
                                     ),
                                     AppSpace.horizontal12,
                                     Text(
-                                      "Скачать документ",
+                                      'Скачать документ',
                                       maxLines: 2,
                                       style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
@@ -113,7 +114,7 @@ class AddInventoryProducts extends HookWidget {
                               width: context.width * .14,
                               child: Center(
                                 child: Text(
-                                  "Добавить Наменклатуру",
+                                  'Добавить Наменклатуру',
                                   maxLines: 2,
                                   style: TextStyle(fontSize: 13, color: context.onPrimary),
                                 ),
@@ -135,34 +136,37 @@ class AddInventoryProducts extends HookWidget {
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
-                      context.tr("count_short"),
-                      if (state.products != null) "Реальное кол-во",
-                      if (state.products != null) "Разница",
-                      if (state.products == null) "Действия",
+                      context.tr('count_short'),
+                      if (state.products != null) 'Реальное кол-во',
+                      if (state.products != null) 'Разница',
+                      if (state.products == null) 'Действия',
                     ],
                   ),
                 ),
-                AppSpace.vertical12,
-                SizedBox(
-                  height: context.height - 320,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: state.products?.length ?? state.request?.products.length ?? 0,
-                    separatorBuilder: (context, index) => AppSpace.vertical6,
-                    itemBuilder: (context, index) => AddInventoryProductList(
-                        editable: state.products == null,
-                        product: state.products != null
-                            ? InventoryProductRequest(
-                                title: state.products![index].product?.title,
-                                productId: state.products![index].id,
-                                realQuantity: state.products?[index].realQuantity ?? 0,
-                                oldQuantity: state.products?[index].oldQuantity ?? 0,
-                                price: state.products?[index].price,
-                                priceDiff: state.products?[index].priceDiff ?? 0,
-                                quantityDiff: state.products?[index].quantityDiff ?? 0,
-                              )
-                            : state.request?.products[index]),
-                  ),
+
+                ///
+                AppUtils.kGap12,
+                Expanded(
+                  child: (state.products ?? []).isEmpty && (state.request?.products ?? []).isEmpty
+                      ? Center(child: Text(context.tr(Dictionary.not_found)))
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: state.products?.length ?? state.request?.products.length ?? 0,
+                          separatorBuilder: (_, __) => AppSpace.vertical6,
+                          itemBuilder: (_, index) => AddInventoryProductList(
+                              editable: state.products == null,
+                              product: state.products != null
+                                  ? InventoryProductRequest(
+                                      title: state.products![index].product?.title,
+                                      productId: state.products![index].id,
+                                      realQuantity: state.products?[index].realQuantity ?? 0,
+                                      oldQuantity: state.products?[index].oldQuantity ?? 0,
+                                      price: state.products?[index].price,
+                                      priceDiff: state.products?[index].priceDiff ?? 0,
+                                      quantityDiff: state.products?[index].quantityDiff ?? 0,
+                                    )
+                                  : state.request?.products[index]),
+                        ),
                 ),
               ],
             ),

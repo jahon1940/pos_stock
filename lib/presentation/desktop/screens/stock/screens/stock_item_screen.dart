@@ -42,6 +42,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
   late final GlobalKey<NavigatorState> _suppliesNavKey;
   late final GlobalKey<NavigatorState> _transfersNavKey;
   late final GlobalKey<NavigatorState> _writeOffsNavKey;
+  late final GlobalKey<NavigatorState> _inventoriesNavKey;
 
   late final TabbedViewController _controller;
 
@@ -51,6 +52,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
     _suppliesNavKey = GlobalKey<NavigatorState>();
     _transfersNavKey = GlobalKey<NavigatorState>();
     _writeOffsNavKey = GlobalKey<NavigatorState>();
+    _inventoriesNavKey = GlobalKey<NavigatorState>();
     _controller = TabbedViewController([]);
   }
 
@@ -178,11 +180,20 @@ class _StockItemScreenState extends State<StockItemScreen> {
                             _item(
                               context,
                               label: 'Инвентаризация',
-                              onPressed: () => _addTab('Инвентаризация', InventoriesScreen(stock, organization)),
-                              // onPressed: () => router.push(InventoriesRoute(
-                              //   stock: stock,
-                              //   organization: organization,
-                              // )),
+                              // onPressed: () => _addTab('Инвентаризация', InventoriesScreen(stock, organization)),
+                              onPressed: () => _addTab(
+                                'Инвентаризация',
+                                Navigator(
+                                  key: _inventoriesNavKey,
+                                  onGenerateRoute: (_) => MaterialPageRoute(
+                                    builder: (_) => InventoriesScreen(
+                                      navigationKey: _inventoriesNavKey,
+                                      stock: stock,
+                                      organization: organization,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                             ///

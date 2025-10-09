@@ -216,7 +216,7 @@ class WriteOffsScreen extends HookWidget {
               ),
 
               /// body
-              AppUtils.kGap12,
+              AppUtils.kMainObjectsGap,
               Expanded(
                 child: CustomBox(
                   padding: AppUtils.kPaddingAll12.withB0,
