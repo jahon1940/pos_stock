@@ -18,14 +18,13 @@ class CustomBox extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) =>
-      DecoratedBox(
-          decoration: BoxDecoration(
-            color: color ?? context.cardColor,
-            borderRadius: AppUtils.kBorderRadius12,
-            boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
-          ),
-          child: Padding(
-            padding: padding ?? AppUtils.kPaddingAll6,
-            child: child,
-          ));
+      Container(
+        padding: padding ?? AppUtils.kPaddingAll6,
+        decoration: BoxDecoration(
+          color: color ?? context.cardColor,
+          borderRadius: AppUtils.kBorderRadius12,
+          boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
+        ),
+        child: child,
+      );
 }

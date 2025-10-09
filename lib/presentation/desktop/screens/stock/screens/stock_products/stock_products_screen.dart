@@ -9,8 +9,6 @@ import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 
-import '../../../../../../../../app/router.dart';
-import '../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/styles/text_style.dart';
@@ -18,9 +16,11 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../data/dtos/product_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
+import 'add_product_screen.dart';
 import 'widgets/product_item_widget.dart';
 import 'widgets/products_table_title_widget.dart';
 
@@ -249,7 +249,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => router.push(AddProductRoute(stock: stock, organization: organization)),
+                    onTap: _push,
                     child: Container(
                       height: 48,
                       width: context.width * .1,
@@ -316,4 +316,17 @@ class StockProductsScreen extends HookWidget {
       ),
     );
   }
+
+  void _push([
+    ProductDto? product,
+  ]) =>
+      navigationKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (_) => AddProductScreen(
+            stock: stock,
+            organization: organization,
+            product: product,
+          ),
+        ),
+      );
 }
