@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import '../../../../../../../../../app/router.dart';
 import '../../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../../core/constants/app_utils.dart';
 import '../cubit/write_off_cubit.dart';
 
 class WriteOffNavbar extends HookWidget {
@@ -25,7 +27,7 @@ class WriteOffNavbar extends HookWidget {
     BuildContext context,
   ) =>
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: AppUtils.kPaddingAll10.withT0,
         child: CustomBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -46,15 +48,15 @@ class WriteOffNavbar extends HookWidget {
                           await showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: const Text("Успешно"),
-                              content: const Text(""),
+                              title: const Text('Успешно'),
+                              content: const Text(''),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     router.push(StockItemRoute(stock: stock!, organization: organization));
                                   },
-                                  child: const Text("ОК"),
+                                  child: const Text('ОК'),
                                 ),
                               ],
                             ),
@@ -69,7 +71,7 @@ class WriteOffNavbar extends HookWidget {
                             child: state.status.isLoading
                                 ? const CupertinoActivityIndicator()
                                 : Text(
-                                    "Сохранить",
+                                    'Сохранить',
                                     maxLines: 2,
                                     style: TextStyle(fontSize: 13, color: context.onPrimary),
                                   ),
