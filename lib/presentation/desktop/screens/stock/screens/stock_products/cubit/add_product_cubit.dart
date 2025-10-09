@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show TextEditingController;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -9,17 +10,19 @@ import 'package:hoomo_pos/domain/repositories/products.dart';
 import 'package:injectable/injectable.dart';
 
 part 'add_product_state.dart';
+
 part 'add_product_cubit.freezed.dart';
 
 @injectable
 class AddProductCubit extends Cubit<AddProductState> {
-  AddProductCubit(this._searchProducts) : super(AddProductState());
+  AddProductCubit(
+    this._searchProducts,
+  ) : super(const AddProductState());
 
   final ProductsRepository _searchProducts;
 
   final titleController = TextEditingController();
-  final barcodeController = TextEditingController(
-      text: BarcodeIdGenerator.generateRandom13DigitNumber());
+  final barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
   final codeController = TextEditingController();
   final quantityController = TextEditingController();
   final incomeController = TextEditingController();
@@ -47,7 +50,7 @@ class AddProductCubit extends Cubit<AddProductState> {
       final res = await _searchProducts.getProductDetail(productId);
       return res;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -58,8 +61,5 @@ class AddProductCubit extends Cubit<AddProductState> {
     barcodeController.text = barcode;
   }
 
-  void selectCategory(int? categoryId) {
-    emit(state.copyWith(categoryId: categoryId));
-    print(state.categoryId);
-  }
+  void selectCategory(int? categoryId) => emit(state.copyWith(categoryId: categoryId));
 }
