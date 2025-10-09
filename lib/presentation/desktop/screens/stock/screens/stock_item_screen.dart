@@ -43,6 +43,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
   late final GlobalKey<NavigatorState> _transfersNavKey;
   late final GlobalKey<NavigatorState> _writeOffsNavKey;
   late final GlobalKey<NavigatorState> _inventoriesNavKey;
+  late final GlobalKey<NavigatorState> _stockProductsNavKey;
 
   late final TabbedViewController _controller;
 
@@ -53,6 +54,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
     _transfersNavKey = GlobalKey<NavigatorState>();
     _writeOffsNavKey = GlobalKey<NavigatorState>();
     _inventoriesNavKey = GlobalKey<NavigatorState>();
+    _stockProductsNavKey = GlobalKey<NavigatorState>();
     _controller = TabbedViewController([]);
   }
 
@@ -200,14 +202,23 @@ class _StockItemScreenState extends State<StockItemScreen> {
                             _item(
                               context,
                               label: context.tr('sidebar.catalog'),
+                              // onPressed: () => _addTab(
+                              //   context.tr('sidebar.catalog'),
+                              //   StockProductsScreen(stock, organization),
+                              // ),
                               onPressed: () => _addTab(
                                 context.tr('sidebar.catalog'),
-                                StockProductsScreen(stock, organization),
+                                Navigator(
+                                  key: _stockProductsNavKey,
+                                  onGenerateRoute: (_) => MaterialPageRoute(
+                                    builder: (_) => StockProductsScreen(
+                                      navigationKey: _stockProductsNavKey,
+                                      stock: stock,
+                                      organization: organization,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              // onPressed: () => router.push(StockProductsRoute(
-                              //   stock: stock,
-                              //   organization: organization,
-                              // )),
                             ),
 
                             ///

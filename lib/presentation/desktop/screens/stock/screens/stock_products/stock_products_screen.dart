@@ -25,12 +25,14 @@ import 'widgets/product_item_widget.dart';
 import 'widgets/products_table_title_widget.dart';
 
 class StockProductsScreen extends HookWidget {
-  const StockProductsScreen(
-    this.stock,
-    this.organization, {
+  const StockProductsScreen({
+    required this.navigationKey,
+    required this.stock,
+    required this.organization,
     super.key,
   });
 
+  final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
 
