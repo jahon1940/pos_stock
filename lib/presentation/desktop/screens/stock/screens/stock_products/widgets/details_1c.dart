@@ -23,8 +23,10 @@ class Details1C extends HookWidget {
   final bool? isDialog;
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AddProductCubit>();
+  Widget build(
+    BuildContext context,
+  ) {
+    final cubit = context.addProductBloc;
     final categoryController = useTextEditingController();
     return CustomBox(
       child: Padding(
@@ -104,7 +106,7 @@ class Details1C extends HookWidget {
                     width: context.width * .1,
                     child: Center(
                       child: Text(
-                        "Сгенерить",
+                        'Сгенерить',
                         maxLines: 2,
                         style: TextStyle(fontSize: 13, color: context.onPrimary),
                       ),
