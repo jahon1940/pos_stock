@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/product_table_title.dart';
@@ -53,10 +54,10 @@ class _SearchDialogState extends State<SearchDialog> {
     focusNode = FocusNode();
     keyboardFocus = FocusNode();
     final bloc = context.read<FastSearchBloc>();
-    bloc.add(SearchTextChanged(widget.searchParam ?? "", id: widget.stockId));
+    bloc.add(SearchTextChanged(widget.searchParam ?? '', id: widget.stockId));
 
     _scrollController = ScrollController()..addListener(_scrollListener);
-    _searchController = TextEditingController(text: widget.searchParam ?? "");
+    _searchController = TextEditingController(text: widget.searchParam ?? '');
     WidgetsBinding.instance.addPostFrameCallback((d) {
       focusNode.requestFocus();
     });
@@ -100,11 +101,11 @@ class _SearchDialogState extends State<SearchDialog> {
                                     padding: EdgeInsets.all(widget.isDialog ? 8.0 : 0),
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                          color: AppColors.primary100.withOpacity(0.3),
+                                          color: AppColors.primary100.opcty(.3),
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(color: context.theme.dividerColor)),
                                       child: AppTextField(
-                                        hint: context.tr("search"),
+                                        hint: context.tr('search'),
                                         width: context.width * 0.8,
                                         fieldController: _searchController,
                                         focusNode: focusNode,
@@ -155,7 +156,7 @@ class _SearchDialogState extends State<SearchDialog> {
                                     padding: EdgeInsets.all(widget.isDialog ? 8.0 : 0),
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                          color: AppColors.primary100.withOpacity(0.3),
+                                          color: AppColors.primary100.opcty(.3),
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(color: context.theme.dividerColor)),
                                       child: AppTextField(
@@ -209,7 +210,7 @@ class _SearchDialogState extends State<SearchDialog> {
                                       width: context.width * .1,
                                       child: Center(
                                         child: Text(
-                                          "Новый продукт",
+                                          'Новый продукт',
                                           maxLines: 2,
                                           style: TextStyle(fontSize: 13, color: context.onPrimary),
                                         ),
@@ -233,7 +234,7 @@ class _SearchDialogState extends State<SearchDialog> {
                                           decoration: BoxDecoration(
                                               border: Border.all(color: context.theme.dividerColor),
                                               borderRadius: BorderRadius.circular(8),
-                                              color: AppColors.error200.withOpacity(0.5)),
+                                              color: AppColors.error200.opcty(.5)),
                                           child: const Center(
                                             child: Icon(Icons.close, color: AppColors.error600),
                                           )),
@@ -256,9 +257,9 @@ class _SearchDialogState extends State<SearchDialog> {
                                   },
                                   titles: [
                                     '${context.tr("name")}/${context.tr("article")}',
-                                    context.tr("name_uz"),
+                                    context.tr('name_uz'),
                                     "${context.tr("quantity_short")}/${context.tr("reserve")}",
-                                    context.tr("price"),
+                                    context.tr('price'),
                                   ],
                                 ),
                                 BarcodeKeyboardListener(
@@ -410,13 +411,13 @@ class _SearchDialogState extends State<SearchDialog> {
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            "Ост./Резерв: ${product.quantity}/${product.reserveQuantity}",
+                                                            'Ост./Резерв: ${product.quantity}/${product.reserveQuantity}',
                                                             style: const TextStyle(fontSize: 11),
                                                           ),
                                                           Text(
                                                             product.freeQuantity == 0
                                                                 ? 'Нет в наличии'
-                                                                : "Своб. ост : ${product.freeQuantity}",
+                                                                : 'Своб. ост : ${product.freeQuantity}',
                                                             style: TextStyle(
                                                                 fontSize: 11,
                                                                 color: product.freeQuantity == 0
@@ -441,14 +442,14 @@ class _SearchDialogState extends State<SearchDialog> {
                                                                       product.purchasePriceDollar == null
                                                                   ? const SizedBox()
                                                                   : Text(
-                                                                      "Приходная цена: ${product.purchasePriceDollar} \$",
+                                                                      'Приходная цена: ${product.purchasePriceDollar} \$',
                                                                       style: const TextStyle(
                                                                           fontSize: 11, color: AppColors.success600),
                                                                     ),
                                                               product.priceDollar == 0 || product.priceDollar == null
                                                                   ? const SizedBox()
                                                                   : Text(
-                                                                      "Цена продажи: ${product.priceDollar} \$",
+                                                                      'Цена продажи: ${product.priceDollar} \$',
                                                                       style: const TextStyle(
                                                                           fontSize: 11, color: AppColors.success600),
                                                                     ),
