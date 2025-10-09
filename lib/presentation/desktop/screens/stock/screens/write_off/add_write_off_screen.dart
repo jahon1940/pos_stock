@@ -1,24 +1,20 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
-import '../../../../../../../../core/constants/spaces.dart';
 import '../../../../../../../../core/styles/colors.dart';
-import '../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../data/dtos/write_offs/write_off_dto.dart';
+import '../../widgets/page_title_widget.dart';
 import 'cubit/write_off_cubit.dart';
 import 'widgets/write_off_navbar.dart';
 import 'widgets/write_off_products.dart';
 
-@RoutePage()
 class AddWriteOffScreen extends StatelessWidget {
-  const AddWriteOffScreen(
-    this.writeOffBloc,
-    this.organization, {
+  const AddWriteOffScreen({
     super.key,
+    required this.writeOffBloc,
+    required this.organization,
     this.writeOff,
     this.stock,
   });
@@ -37,46 +33,18 @@ class AddWriteOffScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: AppColors.softGrey,
           body: Padding(
-            padding: AppUtils.kPaddingAll12,
+            padding: AppUtils.kPaddingAll10,
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: context.theme.cardColor,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                  ),
-                  height: 60,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.primary500,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                            ),
-                            child: InkWell(
-                              onTap: () => context.pop(),
-                              child: const Padding(
-                                padding: EdgeInsets.fromLTRB(16, 12, 10, 12),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                      ),
-                      AppSpace.horizontal12,
-                      Text(
-                        'Списание товаров с склада: ${stock?.name ?? ''}',
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
+                /// header
+                PageTitleWidget(
+                  label: 'Списание товаров с склада: ${stock?.name ?? ''}',
+                  canPop: true,
+                  isMain: false,
                 ),
-                AppSpace.vertical12,
+
+                /// body
+                AppUtils.kMainObjectsGap,
                 Expanded(child: WriteOffProducts(organization, stock)),
               ],
             ),

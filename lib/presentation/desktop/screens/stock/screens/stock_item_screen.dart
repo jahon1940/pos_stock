@@ -41,6 +41,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
 
   late final GlobalKey<NavigatorState> _suppliesNavKey;
   late final GlobalKey<NavigatorState> _transfersNavKey;
+  late final GlobalKey<NavigatorState> _writeOffsNavKey;
 
   late final TabbedViewController _controller;
 
@@ -49,6 +50,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
     super.initState();
     _suppliesNavKey = GlobalKey<NavigatorState>();
     _transfersNavKey = GlobalKey<NavigatorState>();
+    _writeOffsNavKey = GlobalKey<NavigatorState>();
     _controller = TabbedViewController([]);
   }
 
@@ -156,11 +158,20 @@ class _StockItemScreenState extends State<StockItemScreen> {
                             _item(
                               context,
                               label: 'Списание товаров',
-                              onPressed: () => _addTab('Списание', WriteOffsScreen(stock, organization)),
-                              // onPressed: () => router.push(WriteOffsRoute(
-                              //   stock: stock,
-                              //   organization: organization,
-                              // )),
+                              // onPressed: () => _addTab('Списание', WriteOffsScreen(stock, organization)),
+                              onPressed: () => _addTab(
+                                'Списание',
+                                Navigator(
+                                  key: _writeOffsNavKey,
+                                  onGenerateRoute: (_) => MaterialPageRoute(
+                                    builder: (_) => WriteOffsScreen(
+                                      navigationKey: _writeOffsNavKey,
+                                      stock: stock,
+                                      organization: organization,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                             ///

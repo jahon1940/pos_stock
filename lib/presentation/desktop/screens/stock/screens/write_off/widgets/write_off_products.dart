@@ -17,6 +17,7 @@ import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../../../../data/dtos/write_offs/write_off_product_request.dart';
+import '../../../../../../../core/constants/dictionary.dart';
 import '../cubit/write_off_cubit.dart';
 import 'write_off_product_list.dart';
 
@@ -68,7 +69,7 @@ class WriteOffProducts extends HookWidget {
                                     ),
                                     AppSpace.horizontal12,
                                     Text(
-                                      "Скачать документ",
+                                      'Скачать документ',
                                       maxLines: 2,
                                       style: TextStyle(fontSize: 13, color: context.onPrimary),
                                     ),
@@ -113,7 +114,7 @@ class WriteOffProducts extends HookWidget {
                               width: context.width * .14,
                               child: Center(
                                 child: Text(
-                                  "Добавить Наменклатуру",
+                                  'Добавить Наменклатуру',
                                   maxLines: 2,
                                   style: TextStyle(fontSize: 13, color: context.onPrimary),
                                 ),
@@ -135,30 +136,33 @@ class WriteOffProducts extends HookWidget {
                     },
                     titles: [
                       '${context.tr("name")}/${context.tr("article")}',
-                      context.tr("count_short"),
-                      "Комментарии",
-                      if (state.products == null) "Действия",
+                      context.tr('count_short'),
+                      'Комментарии',
+                      if (state.products == null) 'Действия',
                     ],
                   ),
                 ),
-                AppSpace.vertical12,
-                SizedBox(
-                  height: context.height - 320,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
-                    separatorBuilder: (context, index) => AppSpace.vertical6,
-                    itemBuilder: (context, index) => WriteOffProductList(
-                        editable: state.products == null,
-                        product: state.products != null
-                            ? WriteOffProductRequest(
-                                title: state.products![index].product?.title,
-                                productId: state.products![index].id,
-                                quantity: state.products?[index].quantity ?? 0,
-                                comment: state.products?[index].comment ?? '',
-                              )
-                            : state.request?.products?[index]),
-                  ),
+
+                ///
+                AppUtils.kGap12,
+                Expanded(
+                  child: (state.products ?? []).isEmpty && (state.request?.products ?? []).isEmpty
+                      ? Center(child: Text(context.tr(Dictionary.not_found)))
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: state.products?.length ?? state.request?.products?.length ?? 0,
+                          separatorBuilder: (_, __) => AppSpace.vertical6,
+                          itemBuilder: (_, index) => WriteOffProductList(
+                              editable: state.products == null,
+                              product: state.products != null
+                                  ? WriteOffProductRequest(
+                                      title: state.products![index].product?.title,
+                                      productId: state.products![index].id,
+                                      quantity: state.products?[index].quantity ?? 0,
+                                      comment: state.products?[index].comment ?? '',
+                                    )
+                                  : state.request?.products?[index]),
+                        ),
                 ),
               ],
             ),

@@ -5,11 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/add_write_off_screen.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/cubit/write_off_cubit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../../../app/router.dart';
-import '../../../../../../../../app/router.gr.dart';
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/constants/dictionary.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -18,16 +17,19 @@ import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
+import '../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../widgets/title_supplies.dart';
 import 'widgets/write_off_item_widget.dart';
 
 class WriteOffsScreen extends HookWidget {
-  const WriteOffsScreen(
-    this.stock,
-    this.organization, {
+  const WriteOffsScreen({
+    required this.navigationKey,
+    required this.stock,
+    required this.organization,
     super.key,
   });
 
+  final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
 
@@ -193,11 +195,7 @@ class WriteOffsScreen extends HookWidget {
                     ///
                     AppUtils.kGap6,
                     GestureDetector(
-                      onTap: () async => router.push(AddWriteOffRoute(
-                        writeOffBloc: blocContext.writeOffBloc,
-                        stock: stock,
-                        organization: organization,
-                      )),
+                      onTap: () => _push(blocContext),
                       child: Container(
                         height: 48,
                         width: context.width * .1,
@@ -240,10 +238,10 @@ class WriteOffsScreen extends HookWidget {
                                       itemCount: state.writeOffs?.results.length ?? 0,
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemBuilder: (context, index) => WriteOffItemWidget(
-                                        admission: state.writeOffs!.results[index],
                                         stock: stock,
                                         organization: organization,
-                                        onDelete: () {},
+                                        writeOff: state.writeOffs!.results[index],
+                                        onTap: () => _push(blocContext, state.writeOffs!.results[index]),
                                       ),
                                     ),
                         ),
@@ -258,4 +256,19 @@ class WriteOffsScreen extends HookWidget {
       ),
     );
   }
+
+  void _push(
+    BuildContext context, [
+    WriteOffDto? writeOff,
+  ]) =>
+      navigationKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (_) => AddWriteOffScreen(
+            writeOffBloc: context.writeOffBloc,
+            organization: organization,
+            stock: stock,
+            writeOff: writeOff,
+          ),
+        ),
+      );
 }
