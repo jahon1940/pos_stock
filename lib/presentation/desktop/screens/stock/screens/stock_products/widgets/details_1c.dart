@@ -10,7 +10,6 @@ import '../../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../search/cubit/search_bloc.dart';
-import '../cubit/add_product_cubit.dart';
 
 class Details1C extends HookWidget {
   const Details1C(
@@ -52,7 +51,7 @@ class Details1C extends HookWidget {
                       controller: categoryController,
                       onSelected: (value) {
                         isDialog == true
-                            ? context.read<AddProductCubit>().selectCategory(value)
+                            ? context.addProductBloc.selectCategory(value)
                             : context.searchBloc.add(SelectCategory(id: value));
                       },
                       inputDecorationTheme: InputDecorationTheme(
