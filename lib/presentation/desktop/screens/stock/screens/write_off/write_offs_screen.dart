@@ -5,8 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/add_write_off_screen.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/cubit/write_off_cubit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
@@ -19,6 +17,8 @@ import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../widgets/title_supplies.dart';
+import 'add_write_off_screen.dart';
+import 'cubit/write_off_cubit.dart';
 import 'widgets/write_off_item_widget.dart';
 
 class WriteOffsScreen extends HookWidget {
