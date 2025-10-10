@@ -11,10 +11,10 @@ import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/product_table_item.dart';
-import '../../../../../../../../core/widgets/product_table_title.dart';
 import '../../../../../../../../data/dtos/category/category_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../dialogs/create_category/create_category_dialog.dart';
+import '../../widgets/table_title_widget.dart';
 
 class CategoriesScreen extends HookWidget {
   const CategoriesScreen({
@@ -97,20 +97,20 @@ class CategoriesScreen extends HookWidget {
             ),
 
             /// body
-            AppUtils.kGap12,
+            AppUtils.kMainObjectsGap,
             Expanded(
               child: CustomBox(
                 padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
                     ///
-                    TableTitleProducts(
-                      fillColor: AppColors.stroke,
+                    TableTitleWidget(
                       titles: ['ID', context.tr(Dictionary.name), 'Действия'],
                       columnWidths: _columnWidths,
                     ),
 
                     ///
+                    AppUtils.kGap12,
                     BlocBuilder<CategoryBloc, CategoryState>(
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading && state.categories == null
@@ -119,7 +119,7 @@ class CategoriesScreen extends HookWidget {
                                 ? Center(child: Text(context.tr(Dictionary.not_found)))
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: AppUtils.kPaddingB12,
                                     itemCount: state.categories?.results.length ?? 0,
                                     separatorBuilder: (_, __) => AppUtils.kGap12,
                                     itemBuilder: (context, index) {
