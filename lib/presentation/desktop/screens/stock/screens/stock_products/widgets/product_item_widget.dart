@@ -12,16 +12,17 @@ import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../../search/cubit/search_bloc.dart';
 import '../../../widgets/delete_product_widget.dart';
-import 'products_table_title_widget.dart';
 
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
     super.key,
+    required this.columnWidths,
     required this.product,
     required this.stock,
     required this.organization,
   });
 
+  final Map<int, TableColumnWidth>? columnWidths;
   final ProductDto product;
   final StockDto stock;
   final CompanyDto organization;
@@ -37,7 +38,7 @@ class ProductItemWidget extends StatelessWidget {
       decimalDigits: 0,
     );
     return TableProductItem(
-      columnWidths: ProductsTableTitleWidget.columnWidths,
+      columnWidths: columnWidths,
       onTap: () => showDialog(
         context: context,
         builder: (context) => Center(

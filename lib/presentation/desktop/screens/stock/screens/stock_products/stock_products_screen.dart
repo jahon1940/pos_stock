@@ -8,6 +8,7 @@ import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -22,7 +23,6 @@ import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
 import 'add_product_screen.dart';
 import 'widgets/product_item_widget.dart';
-import 'widgets/products_table_title_widget.dart';
 
 class StockProductsScreen extends HookWidget {
   const StockProductsScreen({
@@ -35,6 +35,16 @@ class StockProductsScreen extends HookWidget {
   final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
+
+  static const _columnWidths = {
+    0: FlexColumnWidth(6),
+    1: FlexColumnWidth(4),
+    2: FlexColumnWidth(3),
+    3: FlexColumnWidth(3),
+    4: FlexColumnWidth(3),
+    5: FlexColumnWidth(3),
+    6: FlexColumnWidth(3),
+  };
 
   @override
   Widget build(
@@ -106,9 +116,16 @@ class StockProductsScreen extends HookWidget {
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: categoryController,
                                   onSelected: (value) {
-                                    context.read<SearchBloc>().add(SelectCategory(id: value));
-                                    context.read<SearchBloc>().add(SearchRemoteTextChanged(searchController.text,
-                                        stockId: stock.id, categoryId: value, clearPrevious: true));
+                                    context.searchBloc
+                                      ..add(SelectCategory(id: value))
+                                      ..add(
+                                        SearchRemoteTextChanged(
+                                          searchController.text,
+                                          stockId: stock.id,
+                                          categoryId: value,
+                                          clearPrevious: true,
+                                        ),
+                                      );
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
@@ -148,13 +165,14 @@ class StockProductsScreen extends HookWidget {
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: supplierController,
                                   onSelected: (value) {
-                                    context.searchBloc.add(SelectSupplier(id: value));
-                                    context.searchBloc.add(SearchRemoteTextChanged(
-                                      searchController.text,
-                                      stockId: stock.id,
-                                      supplierId: value,
-                                      clearPrevious: true,
-                                    ));
+                                    context.searchBloc
+                                      ..add(SelectSupplier(id: value))
+                                      ..add(SearchRemoteTextChanged(
+                                        searchController.text,
+                                        stockId: stock.id,
+                                        supplierId: value,
+                                        clearPrevious: true,
+                                      ));
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
@@ -276,7 +294,18 @@ class StockProductsScreen extends HookWidget {
                 padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
-                    const ProductsTableTitleWidget(),
+                    TableTitleWidget(
+                      columnWidths: _columnWidths,
+                      titles: [
+                        '${context.tr("name")}/${context.tr("article")}',
+                        'Категория',
+                        'Поставщик',
+                        context.tr('count_short'),
+                        context.tr('priceFrom'),
+                        context.tr('priceTo'),
+                        'Действия',
+                      ],
+                    ),
 
                     ///
                     BlocBuilder<SearchBloc, SearchState>(
@@ -295,10 +324,11 @@ class StockProductsScreen extends HookWidget {
                                     child: ListView.separated(
                                       shrinkWrap: true,
                                       controller: scrollController,
-                                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                      padding: AppUtils.kPaddingB12,
                                       itemCount: state.products!.results.length,
                                       separatorBuilder: (_, __) => AppUtils.kGap12,
                                       itemBuilder: (context, index) => ProductItemWidget(
+                                        columnWidths: _columnWidths,
                                         product: state.products!.results.elementAt(index),
                                         stock: stock,
                                         organization: organization,
