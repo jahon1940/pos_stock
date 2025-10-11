@@ -12,6 +12,7 @@ import '../../../../../../data/dtos/stock_dto.dart';
 import '../../search/cubit/search_bloc.dart';
 import '../dialogs/currency/currency_dialog.dart';
 import '../widgets/page_title_widget.dart';
+import 'brands/brands_screen.dart';
 import 'category/categories_screen.dart';
 import 'inventories/inventories_screen.dart';
 import 'stock_products/stock_products_screen.dart';
@@ -227,6 +228,13 @@ class _StockItemScreenState extends State<StockItemScreen> {
                               label: 'Категории',
                               onPressed: () => _addTab('Категории', const CategoriesScreen()),
                               // onPressed: () => router.push(const CategoriesRoute()),
+                            ),
+
+                            ///
+                            _item(
+                              context,
+                              label: 'Бренды',
+                              onPressed: () => _addTab('Бренды', const BrandsScreen()),
                             ),
 
                             ///
