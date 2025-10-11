@@ -5,8 +5,8 @@ import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 
-class About extends HookWidget {
-  const About({
+class ProductAbout extends HookWidget {
+  const ProductAbout({
     super.key,
   });
 
