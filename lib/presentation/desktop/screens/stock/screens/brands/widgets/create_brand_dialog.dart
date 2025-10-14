@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
@@ -39,21 +40,14 @@ class CreateBrandDialog extends StatelessWidget {
                 ),
 
                 /// close button
-                SizedBox(
-                  height: 48,
-                  width: 48,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppColors.error100,
-                    child: InkWell(
-                      hoverColor: AppColors.error200,
-                      highlightColor: AppColors.error300,
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () => context.pop(),
-                      child: const Icon(Icons.close, color: AppColors.error600),
-                    ),
-                  ),
-                )
+                CustomSquareIconBtn(
+                  Icons.close,
+                  size: 48,
+                  darkenColors: true,
+                  backgrounColor: AppColors.error100,
+                  iconColor: AppColors.error600,
+                  onTap: () => context.pop(),
+                ),
               ],
             ),
 
