@@ -9,11 +9,9 @@ import '../../../../../dialogs/category/bloc/category_bloc.dart';
 class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
     super.key,
-    required Map<int, FlexColumnWidth> columnWidths,
     required this.category,
-  }) : _columnWidths = columnWidths;
+  });
 
-  final Map<int, FlexColumnWidth> _columnWidths;
   final CategoryDto category;
 
   @override
@@ -21,7 +19,11 @@ class CategoryItemWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: _columnWidths,
+        columnWidths: {
+          0: const FlexColumnWidth(2),
+          1: const FlexColumnWidth(6),
+          2: const FlexColumnWidth(2),
+        },
         onTap: () async {},
         children: [
           SizedBox(
