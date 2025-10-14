@@ -28,7 +28,9 @@ class AddProductCubit extends Cubit<AddProductState> {
   final incomeController = TextEditingController();
   final sellController = TextEditingController();
 
-  void init(ProductDto? product) async {
+  Future<void> init(
+    ProductDto? product,
+  ) async {
     if (product == null) return;
 
     final data = await _getProduct(product.id);
@@ -57,7 +59,6 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   void generateBarcode() {
     final barcode = BarcodeIdGenerator.generateRandom13DigitNumber();
-
     barcodeController.text = barcode;
   }
 
