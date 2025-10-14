@@ -41,6 +41,13 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
     }
   }
 
+  void _delete() {
+    if (_selectedItem.isNull) return;
+    _images.removeWhere((item) => item.path == _selectedItem!.path);
+    _selectedItem = _images.firstOrNull;
+    setState(() {});
+  }
+
   @override
   Widget build(
     BuildContext context,
@@ -66,9 +73,25 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
                   color: Colors.grey,
                   width: 316,
                   height: 316,
-                  child: Image.file(
-                    _selectedItem!,
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Image.file(_selectedItem!, fit: BoxFit.cover),
+                      ),
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: IconButton(
+                          style: IconButton.styleFrom(backgroundColor: Colors.white30),
+                          onPressed: _delete,
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               )
