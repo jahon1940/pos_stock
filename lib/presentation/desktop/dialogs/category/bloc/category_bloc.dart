@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/domain/repositories/category.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../data/dtos/category/category_dto.dart';
+import '../../../../../domain/repositories/category_repository.dart';
 
 part 'category_state.dart';
 

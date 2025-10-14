@@ -1,33 +1,31 @@
-import 'package:hoomo_pos/core/constants/network.dart';
-import 'package:hoomo_pos/core/network/dio_client.dart';
-import 'package:injectable/injectable.dart';
-import '../../../dtos/category/category_dto.dart';
-import '../../../dtos/category/create_category_request.dart';
-import '../../../dtos/pagination_dto.dart';
-import 'category_api.dart';
+part of 'category_api.dart';
 
 @LazySingleton(as: CategoryApi)
 class CategoryApiImpl extends CategoryApi {
-  final DioClient _dioClient;
+  CategoryApiImpl(
+    this._dioClient,
+  );
 
-  CategoryApiImpl(this._dioClient);
+  final DioClient _dioClient;
 
   @override
   Future<void> createCategory(CreateCategoryRequest request) async {
-    await _dioClient.postRequest(NetworkConstants.categoriesManagers,
-        data: request.toJson());
+    await _dioClient.postRequest(NetworkConstants.categoriesManagers, data: request.toJson());
   }
 
   @override
-  Future<void> deleteCategory(String categoryId) async {
-    await _dioClient
-        .deleteRequest("${NetworkConstants.categoriesManagers}/$categoryId");
+  Future<void> deleteCategory(
+    String categoryId,
+  ) async {
+    await _dioClient.deleteRequest('${NetworkConstants.categoriesManagers}/$categoryId');
   }
 
   @override
-  Future<CategoryDto?> getCategoryId(int categoryId) async {
+  Future<CategoryDto?> getCategoryId(
+    int categoryId,
+  ) async {
     final res = await _dioClient.getRequest(
-      "${NetworkConstants.categoriesManagers}/$categoryId",
+      '${NetworkConstants.categoriesManagers}/$categoryId',
       converter: (response) => CategoryDto.fromJson(response),
     );
     return res;
@@ -45,9 +43,9 @@ class CategoryApiImpl extends CategoryApi {
 
   @override
   Future<void> updateCategory(
-      String categoryId, CreateCategoryRequest request) async {
-    await _dioClient.putRequest(
-        "${NetworkConstants.categoriesManagers}/$categoryId",
-        data: request.toJson());
+    String categoryId,
+    CreateCategoryRequest request,
+  ) async {
+    await _dioClient.putRequest('${NetworkConstants.categoriesManagers}/$categoryId', data: request.toJson());
   }
 }
