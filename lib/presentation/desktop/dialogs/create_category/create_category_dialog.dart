@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
@@ -11,9 +10,12 @@ import '../../../../core/constants/spaces.dart';
 import '../../../../data/dtos/product_param_dto.dart';
 
 class CreateCategoryDialog extends StatefulWidget {
-  const CreateCategoryDialog({super.key, this.CategoryDto});
+  const CreateCategoryDialog({
+    super.key,
+    this.categoryDto,
+  });
 
-  final ProductParamDto? CategoryDto;
+  final ProductParamDto? categoryDto;
 
   @override
   State<CreateCategoryDialog> createState() => _CreateCategoryState();
@@ -21,10 +23,10 @@ class CreateCategoryDialog extends StatefulWidget {
 
 class _CreateCategoryState extends State<CreateCategoryDialog> {
   @override
-  Widget build(BuildContext context) {
-    final CategoryBloc categoryBloc = BlocProvider.of<CategoryBloc>(context);
+  Widget build(
+    BuildContext context,
+  ) {
     final nameController = TextEditingController();
-
     return Material(
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
@@ -37,10 +39,9 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text("Создания категории",
-                        style: AppTextStyles.boldType18),
+                  const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text('Создания категории', style: AppTextStyles.boldType18),
                   ),
                   AppSpace.horizontal24,
                   Padding(
@@ -57,9 +58,8 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          style: IconButton.styleFrom(
-                              overlayColor: AppColors.error500),
-                          icon: Icon(Icons.close, color: AppColors.error600),
+                          style: IconButton.styleFrom(overlayColor: AppColors.error500),
+                          icon: const Icon(Icons.close, color: AppColors.error600),
                         ),
                       ),
                     ),
@@ -70,7 +70,7 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
                 child: AppTextField(
                   width: 250,
-                  label: "Название",
+                  label: 'Название',
                   enabledBorderWith: 1,
                   enabledBorderColor: AppColors.stroke,
                   focusedBorderColor: AppColors.stroke,
@@ -90,14 +90,17 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                     ),
                   ),
                   onPressed: () {
-                    categoryBloc.add(CreateCategory(CreateCategoryRequest(
+                    context.categoryBloc.add(CreateCategory(
+                      CreateCategoryRequest(
                         name: nameController.text,
                         cid: const Uuid().v4(),
-                        active: true)));
-                    Navigator.pop(context);
+                        active: true,
+                      ),
+                    ));
+                    context.pop(context);
                   },
-                  child: Text(
-                    "Создать категорию",
+                  child: const Text(
+                    'Создать категорию',
                     style: AppTextStyles.boldType16,
                     textAlign: TextAlign.center,
                   ),
