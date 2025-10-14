@@ -3,7 +3,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
-import '../../../../../../../data/dtos/category/category_dto.dart';
+import '../../../../../../../data/dtos/brand/brand_dto.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 
 class BrandItemWidget extends StatelessWidget {
@@ -14,7 +14,7 @@ class BrandItemWidget extends StatelessWidget {
   }) : _columnWidths = columnWidths;
 
   final Map<int, FlexColumnWidth> _columnWidths;
-  final CategoryDto brand;
+  final BrandDto brand;
 
   @override
   Widget build(
