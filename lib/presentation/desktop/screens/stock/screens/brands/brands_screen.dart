@@ -21,12 +21,6 @@ class BrandsScreen extends HookWidget {
     super.key,
   });
 
-  static const _columnWidths = {
-    0: FlexColumnWidth(2),
-    1: FlexColumnWidth(6),
-    2: FlexColumnWidth(2),
-  };
-
   @override
   Widget build(
     BuildContext context,
@@ -103,7 +97,11 @@ class BrandsScreen extends HookWidget {
                         ///
                         TableTitleWidget(
                           titles: ['ID', context.tr(Dictionary.name), 'Действия'],
-                          columnWidths: _columnWidths,
+                          columnWidths: {
+                            0: const FlexColumnWidth(2),
+                            1: const FlexColumnWidth(6),
+                            2: const FlexColumnWidth(2),
+                          },
                         ),
 
                         ///
@@ -120,7 +118,6 @@ class BrandsScreen extends HookWidget {
                                         itemCount: state.brands?.results.length ?? 0,
                                         separatorBuilder: (_, __) => AppUtils.kGap12,
                                         itemBuilder: (context, index) => BrandItemWidget(
-                                          columnWidths: _columnWidths,
                                           brand: state.brands!.results[index],
                                         ),
                                       ),
