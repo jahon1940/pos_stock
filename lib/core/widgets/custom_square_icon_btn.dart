@@ -11,6 +11,7 @@ class CustomSquareIconBtn extends StatelessWidget {
     this.backgrounColor,
     this.iconColor,
     this.onTap,
+    this.darkenColors = false,
   });
 
   final IconData iconData;
@@ -19,6 +20,7 @@ class CustomSquareIconBtn extends StatelessWidget {
   final Color? iconColor;
   final VoidCallback? onTap;
   static const _radius = AppUtils.kBorderRadius12;
+  final bool darkenColors;
 
   @override
   Widget build(
@@ -34,12 +36,13 @@ class CustomSquareIconBtn extends StatelessWidget {
         color: color,
         child: InkWell(
           onTap: onTap,
-          hoverColor: color.lighten(20),
-          splashColor: color.lighten(50),
+          hoverColor: darkenColors ? color.darken(10) : color.lighten(20),
+          highlightColor: darkenColors ? color.darken(20) : color.lighten(50),
+          splashColor: darkenColors ? color.darken(30) : color.lighten(50),
           borderRadius: _radius,
           child: Icon(
             iconData,
-            color: Colors.white,
+            color: iconColor ?? Colors.white,
           ),
         ),
       ),
