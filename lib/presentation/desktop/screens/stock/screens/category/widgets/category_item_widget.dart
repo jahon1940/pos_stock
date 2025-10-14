@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
@@ -26,53 +28,37 @@ class CategoryItemWidget extends StatelessWidget {
         },
         onTap: () async {},
         children: [
-          SizedBox(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
-              child: Text('${category.id}'),
-            ),
+          _item(
+            child: Text('${category.id}'),
           ),
-          SizedBox(
-            child: Padding(padding: const EdgeInsets.fromLTRB(10, 5, 0, 0), child: Text(category.name ?? '')),
+          _item(
+            child: Text(category.name ?? ''),
           ),
-          Container(
-            height: 60,
-            alignment: Alignment.center,
+          _item(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primary500,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                    ),
-                    height: 40,
-                    width: 40,
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                  ),
+                CustomSquareIcon(
+                  Icons.edit,
+                  backgrounColor: AppColors.primary500,
+                  onTap: () {},
                 ),
-                GestureDetector(
+                CustomSquareIcon(
+                  Icons.delete,
+                  backgrounColor: AppColors.error500,
                   onTap: () => context.categoryBloc.add(DeleteCategoryId(category.cid)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.error500,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                    ),
-                    height: 40,
-                    width: 40,
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
                 ),
               ],
             ),
-          )
+          ),
         ],
+      );
+
+  Widget _item({
+    required Widget child,
+  }) =>
+      Padding(
+        padding: AppUtils.kPaddingAll10,
+        child: child,
       );
 }
