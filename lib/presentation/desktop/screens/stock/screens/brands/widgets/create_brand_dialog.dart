@@ -92,7 +92,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                       overlayColor: Colors.grey,
                       padding: EdgeInsets.zero,
                     ),
-                    onPressed: () async => _pickImage(context),
+                    onPressed: _pickImage,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -148,9 +148,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
     );
   }
 
-  Future<void> _pickImage(
-    BuildContext ctx,
-  ) async {
+  Future<void> _pickImage() async {
     try {
       final file = await ImagePicker().pickMedia();
       if (file.isNotNull) {
