@@ -55,7 +55,7 @@ class BrandsScreen extends StatelessWidget {
                           context: context,
                           builder: (_) => const Center(child: CreateBrandDialog()),
                         ).then((onValue) {
-                          if (onValue == true || true) {
+                          if (onValue == true) {
                             showDialog(
                               context: context,
                               builder: (context) => const SuccessDialog(label: 'Бренд создан'),
