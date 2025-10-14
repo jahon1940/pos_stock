@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
@@ -16,7 +15,7 @@ import '../../widgets/table_title_widget.dart';
 import 'widgets/brand_item_widget.dart';
 import 'widgets/create_brand_dialog.dart';
 
-class BrandsScreen extends HookWidget {
+class BrandsScreen extends StatelessWidget {
   const BrandsScreen({
     super.key,
   });
