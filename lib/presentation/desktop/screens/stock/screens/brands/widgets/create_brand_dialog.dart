@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
@@ -23,11 +22,11 @@ class CreateBrandDialog extends StatelessWidget {
     final nameController = TextEditingController();
     return AlertDialog(
       shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
-      contentPadding: AppUtils.kPaddingAll16,
+      contentPadding: AppUtils.kPaddingAll24,
       content: SizedBox(
-        width: context.width * .4,
-        height: context.height * .5,
+        width: context.width * .3,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             /// header
             Row(
@@ -57,37 +56,39 @@ class CreateBrandDialog extends StatelessWidget {
                 )
               ],
             ),
-            const Gap(50),
-            AppTextField(
-              width: 250,
-              label: 'Название',
-              enabledBorderWith: 1,
-              enabledBorderColor: AppColors.stroke,
-              focusedBorderColor: AppColors.stroke,
-              focusedBorderWith: 1,
-              fieldController: nameController,
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              margin: const EdgeInsets.all(8),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary800,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+
+            /// content
+            AppUtils.kGap24,
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ///
+                AppTextField(
+                  label: 'Название',
+                  enabledBorderWith: 1,
+                  enabledBorderColor: AppColors.stroke,
+                  focusedBorderColor: AppColors.stroke,
+                  focusedBorderWith: 1,
+                  fieldController: nameController,
+                ),
+
+                /// button
+                AppUtils.kGap24,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary800,
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  onPressed: () {
+                    /// todo implement create brand event
+                    context.pop(context);
+                  },
+                  child: const Text(
+                    'Создать бренд',
+                    style: AppTextStyles.boldType16,
                   ),
                 ),
-                onPressed: () {
-                  /// todo implement create brand event
-                  context.pop(context);
-                },
-                child: const Text(
-                  'Создать бренд',
-                  style: AppTextStyles.boldType16,
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              ],
             ),
           ],
         ),

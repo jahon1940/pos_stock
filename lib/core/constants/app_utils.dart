@@ -27,6 +27,7 @@ sealed class AppUtils {
   static const EdgeInsets kPaddingAll10 = EdgeInsets.all(10);
   static const EdgeInsets kPaddingAll12 = EdgeInsets.all(12);
   static const EdgeInsets kPaddingAll16 = EdgeInsets.all(16);
+  static const EdgeInsets kPaddingAll24 = EdgeInsets.all(24);
 
   /// padding All and a side
   static const EdgeInsets kPaddingAll10B0 = EdgeInsets.fromLTRB(10, 10, 10, 0);
