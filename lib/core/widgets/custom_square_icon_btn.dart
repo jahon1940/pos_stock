@@ -10,14 +10,14 @@ class CustomSquareIconBtn extends StatelessWidget {
     this.size = 40,
     this.backgrounColor,
     this.iconColor,
-    required this.onTap,
+    this.onTap,
   });
 
   final IconData iconData;
   final double size;
   final Color? backgrounColor;
   final Color? iconColor;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   static const _radius = AppUtils.kBorderRadius12;
 
   @override

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 
+import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/brand/brand_dto.dart';
-import '../../../../../dialogs/category/bloc/category_bloc.dart';
 
 class BrandItemWidget extends StatelessWidget {
   const BrandItemWidget({
     super.key,
-    required Map<int, FlexColumnWidth> columnWidths,
     required this.brand,
-  }) : _columnWidths = columnWidths;
+  });
 
-  final Map<int, FlexColumnWidth> _columnWidths;
   final BrandDto brand;
 
   @override
@@ -21,56 +19,42 @@ class BrandItemWidget extends StatelessWidget {
     BuildContext context,
   ) =>
       TableProductItem(
-        columnWidths: _columnWidths,
+        columnWidths: {
+          0: const FlexColumnWidth(2),
+          1: const FlexColumnWidth(6),
+          2: const FlexColumnWidth(2),
+        },
         onTap: () async {},
         children: [
-          SizedBox(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
-              child: Text('${brand.id}'),
-            ),
+          _item(
+            child: Text('${brand.id}'),
           ),
-          SizedBox(
-            child: Padding(padding: const EdgeInsets.fromLTRB(10, 5, 0, 0), child: Text(brand.name ?? '')),
+          _item(
+            child: Text(brand.name ?? ''),
           ),
-          Container(
-            height: 60,
-            alignment: Alignment.center,
-            child: Row(
+          _item(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primary500,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                    ),
-                    height: 40,
-                    width: 40,
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                  ),
+                CustomSquareIconBtn(
+                  backgrounColor: AppColors.primary500,
+                  Icons.edit,
                 ),
-                GestureDetector(
-                  onTap: () => context.categoryBloc.add(DeleteCategoryId(brand.cid)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.error500,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                    ),
-                    height: 40,
-                    width: 40,
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
+                CustomSquareIconBtn(
+                  Icons.delete,
+                  backgrounColor: AppColors.error500,
                 ),
               ],
             ),
-          )
+          ),
         ],
+      );
+
+  Widget _item({
+    required Widget child,
+  }) =>
+      Padding(
+        padding: AppUtils.kPaddingAll10,
+        child: child,
       );
 }
