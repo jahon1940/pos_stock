@@ -1,6 +1,6 @@
 part of 'category_bloc.dart';
 
-abstract class CategoryEvent {}
+sealed class CategoryEvent {}
 
 class GetCategory extends CategoryEvent {}
 
@@ -16,12 +16,6 @@ class CreateCategory extends CategoryEvent {
   final CreateCategoryRequest request;
 }
 
-class PrintPrice extends CategoryEvent {
-  PrintPrice(this.request);
-
-  final CreateCategoryRequest request;
-}
-
 class UpdateCategory extends CategoryEvent {
   UpdateCategory(this.request, this.id);
 
@@ -33,10 +27,4 @@ class DeleteCategoryId extends CategoryEvent {
   DeleteCategoryId(this.id);
 
   final String? id;
-}
-
-class SelectedCategory extends CategoryEvent {
-  SelectedCategory(this.selectedCategory);
-
-  final int? selectedCategory;
 }

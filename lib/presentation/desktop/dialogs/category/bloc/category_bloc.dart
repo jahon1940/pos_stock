@@ -19,11 +19,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc(
     this._categoryRepository,
   ) : super(const CategoryState()) {
-    on<GetCategory>(_getCategory);
-    on<GetCategoryId>(_getCategoryId);
-    on<CreateCategory>(_createCategory);
-    on<UpdateCategory>(_updateCategory);
-    on<DeleteCategoryId>(_deleteId);
+    on<CategoryEvent>(
+      (event, emit) async => switch (event) {
+        GetCategory _ => _getCategory(event, emit),
+        GetCategoryId _ => _getCategoryId(event, emit),
+        CreateCategory _ => _createCategory(event, emit),
+        UpdateCategory _ => _updateCategory(event, emit),
+        DeleteCategoryId _ => _deleteId(event, emit),
+      },
+    );
   }
 
   final CategoryRepository _categoryRepository;
