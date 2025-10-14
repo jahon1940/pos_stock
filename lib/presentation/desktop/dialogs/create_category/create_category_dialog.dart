@@ -55,9 +55,7 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => context.pop(),
                           style: IconButton.styleFrom(overlayColor: AppColors.error500),
                           icon: const Icon(Icons.close, color: AppColors.error600),
                         ),
