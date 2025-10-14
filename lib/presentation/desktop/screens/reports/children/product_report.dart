@@ -20,17 +20,20 @@ import 'cubit/reports_cubit.dart';
 
 @RoutePage()
 class ProductReportScreen extends HookWidget {
-  const ProductReportScreen({super.key});
+  const ProductReportScreen({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     useEffect(() {
       context.read<ReportsCubit>().getReports();
       context.supplierBloc.getSuppliers();
-      context.read<CategoryBloc>().add(GetCategory());
+      context.categoryBloc.add(GetCategory());
       return null;
     }, const []);
-    ThemeData themeData = Theme.of(context);
     final currencyFormatter = NumberFormat.currency(
       locale: 'ru_RU',
       symbol: '',
@@ -38,6 +41,7 @@ class ProductReportScreen extends HookWidget {
     );
     final supplierController = useTextEditingController();
     final categoryController = useTextEditingController();
+
     return SelectionArea(
       child: Scaffold(
         body: Padding(
@@ -46,11 +50,9 @@ class ProductReportScreen extends HookWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: themeData.cardColor,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    const BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Row(
@@ -64,10 +66,7 @@ class ProductReportScreen extends HookWidget {
                               decoration: BoxDecoration(
                                 color: AppColors.primary500,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  const BoxShadow(
-                                      color: AppColors.stroke, blurRadius: 3)
-                                ],
+                                boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                               ),
                               child: InkWell(
                                 onTap: () => router.push(const ReportsRoute()),
@@ -83,9 +82,8 @@ class ProductReportScreen extends HookWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Отчеты по продуктам",
-                            style: AppTextStyles.boldType18
-                                .copyWith(color: AppColors.primary500),
+                            'Отчеты по продуктам',
+                            style: AppTextStyles.boldType18.copyWith(color: AppColors.primary500),
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -108,18 +106,13 @@ class ProductReportScreen extends HookWidget {
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: categoryController,
                                   onSelected: (value) {
-                                    context
-                                        .read<SearchBloc>()
-                                        .add(SelectCategory(id: value));
-                                    context
-                                        .read<ReportsCubit>()
-                                        .getReports(categoryId: value);
+                                    context.read<SearchBloc>().add(SelectCategory(id: value));
+                                    context.read<ReportsCubit>().getReports(categoryId: value);
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
-                                    constraints: BoxConstraints.tight(
-                                        const Size.fromHeight(35)),
+                                    constraints: BoxConstraints.tight(const Size.fromHeight(35)),
                                   ),
                                   dropdownMenuEntries: [
                                     const DropdownMenuEntry(
@@ -160,15 +153,12 @@ class ProductReportScreen extends HookWidget {
                                     context.read<SearchBloc>().add(
                                           SelectSupplier(id: value),
                                         );
-                                    context
-                                        .read<ReportsCubit>()
-                                        .getReports(supplierId: value);
+                                    context.read<ReportsCubit>().getReports(supplierId: value);
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
-                                    constraints: BoxConstraints.tight(
-                                        const Size.fromHeight(35)),
+                                    constraints: BoxConstraints.tight(const Size.fromHeight(35)),
                                   ),
                                   dropdownMenuEntries: [
                                     const DropdownMenuEntry(
@@ -179,10 +169,7 @@ class ProductReportScreen extends HookWidget {
                                             ?.map(
                                               (e) => DropdownMenuEntry(
                                                 value: e.id,
-                                                label: e.name ??
-                                                    e.inn ??
-                                                    e.phoneNumber ??
-                                                    '',
+                                                label: e.name ?? e.inn ?? e.phoneNumber ?? '',
                                               ),
                                             )
                                             .toList() ??
@@ -200,17 +187,14 @@ class ProductReportScreen extends HookWidget {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: context.primary),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
                             height: 50,
                             width: context.width * .10,
                             child: Center(
                               child: Text(
-                                "Сформировать",
+                                'Сформировать',
                                 maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 13, color: context.onPrimary),
+                                style: TextStyle(fontSize: 13, color: context.onPrimary),
                               ),
                             ),
                           ),
@@ -221,6 +205,8 @@ class ProductReportScreen extends HookWidget {
                   ],
                 ),
               ),
+
+              ///
               AppSpace.vertical12,
               Expanded(
                 child: CustomBox(
@@ -230,15 +216,10 @@ class ProductReportScreen extends HookWidget {
                       BlocBuilder<ReportsCubit, ReportsState>(
                         builder: (context, state) {
                           if (state.status == StateStatus.loading) {
-                            return const Expanded(
-                                child:
-                                    Center(child: CircularProgressIndicator()));
+                            return const Expanded(child: Center(child: CircularProgressIndicator()));
                           } else if (state.info == null) {
-                            return Expanded(
-                                child: Center(
-                                    child: Text(context.tr("not_found"))));
-                          } else if (state.status == StateStatus.loaded ||
-                              state.status == StateStatus.loadingMore) {
+                            return Expanded(child: Center(child: Text(context.tr('not_found'))));
+                          } else if (state.status == StateStatus.loaded || state.status == StateStatus.loadingMore) {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                               child: DecoratedBox(
@@ -259,14 +240,11 @@ class ProductReportScreen extends HookWidget {
                                     SizedBox(
                                       height: 60,
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 5, 5, 5),
+                                        padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                         child: Text(
-                                          "Всего продуктов: \n( ${state.info?.productsCount} )",
+                                          'Всего продуктов: \n( ${state.info?.productsCount} )',
                                           maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 13),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                         ),
                                       ),
                                     ),
@@ -274,15 +252,12 @@ class ProductReportScreen extends HookWidget {
                                       height: 60,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8),
-                                        child: BlocBuilder<SupplierCubit,
-                                            SupplierState>(
+                                        child: BlocBuilder<SupplierCubit, SupplierState>(
                                           builder: (context, state) {
                                             return Text(
                                               "Всего поставщиков: \n ( ${state.suppliers?.length ?? ""} )",
                                               maxLines: 2,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13),
+                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                             );
                                           },
                                         ),
@@ -291,58 +266,42 @@ class ProductReportScreen extends HookWidget {
                                     SizedBox(
                                       height: 60,
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 5, 5, 5),
+                                        padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                         child: Text(
-                                          "Сумма продуктов: \n( ${state.info?.totalQuantity} )",
+                                          'Сумма продуктов: \n( ${state.info?.totalQuantity} )',
                                           maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 13),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       height: 60,
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 2, 10, 2),
+                                        padding: const EdgeInsets.fromLTRB(15, 2, 10, 2),
                                         child: state.info == null
                                             ? const SizedBox()
                                             : Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       const Text(
-                                                        "Сумма:",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 13),
+                                                        'Сумма:',
+                                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                                       ),
                                                       Text(
                                                         "${currencyFormatter.format(state.info?.totalPurchasePriceDollar).replaceAll('.', ' ')} \$",
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 12),
+                                                        style:
+                                                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                                       ),
                                                     ],
                                                   ),
                                                   const Divider(),
                                                   Text(
                                                     "${currencyFormatter.format(state.info?.totalPurchasePrice).replaceAll('.', ' ')} сум",
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 12),
+                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                                   ),
                                                 ],
                                               ),
@@ -351,41 +310,28 @@ class ProductReportScreen extends HookWidget {
                                     SizedBox(
                                       height: 60,
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 2, 10, 2),
+                                        padding: const EdgeInsets.fromLTRB(15, 2, 10, 2),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 const Text(
-                                                  "Сумма:",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13),
+                                                  'Сумма:',
+                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                                 ),
                                                 Text(
                                                   "${currencyFormatter.format(state.info?.totalPriceDollar).replaceAll('.', ' ')} \$",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12),
+                                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                                 ),
                                               ],
                                             ),
                                             const Divider(),
                                             Text(
                                               "${currencyFormatter.format(state.info?.totalPrice).replaceAll('.', ' ')} сум",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12),
+                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                             ),
                                           ],
                                         ),
@@ -396,7 +342,7 @@ class ProductReportScreen extends HookWidget {
                               ),
                             );
                           }
-                          return const Center(child: Text("Ошибка загрузки"));
+                          return const Center(child: Text('Ошибка загрузки'));
                         },
                       ),
                     ],
