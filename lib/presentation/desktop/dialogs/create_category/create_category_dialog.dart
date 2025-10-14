@@ -39,26 +39,25 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  /// title
                   const Padding(
                     padding: EdgeInsets.all(12),
                     child: Text('Создания категории', style: AppTextStyles.boldType18),
                   ),
-                  AppSpace.horizontal24,
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.error100,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: IconButton(
-                          onPressed: () => context.pop(),
-                          style: IconButton.styleFrom(overlayColor: AppColors.error500),
-                          icon: const Icon(Icons.close, color: AppColors.error600),
-                        ),
+
+                  /// close button
+                  SizedBox(
+                    height: 48,
+                    width: 48,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.error100,
+                      child: InkWell(
+                        hoverColor: AppColors.error200,
+                        highlightColor: AppColors.error300,
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () => context.pop(),
+                        child: const Icon(Icons.close, color: AppColors.error600),
                       ),
                     ),
                   )
