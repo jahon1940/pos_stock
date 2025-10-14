@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../../../data/dtos/country/country_dto.dart';
 import '../../../../../../../data/dtos/pagination_dto.dart';
-import '../../../../../../../domain/repositories/brand_repository.dart';
+import '../../../../../../../domain/repositories/country_repository.dart';
 
 part 'country_state.dart';
 
@@ -18,7 +18,7 @@ class CountryCubit extends Cubit<CountryState> {
     this._repo,
   ) : super(const CountryState());
 
-  final BrandRepository _repo;
+  final CountryRepository _repo;
 
   Future<void> getCountries() async {}
 }
