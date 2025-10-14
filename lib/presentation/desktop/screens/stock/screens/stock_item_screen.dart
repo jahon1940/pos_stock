@@ -16,6 +16,7 @@ import 'brands/brands_screen.dart';
 import 'category/categories_screen.dart';
 import 'country/countries_screen.dart';
 import 'inventories/inventories_screen.dart';
+import 'measure/measures_screen.dart';
 import 'stock_products/stock_products_screen.dart';
 import 'supplies/supplies_screen.dart';
 import 'transfer/transfers_screen.dart';
@@ -243,6 +244,13 @@ class _StockItemScreenState extends State<StockItemScreen> {
                               context,
                               label: 'Страна производства',
                               onPressed: () => _addTab('Страна производства', const CountriesScreen()),
+                            ),
+
+                            /// measure
+                            _item(
+                              context,
+                              label: 'Единица измерения',
+                              onPressed: () => _addTab('Единица измерения', const MeasuresScreen()),
                             ),
 
                             ///
