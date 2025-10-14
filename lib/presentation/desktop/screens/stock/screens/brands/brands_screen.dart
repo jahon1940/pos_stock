@@ -69,7 +69,7 @@ class BrandsScreen extends HookWidget {
                                   content: const Text('Бренд создан'),
                                   actions: [
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () => context.pop(),
                                       child: const Text('ОК'),
                                     ),
                                   ],
