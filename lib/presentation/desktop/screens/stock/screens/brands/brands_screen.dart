@@ -11,9 +11,9 @@ import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../../../dialogs/create_category/create_category_dialog.dart';
 import '../../widgets/table_title_widget.dart';
 import 'widgets/brand_item_widget.dart';
+import 'widgets/create_brand_dialog.dart';
 
 class BrandsScreen extends HookWidget {
   const BrandsScreen({
@@ -68,7 +68,7 @@ class BrandsScreen extends HookWidget {
                     child: TextButton(
                       onPressed: () => showDialog(
                         context: context,
-                        builder: (context) => const Center(child: CreateCategoryDialog()), // todo
+                        builder: (_) => const Center(child: CreateBrandDialog()),
                       ).then((onValue) {
                         if (onValue == true) {
                           showDialog(
