@@ -14,6 +14,7 @@ import '../dialogs/currency/currency_dialog.dart';
 import '../widgets/page_title_widget.dart';
 import 'brands/brands_screen.dart';
 import 'category/categories_screen.dart';
+import 'country/countries_screen.dart';
 import 'inventories/inventories_screen.dart';
 import 'stock_products/stock_products_screen.dart';
 import 'supplies/supplies_screen.dart';
@@ -222,7 +223,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
                               ),
                             ),
 
-                            ///
+                            /// category
                             _item(
                               context,
                               label: 'Категории',
@@ -230,11 +231,18 @@ class _StockItemScreenState extends State<StockItemScreen> {
                               // onPressed: () => router.push(const CategoriesRoute()),
                             ),
 
-                            ///
+                            /// brands
                             _item(
                               context,
                               label: 'Бренды',
                               onPressed: () => _addTab('Бренды', const BrandsScreen()),
+                            ),
+
+                            /// country
+                            _item(
+                              context,
+                              label: 'Страна производства',
+                              onPressed: () => _addTab('Страна производства', const CountriesScreen()),
                             ),
 
                             ///
