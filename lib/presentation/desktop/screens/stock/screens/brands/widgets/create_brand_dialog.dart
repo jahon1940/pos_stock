@@ -1,20 +1,31 @@
+import 'dart:io' show File;
+
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../data/dtos/product_param_dto.dart';
 
-class CreateBrandDialog extends StatelessWidget {
+class CreateBrandDialog extends StatefulWidget {
   const CreateBrandDialog({
     super.key,
     this.categoryDto,
   });
 
   final ProductParamDto? categoryDto;
+
+  @override
+  State<CreateBrandDialog> createState() => _CreateBrandDialogState();
+}
+
+class _CreateBrandDialogState extends State<CreateBrandDialog> {
+  File? _imageFile;
 
   @override
   Widget build(
@@ -56,7 +67,54 @@ class CreateBrandDialog extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                /// upload image button
+                if (_imageFile.isNotNull)
+                  ClipRRect(
+                    borderRadius: AppUtils.kBorderRadius12,
+                    child: Container(
+                      color: Colors.grey,
+                      width: 150,
+                      height: 150,
+                      child: Image.file(
+                        _imageFile!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 150,
+                      ),
+                    ),
+                  )
+                else
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
+                      fixedSize: const Size(150, 150),
+                      side: BorderSide(color: Colors.grey.shade300),
+                      overlayColor: Colors.grey,
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: () async => _pickImage(context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.image_outlined,
+                          color: context.theme.disabledColor,
+                          size: 30,
+                        ),
+                        AppUtils.kGap6,
+                        Text(
+                          'Upload image',
+                          style: AppTextStyles.rType16.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: context.theme.unselectedWidgetColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ///
+                AppUtils.kGap24,
                 AppTextField(
                   label: 'Название',
                   enabledBorderWith: 1,
@@ -88,5 +146,19 @@ class CreateBrandDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _pickImage(
+    BuildContext ctx,
+  ) async {
+    try {
+      final file = await ImagePicker().pickMedia();
+      if (file.isNotNull) {
+        _imageFile = File(file!.path);
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('asklfjdasdf image pick error $e');
+    }
   }
 }
