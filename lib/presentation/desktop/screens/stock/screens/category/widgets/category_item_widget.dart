@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/widgets/custom_square_icon.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
@@ -38,12 +38,12 @@ class CategoryItemWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CustomSquareIcon(
+                CustomSquareIconBtn(
                   Icons.edit,
                   backgrounColor: AppColors.primary500,
                   onTap: () {},
                 ),
-                CustomSquareIcon(
+                CustomSquareIconBtn(
                   Icons.delete,
                   backgrounColor: AppColors.error500,
                   onTap: () => context.categoryBloc.add(DeleteCategoryId(category.cid)),
