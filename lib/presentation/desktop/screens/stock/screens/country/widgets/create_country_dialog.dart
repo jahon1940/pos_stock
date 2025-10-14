@@ -70,7 +70,7 @@ class CreateCountryDialog extends StatelessWidget {
                     minimumSize: const Size.fromHeight(50),
                   ),
                   onPressed: () {
-                    /// todo implement create brand event
+                    /// todo implement create event
                     context.pop(context);
                   },
                   child: const Text(
