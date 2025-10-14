@@ -6,6 +6,7 @@ import 'package:hoomo_pos/core/widgets/text_field.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../core/widgets/custom_square_icon_btn.dart';
 import '../../../../data/dtos/product_param_dto.dart';
 
 class CreateCategoryDialog extends StatefulWidget {
@@ -45,21 +46,14 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                   ),
 
                   /// close button
-                  SizedBox(
-                    height: 48,
-                    width: 48,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.error100,
-                      child: InkWell(
-                        hoverColor: AppColors.error200,
-                        highlightColor: AppColors.error300,
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () => context.pop(),
-                        child: const Icon(Icons.close, color: AppColors.error600),
-                      ),
-                    ),
-                  )
+                  CustomSquareIconBtn(
+                    Icons.close,
+                    size: 48,
+                    darkenColors: true,
+                    backgrounColor: AppColors.error100,
+                    iconColor: AppColors.error600,
+                    onTap: () => context.pop(),
+                  ),
                 ],
               ),
               Padding(
