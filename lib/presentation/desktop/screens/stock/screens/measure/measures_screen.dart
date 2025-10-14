@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/dialogs/success_dialog.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -34,7 +35,6 @@ class MeasuresScreen extends StatelessWidget {
               children: [
                 /// header
                 Container(
-                  height: 60,
                   padding: AppUtils.kPaddingAll6,
                   decoration: BoxDecoration(
                     color: context.theme.cardColor,
@@ -46,39 +46,25 @@ class MeasuresScreen extends StatelessWidget {
                       const Spacer(),
 
                       ///
-                      Container(
-                        height: 48,
-                        width: context.width * .15,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          borderRadius: AppUtils.kBorderRadius12,
-                          color: AppColors.primary800,
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary800,
+                          minimumSize: Size(context.width * .15, 48),
                         ),
-                        child: TextButton(
-                          onPressed: () => showDialog(
-                            context: context,
-                            builder: (_) => const Center(child: CreateMeasureDialog()),
-                          ).then((onValue) {
-                            if (onValue == true) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Успешно'),
-                                  content: const Text('Единица измерения создан'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => context.pop(),
-                                      child: const Text('ОК'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }),
-                          child: Text(
-                            'Создать измерения',
-                            style: TextStyle(fontSize: 13, color: context.onPrimary),
-                          ),
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (_) => const Center(child: CreateMeasureDialog()),
+                        ).then((onValue) {
+                          if (onValue == true) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const SuccessDialog(label: 'Единица измерения создан'),
+                            );
+                          }
+                        }),
+                        child: Text(
+                          'Создать измерения',
+                          style: TextStyle(fontSize: 13, color: context.onPrimary),
                         ),
                       ),
                     ],
