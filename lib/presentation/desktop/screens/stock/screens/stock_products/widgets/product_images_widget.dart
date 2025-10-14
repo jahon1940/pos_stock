@@ -7,6 +7,7 @@ import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/extensions/text_style_extension.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
+import 'package:hoomo_pos/presentation/desktop/dialogs/confirm_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
@@ -41,12 +42,18 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
     }
   }
 
-  void _delete() {
-    if (_selectedItem.isNull) return;
-    _images.removeWhere((item) => item.path == _selectedItem!.path);
-    _selectedItem = _images.firstOrNull;
-    setState(() {});
-  }
+  void _delete() => showDialog(
+        context: context,
+        builder: (context) => ConfirmDialog(
+          label: 'Вы хотите удалить?',
+          onConfirm: () {
+            context.pop();
+            _images.removeWhere((item) => item.path == _selectedItem!.path);
+            _selectedItem = _images.firstOrNull;
+            setState(() {});
+          },
+        ),
+      );
 
   @override
   Widget build(
