@@ -7,7 +7,8 @@ part 'create_brand_request.g.dart';
 @freezed
 class CreateBrandRequest with _$CreateBrandRequest {
   factory CreateBrandRequest({
-    String? cid,
+    required String cid,
+    required String organizationCid,
     String? name,
     String? image,
   }) = _CreateBrandRequest;
