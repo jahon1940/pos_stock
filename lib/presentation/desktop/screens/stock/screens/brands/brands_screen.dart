@@ -55,9 +55,10 @@ class BrandsScreen extends StatelessWidget {
                         onPressed: () => showDialog<bool?>(
                           context: context,
                           builder: (_) => const Center(child: CreateBrandDialog()),
-                        ).then((isSuccess) {
+                        ).then((isSuccess) async {
                           if (isSuccess.isNotNull) {
-                            showDialog(
+                            await Future.delayed(Durations.medium1);
+                            await showDialog(
                               context: context,
                               builder: (context) => OperationResultDialog(
                                 label: isSuccess! ? 'Бренд создан' : null,
