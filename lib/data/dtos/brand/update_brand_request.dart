@@ -8,9 +8,9 @@ part 'update_brand_request.g.dart';
 @freezed
 class UpdateBrandRequest with _$UpdateBrandRequest {
   factory UpdateBrandRequest({
-    required String cid,
     @JsonKey(includeIfNull: false) String? name,
     @JsonKey(includeIfNull: false) String? image,
+    @Default(false) bool isDeleted,
   }) = _UpdateBrandRequest;
 
   factory UpdateBrandRequest.fromJson(
