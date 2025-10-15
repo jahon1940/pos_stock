@@ -88,7 +88,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> with ImageMixin {
           name: event.name,
           cid: const Uuid().v4(),
           active: true,
-          image: base64,
+          image: 'data:image/png;base64,$base64=',
         ),
       );
       final res = await _categoryRepository.getCategory();
