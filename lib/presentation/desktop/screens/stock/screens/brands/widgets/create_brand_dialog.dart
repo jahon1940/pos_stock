@@ -172,10 +172,22 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                         backgroundColor: AppColors.primary800,
                         minimumSize: const Size.fromHeight(50),
                       ),
-                      onPressed: () => context.brandBloc.createBrand(
-                        name: _nameController.text,
-                        imageFile: _imageFile,
-                      ),
+                      onPressed: () {
+                        if (_nameController.text == brand?.name) {
+                          context.pop();
+                        }
+                        if ((brand?.cid ?? '').isNotEmpty) {
+                          context.brandBloc.updateBrand(
+                            brandCid: brand!.cid!,
+                            name: _nameController.text,
+                          );
+                        } else {
+                          context.brandBloc.createBrand(
+                            name: _nameController.text,
+                            imageFile: _imageFile,
+                          );
+                        }
+                      },
                       child: state.createBrandStatus.isLoading
                           ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
                           : const Text(
