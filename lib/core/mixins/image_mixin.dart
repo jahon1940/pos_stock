@@ -36,4 +36,6 @@ mixin ImageMixin {
     File file,
   ) async =>
       base64Encode(await file.readAsBytes());
+
+  void base64ToImageBytes(String base64) => base64Decode(base64);
 }
