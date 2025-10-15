@@ -42,15 +42,10 @@ class ChuckAlertHelper {
     showDialog<void>(
       context: context,
       builder: (BuildContext buildContext) {
-        return Theme(
-          data: ThemeData(
-            brightness: brightness ?? Brightness.light,
-          ),
-          child: AlertDialog(
-            title: Text(title),
-            content: Text(description),
-            actions: actions,
-          ),
+        return AlertDialog(
+          title: Text(title),
+          content: Text(description),
+          actions: actions,
         );
       },
     );

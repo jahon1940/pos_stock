@@ -50,21 +50,16 @@ class _ChuckCallsListScreenState extends State<ChuckCallsListScreen> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: _core.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: ThemeData(
-          brightness: _core.brightness,
+      child: Scaffold(
+        appBar: AppBar(
+          title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
+          actions: [
+            if (_core.enableSearch) _buildSearchButton(),
+            if (_core.showDeleteButton) _deleteButton(),
+            if (_core.showMenuButton) _buildMenuButton(),
+          ],
         ),
-        child: Scaffold(
-          appBar: AppBar(
-            title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
-            actions: [
-              if (_core.enableSearch) _buildSearchButton(),
-              if (_core.showDeleteButton) _deleteButton(),
-              if (_core.showMenuButton) _buildMenuButton(),
-            ],
-          ),
-          body: _buildCallsListWrapper(),
-        ),
+        body: _buildCallsListWrapper(),
       ),
     );
   }
@@ -313,57 +308,52 @@ class _ChuckCallsListScreenState extends State<ChuckCallsListScreen> {
     showDialog<void>(
       context: context,
       builder: (BuildContext buildContext) {
-        return Theme(
-          data: ThemeData(
-            brightness: Brightness.light,
-          ),
-          child: AlertDialog(
-            title: const Text('Select filter'),
-            content: StatefulBuilder(builder: (context, setState) {
-              return Wrap(
-                children: [
-                  ...ChuckSortOption.values.map(
-                    (ChuckSortOption sortOption) => RadioListTile<ChuckSortOption>(
-                      title: Text(sortOption.name),
-                      value: sortOption,
-                      groupValue: _sortOption,
-                      onChanged: (ChuckSortOption? value) => setState(() => _sortOption = value),
-                    ),
+        return AlertDialog(
+          title: const Text('Select filter'),
+          content: StatefulBuilder(builder: (context, setState) {
+            return Wrap(
+              children: [
+                ...ChuckSortOption.values.map(
+                      (ChuckSortOption sortOption) => RadioListTile<ChuckSortOption>(
+                    title: Text(sortOption.name),
+                    value: sortOption,
+                    groupValue: _sortOption,
+                    onChanged: (ChuckSortOption? value) => setState(() => _sortOption = value),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Descending'),
-                      Switch(
-                          value: _sortAscending,
-                          onChanged: (value) {
-                            setState(() {
-                              _sortAscending = value;
-                            });
-                          },
-                          activeTrackColor: Colors.grey,
-                          activeColor: Colors.white),
-                      const Text('Ascending')
-                    ],
-                  )
-                ],
-              );
-            }),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel')),
-              TextButton(
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Descending'),
+                    Switch(
+                        value: _sortAscending,
+                        onChanged: (value) {
+                          setState(() {
+                            _sortAscending = value;
+                          });
+                        },
+                        activeTrackColor: Colors.grey,
+                        activeColor: Colors.white),
+                    const Text('Ascending')
+                  ],
+                )
+              ],
+            );
+          }),
+          actions: [
+            TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  sortCalls();
                 },
-                child: const Text('Use filter'),
-              ),
-            ],
-          ),
+                child: const Text('Cancel')),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                sortCalls();
+              },
+              child: const Text('Use filter'),
+            ),
+          ],
         );
       },
     );

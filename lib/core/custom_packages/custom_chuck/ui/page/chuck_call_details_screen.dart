@@ -35,27 +35,22 @@ class _ChuckCallDetailsScreenState extends State<ChuckCallDetailsScreen> with Si
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: widget.core.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: ThemeData(
-          brightness: widget.core.brightness,
-        ),
-        child: StreamBuilder<List<ChuckHttpCall>>(
-          stream: widget.core.callsSubject,
-          initialData: [widget.call],
-          builder: (context, callsSnapshot) {
-            if (callsSnapshot.hasData) {
-              final ChuckHttpCall? call =
-                  callsSnapshot.data!.firstWhere((snapshotCall) => snapshotCall.id == widget.call.id);
-              if (call != null) {
-                return _buildMainWidget();
-              } else {
-                return _buildErrorWidget();
-              }
+      child: StreamBuilder<List<ChuckHttpCall>>(
+        stream: widget.core.callsSubject,
+        initialData: [widget.call],
+        builder: (context, callsSnapshot) {
+          if (callsSnapshot.hasData) {
+            final ChuckHttpCall? call =
+            callsSnapshot.data!.firstWhere((snapshotCall) => snapshotCall.id == widget.call.id);
+            if (call != null) {
+              return _buildMainWidget();
             } else {
               return _buildErrorWidget();
             }
-          },
-        ),
+          } else {
+            return _buildErrorWidget();
+          }
+        },
       ),
     );
   }
