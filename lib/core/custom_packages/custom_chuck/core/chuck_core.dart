@@ -8,7 +8,6 @@ import '../model/chuck_http_call.dart';
 import '../model/chuck_http_error.dart';
 import '../model/chuck_http_response.dart';
 import '../ui/page/chuck_calls_list_screen.dart';
-import '../utils/shake_detector.dart';
 
 class ChuckCore {
   /// Should user be notified with notification if there's new request catched
@@ -17,7 +16,6 @@ class ChuckCore {
 
   /// Should inspector be opened on device shake (works only with physical
   /// with sensors)
-  final bool showInspectorOnShake;
 
   /// Should inspector use dark theme
   final bool darkTheme;
@@ -50,7 +48,6 @@ class ChuckCore {
   GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
   bool _isInspectorOpened = false;
-  ShakeDetector? _shakeDetector;
   StreamSubscription<dynamic>? _callsSubscription;
   String? _notificationMessage;
   String? _notificationMessageShown;
@@ -59,7 +56,6 @@ class ChuckCore {
   ChuckCore(
     this.navigatorKey, {
     required this.showNotification,
-    required this.showInspectorOnShake,
     required this.darkTheme,
     required this.notificationIcon,
     required this.maxCallsCount,
@@ -72,21 +68,12 @@ class ChuckCore {
     if (showNotification) {
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
-    if (showInspectorOnShake) {
-      _shakeDetector = ShakeDetector.autoStart(
-        onPhoneShake: () {
-          navigateToCallListScreen();
-        },
-        shakeThresholdGravity: 5,
-      );
-    }
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
   /// Dispose subjects and subscriptions
   void dispose() {
     callsSubject.close();
-    _shakeDetector?.stopListening();
     _callsSubscription?.cancel();
   }
 
