@@ -1,5 +1,5 @@
 class NetworkConstants {
-  static String baseHostName = "kanstik";
+  static String baseHostName = 'kanstik';
   static const String apiVersion = 'v1';
 
   static String get baseUrl => 'https://$baseHostName.dev-retailer.hoomo.uz';
@@ -15,8 +15,7 @@ class NetworkConstants {
   static String get cart => '$apiUrl/mirel-cart';
   static String get cartProduct => '$cart/cart-products';
   static String cartDelete(int productId) => '$cartProduct/$productId/delete';
-  static String updateDelete(int productId) =>
-      '$cartProduct/$productId/products';
+  static String updateDelete(int productId) => '$cartProduct/$productId/products';
   static String get products => '$apiUrl/products';
   static String get productsUnsold => '$products/unsold';
   static String get productsLowDemand => '$products/low-demand';
