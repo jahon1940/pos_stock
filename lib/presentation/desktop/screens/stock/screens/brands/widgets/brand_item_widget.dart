@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
@@ -33,14 +34,15 @@ class BrandItemWidget extends StatelessWidget {
             child: Text(brand.name ?? ''),
           ),
           _item(
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomSquareIconBtn(
                   backgrounColor: AppColors.primary500,
                   Icons.edit,
+                  onTap: () {},
                 ),
-                CustomSquareIconBtn(
+                const CustomSquareIconBtn(
                   Icons.delete,
                   backgrounColor: AppColors.error500,
                 ),

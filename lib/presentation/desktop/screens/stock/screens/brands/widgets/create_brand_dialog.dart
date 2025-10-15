@@ -11,16 +11,12 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../../data/dtos/product_param_dto.dart';
 import '../cubit/brand_cubit.dart';
 
 class CreateBrandDialog extends StatefulWidget {
   const CreateBrandDialog({
     super.key,
-    this.categoryDto,
   });
-
-  final ProductParamDto? categoryDto;
 
   @override
   State<CreateBrandDialog> createState() => _CreateBrandDialogState();
