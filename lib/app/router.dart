@@ -1,11 +1,23 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/core/guards/auth_guard.dart';
 import 'package:hoomo_pos/core/guards/locker_guard.dart';
 import 'package:injectable/injectable.dart';
 
+import '../core/custom_packages/custom_chuck/chuck.dart';
+
 AppRouter router = getIt<AppRouter>();
+
+final chuck = Chuck(
+  navigatorKey: router.navigatorKey,
+  clearCallsWithoutConfirming: true,
+  showDeleteButtonOnAppBar: true,
+  showMenuButtonOnAppBar: false,
+  // ignore: avoid_redundant_argument_values
+  showNotification: kDebugMode,
+);
 
 @singleton
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')

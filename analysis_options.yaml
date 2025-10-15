@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "lib/core/custom_packages/custom_chuck/**"
   errors:
     # Errors
     unrelated_type_equality_checks: error

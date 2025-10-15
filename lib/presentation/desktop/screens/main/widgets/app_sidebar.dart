@@ -13,6 +13,7 @@ import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/cubit/user_cubit.dart';
 
 import '../../../../../app/di.dart';
+import '../../../../../app/router.dart';
 import '../../../../../core/constants/spaces.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../domain/services/user_data.dart';
@@ -82,10 +83,13 @@ class AppSidebar extends StatelessWidget {
                                 )),
                           )
                         else
-                          const Flexible(
+                          Flexible(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 15),
-                              child: UserCard(),
+                              padding: const EdgeInsets.only(top: 15),
+                              child: GestureDetector(
+                                onDoubleTap: () => chuck.showInspector(),
+                                child: const UserCard(),
+                              ),
                             ),
                           ),
                       ],

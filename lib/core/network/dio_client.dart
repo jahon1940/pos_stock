@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/core/isolate/isolate_pool.dart';
 import 'package:hoomo_pos/domain/services/user_data.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../app/router.dart';
 import '../logging/app_logger.dart';
 
 typedef ResponseConverter<T> = T Function(dynamic response);
@@ -33,7 +35,10 @@ class DioClient {
         connectTimeout: const Duration(minutes: 10),
         extra: {'cache-control': 'public, max-age=3600'},
       ),
-    )..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+    )..interceptors.addAll([
+        if (kDebugMode) chuck.getDioInterceptor(),
+        LogInterceptor(responseBody: true, requestBody: true),
+      ]);
 
     (_dio?.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
       final client = HttpClient();
