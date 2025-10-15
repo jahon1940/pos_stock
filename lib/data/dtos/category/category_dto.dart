@@ -9,7 +9,7 @@ class CategoryDto with _$CategoryDto {
     required int id,
     String? name,
     String? cid,
-    String? imageUrl,
+    String? image,
   }) = _CategoryDto;
 
   factory CategoryDto.fromJson(Map<String, dynamic> json) =>
