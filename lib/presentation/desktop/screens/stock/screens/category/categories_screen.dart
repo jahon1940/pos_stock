@@ -25,7 +25,7 @@ class CategoriesScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.categoryBloc.add(GetCategory());
+      context.categoryBloc.add(const GetCategoryEvent());
       return null;
     }, const []);
 

@@ -31,7 +31,7 @@ class ProductReportScreen extends HookWidget {
     useEffect(() {
       context.read<ReportsCubit>().getReports();
       context.supplierBloc.getSuppliers();
-      context.categoryBloc.add(GetCategory());
+      context.categoryBloc.add(const GetCategoryEvent());
       return null;
     }, const []);
     final currencyFormatter = NumberFormat.currency(

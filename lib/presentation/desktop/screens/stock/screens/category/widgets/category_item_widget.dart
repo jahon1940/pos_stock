@@ -46,7 +46,7 @@ class CategoryItemWidget extends StatelessWidget {
                 CustomSquareIconBtn(
                   Icons.delete,
                   backgrounColor: AppColors.error500,
-                  onTap: () => context.categoryBloc.add(DeleteCategoryId(category.cid)),
+                  onTap: () => context.categoryBloc.add(DeleteCategoryIdEvent(category.cid)),
                 ),
               ],
             ),

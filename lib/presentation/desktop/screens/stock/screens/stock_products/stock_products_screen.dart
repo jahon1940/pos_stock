@@ -62,7 +62,7 @@ class StockProductsScreen extends HookWidget {
         }
       });
       context.supplierBloc.getSuppliers();
-      context.categoryBloc.add(GetCategory());
+      context.categoryBloc.add(const GetCategoryEvent());
       context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id));
       context.reportsBloc.getReports();
       return null;

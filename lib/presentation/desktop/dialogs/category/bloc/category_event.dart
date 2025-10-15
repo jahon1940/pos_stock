@@ -4,8 +4,8 @@ sealed class CategoryEvent {
   const CategoryEvent();
 }
 
-class GetCategory extends CategoryEvent {
-  const GetCategory();
+class GetCategoryEvent extends CategoryEvent {
+  const GetCategoryEvent();
 }
 
 class GetCategoryId extends CategoryEvent {
@@ -24,8 +24,8 @@ class CreateCategoryEvent extends CategoryEvent {
   final CreateCategoryRequest request;
 }
 
-class UpdateCategory extends CategoryEvent {
-  const UpdateCategory(
+class UpdateCategoryEvent extends CategoryEvent {
+  const UpdateCategoryEvent(
     this.request,
     this.id,
   );
@@ -34,8 +34,8 @@ class UpdateCategory extends CategoryEvent {
   final CreateCategoryRequest request;
 }
 
-class DeleteCategoryId extends CategoryEvent {
-  const DeleteCategoryId(
+class DeleteCategoryIdEvent extends CategoryEvent {
+  const DeleteCategoryIdEvent(
     this.id,
   );
 

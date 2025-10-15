@@ -21,11 +21,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   ) : super(const CategoryState()) {
     on<CategoryEvent>(
       (event, emit) async => switch (event) {
-        GetCategory _ => _getCategory(event, emit),
+        GetCategoryEvent _ => _getCategory(event, emit),
         GetCategoryId _ => _getCategoryId(event, emit),
         CreateCategoryEvent _ => _createCategory(event, emit),
-        UpdateCategory _ => _updateCategory(event, emit),
-        DeleteCategoryId _ => _deleteId(event, emit),
+        UpdateCategoryEvent _ => _updateCategory(event, emit),
+        DeleteCategoryIdEvent _ => _deleteId(event, emit),
       },
     );
   }
@@ -33,7 +33,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository _categoryRepository;
 
   Future<void> _getCategory(
-    GetCategory event,
+    GetCategoryEvent event,
     Emitter<CategoryState> emit,
   ) async {
     if (state.status.isLoading) return;
@@ -74,7 +74,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.createCategory(event.request);
-      add(const GetCategory());
+      add(const GetCategoryEvent());
       emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());
@@ -82,28 +82,28 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _updateCategory(
-    UpdateCategory event,
+    UpdateCategoryEvent event,
     Emitter<CategoryState> emit,
   ) async {
     if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.updateCategory(event.id!, event.request);
-      add(const GetCategory());
+      add(const GetCategoryEvent());
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   Future<void> _deleteId(
-    DeleteCategoryId event,
+    DeleteCategoryIdEvent event,
     Emitter<CategoryState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.deleteCategory(event.id!);
-      add(const GetCategory());
+      add(const GetCategoryEvent());
       emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());

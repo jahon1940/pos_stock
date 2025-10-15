@@ -37,7 +37,7 @@ class AddProductScreen extends HookWidget {
     BuildContext context,
   ) {
     useEffect(() {
-      context.categoryBloc.add(GetCategory());
+      context.categoryBloc.add(const GetCategoryEvent());
       return null;
     }, const []);
     return Provider<AddProductCubit>(
