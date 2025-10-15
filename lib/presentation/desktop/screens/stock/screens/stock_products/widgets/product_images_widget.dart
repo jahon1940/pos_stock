@@ -38,7 +38,7 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
         setState(() {});
       }
     } catch (e) {
-      debugPrint('asklfjdasdf image pick error $e');
+      debugPrint('image pick error $e');
     }
   }
 
