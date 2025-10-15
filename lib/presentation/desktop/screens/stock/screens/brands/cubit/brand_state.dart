@@ -4,6 +4,7 @@ part of 'brand_cubit.dart';
 class BrandState with _$BrandState {
   const factory BrandState({
     @Default(StateStatus.initial) StateStatus status,
+    @Default(StateStatus.initial) StateStatus createBrandStatus,
     PaginatedDto<BrandDto>? brands,
   }) = _BrandState;
 }
