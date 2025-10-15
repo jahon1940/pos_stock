@@ -9,7 +9,7 @@ class BrandDto with _$BrandDto {
   factory BrandDto({
     required int id,
     String? cid,
-    @Default('') String? name,
+    @Default('') String name,
     @Default('') String image,
   }) = _BrandDto;
 
