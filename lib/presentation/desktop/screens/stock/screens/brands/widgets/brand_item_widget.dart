@@ -35,7 +35,7 @@ class BrandItemWidget extends StatelessWidget {
             child: Text('${brand.id}'),
           ),
           _item(
-            child: Text(brand.name ?? ''),
+            child: Text(brand.name),
           ),
           _item(
             child: Row(
