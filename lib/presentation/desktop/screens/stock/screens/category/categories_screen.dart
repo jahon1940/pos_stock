@@ -6,12 +6,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../../../dialogs/success_dialog.dart';
+import '../../../../dialogs/operation_result_dialog.dart';
 import '../../widgets/table_title_widget.dart';
 import 'widgets/category_item_widget.dart';
 import 'widgets/create_category_dialog.dart';
@@ -58,14 +59,14 @@ class CategoriesScreen extends HookWidget {
                     onPressed: () => showDialog<bool?>(
                       context: context,
                       builder: (context) => const Center(child: CreateCategoryDialog()),
-                    ).then((onValue) async {
-                      if (onValue == true || onValue == false) {
+                    ).then((isSuccess) async {
+                      if (isSuccess.isNotNull) {
                         await Future.delayed(Durations.medium1);
                         await showDialog(
                           context: context,
-                          builder: (context) => SuccessDialog(
-                            label: onValue == false ? null : 'Котегория создан',
-                            isError: onValue == false,
+                          builder: (context) => OperationResultDialog(
+                            label: isSuccess! ? 'Котегория создан' : null,
+                            isError: !isSuccess,
                           ),
                         );
                       }

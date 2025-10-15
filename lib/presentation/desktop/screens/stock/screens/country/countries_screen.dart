@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
-import 'package:hoomo_pos/presentation/desktop/dialogs/success_dialog.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
+import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -51,14 +52,17 @@ class CountriesScreen extends StatelessWidget {
                           backgroundColor: AppColors.primary800,
                           minimumSize: Size(context.width * .15, 48),
                         ),
-                        onPressed: () => showDialog(
+                        onPressed: () => showDialog<bool?>(
                           context: context,
                           builder: (_) => const Center(child: CreateCountryDialog()),
-                        ).then((onValue) {
-                          if (onValue == true) {
+                        ).then((isSuccess) {
+                          if (isSuccess.isNotNull) {
                             showDialog(
                               context: context,
-                              builder: (context) => const SuccessDialog(label: 'Страна производства создан'),
+                              builder: (context) => OperationResultDialog(
+                                label: isSuccess! ? 'Страна производства создан' : null,
+                                isError: !isSuccess,
+                              ),
                             );
                           }
                         }),

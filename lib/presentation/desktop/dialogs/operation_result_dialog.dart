@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
-class SuccessDialog extends StatelessWidget {
-  const SuccessDialog({
+class OperationResultDialog extends StatelessWidget {
+  const OperationResultDialog({
     super.key,
     this.label,
     this.isError = false,
