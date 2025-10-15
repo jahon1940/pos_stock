@@ -10,7 +10,7 @@ class UpdateBrandRequest with _$UpdateBrandRequest {
   factory UpdateBrandRequest({
     @JsonKey(includeIfNull: false) String? name,
     @JsonKey(includeIfNull: false) String? image,
-    @Default(false) bool isDeleted,
+    @JsonKey(includeIfNull: false) bool? isDeleted,
   }) = _UpdateBrandRequest;
 
   factory UpdateBrandRequest.fromJson(
