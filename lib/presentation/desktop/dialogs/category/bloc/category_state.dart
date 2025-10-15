@@ -7,6 +7,7 @@ class CategoryState with _$CategoryState {
     PaginatedDto<CategoryDto>? categories,
     CategoryDto? category,
     int? selectedCategoryId,
+    @Default(StateStatus.initial) StateStatus createCategoryStatus,
     CreateCategoryRequest? request,
   }) = _CategoryState;
 }

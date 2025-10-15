@@ -1,6 +1,7 @@
 import 'dart:io' show File;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
@@ -128,24 +129,32 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
 
                 /// button
                 AppUtils.kGap24,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary800,
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: () {
-                    context.categoryBloc.add(CreateCategory(
+                BlocConsumer<CategoryBloc, CategoryState>(
+                  listenWhen: (p, c) => p.createCategoryStatus != c.createCategoryStatus,
+                  listener: (_, state) {
+                    if (state.createCategoryStatus.isSuccess || state.createCategoryStatus.isError) {
+                      context.pop(state.createCategoryStatus.isSuccess);
+                    }
+                  },
+                  buildWhen: (p, c) => p.createCategoryStatus != c.createCategoryStatus,
+                  builder: (context, state) => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary800,
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () => context.categoryBloc.add(CreateCategoryEvent(
                       CreateCategoryRequest(
                         name: nameController.text,
                         cid: const Uuid().v4(),
                         active: true,
                       ),
-                    ));
-                    context.pop();
-                  },
-                  child: const Text(
-                    'Создать категорию',
-                    style: AppTextStyles.boldType16,
+                    )),
+                    child: state.createCategoryStatus.isLoading
+                        ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
+                        : const Text(
+                            'Создать категорию',
+                            style: AppTextStyles.boldType16,
+                          ),
                   ),
                 ),
               ],

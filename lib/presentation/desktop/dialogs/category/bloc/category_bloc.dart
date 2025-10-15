@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
@@ -70,15 +71,19 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     CreateCategoryEvent event,
     Emitter<CategoryState> emit,
   ) async {
-    if (state.status.isLoading) return;
+    if (state.createCategoryStatus.isLoading) return;
+    emit(state.copyWith(createCategoryStatus: StateStatus.loading));
     try {
-      emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.createCategory(event.request);
-      add(const GetCategoryEvent());
-      emit(state.copyWith(status: StateStatus.loaded));
+      final res = await _categoryRepository.getCategory();
+      emit(state.copyWith(
+        createCategoryStatus: StateStatus.success,
+        categories: res,
+      ));
     } catch (e) {
-      debugPrint(e.toString());
+      emit(state.copyWith(createCategoryStatus: StateStatus.error));
     }
+    emit(state.copyWith(createCategoryStatus: StateStatus.initial));
   }
 
   Future<void> _updateCategory(

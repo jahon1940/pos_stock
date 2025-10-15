@@ -57,9 +57,10 @@ class CategoriesScreen extends HookWidget {
                     onPressed: () => showDialog(
                       context: context,
                       builder: (context) => const Center(child: CreateCategoryDialog()),
-                    ).then((onValue) {
+                    ).then((onValue) async {
                       if (onValue == true) {
-                        showDialog(
+                        await Future.delayed(Durations.medium1);
+                        await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Успешно'),
