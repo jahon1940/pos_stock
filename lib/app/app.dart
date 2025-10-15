@@ -6,7 +6,6 @@ import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/theme.dart';
 import 'package:hoomo_pos/core/styles/theme_provider.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/settings/blocs/update_cubit/update_cubit_cubit.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:updat/updat.dart';
@@ -68,7 +67,7 @@ class _POSAppState extends State<POSApp> {
   }
 
   void _getPackageInfo() async {
-    await context.read<UpdateCubit>().getUpdate();
+    await context.updateBloc.getUpdate();
     await Future.delayed(Durations.medium1);
     packageInfo = await PackageInfo.fromPlatform();
     setState(() {});

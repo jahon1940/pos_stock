@@ -9,6 +9,7 @@ import '../../presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import '../../presentation/desktop/screens/manager/children/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/reports/children/cubit/reports_cubit.dart';
 import '../../presentation/desktop/screens/search/cubit/search_bloc.dart';
+import '../../presentation/desktop/screens/settings/blocs/update_cubit/update_cubit_cubit.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
 import '../../presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
@@ -175,6 +176,8 @@ extension BuildContextEntension<T> on BuildContext {
 
 extension BlocExtension on BuildContext {
   OrganizationCubit get organizationBloc => read<OrganizationCubit>();
+
+  UpdateCubit get updateBloc => read<UpdateCubit>();
 
   StockBloc get stockBloc => read<StockBloc>();
 
