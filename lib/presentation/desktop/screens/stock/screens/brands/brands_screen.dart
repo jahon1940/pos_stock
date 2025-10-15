@@ -100,13 +100,15 @@ class BrandsScreen extends StatelessWidget {
                                 ? const Center(child: CupertinoActivityIndicator())
                                 : (state.brands?.results ?? []).isEmpty
                                     ? Center(child: Text(context.tr(Dictionary.not_found)))
-                                    : ListView.separated(
-                                        shrinkWrap: true,
-                                        padding: AppUtils.kPaddingB12,
-                                        itemCount: state.brands?.results.length ?? 0,
-                                        separatorBuilder: (_, __) => AppUtils.kGap12,
-                                        itemBuilder: (context, index) => BrandItemWidget(
-                                          brand: state.brands!.results[index],
+                                    : Material(
+                                        child: ListView.separated(
+                                          shrinkWrap: true,
+                                          padding: AppUtils.kPaddingB12,
+                                          itemCount: state.brands?.results.length ?? 0,
+                                          separatorBuilder: (_, __) => AppUtils.kGap12,
+                                          itemBuilder: (context, index) => BrandItemWidget(
+                                            brand: state.brands!.results[index],
+                                          ),
                                         ),
                                       ),
                           ),

@@ -105,13 +105,15 @@ class CategoriesScreen extends HookWidget {
                             ? const Center(child: CupertinoActivityIndicator())
                             : (state.categories?.results ?? []).isEmpty
                                 ? Center(child: Text(context.tr(Dictionary.not_found)))
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: AppUtils.kPaddingB12,
-                                    itemCount: state.categories?.results.length ?? 0,
-                                    separatorBuilder: (_, __) => AppUtils.kGap12,
-                                    itemBuilder: (context, index) => CategoryItemWidget(
-                                      category: state.categories!.results[index],
+                                : Material(
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      padding: AppUtils.kPaddingB12,
+                                      itemCount: state.categories?.results.length ?? 0,
+                                      separatorBuilder: (_, __) => AppUtils.kGap12,
+                                      itemBuilder: (context, index) => CategoryItemWidget(
+                                        category: state.categories!.results[index],
+                                      ),
                                     ),
                                   ),
                       ),
