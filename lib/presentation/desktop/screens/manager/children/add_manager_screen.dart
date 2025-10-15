@@ -11,7 +11,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/manager/children/widgets/
 import 'package:hoomo_pos/presentation/desktop/screens/manager/children/widgets/manager_navbar.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
-import '../../../../../../../data/dtos/company/company_dto.dart';
 import 'cubit/manager_cubit.dart';
 
 @RoutePage()
