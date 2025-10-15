@@ -1,11 +1,16 @@
+import 'dart:io' show File;
+
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_square_icon_btn.dart';
 import '../../../../../../../data/dtos/product_param_dto.dart';
 
@@ -22,44 +27,97 @@ class CreateCategoryDialog extends StatefulWidget {
 }
 
 class _CreateCategoryState extends State<CreateCategoryDialog> {
+  File? _imageFile;
+
   @override
   Widget build(
     BuildContext context,
   ) {
     final nameController = TextEditingController();
-    return Material(
-      borderRadius: BorderRadius.circular(12),
-      child: SizedBox(
-        width: context.width * 0.4,
-        height: context.height * 0.5,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /// title
-                  const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text('Создания категории', style: AppTextStyles.boldType18),
+    return AlertDialog(
+      shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
+      contentPadding: AppUtils.kPaddingAll24,
+      content: SizedBox(
+        width: context.width * .3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            /// header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// title
+                const Text(
+                  'Создания категории',
+                  style: AppTextStyles.boldType18,
+                ),
+
+                /// close button
+                CustomSquareIconBtn(
+                  Icons.close,
+                  size: 48,
+                  darkenColors: true,
+                  backgrounColor: AppColors.error100,
+                  iconColor: AppColors.error600,
+                  onTap: () => context.pop(),
+                ),
+              ],
+            ),
+
+            /// content
+            AppUtils.kGap24,
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// upload image button
+                if (_imageFile.isNotNull)
+                  ClipRRect(
+                    borderRadius: AppUtils.kBorderRadius12,
+                    child: Container(
+                      color: Colors.grey,
+                      width: 150,
+                      height: 150,
+                      child: Image.file(
+                        _imageFile!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 150,
+                      ),
+                    ),
+                  )
+                else
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
+                      fixedSize: const Size(150, 150),
+                      side: BorderSide(color: Colors.grey.shade300),
+                      overlayColor: Colors.grey,
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: _pickImage,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.image_outlined,
+                          color: context.theme.disabledColor,
+                          size: 30,
+                        ),
+                        AppUtils.kGap6,
+                        Text(
+                          'Upload image',
+                          style: AppTextStyles.rType16.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: context.theme.unselectedWidgetColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
-                  /// close button
-                  CustomSquareIconBtn(
-                    Icons.close,
-                    size: 48,
-                    darkenColors: true,
-                    backgrounColor: AppColors.error100,
-                    iconColor: AppColors.error600,
-                    onTap: () => context.pop(),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
-                child: AppTextField(
-                  width: 250,
+                ///
+                AppUtils.kGap24,
+                AppTextField(
                   label: 'Название',
                   enabledBorderWith: 1,
                   enabledBorderColor: AppColors.stroke,
@@ -67,17 +125,13 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                   focusedBorderWith: 1,
                   fieldController: nameController,
                 ),
-              ),
-              Container(
-                height: 50,
-                width: 250,
-                margin: const EdgeInsets.all(8),
-                child: ElevatedButton(
+
+                /// button
+                AppUtils.kGap24,
+                ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary800,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    minimumSize: const Size.fromHeight(50),
                   ),
                   onPressed: () {
                     context.categoryBloc.add(CreateCategory(
@@ -87,19 +141,30 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                         active: true,
                       ),
                     ));
-                    context.pop(context);
+                    context.pop();
                   },
                   child: const Text(
                     'Создать категорию',
                     style: AppTextStyles.boldType16,
-                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final file = await ImagePicker().pickMedia();
+      if (file.isNotNull) {
+        _imageFile = File(file!.path);
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('asklfjdasdf image pick error $e');
+    }
   }
 }
