@@ -7,6 +7,7 @@ import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/category/category_dto.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
+import '../../../../../dialogs/confirm_dialog.dart';
 
 class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
@@ -46,7 +47,15 @@ class CategoryItemWidget extends StatelessWidget {
                 CustomSquareIconBtn(
                   Icons.delete,
                   backgrounColor: AppColors.error500,
-                  onTap: () => context.categoryBloc.add(DeleteCategoryIdEvent(category.cid)),
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      label: 'Вы хотите удалить?',
+                      onConfirm: () => context
+                        ..pop()
+                        ..categoryBloc.add(DeleteCategoryIdEvent(category.cid)),
+                    ),
+                  ),
                 ),
               ],
             ),

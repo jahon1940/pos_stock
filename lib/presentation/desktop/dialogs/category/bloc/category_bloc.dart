@@ -124,8 +124,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> with ImageMixin {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.deleteCategory(event.id!);
-      add(const GetCategoryEvent());
-      emit(state.copyWith(status: StateStatus.loaded));
+      final res = await _categoryRepository.getCategory();
+      emit(state.copyWith(
+        status: StateStatus.loaded,
+        categories: res,
+      ));
     } catch (e) {
       debugPrint(e.toString());
     }
