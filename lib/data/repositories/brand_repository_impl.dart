@@ -13,10 +13,10 @@ class BrandRepositoryImpl implements BrandRepository {
 
   @override
   Future<void> updateBrand({
-    required UpdateBrandRequest request,
+    required Map<String, dynamic> data,
     required String brandCid,
   }) =>
-      _brandApi.updateBrand(request: request, brandCid: brandCid);
+      _brandApi.updateBrand(data: data, brandCid: brandCid);
 
   @override
   Future<PaginatedDto<BrandDto>?> getBrands() async => _brandApi.getBrands();

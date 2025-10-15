@@ -16,10 +16,10 @@ class BrandApiImpl implements BrandApi {
 
   @override
   Future<void> updateBrand({
-    required UpdateBrandRequest request,
+    required Map<String, dynamic> data,
     required String brandCid,
   }) async =>
-      _dioClient.putRequest('${NetworkConstants.brandsManagers}/$brandCid', data: request.toJson());
+      _dioClient.putRequest('${NetworkConstants.brandsManagers}/$brandCid', data: data);
 
   @override
   Future<PaginatedDto<BrandDto>?> getBrands() async => _dioClient.getRequest(

@@ -27,6 +27,8 @@ class CreateBrandDialog extends StatefulWidget {
 }
 
 class _CreateBrandDialogState extends State<CreateBrandDialog> {
+  bool? _hasImage;
+
   BrandDto? get brand => widget.brand;
   File? _imageFile;
   late final TextEditingController _nameController;
@@ -35,6 +37,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: brand?.name);
+    _hasImage = brand?.image.isNotEmpty;
   }
 
   @override
@@ -42,6 +45,11 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
     _nameController.dispose();
     super.dispose();
   }
+
+  bool get _hasChanges =>
+      (_nameController.text.isNotEmpty && _nameController.text != brand?.name) ||
+      _imageFile.isNotNull ||
+      _hasImage == false;
 
   @override
   Widget build(
@@ -83,7 +91,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   /// upload image button
-                  if (_imageFile.isNotNull || (brand?.image ?? '').isNotEmpty)
+                  if (_hasImage == true)
                     ClipRRect(
                       borderRadius: AppUtils.kBorderRadius12,
                       child: Container(
@@ -95,7 +103,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                             Positioned.fill(
                               child: _imageFile.isNotNull
                                   ? Image.file(_imageFile!, fit: BoxFit.cover)
-                                  : Image.network(brand!.imageLink),
+                                  : Image.network(brand!.imageLink, fit: BoxFit.cover),
                             ),
                             Positioned(
                               top: 6,
@@ -105,12 +113,8 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                                   backgroundColor: Colors.white30,
                                   visualDensity: VisualDensity.compact,
                                 ),
-                                onPressed: _imageFile.isNotNull ? _delete : _pickImage,
-                                icon: Icon(
-                                  _imageFile.isNotNull ? Icons.delete : Icons.edit,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
+                                onPressed: _delete,
+                                icon: const Icon(Icons.delete, color: Colors.white, size: 16),
                               ),
                             ),
                           ],
@@ -174,7 +178,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                         minimumSize: const Size.fromHeight(50),
                       ),
                       onPressed: () {
-                        if (_nameController.text == brand?.name && _imageFile.isNull) {
+                        if (!_hasChanges) {
                           context.pop();
                           return;
                         }
@@ -183,6 +187,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                             brandCid: brand!.cid!,
                             name: _nameController.text,
                             imageFile: _imageFile,
+                            deleteImage: _hasImage == false,
                           );
                         } else {
                           context.brandBloc.createBrand(
@@ -211,6 +216,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
       final file = await ImagePicker().pickMedia();
       if (file.isNotNull) {
         _imageFile = File(file!.path);
+        _hasImage = true;
         setState(() {});
       }
     } catch (e) {
@@ -220,6 +226,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
 
   void _delete() {
     _imageFile = null;
+    _hasImage = false;
     setState(() {});
   }
 }

@@ -11,7 +11,6 @@ import 'package:hoomo_pos/data/dtos/brand/create_brand_request.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart' show Uuid;
 
-import '../../../../../../../data/dtos/brand/update_brand_request.dart';
 import '../../../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../../../domain/repositories/brand_repository.dart';
 
@@ -73,7 +72,8 @@ class BrandCubit extends Cubit<BrandState> with ImageMixin {
   Future<void> updateBrand({
     required String brandCid,
     required String name,
-    final File? imageFile,
+    File? imageFile,
+    bool deleteImage = false,
   }) async {
     if (state.createBrandStatus.isLoading) return;
     emit(state.copyWith(createBrandStatus: StateStatus.loading));
@@ -81,13 +81,14 @@ class BrandCubit extends Cubit<BrandState> with ImageMixin {
       String? base64;
       if (imageFile.isNotNull) {
         base64 = await fileToBase64(imageFile!);
+        base64 = 'data:image/png;base64,$base64=';
       }
       await _repo.updateBrand(
         brandCid: brandCid,
-        request: UpdateBrandRequest(
-          name: name,
-          image: base64 == null ? null : 'data:image/png;base64,$base64=',
-        ),
+        data: {
+          'name': name,
+          if (deleteImage || base64.isNotNull) 'image': base64,
+        },
       );
       final res = await _repo.getBrands();
       emit(state.copyWith(
