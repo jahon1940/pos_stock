@@ -55,15 +55,18 @@ class CategoriesScreen extends HookWidget {
                       backgroundColor: AppColors.primary800,
                       minimumSize: Size(context.width * .15, 48),
                     ),
-                    onPressed: () => showDialog(
+                    onPressed: () => showDialog<bool?>(
                       context: context,
                       builder: (context) => const Center(child: CreateCategoryDialog()),
                     ).then((onValue) async {
-                      if (onValue == true) {
+                      if (onValue == true || onValue == false) {
                         await Future.delayed(Durations.medium1);
                         await showDialog(
                           context: context,
-                          builder: (context) => const SuccessDialog(label: 'Котегория создан'),
+                          builder: (context) => SuccessDialog(
+                            label: onValue == false ? null : 'Котегория создан',
+                            isError: onValue == false,
+                          ),
                         );
                       }
                     }),

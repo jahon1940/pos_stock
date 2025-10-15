@@ -5,17 +5,24 @@ class SuccessDialog extends StatelessWidget {
   const SuccessDialog({
     super.key,
     this.label,
+    this.isError = false,
   });
 
   final String? label;
+  final bool isError;
 
   @override
   Widget build(
     BuildContext context,
   ) =>
       AlertDialog(
-        title: const Text('Успешно'),
-        content: label == null ? null : const Text('Бренд создан'),
+        title: isError
+            ? const Text(
+                'Ошибка',
+                style: TextStyle(color: Colors.red),
+              )
+            : const Text('Успешно'),
+        content: label == null ? null : Text(label!),
         actions: [
           TextButton(
             onPressed: () => context.pop(),
