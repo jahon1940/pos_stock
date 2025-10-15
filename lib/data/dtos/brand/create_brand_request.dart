@@ -10,7 +10,6 @@ class CreateBrandRequest with _$CreateBrandRequest {
   factory CreateBrandRequest({
     required String cid,
     required String name,
-    @JsonKey(includeIfNull: false) String? organizationCid,
     @JsonKey(includeIfNull: false) String? image,
   }) = _CreateBrandRequest;
 
