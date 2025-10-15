@@ -83,7 +83,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   /// upload image button
-                  if (_imageFile.isNotNull)
+                  if (_imageFile.isNotNull || (brand?.image ?? '').isNotEmpty)
                     ClipRRect(
                       borderRadius: AppUtils.kBorderRadius12,
                       child: Container(
@@ -93,25 +93,26 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                         child: Stack(
                           children: [
                             Positioned.fill(
-                              child: Image.file(_imageFile!, fit: BoxFit.cover),
+                              child: _imageFile.isNotNull
+                                  ? Image.file(_imageFile!, fit: BoxFit.cover)
+                                  : Image.network(brand!.imageLink),
                             ),
-                            if (_imageFile.isNotNull)
-                              Positioned(
-                                top: 6,
-                                right: 6,
-                                child: IconButton(
-                                  style: IconButton.styleFrom(
-                                    backgroundColor: Colors.white30,
-                                    visualDensity: VisualDensity.compact,
-                                  ),
-                                  onPressed: _delete,
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
+                            Positioned(
+                              top: 6,
+                              right: 6,
+                              child: IconButton(
+                                style: IconButton.styleFrom(
+                                  backgroundColor: Colors.white30,
+                                  visualDensity: VisualDensity.compact,
+                                ),
+                                onPressed: _imageFile.isNotNull ? _delete : _pickImage,
+                                icon: Icon(
+                                  _imageFile.isNotNull ? Icons.delete : Icons.edit,
+                                  color: Colors.white,
+                                  size: 16,
                                 ),
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -173,7 +174,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                         minimumSize: const Size.fromHeight(50),
                       ),
                       onPressed: () {
-                        if (_nameController.text == brand?.name) {
+                        if (_nameController.text == brand?.name && _imageFile.isNull) {
                           context.pop();
                           return;
                         }
@@ -181,6 +182,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                           context.brandBloc.updateBrand(
                             brandCid: brand!.cid!,
                             name: _nameController.text,
+                            imageFile: _imageFile,
                           );
                         } else {
                           context.brandBloc.createBrand(
