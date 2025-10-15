@@ -1,6 +1,7 @@
 import 'dart:io' show File;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
@@ -11,6 +12,7 @@ import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../data/dtos/product_param_dto.dart';
+import '../cubit/brand_cubit.dart';
 
 class CreateBrandDialog extends StatefulWidget {
   const CreateBrandDialog({
@@ -126,18 +128,29 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
 
                 /// button
                 AppUtils.kGap24,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary800,
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: () {
-                    /// todo implement create event
-                    context.pop(context);
+                BlocConsumer<BrandCubit, BrandState>(
+                  listenWhen: (p, c) => p.createBrandStatus != c.createBrandStatus,
+                  listener: (_, state) {
+                    if (state.createBrandStatus.isSuccess || state.createBrandStatus.isError) {
+                      context.pop(state.createBrandStatus.isSuccess);
+                    }
                   },
-                  child: const Text(
-                    'Создать бренд',
-                    style: AppTextStyles.boldType16,
+                  buildWhen: (p, c) => p.createBrandStatus != c.createBrandStatus,
+                  builder: (context, state) => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary800,
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () => context.brandBloc.createBrand(
+                      name: nameController.text,
+                      imageFile: _imageFile,
+                    ),
+                    child: state.createBrandStatus.isLoading
+                        ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
+                        : const Text(
+                            'Создать бренд',
+                            style: AppTextStyles.boldType16,
+                          ),
                   ),
                 ),
               ],

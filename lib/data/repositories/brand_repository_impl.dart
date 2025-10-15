@@ -6,6 +6,11 @@ class BrandRepositoryImpl implements BrandRepository {
     this._brandApi,
   );
 
-  // ignore: unused_field
   final BrandApi _brandApi;
+
+  @override
+  Future<void> createBrand(
+    CreateBrandRequest request,
+  ) =>
+      _brandApi.createBrand(request);
 }

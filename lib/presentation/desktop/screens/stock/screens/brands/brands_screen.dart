@@ -8,6 +8,7 @@ import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -26,9 +27,9 @@ class BrandsScreen extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) =>
-      BlocProvider(
+      Provider(
         create: (context) => getIt<BrandCubit>()..getBrands(),
-        child: Scaffold(
+        builder: (blocContext, _) => Scaffold(
           body: Padding(
             padding: AppUtils.kPaddingAll10,
             child: Column(
@@ -54,7 +55,10 @@ class BrandsScreen extends StatelessWidget {
                         ),
                         onPressed: () => showDialog<bool?>(
                           context: context,
-                          builder: (_) => const Center(child: CreateBrandDialog()),
+                          builder: (_) => BlocProvider.value(
+                            value: blocContext.brandBloc,
+                            child: const CreateBrandDialog(),
+                          ),
                         ).then((isSuccess) async {
                           if (isSuccess.isNotNull) {
                             await Future.delayed(Durations.medium1);

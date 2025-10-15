@@ -6,6 +6,11 @@ class BrandApiImpl implements BrandApi {
     required DioClient dioClient,
   }) : _dioClient = dioClient;
 
-  // ignore: unused_field
   final DioClient _dioClient;
+
+  @override
+  Future<void> createBrand(
+    CreateBrandRequest request,
+  ) async =>
+      _dioClient.postRequest(NetworkConstants.brandsManagers, data: request.toJson());
 }
