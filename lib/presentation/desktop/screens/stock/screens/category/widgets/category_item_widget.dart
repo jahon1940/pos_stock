@@ -33,7 +33,7 @@ class CategoryItemWidget extends StatelessWidget {
             child: Text('${category.id}'),
           ),
           _item(
-            child: Text(category.name ?? ''),
+            child: Text(category.name),
           ),
           _item(
             child: Row(
