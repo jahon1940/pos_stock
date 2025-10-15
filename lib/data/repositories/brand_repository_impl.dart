@@ -9,10 +9,14 @@ class BrandRepositoryImpl implements BrandRepository {
   final BrandApi _brandApi;
 
   @override
-  Future<void> createBrand(
-    CreateBrandRequest request,
-  ) =>
-      _brandApi.createBrand(request);
+  Future<void> createBrand(CreateBrandRequest request) => _brandApi.createBrand(request);
+
+  @override
+  Future<void> updateBrand({
+    required UpdateBrandRequest request,
+    required String brandCid,
+  }) =>
+      _brandApi.updateBrand(request: request, brandCid: brandCid);
 
   @override
   Future<PaginatedDto<BrandDto>?> getBrands() async => _brandApi.getBrands();

@@ -175,6 +175,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                       onPressed: () {
                         if (_nameController.text == brand?.name) {
                           context.pop();
+                          return;
                         }
                         if ((brand?.cid ?? '').isNotEmpty) {
                           context.brandBloc.updateBrand(
