@@ -37,7 +37,6 @@ class CategoriesScreen extends HookWidget {
           children: [
             /// header
             Container(
-              height: 60,
               padding: AppUtils.kPaddingAll6,
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
@@ -50,39 +49,34 @@ class CategoriesScreen extends HookWidget {
                   const Spacer(),
 
                   ///
-                  Container(
-                    height: 48,
-                    width: context.width * .15,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      borderRadius: AppUtils.kBorderRadius12,
-                      color: AppColors.primary800,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary800,
+                      minimumSize: Size(context.width * .15, 48),
                     ),
-                    child: TextButton(
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => const Center(child: CreateCategoryDialog()),
-                      ).then((onValue) {
-                        if (onValue == true) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Успешно'),
-                              content: const Text('Котегория создан'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => context.pop(),
-                                  child: const Text('ОК'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      }),
-                      child: Text(
-                        'Создать Котегорию',
-                        style: TextStyle(fontSize: 13, color: context.onPrimary),
-                      ),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => const Center(child: CreateCategoryDialog()),
+                    ).then((onValue) {
+                      if (onValue == true) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Успешно'),
+                            content: const Text('Котегория создан'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => context.pop(),
+                                child: const Text('ОК'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    }),
+                    child: Text(
+                      'Создать котегорию',
+                      style: TextStyle(fontSize: 13, color: context.onPrimary),
                     ),
                   ),
                 ],
