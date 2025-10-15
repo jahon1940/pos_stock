@@ -8,7 +8,8 @@ part 'create_brand_request.g.dart';
 class CreateBrandRequest with _$CreateBrandRequest {
   factory CreateBrandRequest({
     required String cid,
-    String? organizationCid,
+    // ignore: invalid_annotation_target
+    @JsonKey(includeIfNull: false) String? organizationCid,
     String? name,
     String? image,
   }) = _CreateBrandRequest;
