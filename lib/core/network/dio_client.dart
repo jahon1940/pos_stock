@@ -125,7 +125,7 @@ class DioClient {
     Map<String, dynamic>? additionalHeaders,
     CancelToken? cancelToken,
   }) async {
-    appLogger.i("POST REQUEST $url $data");
+    appLogger.i('POST REQUEST $url $data');
     if (_dio == null) {
       await createDio();
     }
@@ -145,7 +145,7 @@ class DioClient {
         cancelToken: cancelToken,
       );
 
-      appLogger.i("POST RESPONSE ${response.statusCode} ${response.data}");
+      appLogger.i('POST RESPONSE ${response.statusCode} ${response.data}');
 
       if (converter == null) return response.data;
 
