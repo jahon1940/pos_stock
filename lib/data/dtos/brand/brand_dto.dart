@@ -8,8 +8,9 @@ part 'brand_dto.g.dart';
 class BrandDto with _$BrandDto {
   factory BrandDto({
     required int id,
-    String? name,
     String? cid,
+    @Default('') String? name,
+    @Default('') String image,
   }) = _BrandDto;
 
   factory BrandDto.fromJson(Map<String, dynamic> json) => _$BrandDtoFromJson(json);
