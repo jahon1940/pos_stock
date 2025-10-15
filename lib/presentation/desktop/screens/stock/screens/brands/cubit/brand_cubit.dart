@@ -26,7 +26,19 @@ class BrandCubit extends Cubit<BrandState> with ImageMixin {
 
   final BrandRepository _repo;
 
-  Future<void> getBrands() async {}
+  Future<void> getBrands() async {
+    if (state.status.isLoading) return;
+    try {
+      emit(state.copyWith(status: StateStatus.loading));
+      final res = await _repo.getBrands();
+      emit(state.copyWith(
+        status: StateStatus.loaded,
+        brands: res,
+      ));
+    } catch (e) {
+      emit(state.copyWith(status: StateStatus.initial));
+    }
+  }
 
   Future<void> createBrand({
     required String name,

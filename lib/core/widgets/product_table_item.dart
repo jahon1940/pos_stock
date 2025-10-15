@@ -28,7 +28,7 @@ class TableProductItem extends StatelessWidget {
     BuildContext context,
   ) =>
       InkWell(
-        hoverColor: AppColors.primary100.opcty(0.4),
+        hoverColor: AppColors.primary100.opcty(.2),
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Table(
