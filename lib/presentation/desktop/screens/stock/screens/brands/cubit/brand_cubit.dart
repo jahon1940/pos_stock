@@ -46,10 +46,10 @@ class BrandCubit extends Cubit<BrandState> with ImageMixin {
           image: base64 == null ? null : 'data:image/png;base64,$base64=',
         ),
       );
-      // final res = await _categoryRepository.getCategory(); // todo get brand
+      final res = await _repo.getBrands();
       emit(state.copyWith(
         createBrandStatus: StateStatus.success,
-        // brands: res,
+        brands: res,
       ));
     } catch (e) {
       emit(state.copyWith(createBrandStatus: StateStatus.error));

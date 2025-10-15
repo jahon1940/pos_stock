@@ -13,4 +13,7 @@ class BrandRepositoryImpl implements BrandRepository {
     CreateBrandRequest request,
   ) =>
       _brandApi.createBrand(request);
+
+  @override
+  Future<PaginatedDto<BrandDto>?> getBrands() async => _brandApi.getBrands();
 }

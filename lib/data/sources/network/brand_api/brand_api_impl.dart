@@ -13,4 +13,13 @@ class BrandApiImpl implements BrandApi {
     CreateBrandRequest request,
   ) async =>
       _dioClient.postRequest(NetworkConstants.brandsManagers, data: request.toJson());
+
+  @override
+  Future<PaginatedDto<BrandDto>?> getBrands() async => _dioClient.getRequest(
+        NetworkConstants.brandsManagers,
+        converter: (response) => PaginatedDto.fromJson(
+          response,
+          (json) => BrandDto.fromJson(json),
+        ),
+      );
 }
