@@ -8,7 +8,7 @@ part 'create_brand_request.g.dart';
 class CreateBrandRequest with _$CreateBrandRequest {
   factory CreateBrandRequest({
     required String cid,
-    required String organizationCid,
+    String? organizationCid,
     String? name,
     String? image,
   }) = _CreateBrandRequest;
