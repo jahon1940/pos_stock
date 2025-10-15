@@ -7,10 +7,8 @@ import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
-import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_square_icon_btn.dart';
 import '../../../../../../../data/dtos/product_param_dto.dart';
@@ -143,11 +141,8 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () => context.categoryBloc.add(CreateCategoryEvent(
-                      CreateCategoryRequest(
-                        name: nameController.text,
-                        cid: const Uuid().v4(),
-                        active: true,
-                      ),
+                      name: nameController.text,
+                      imageFile: _imageFile,
                     )),
                     child: state.createCategoryStatus.isLoading
                         ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)

@@ -17,11 +17,13 @@ class GetCategoryId extends CategoryEvent {
 }
 
 class CreateCategoryEvent extends CategoryEvent {
-  const CreateCategoryEvent(
-    this.request,
-  );
+  const CreateCategoryEvent({
+    required this.name,
+    this.imageFile,
+  });
 
-  final CreateCategoryRequest request;
+  final String name;
+  final File? imageFile;
 }
 
 class UpdateCategoryEvent extends CategoryEvent {

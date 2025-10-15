@@ -1,11 +1,16 @@
+import 'dart:io' show File;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
+import 'package:hoomo_pos/core/mixins/image_mixin.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart' show Uuid;
 import '../../../../../data/dtos/category/category_dto.dart';
 import '../../../../../domain/repositories/category_repository.dart';
 
@@ -16,7 +21,7 @@ part 'category_event.dart';
 part 'category_bloc.freezed.dart';
 
 @injectable
-class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
+class CategoryBloc extends Bloc<CategoryEvent, CategoryState> with ImageMixin {
   CategoryBloc(
     this._categoryRepository,
   ) : super(const CategoryState()) {
@@ -74,7 +79,18 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     if (state.createCategoryStatus.isLoading) return;
     emit(state.copyWith(createCategoryStatus: StateStatus.loading));
     try {
-      await _categoryRepository.createCategory(event.request);
+      String? base64;
+      if (event.imageFile.isNotNull) {
+        base64 = await fileToBase64(event.imageFile!);
+      }
+      await _categoryRepository.createCategory(
+        CreateCategoryRequest(
+          name: event.name,
+          cid: const Uuid().v4(),
+          active: true,
+          image: base64,
+        ),
+      );
       final res = await _categoryRepository.getCategory();
       emit(state.copyWith(
         createCategoryStatus: StateStatus.success,
