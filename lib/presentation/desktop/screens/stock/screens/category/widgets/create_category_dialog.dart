@@ -6,8 +6,8 @@ import 'package:hoomo_pos/core/widgets/text_field.dart';
 import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/widgets/custom_square_icon_btn.dart';
-import '../../../../data/dtos/product_param_dto.dart';
+import '../../../../../../../core/widgets/custom_square_icon_btn.dart';
+import '../../../../../../../data/dtos/product_param_dto.dart';
 
 class CreateCategoryDialog extends StatefulWidget {
   const CreateCategoryDialog({

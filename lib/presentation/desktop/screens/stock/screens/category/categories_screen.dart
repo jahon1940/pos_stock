@@ -11,9 +11,9 @@ import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
 import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../../../dialogs/create_category/create_category_dialog.dart';
 import '../../widgets/table_title_widget.dart';
 import 'widgets/category_item_widget.dart';
+import 'widgets/create_category_dialog.dart';
 
 class CategoriesScreen extends HookWidget {
   const CategoriesScreen({
