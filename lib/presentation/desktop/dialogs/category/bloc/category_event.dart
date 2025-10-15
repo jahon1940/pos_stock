@@ -1,30 +1,43 @@
 part of 'category_bloc.dart';
 
-sealed class CategoryEvent {}
+sealed class CategoryEvent {
+  const CategoryEvent();
+}
 
-class GetCategory extends CategoryEvent {}
+class GetCategory extends CategoryEvent {
+  const GetCategory();
+}
 
 class GetCategoryId extends CategoryEvent {
-  GetCategoryId(this.id);
+  const GetCategoryId(
+    this.id,
+  );
 
   final int? id;
 }
 
-class CreateCategory extends CategoryEvent {
-  CreateCategory(this.request);
+class CreateCategoryEvent extends CategoryEvent {
+  const CreateCategoryEvent(
+    this.request,
+  );
 
   final CreateCategoryRequest request;
 }
 
 class UpdateCategory extends CategoryEvent {
-  UpdateCategory(this.request, this.id);
+  const UpdateCategory(
+    this.request,
+    this.id,
+  );
 
   final String? id;
   final CreateCategoryRequest request;
 }
 
 class DeleteCategoryId extends CategoryEvent {
-  DeleteCategoryId(this.id);
+  const DeleteCategoryId(
+    this.id,
+  );
 
   final String? id;
 }

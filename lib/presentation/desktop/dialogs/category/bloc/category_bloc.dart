@@ -23,7 +23,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       (event, emit) async => switch (event) {
         GetCategory _ => _getCategory(event, emit),
         GetCategoryId _ => _getCategoryId(event, emit),
-        CreateCategory _ => _createCategory(event, emit),
+        CreateCategoryEvent _ => _createCategory(event, emit),
         UpdateCategory _ => _updateCategory(event, emit),
         DeleteCategoryId _ => _deleteId(event, emit),
       },
@@ -67,14 +67,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _createCategory(
-    CreateCategory event,
+    CreateCategoryEvent event,
     Emitter<CategoryState> emit,
   ) async {
     if (state.status.isLoading) return;
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.createCategory(event.request);
-      add(GetCategory());
+      add(const GetCategory());
       emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());
@@ -89,7 +89,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.updateCategory(event.id!, event.request);
-      add(GetCategory());
+      add(const GetCategory());
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -103,7 +103,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       await _categoryRepository.deleteCategory(event.id!);
-      add(GetCategory());
+      add(const GetCategory());
       emit(state.copyWith(status: StateStatus.loaded));
     } catch (e) {
       debugPrint(e.toString());
