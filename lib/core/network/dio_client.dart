@@ -36,7 +36,7 @@ class DioClient {
         extra: {'cache-control': 'public, max-age=3600'},
       ),
     )..interceptors.addAll([
-        if (kDebugMode) chuck.getDioInterceptor(),
+        if (1 == 2 && kDebugMode) chuck.getDioInterceptor(),
         LogInterceptor(responseBody: true, requestBody: true),
       ]);
 
