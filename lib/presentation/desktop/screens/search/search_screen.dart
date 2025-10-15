@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/product_table_item.dart';
 import 'package:hoomo_pos/core/widgets/product_table_title.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/prouct_detail/product_detail_dialog.dart';
@@ -18,22 +20,22 @@ import '../../../../core/widgets/text_field.dart';
 
 @RoutePage()
 class SearchScreen extends HookWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final scrollController = useScrollController();
     final searchController = useTextEditingController();
     final selectedFilter = useState<String>('remote');
-    ThemeData themeData = Theme.of(context);
 
     useEffect(() {
       scrollController.addListener(() {
-        if (scrollController.position.pixels >=
-            scrollController.position.maxScrollExtent - 200) {
-          context
-              .read<SearchBloc>()
-              .add(LoadMoreSearch(remote: selectedFilter.value == "remote"));
+        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
         }
       });
       context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
@@ -49,27 +51,23 @@ class SearchScreen extends HookWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: themeData.cardColor,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.stroke, blurRadius: 3)
-                  ],
+                  boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
                 ),
                 height: 60,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.primary100.withOpacity(0.3),
+                      color: AppColors.primary100.opcty(.3),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: AppTextField(
-                      radius: 8,
                       height: 50,
-                      hintStyle: AppTextStyles.mType16
-                          .copyWith(color: AppColors.primary500),
-                      contentPadding: EdgeInsets.all(14),
-                      hint: context.tr("search_product"),
+                      hintStyle: AppTextStyles.mType16.copyWith(color: AppColors.primary500),
+                      contentPadding: const EdgeInsets.all(14),
+                      hint: context.tr('search_product'),
                       fieldController: searchController,
                       suffix: Row(
                         children: [
@@ -110,38 +108,28 @@ class SearchScreen extends HookWidget {
                             ),
                           ),*/
                           IconButton(
-                              icon: Icon(Icons.close),
+                              icon: const Icon(Icons.close),
                               onPressed: () {
                                 if (searchController.text.isNotEmpty) {
                                   searchController.clear();
-                                  context
-                                      .read<SearchBloc>()
-                                      .add(SearchRemoteTextChanged(''));
+                                  context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
                                 }
                               }),
                         ],
                       ),
                       onChange: (value) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (selectedFilter.value == "local") {
+                          if (selectedFilter.value == 'local') {
                             if (value.isEmpty) {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(GetLocalProducts());
+                              context.read<SearchBloc>().add(GetLocalProducts());
                             } else {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(SearchTextChanged(value));
+                              context.read<SearchBloc>().add(SearchTextChanged(value));
                             }
                           } else {
                             if (value.isEmpty) {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(SearchRemoteTextChanged(''));
+                              context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
                             } else {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(SearchRemoteTextChanged(value));
+                              context.read<SearchBloc>().add(SearchRemoteTextChanged(value));
                             }
                           }
                         });
@@ -166,34 +154,25 @@ class SearchScreen extends HookWidget {
                         },
                         titles: [
                           '${context.tr("name")}/${context.tr("article")}',
-                          context.tr("name_uz"),
+                          context.tr('name_uz'),
                           //(context.tr("quantity_short")),
-                          context.tr("price"),
+                          context.tr('price'),
                         ],
                       ),
                       BlocBuilder<SearchBloc, SearchState>(
                         builder: (context, state) {
                           if (state.status == StateStatus.loading) {
-                            return Expanded(
-                                child: const Center(
-                                    child: CircularProgressIndicator()));
-                          } else if (state.products?.results.isEmpty ??
-                              false || state.products == null) {
-                            return Expanded(
-                                child: Center(
-                                    child: Text(context.tr("not_found"))));
-                          } else if (state.status == StateStatus.loaded ||
-                              state.status == StateStatus.loadingMore) {
+                            return const Expanded(child: Center(child: CircularProgressIndicator()));
+                          } else if (state.products?.results.isEmpty ?? false || state.products == null) {
+                            return Expanded(child: Center(child: Text(context.tr('not_found'))));
+                          } else if (state.status == StateStatus.loaded || state.status == StateStatus.loadingMore) {
                             return BarcodeKeyboardListener(
                               onBarcodeScanned: (value) {
-                                if (value.isEmpty)
-                                  value = searchController.text;
+                                if (value.isEmpty) value = searchController.text;
                                 searchController.clear();
                                 searchController.text = value;
 
-                                context
-                                    .read<SearchBloc>()
-                                    .add(SearchRemoteTextChanged(value));
+                                context.read<SearchBloc>().add(SearchRemoteTextChanged(value));
                               },
                               child: Expanded(
                                 child: Material(
@@ -202,10 +181,8 @@ class SearchScreen extends HookWidget {
                                     controller: scrollController,
                                     padding: const EdgeInsets.all(8.0),
                                     itemBuilder: (context, index) {
-                                      final product =
-                                          state.products!.results[index];
-                                      final currencyFormatter =
-                                          NumberFormat.currency(
+                                      final product = state.products!.results[index];
+                                      final currencyFormatter = NumberFormat.currency(
                                         locale: 'ru_RU',
                                         symbol: '',
                                         decimalDigits: 0,
@@ -223,37 +200,26 @@ class SearchScreen extends HookWidget {
                                             showDialog(
                                               context: context,
                                               builder: (context) => Center(
-                                                child: ProductDetailDialog(
-                                                    productDto: product),
+                                                child: ProductDetailDialog(productDto: product),
                                               ),
                                             );
                                           },
                                           children: [
                                             SizedBox(
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8, 5, 5, 5),
+                                                padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                                 child: Row(
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           AppSpace.vertical2,
                                                           Text(
                                                             "${context.tr("article")}: ${product.vendorCode ?? 'Не найдено'}",
                                                             maxLines: 1,
                                                             style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 9),
+                                                                fontWeight: FontWeight.w400, fontSize: 9),
                                                           ),
                                                           Text(
                                                             product.title ?? '',
@@ -269,33 +235,22 @@ class SearchScreen extends HookWidget {
                                             ),
                                             SizedBox(
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8, 5, 5, 5),
+                                                padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                                 child: Row(
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           AppSpace.vertical2,
                                                           Text(
                                                             "${context.tr("article")}: ${product.vendorCode ?? 'Не найдено'}",
                                                             maxLines: 1,
                                                             style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 9),
+                                                                fontWeight: FontWeight.w400, fontSize: 9),
                                                           ),
                                                           Text(
-                                                            product.titleUz ??
-                                                                '',
+                                                            product.titleUz ?? '',
                                                             maxLines: 2,
                                                           ),
                                                           AppSpace.vertical2,
@@ -308,26 +263,17 @@ class SearchScreen extends HookWidget {
                                             ),
                                             SizedBox(
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15, 15, 10, 0),
+                                                padding: const EdgeInsets.fromLTRB(15, 15, 10, 0),
                                                 child: product.price == null
                                                     ? const SizedBox()
                                                     : Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
+                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                           Text(
                                                             "${currencyFormatter.format(product.price).replaceAll('.', ' ')} сум",
-                                                            style:
-                                                                const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                            style: const TextStyle(
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                         ],
@@ -338,16 +284,14 @@ class SearchScreen extends HookWidget {
                                         ),
                                       );
                                     },
-                                    separatorBuilder: (context, index) =>
-                                        AppSpace.vertical12,
-                                    itemCount:
-                                        state.products?.results.length ?? 0,
+                                    separatorBuilder: (context, index) => AppSpace.vertical12,
+                                    itemCount: state.products?.results.length ?? 0,
                                   ),
                                 ),
                               ),
                             );
                           }
-                          return Center(child: Text("Ошибка загрузки"));
+                          return const Center(child: Text('Ошибка загрузки'));
                         },
                       )
                     ],
