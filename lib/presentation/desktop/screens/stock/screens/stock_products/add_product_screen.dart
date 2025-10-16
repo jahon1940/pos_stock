@@ -40,6 +40,7 @@ class AddProductScreen extends HookWidget {
       context.categoryBloc.add(const GetCategoryEvent());
       return null;
     }, const []);
+    final productName = '${product?.title ?? ""} ${product?.vendorCode ?? ""}'.trim();
     return Provider<AddProductCubit>(
       create: (context) => getIt<AddProductCubit>()..init(product),
       builder: (blocContext, _) => Scaffold(
@@ -49,7 +50,7 @@ class AddProductScreen extends HookWidget {
             children: [
               /// header
               PageTitleWidget(
-                label: 'Наменклатура : ${product?.title ?? ""} ${product?.vendorCode ?? ""}',
+                label: 'Номенклатура${productName.isNotEmpty ? ':  $productName' : ''}',
                 canPop: true,
                 isMain: false,
               ),
