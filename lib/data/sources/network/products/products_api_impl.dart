@@ -2,13 +2,18 @@ part of 'products_api.dart';
 
 @Injectable(as: ProductsApi)
 class ProductsApiImpl implements ProductsApi {
+  ProductsApiImpl(
+    this._dioClient,
+    this._posManagerRepository,
+  );
+
   final DioClient _dioClient;
   final PosManagerRepository _posManagerRepository;
 
-  ProductsApiImpl(this._dioClient, this._posManagerRepository);
-
   @override
-  Future<PaginatedDto<ProductDto>> search(SearchRequest request) async {
+  Future<PaginatedDto<ProductDto>> search(
+    SearchRequest request,
+  ) async {
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       Map<String, dynamic> requestData = request.toJson();

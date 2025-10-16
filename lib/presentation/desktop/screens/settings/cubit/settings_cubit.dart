@@ -14,22 +14,23 @@ import 'package:hoomo_pos/data/sources/local/daos/product_dao.dart';
 import 'package:hoomo_pos/data/sources/local/daos/product_params_dao.dart';
 import 'package:hoomo_pos/domain/repositories/companies.dart';
 import 'package:hoomo_pos/domain/repositories/params.dart';
-import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
+import 'package:hoomo_pos/domain/repositories/pos_manager_repository.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 part 'settings_state.dart';
+
 part 'settings_cubit.freezed.dart';
 
 @lazySingleton
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit(
-      this._productsRepository,
-      this._companiesRepository,
-      this._paramsRepository,
-      this._posManagerRepository,
-      ) : super(SettingsState());
+    this._productsRepository,
+    this._companiesRepository,
+    this._paramsRepository,
+    this._posManagerRepository,
+  ) : super(const SettingsState());
 
   final ProductsRepository _productsRepository;
   final CompaniesRepository _companiesRepository;
@@ -39,15 +40,12 @@ class SettingsCubit extends Cubit<SettingsState> {
   CancelToken? _cancelToken;
 
   void init(TableType tableType) async {
-    final lastSynchronization =
-    await _productsRepository.getLastSynchronizationTime();
+    final lastSynchronization = await _productsRepository.getLastSynchronizationTime();
 
     int productsCount = await _productsRepository.getProductsTotalCount();
-    int productInStockCount =
-    await _productsRepository.getProductInStocksTotalCount();
+    int productInStockCount = await _productsRepository.getProductInStocksTotalCount();
 
-    final PosManagerDto posManagerDto =
-    await _posManagerRepository.getPosManager();
+    final PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
     final packageInfo = await PackageInfo.fromPlatform();
 
     emit(state.copyWith(
@@ -70,19 +68,16 @@ class SettingsCubit extends Cubit<SettingsState> {
     await _posManagerRepository.updateLastSynchronize();
 
     int productsCount = await _productsRepository.getProductsTotalCount();
-    int productInStockCount =
-    await _productsRepository.getProductInStocksTotalCount();
+    int productInStockCount = await _productsRepository.getProductInStocksTotalCount();
 
-    appLogger.i("SYNCHRONIZE DATA $productsCount/$productInStockCount");
+    appLogger.i('SYNCHRONIZE DATA $productsCount/$productInStockCount');
 
     emit(state.copyWith(
-        status: StateStatus.loaded,
-        productInStocksCount: productInStockCount,
-        productsCount: productsCount));
+        status: StateStatus.loaded, productInStocksCount: productInStockCount, productsCount: productsCount));
   }
 
   Future<void> synchronizeProducts() async {
-    appLogger.i("SYNCHRONIZE...");
+    appLogger.i('SYNCHRONIZE...');
     await getIt<ProductParamsDao>().deleteAllProductInStoks();
     await getIt<ProductsDao>().deleteAllProducts();
 
@@ -99,25 +94,17 @@ class SettingsCubit extends Cubit<SettingsState> {
     final categories = await _paramsRepository.getCategories(1);
     final organizations = await _paramsRepository.getOrganizations(1);
     final productStocks = await _paramsRepository.getProductInStocks(1);
-    final syncRes = await _productsRepository.synchronize(1,
-        cancelToken: _cancelToken); // выполняем сразу
+    final syncRes = await _productsRepository.synchronize(1, cancelToken: _cancelToken); // выполняем сразу
 
     // Считаем общее количество шагов
-    totalSteps = (regions.$2 +
-        stocks.$2 +
-        brands.$2 +
-        categories.$2 +
-        organizations.$2 +
-        productStocks.$2 +
-        syncRes.$2)
+    totalSteps = (regions.$2 + stocks.$2 + brands.$2 + categories.$2 + organizations.$2 + productStocks.$2 + syncRes.$2)
         .toDouble();
 
     void updateProgress() {
       _updateProgress((currentStep / totalSteps) * 100);
     }
 
-    Future<void> runPaged(int totalPages, Future<void> Function(int page) call,
-        {int start = 1}) async {
+    Future<void> runPaged(int totalPages, Future<void> Function(int page) call, {int start = 1}) async {
       for (var i = start; i <= totalPages; i++) {
         await call(i);
         currentStep++;
@@ -135,8 +122,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     currentStep++; // уже был вызван synchronize(1)
     updateProgress();
 
-    await runPaged(syncRes.$2, _productsRepository.synchronize,
-        start: 2); // начиная со 2й страницы
+    await runPaged(syncRes.$2, _productsRepository.synchronize, start: 2); // начиная со 2й страницы
 
     _updateProgress(100);
     final date = DateTime.now();
@@ -148,8 +134,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
 
-    final res =
-    await _companiesRepository.synchronize(1, cancelToken: _cancelToken);
+    final res = await _companiesRepository.synchronize(1, cancelToken: _cancelToken);
 
     for (var i = 2; i < res.$2; i++) {
       final progress = i / res.$2 * 100;
@@ -188,4 +173,3 @@ class SettingsCubit extends Cubit<SettingsState> {
     Phoenix.rebirth(context);
   }
 }
-

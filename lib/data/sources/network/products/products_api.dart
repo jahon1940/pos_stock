@@ -9,14 +9,14 @@ import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
-import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/exceptions/server_exception.dart';
+import '../../../../domain/repositories/pos_manager_repository.dart';
 import '../../../dtos/add_currency/add_currency_request.dart';
 import '../../../dtos/add_product/add_product_request.dart';
 
-part 'products_api.impl.dart';
+part 'products_api_impl.dart';
 
 abstract class ProductsApi {
   Future<PaginatedDto<ProductDto>> search(SearchRequest request);
