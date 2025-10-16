@@ -9,9 +9,9 @@ import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/dtos/z_report_info_dto.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
 import 'package:hoomo_pos/data/sources/local/daos/receipt_dao.dart';
-import 'package:hoomo_pos/data/sources/network/receipt_api.dart';
+import 'package:hoomo_pos/data/sources/network/receipt/receipt_api.dart';
 import 'package:hoomo_pos/domain/repositories/epos_repository.dart';
-import 'package:hoomo_pos/domain/repositories/receipt.dart';
+import 'package:hoomo_pos/domain/repositories/receipt_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../dtos/receipts/receipts_search.dart';
@@ -30,37 +30,27 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
   @override
   Future<ReceiptDto> sendReceipt(ReceiptDto receipt,
-      {bool isFiscal = false,
-      bool autoSend = false,
-      CancelToken? cancelToken}) async {
+      {bool isFiscal = false, bool autoSend = false, CancelToken? cancelToken}) async {
     String? receiptId = receipt.id;
     ReceiptDto processedReceipt = receipt;
     String finalReceiptId = DateTime.now().millisecondsSinceEpoch.toString();
     bool fiscalOperationCompleted = false;
 
     try {
-      final price = receipt.params.items
-          .map((item) => item.price)
-          .reduce((value, element) => value + element);
+      final price = receipt.params.items.map((item) => item.price).reduce((value, element) => value + element);
 
-      final other = receipt.params.items
-          .map((item) => item.other)
-          .reduce((value, element) => (value ?? 0) + (element ?? 0));
+      final other =
+          receipt.params.items.map((item) => item.other).reduce((value, element) => (value ?? 0) + (element ?? 0));
 
-      final payByDiscount = (other ?? 0) >= price ||
-          (receipt.paymentTypes?.any((e) => e.name == 'Ваучер') ?? false);
+      final payByDiscount = (other ?? 0) >= price || (receipt.paymentTypes?.any((e) => e.name == 'Ваучер') ?? false);
 
       if (payByDiscount) {
         processedReceipt = processedReceipt.copyWith(sendSoliq: false);
       }
 
       // Step 1: Fiscal Operation (if required and not already completed)
-      if (isFiscal &&
-          !autoSend &&
-          !payByDiscount &&
-          !fiscalOperationCompleted) {
-        processedReceipt = await _eposRepository.fiscalOperation(
-            processedReceipt.copyWith(id: null), cancelToken);
+      if (isFiscal && !autoSend && !payByDiscount && !fiscalOperationCompleted) {
+        processedReceipt = await _eposRepository.fiscalOperation(processedReceipt.copyWith(id: null), cancelToken);
         fiscalOperationCompleted = true;
 
         // Ensure we have a valid receipt ID after fiscal operation
@@ -68,26 +58,22 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
         // Step 2: Save locally immediately after fiscal operation
         if (!autoSend) {
-          await _receiptsDao.addReceipt(
-              processedReceipt.copyWith(isSynced: false).toReceipt());
+          await _receiptsDao.addReceipt(processedReceipt.copyWith(isSynced: false).toReceipt());
         }
       }
 
       // Step 3: Attempt to send to server
       try {
-        processedReceipt =
-            await _receiptApi.sendReceipt(processedReceipt.copyWith(id: null));
+        processedReceipt = await _receiptApi.sendReceipt(processedReceipt.copyWith(id: null));
         processedReceipt = processedReceipt.copyWith(isSynced: true);
 
-        updateReceipt(processedReceipt.copyWith(id: finalReceiptId).toReceipt(),
-            processedReceipt.id.toString());
+        updateReceipt(processedReceipt.copyWith(id: finalReceiptId).toReceipt(), processedReceipt.id.toString());
       } catch (serverError) {
         // Server failed, but fiscal operation succeeded - keep receipt locally
         processedReceipt = processedReceipt.copyWith(isSynced: false);
 
         // If we haven't saved yet (non-fiscal receipts), save now
-        await _receiptsDao.updateReceiptSyncStatus(
-            processedReceipt.id ?? receiptId ?? '', false);
+        await _receiptsDao.updateReceiptSyncStatus(processedReceipt.id ?? receiptId ?? '', false);
 
         // Re-throw server error so the UI knows about it
         rethrow;
@@ -105,8 +91,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   }
 
   @override
-  Future<PaginatedDto<ReceiptDto>> getReceipts(
-      {int page = 1, int itemsPerPage = 50}) async {
+  Future<PaginatedDto<ReceiptDto>> getReceipts({int page = 1, int itemsPerPage = 50}) async {
     // Получаем пагинированные данные
     final paginatedReceipts = await _receiptsDao.getPaginatedReceipts(
       page: page,
@@ -115,9 +100,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
     // Преобразуем результаты в список ReceiptDto и возвращаем PaginatedDto
     return PaginatedDto<ReceiptDto>(
-      results: paginatedReceipts.results
-          .map((receipt) => ReceiptDto.toDto(receipt))
-          .toList(),
+      results: paginatedReceipts.results.map((receipt) => ReceiptDto.toDto(receipt)).toList(),
       pageNumber: paginatedReceipts.pageNumber,
       pageSize: paginatedReceipts.pageSize,
       totalPages: paginatedReceipts.totalPages,
@@ -139,7 +122,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
   @override
   Future<int?> getOperationSum(String date, String type) async {
-    return await _receiptsDao.getTotalReceivedCashFromDateToNow(
+    return _receiptsDao.getTotalReceivedCashFromDateToNow(
       fromDate: date,
       receiptType: type,
     );
@@ -164,32 +147,32 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   Future<PaginatedDto<ReceiptDto>?> getReceiptsRemote(
     SearchReceipts? request,
   ) async {
-    return await _receiptApi.getReceiptsRemote(request);
+    return _receiptApi.getReceiptsRemote(request);
   }
 
   @override
   Future<ReceiptDto?> getLocalReceipt(String id) async {
-    return await _receiptsDao.getReceipt(int.parse(id));
+    return _receiptsDao.getReceipt(int.parse(id));
   }
 
   @override
   Future<void> createReserve(CreateReserveDto reserve) async {
-    return await _receiptApi.createReserve(reserve);
+    return _receiptApi.createReserve(reserve);
   }
 
   @override
   Future<List<ReserveDto>> getReserves() async {
-    return await _receiptApi.getReserves();
+    return _receiptApi.getReserves();
   }
 
   @override
   Future<void> realizationReserve(int reserveId) async {
-    return await _receiptApi.realizationReserve(reserveId);
+    return _receiptApi.realizationReserve(reserveId);
   }
 
   @override
   Future<void> deleteReserve(int reserveId) async {
-    return await _receiptApi.deleteReserve(reserveId);
+    return _receiptApi.deleteReserve(reserveId);
   }
 
   @override
@@ -203,23 +186,22 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
   @override
   Future<ZReportInfoDto> getPosReport() async {
-    return await _receiptApi.getReportInfo();
+    return _receiptApi.getReportInfo();
   }
 
   @override
   Future<void> updateReserve(CreateReserveDto reserve) async {
-    return await _receiptApi.updateReserve(reserve);
+    return _receiptApi.updateReserve(reserve);
   }
 
   @override
   Future<List<ReceiptDto>> getReceiptsByDate(DateTime date) async {
-    return await _receiptsDao.getReceiptsByDate(date);
+    return _receiptsDao.getReceiptsByDate(date);
   }
 
   @override
-  Future<CalculateKVIDiscountResponse> getDiscount(
-      CalculateKVIDiscountRequest data) async {
-    return await _receiptApi.getDiscount(data);
+  Future<CalculateKVIDiscountResponse> getDiscount(CalculateKVIDiscountRequest data) async {
+    return _receiptApi.getDiscount(data);
   }
 
   @override
@@ -263,8 +245,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   }
 
   /// Update whole receipt after synchronization with server
-  Future<void> updateReceiptFromServer(
-      ReceiptDto serverReceipt, String localReceiptId) async {
+  Future<void> updateReceiptFromServer(ReceiptDto serverReceipt, String localReceiptId) async {
     try {
       // Get the local receipt
       final localReceipt = await getLocalReceipt(localReceiptId);
@@ -276,8 +257,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       final updatedReceipt = serverReceipt.copyWith(isSynced: true);
 
       // Replace local receipt with server receipt using replaceReceiptId
-      await _receiptsDao.replaceReceiptId(
-          localReceipt.toReceipt(), updatedReceipt.id ?? '');
+      await _receiptsDao.replaceReceiptId(localReceipt.toReceipt(), updatedReceipt.id ?? '');
     } catch (e) {
       // If update fails, just update sync status as fallback
       await _receiptsDao.updateReceiptSyncStatus(localReceiptId, true);
