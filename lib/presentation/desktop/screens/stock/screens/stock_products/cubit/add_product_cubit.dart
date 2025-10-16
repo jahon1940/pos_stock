@@ -32,9 +32,7 @@ class AddProductCubit extends Cubit<AddProductState> {
     ProductDto? product,
   ) async {
     if (product == null) return;
-
     final data = await _getProduct(product.id);
-
     if (data == null) return;
 
     titleController.text = data.title ?? '';
@@ -43,7 +41,6 @@ class AddProductCubit extends Cubit<AddProductState> {
     quantityController.text = data.leftQuantity.toString();
     incomeController.text = data.purchasePriceDollar?.toString() ?? '';
     sellController.text = data.priceDollar?.toString() ?? '';
-
     emit(state.copyWith(product: data));
   }
 
