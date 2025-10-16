@@ -66,8 +66,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       try {
         processedReceipt = await _receiptApi.sendReceipt(processedReceipt.copyWith(id: null));
         processedReceipt = processedReceipt.copyWith(isSynced: true);
-
-        updateReceipt(processedReceipt.copyWith(id: finalReceiptId).toReceipt(), processedReceipt.id.toString());
+        await updateReceipt(processedReceipt.copyWith(id: finalReceiptId).toReceipt(), processedReceipt.id.toString());
       } catch (serverError) {
         // Server failed, but fiscal operation succeeded - keep receipt locally
         processedReceipt = processedReceipt.copyWith(isSynced: false);
@@ -218,7 +217,6 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
           await updateReceiptFromServer(updatedReceipt, receipt.id ?? '');
         } catch (e) {
           // Log individual receipt send failure but continue with others
-          print('Failed to sync receipt ${receipt.id}: $e');
           continue;
         }
       }
