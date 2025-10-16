@@ -35,15 +35,15 @@ class CreateProductEvent extends SearchEvent {
 }
 
 class UpdateProductEvent extends SearchEvent {
-  UpdateProductEvent(
-    this.putProductRequest,
-    this.productId,
-    this.context,
-  );
+  UpdateProductEvent({
+    required this.context,
+    required this.productId,
+    required this.putProductRequest,
+  });
 
-  final CreateProductRequest putProductRequest;
-  final int productId;
   final BuildContext context;
+  final int productId;
+  final CreateProductRequest putProductRequest;
 }
 
 class DeleteProductEvent extends SearchEvent {

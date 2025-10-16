@@ -69,7 +69,9 @@ class AddProductNavbar extends StatelessWidget {
                     } else {
                       context.searchBloc.add(
                         UpdateProductEvent(
-                          CreateProductRequest(
+                          context: context,
+                          productId: product!.id,
+                          putProductRequest: CreateProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,
                             vendorCode: cubit.codeController.text,
@@ -79,8 +81,6 @@ class AddProductNavbar extends StatelessWidget {
                             price: cubit.sellController.text,
                             categoryId: context.searchBloc.state.request?.categoryId,
                           ),
-                          product!.id,
-                          context,
                         ),
                       );
                     }
