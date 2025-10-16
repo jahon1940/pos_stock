@@ -20,5 +20,17 @@ class CountryCubit extends Cubit<CountryState> {
 
   final CountryRepository _repo;
 
-  Future<void> getCountries() async {}
+  Future<void> getCountries() async {
+    if (state.status.isLoading) return;
+    try {
+      emit(state.copyWith(status: StateStatus.loading));
+      final res = await _repo.getCountries();
+      emit(state.copyWith(
+        status: StateStatus.loaded,
+        countries: res,
+      ));
+    } catch (e) {
+      emit(state.copyWith(status: StateStatus.initial));
+    }
+  }
 }
