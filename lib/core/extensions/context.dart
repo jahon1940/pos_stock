@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/inventories/cubit/inventory_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cubit/supply_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/transfer_cubit.dart';
@@ -202,4 +203,6 @@ extension BlocExtension on BuildContext {
   AddProductCubit get addProductBloc => read<AddProductCubit>();
 
   BrandCubit get brandBloc => read<BrandCubit>();
+
+  CountryCubit get countryBloc => read<CountryCubit>();
 }
