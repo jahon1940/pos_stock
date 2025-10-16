@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hoomo_pos/app/di.dart';
 import 'package:hoomo_pos/app/router.gr.dart';
 import 'package:hoomo_pos/domain/services/user_data.dart';
@@ -11,7 +12,7 @@ class LockerGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    final isUnlocked = userDataService.unlocked.value;
+    final isUnlocked = userDataService.unlocked.value || kDebugMode; // todo
     bool isFirstAuth = userDataService.isFirstAuth.value;
     final bool hasPin = await userDataService.getPinCode() != null;
 
