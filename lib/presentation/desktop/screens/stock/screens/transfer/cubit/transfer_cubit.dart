@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:hoomo_pos/domain/repositories/stock_repository.dart';
 import 'package:hoomo_pos/domain/repositories/transfer_repository.dart';
 import 'package:injectable/injectable.dart';

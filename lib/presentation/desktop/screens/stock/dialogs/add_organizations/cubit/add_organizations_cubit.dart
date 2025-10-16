@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../../../core/enums/states.dart';
 import '../../../../../../../data/dtos/add_currency/add_currency_request.dart';
 import '../../../../../../../data/dtos/currency_dto.dart';
-import '../../../../../../../domain/repositories/products.dart';
+import '../../../../../../../domain/repositories/products_repository.dart';
 
 part 'add_organizations_state.dart';
 part 'add_organizations_cubit.freezed.dart';

@@ -9,24 +9,24 @@ import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
 import 'package:hoomo_pos/data/sources/local/daos/product_dao.dart';
 import 'package:hoomo_pos/data/sources/local/daos/product_params_dao.dart';
-import 'package:hoomo_pos/data/sources/network/products_api.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/data/sources/network/products/products_api.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../dtos/add_currency/add_currency_request.dart';
 import '../dtos/add_product/add_product_request.dart';
 
 @LazySingleton(as: ProductsRepository)
-class ProductsRepositoryImpl
-    with SecureStorageMixin
-    implements ProductsRepository {
+class ProductsRepositoryImpl with SecureStorageMixin implements ProductsRepository {
+  ProductsRepositoryImpl(
+    this._productsApi,
+    this._productsDao,
+    this._productParamsDao,
+  );
+
   final ProductsApi _productsApi;
   final ProductsDao _productsDao;
   final ProductParamsDao _productParamsDao;
-
-  ProductsRepositoryImpl(
-      this._productsApi, this._productsDao, this._productParamsDao);
-
   int productCount = 0;
 
   @override
@@ -35,27 +35,25 @@ class ProductsRepositoryImpl
     int? priceFilter,
   ) async {
     try {
-      final searchQuery = request.title != null && request.title!.isNotEmpty
-          ? request.title!
-          : '';
-
+      final searchQuery = request.title != null && request.title!.isNotEmpty ? request.title! : '';
       return _productsDao.searchPaginatedItems(
         searchQuery: searchQuery,
         page: request.page ?? 1,
         priceFilter: priceFilter,
       );
     } catch (e) {
-      // Log error if needed
       rethrow;
     }
   }
 
   @override
-  Future<(int, int)> synchronize(int page,
-      {CancelToken? cancelToken, String? receiptId}) async {
+  Future<(int, int)> synchronize(
+    int page, {
+    CancelToken? cancelToken,
+    String? receiptId,
+  }) async {
     try {
-      final response = await _productsApi.getProducts(page,
-          cancelToken: cancelToken, receiptId: receiptId);
+      final response = await _productsApi.getProducts(page, cancelToken: cancelToken, receiptId: receiptId);
       productCount += response.results.length;
       await _productsDao.insertProducts(response.results);
 
@@ -91,8 +89,7 @@ class ProductsRepositoryImpl
   @override
   Future<void> setLastSynchronizationTime(DateTime dateTime) async {
     try {
-      await writeData(
-          SecureStorageKeys.lastSynchronization, dateTime.toString());
+      await writeData(SecureStorageKeys.lastSynchronization, dateTime.toString());
     } catch (e) {
       rethrow;
     }
@@ -197,14 +194,11 @@ class ProductsRepositoryImpl
   }
 
   @override
-  Future<void> updateProductInStock(
-      int productId, int quantity, int quantityInReserve) async {
-    ProductInStock? productInStock =
-        await _productParamsDao.getProductInStockByProduct(productId);
+  Future<void> updateProductInStock(int productId, int quantity, int quantityInReserve) async {
+    ProductInStock? productInStock = await _productParamsDao.getProductInStockByProduct(productId);
     productInStock = productInStock?.copyWith(
         quantity: Value((productInStock.quantity ?? 0) - quantity),
-        quantity_reserve:
-            Value((productInStock.quantity_reserve ?? 0) - quantityInReserve));
+        quantity_reserve: Value((productInStock.quantity_reserve ?? 0) - quantityInReserve));
     await _productParamsDao.updateProductInStocks(productInStock!);
   }
 
@@ -220,8 +214,7 @@ class ProductsRepositoryImpl
   @override
   Future<ProductDto?> getProduct(int productId) async {
     Products? product = await _productsDao.getProduct(productId);
-    final inStock =
-        await _productParamsDao.getProductInStockByProduct(productId);
+    final inStock = await _productParamsDao.getProductInStockByProduct(productId);
     if (product != null) {
       return ProductDto.toDto(product).copyWith(
         quantity: inStock?.quantity,
@@ -243,10 +236,8 @@ class ProductsRepositoryImpl
   }
 
   @override
-  Future<void> exportProductPrice(
-      {required int productId, required int quantity}) async {
-    await _productsApi.exportProductPrice(
-        productId: productId, quantity: quantity);
+  Future<void> exportProductPrice({required int productId, required int quantity}) async {
+    await _productsApi.exportProductPrice(productId: productId, quantity: quantity);
   }
 
   @override

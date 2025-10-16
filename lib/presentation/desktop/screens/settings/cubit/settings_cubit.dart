@@ -15,7 +15,7 @@ import 'package:hoomo_pos/data/sources/local/daos/product_params_dao.dart';
 import 'package:hoomo_pos/domain/repositories/companies.dart';
 import 'package:hoomo_pos/domain/repositories/params.dart';
 import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

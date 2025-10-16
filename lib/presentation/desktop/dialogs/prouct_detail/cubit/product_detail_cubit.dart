@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../data/dtos/add_product/add_product_request.dart';

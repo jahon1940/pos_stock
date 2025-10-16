@@ -5,7 +5,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/inventories/inventory_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/inventory_repository.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 

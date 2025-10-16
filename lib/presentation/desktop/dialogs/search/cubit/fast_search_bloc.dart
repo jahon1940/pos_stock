@@ -9,7 +9,7 @@ import 'package:hoomo_pos/data/dtos/cart_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 

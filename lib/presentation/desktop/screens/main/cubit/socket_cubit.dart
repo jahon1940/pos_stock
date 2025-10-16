@@ -12,7 +12,7 @@ import 'package:hoomo_pos/data/dtos/socket_dto.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
 import 'package:hoomo_pos/domain/repositories/params.dart';
 import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:hoomo_pos/domain/repositories/receipt.dart';
 import 'package:hoomo_pos/domain/repositories/socket.dart';
 import 'package:injectable/injectable.dart';

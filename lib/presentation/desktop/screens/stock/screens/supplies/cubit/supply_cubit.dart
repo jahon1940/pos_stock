@@ -9,7 +9,7 @@ import 'package:hoomo_pos/data/dtos/supplies/create_supply_request.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_dto.dart';
 import 'package:hoomo_pos/data/dtos/supplies/supply_product_request.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:hoomo_pos/domain/repositories/supply_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';

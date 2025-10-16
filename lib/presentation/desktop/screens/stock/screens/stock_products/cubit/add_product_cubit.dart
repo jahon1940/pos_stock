@@ -6,7 +6,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/utils/barcode.dart';
 import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
-import 'package:hoomo_pos/domain/repositories/products.dart';
+import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 
 part 'add_product_state.dart';

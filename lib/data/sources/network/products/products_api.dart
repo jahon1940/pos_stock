@@ -6,14 +6,13 @@ import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
 
-import '../../dtos/add_currency/add_currency_request.dart';
-import '../../dtos/add_product/add_product_request.dart';
+import '../../../dtos/add_currency/add_currency_request.dart';
+import '../../../dtos/add_product/add_product_request.dart';
 
 abstract class ProductsApi {
   Future<PaginatedDto<ProductDto>> search(SearchRequest request);
 
-  Future<PaginatedDto<Products>> getProducts(int page,
-      {CancelToken? cancelToken, String? receiptId});
+  Future<PaginatedDto<Products>> getProducts(int page, {CancelToken? cancelToken, String? receiptId});
 
   Future<ProductDetailDto> getProductDetail(int productId);
 
@@ -33,8 +32,7 @@ abstract class ProductsApi {
 
   Future<void> exportInventoryProducts(int stockId, {int? categoryId});
 
-  Future<void> exportProductPrice(
-      {required int productId, required int quantity});
+  Future<void> exportProductPrice({required int productId, required int quantity});
 
   Future<CurrencyDto> getCurrency();
 

@@ -11,11 +11,11 @@ import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/data/sources/app_database.dart';
-import 'package:hoomo_pos/data/sources/network/products_api.dart';
+import 'package:hoomo_pos/data/sources/network/products/products_api.dart';
 import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/exceptions/server_exception.dart';
+import '../../../../core/exceptions/server_exception.dart';
 
 @Injectable(as: ProductsApi)
 class ProductsApiImpl implements ProductsApi {
@@ -29,10 +29,10 @@ class ProductsApiImpl implements ProductsApi {
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       Map<String, dynamic> requestData = request.toJson();
-      requestData.addAll({"region_id": posManagerDto.pos?.stock?.region?.id});
+      requestData.addAll({'region_id': posManagerDto.pos?.stock?.region?.id});
       final res = await _dioClient.postRequest<PaginatedDto<ProductDto>>(
         NetworkConstants.search,
-        queryParameters: {"page": request.page, "page_size": 20},
+        queryParameters: {'page': request.page, 'page_size': 20},
         data: requestData,
         converter: (response) => PaginatedDto.fromJson(
           response,
@@ -46,16 +46,14 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<PaginatedDto<Products>> getProducts(int page,
-      {CancelToken? cancelToken, String? receiptId}) async {
+  Future<PaginatedDto<Products>> getProducts(
+    int page, {
+    CancelToken? cancelToken,
+    String? receiptId,
+  }) async {
     try {
-      final res = await _dioClient.getRequest<PaginatedDto<Products>>(
-          NetworkConstants.products,
-          queryParameters: {
-            "page": page,
-            "page_size": 50,
-            "receipt_id": receiptId
-          },
+      final res = await _dioClient.getRequest<PaginatedDto<Products>>(NetworkConstants.products,
+          queryParameters: {'page': page, 'page_size': 50, 'receipt_id': receiptId},
           converter: (response) => PaginatedDto.fromJson(
                 response,
                 (json) => Products.fromJson(json),
@@ -72,7 +70,7 @@ class ProductsApiImpl implements ProductsApi {
   Future<ProductDetailDto> getProductDetail(int productId) async {
     try {
       final res = await _dioClient.getRequest<ProductDetailDto>(
-        "${NetworkConstants.products}/$productId",
+        '${NetworkConstants.products}/$productId',
         converter: (response) => ProductDetailDto.fromJson(response),
       );
       return res;
@@ -84,8 +82,7 @@ class ProductsApiImpl implements ProductsApi {
   @override
   Future<void> updateProduct(int productId) async {
     try {
-      await _dioClient
-          .putRequest("${NetworkConstants.products}/$productId/update-1c");
+      await _dioClient.putRequest('${NetworkConstants.products}/$productId/update-1c');
     } catch (e) {
       rethrow;
     }
@@ -101,8 +98,7 @@ class ProductsApiImpl implements ProductsApi {
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -112,14 +108,13 @@ class ProductsApiImpl implements ProductsApi {
   Future<void> putProduct(CreateProductRequest request, int productId) async {
     try {
       final result = await _dioClient.putRequest(
-        "${NetworkConstants.addProducts}/$productId",
+        '${NetworkConstants.addProducts}/$productId',
         data: request.toJson(),
       );
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -129,14 +124,13 @@ class ProductsApiImpl implements ProductsApi {
   Future<void> putBarcode(CreateProductRequest request, int productId) async {
     try {
       final result = await _dioClient.putRequest(
-        "${NetworkConstants.products}/$productId/update_barcode",
+        '${NetworkConstants.products}/$productId/update_barcode',
         data: request.toJson(),
       );
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -146,13 +140,12 @@ class ProductsApiImpl implements ProductsApi {
   Future<void> deleteProduct(int productId) async {
     try {
       final result = await _dioClient.deleteRequest(
-        "${NetworkConstants.addProducts}/$productId",
+        '${NetworkConstants.addProducts}/$productId',
       );
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -170,8 +163,7 @@ class ProductsApiImpl implements ProductsApi {
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -182,9 +174,8 @@ class ProductsApiImpl implements ProductsApi {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = "$directory/products.xlsx";
-      await _dioClient.downloadRequest(
-          NetworkConstants.exportProducts, savePath);
+      String savePath = '$directory/products.xlsx';
+      await _dioClient.downloadRequest(NetworkConstants.exportProducts, savePath);
     } catch (_) {}
   }
 
@@ -193,7 +184,7 @@ class ProductsApiImpl implements ProductsApi {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = "$directory/products.xlsx";
+      String savePath = '$directory/products.xlsx';
       await _dioClient.downloadRequest(
           "${NetworkConstants.exportInventoryProducts}/$stockId/download-excel?category_id=${categoryId ?? ''}",
           savePath);
@@ -201,15 +192,13 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<void> exportProductPrice(
-      {required int productId, required int quantity}) async {
+  Future<void> exportProductPrice({required int productId, required int quantity}) async {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = "$directory/products-$productId.xlsx";
+      String savePath = '$directory/products-$productId.xlsx';
       await _dioClient.downloadRequest(
-          "${NetworkConstants.apiUrl}/products/$productId/stiker-download-excel?count=$quantity",
-          savePath);
+          '${NetworkConstants.apiUrl}/products/$productId/stiker-download-excel?count=$quantity', savePath);
     } catch (_) {}
   }
 
@@ -225,8 +214,7 @@ class ProductsApiImpl implements ProductsApi {
       return result;
     } catch (e) {
       if (e is DioException) {
-        throw ServerException(e.response?.data.toString() ?? "Server Error",
-            e.response?.statusCode ?? 500);
+        throw ServerException(e.response?.data.toString() ?? 'Server Error', e.response?.statusCode ?? 500);
       }
       rethrow;
     }
@@ -236,7 +224,7 @@ class ProductsApiImpl implements ProductsApi {
   Future<ProductDto> getProductSync(int productId) async {
     try {
       final res = await _dioClient.getRequest<ProductDto>(
-        "${NetworkConstants.products}/$productId",
+        '${NetworkConstants.products}/$productId',
         converter: (response) => ProductDto.fromJson(response),
       );
       return res;
