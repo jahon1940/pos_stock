@@ -9,6 +9,7 @@ class CountryDto with _$CountryDto {
   factory CountryDto({
     required int id,
     String? name,
+    String? fullName,
     String? cid,
   }) = _CountryDto;
 
