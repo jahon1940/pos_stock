@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../widgets/page_title_widget.dart';
+import '../../widgets/back_button_widget.dart';
 import 'cubit/add_product_cubit.dart';
 import 'widgets/add_product_navbar.dart';
 import 'widgets/details_1c.dart';
@@ -49,10 +50,47 @@ class AddProductScreen extends HookWidget {
           child: Column(
             children: [
               /// header
-              PageTitleWidget(
-                label: 'Номенклатура${productName.isNotEmpty ? ':  $productName' : ''}',
-                canPop: true,
-                isMain: false,
+              Container(
+                width: double.infinity,
+                height: 60,
+                padding: AppUtils.kPaddingAll6,
+                decoration: BoxDecoration(
+                  color: context.theme.cardColor,
+                  borderRadius: AppUtils.kBorderRadius12,
+                  boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
+                ),
+                child: Row(
+                  children: [
+                    /// back button
+                    const BackButtonWidget(),
+                    AppUtils.kGap6,
+
+                    /// label
+                    AppUtils.kGap6,
+                    Text(
+                      'Номенклатура${productName.isNotEmpty ? ':  $productName' : ''}',
+                      textAlign: TextAlign.start,
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w600),
+                    ),
+
+                    /// button
+                    const Spacer(),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .15, 48)),
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          content: SizedBox(
+                            width: context.width * .5,
+                            height: context.width * .6,
+                            child: const Center(child: BackButtonWidget()), // todo implement
+                          ),
+                        ),
+                      ),
+                      child: const Text('Добавить из справочника'),
+                    ),
+                  ],
+                ),
               ),
 
               /// body
