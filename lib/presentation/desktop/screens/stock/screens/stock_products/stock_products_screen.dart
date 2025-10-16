@@ -138,12 +138,7 @@ class StockProductsScreen extends HookWidget {
                                       label: 'Все категории',
                                     ),
                                     ...state.categories?.results
-                                            .map(
-                                              (e) => DropdownMenuEntry(
-                                                value: e.id,
-                                                label: e.name ?? '',
-                                              ),
-                                            )
+                                            .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                                             .toList() ??
                                         []
                                   ],
@@ -308,6 +303,7 @@ class StockProductsScreen extends HookWidget {
                     ),
 
                     ///
+                    AppUtils.kGap12,
                     BlocBuilder<SearchBloc, SearchState>(
                       builder: (context, state) => Expanded(
                         child: state.status.isLoading && (state.products?.results ?? []).isEmpty
