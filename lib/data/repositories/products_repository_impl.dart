@@ -1,20 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:drift/drift.dart';
-import 'package:hoomo_pos/core/mixins/secure_storage_mixin.dart';
-import 'package:hoomo_pos/data/dtos/currency_dto.dart';
-import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
-import 'package:hoomo_pos/data/dtos/product_dto.dart';
-import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/data/sources/app_database.dart';
-import 'package:hoomo_pos/data/sources/local/daos/product_dao.dart';
-import 'package:hoomo_pos/data/sources/local/daos/product_params_dao.dart';
-import 'package:hoomo_pos/data/sources/network/products/products_api.dart';
-import 'package:hoomo_pos/domain/repositories/products_repository.dart';
-import 'package:injectable/injectable.dart';
-
-import '../dtos/add_currency/add_currency_request.dart';
-import '../dtos/add_product/add_product_request.dart';
+part of '../../domain/repositories/products_repository.dart';
 
 @LazySingleton(as: ProductsRepository)
 class ProductsRepositoryImpl with SecureStorageMixin implements ProductsRepository {
