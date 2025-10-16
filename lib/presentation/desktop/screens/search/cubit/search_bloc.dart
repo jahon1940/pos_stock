@@ -24,9 +24,6 @@ part 'search_bloc.freezed.dart';
 
 @injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final ProductsRepository _searchProducts;
-  final PosManagerRepository _posManagerRepository;
-
   SearchBloc(
     this._searchProducts,
     this._posManagerRepository,
@@ -38,7 +35,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
     on<CreateProductEvent>(_createProductEvent);
-    on<UpdateProductEvent>(_putProductRequest);
+    on<UpdateProductEvent>(_updateProductRequest);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<DeleteProductEvent>(_deleteProduct);
     on<ExportProducts>(_exportProducts);
@@ -47,6 +44,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SelectSupplier>(_onSelectSupplier);
     on<SelectCategory>(_onSelectCategory);
   }
+
+  final ProductsRepository _searchProducts;
+  final PosManagerRepository _posManagerRepository;
 
   EventTransformer<T> _debounce<T>() {
     return (events, mapper) => events.debounceTime(const Duration(milliseconds: 300)).switchMap(mapper);
@@ -218,7 +218,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(state.copyWith(createProductStatus: StateStatus.initial));
   }
 
-  Future<void> _putProductRequest(
+  Future<void> _updateProductRequest(
     UpdateProductEvent event,
     Emitter<SearchState> emit,
   ) async {
