@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/pos_manager_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
@@ -34,7 +33,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
-    on<CreateProductEvent>(_createProductEvent);
     on<UpdateProductEvent>(_updateProductRequest);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<DeleteProductEvent>(_deleteProduct);
@@ -197,25 +195,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } catch (e) {
       debugPrint(e.toString());
     }
-  }
-
-  Future<void> _createProductEvent(
-    CreateProductEvent event,
-    Emitter<SearchState> emit,
-  ) async {
-    if (state.createProductStatus.isLoading) return;
-    try {
-      emit(state.copyWith(createProductStatus: StateStatus.loading));
-      final PosManagerDto posManagerDto = await _posManagerRepo.getPosManager();
-      final int? stockId = posManagerDto.pos?.stock?.id;
-      final CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
-      await _productRepo.createProduct(addProductRequest);
-      emit(state.copyWith(createProductStatus: StateStatus.success));
-      add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
-    } catch (e) {
-      emit(state.copyWith(createProductStatus: StateStatus.error));
-    }
-    emit(state.copyWith(createProductStatus: StateStatus.initial));
   }
 
   Future<void> _updateProductRequest(
