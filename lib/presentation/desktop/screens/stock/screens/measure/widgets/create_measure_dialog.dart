@@ -69,10 +69,7 @@ class CreateMeasureDialog extends StatelessWidget {
                     backgroundColor: AppColors.primary800,
                     minimumSize: const Size.fromHeight(50),
                   ),
-                  onPressed: () {
-                    /// todo implement create event
-                    context.pop(context);
-                  },
+                  onPressed: null, // todo implement create
                   child: const Text(
                     'Создать',
                     style: AppTextStyles.boldType16,

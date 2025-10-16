@@ -67,10 +67,11 @@ class CountryItemWidget extends StatelessWidget {
                     }
                   }),
                 ),
-                const CustomSquareIconBtn(
-                  Icons.delete,
-                  backgrounColor: AppColors.error500,
-                ),
+                // todo implement delete
+                // const CustomSquareIconBtn(
+                //   Icons.delete,
+                //   backgrounColor: AppColors.error500,
+                // ),
               ],
             ),
           ),

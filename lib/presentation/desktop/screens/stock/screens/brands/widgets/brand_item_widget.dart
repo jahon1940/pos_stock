@@ -63,7 +63,7 @@ class BrandItemWidget extends StatelessWidget {
                     }
                   }),
                 ),
-                // todo implement
+                // todo implement delete
                 // const CustomSquareIconBtn(
                 //   Icons.delete,
                 //   backgrounColor: AppColors.error500,
