@@ -37,7 +37,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
-    on<AddProduct>(_addProductRequest);
+    on<AddProductEvent>(_addProductRequest);
     on<PutProduct>(_putProductRequest);
     on<AddCurrency>(_addCurrencyRequest);
     on<DeleteProduct>(_deleteProduct);
@@ -200,7 +200,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _addProductRequest(
-    AddProduct event,
+    AddProductEvent event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));

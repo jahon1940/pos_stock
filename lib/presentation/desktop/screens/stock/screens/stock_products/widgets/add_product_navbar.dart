@@ -53,7 +53,7 @@ class AddProductNavbar extends StatelessWidget {
                     final cubit = context.addProductBloc;
                     if (product == null) {
                       context.searchBloc.add(
-                        AddProduct(
+                        AddProductEvent(
                           AddProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,

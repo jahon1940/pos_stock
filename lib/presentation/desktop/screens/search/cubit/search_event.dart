@@ -24,11 +24,14 @@ class SearchRemoteTextChanged extends SearchEvent {
   });
 }
 
-class AddProduct extends SearchEvent {
+class AddProductEvent extends SearchEvent {
+  AddProductEvent(
+    this.addProductRequest,
+    this.context,
+  );
+
   final AddProductRequest addProductRequest;
   final BuildContext context;
-
-  AddProduct(this.addProductRequest, this.context);
 }
 
 class PutProduct extends SearchEvent {
@@ -62,6 +65,7 @@ class ExportProducts extends SearchEvent {}
 class ExportInventoryProducts extends SearchEvent {
   final int? id;
   final int? categoryId;
+
   ExportInventoryProducts({
     this.id,
     this.categoryId,
@@ -71,6 +75,7 @@ class ExportInventoryProducts extends SearchEvent {
 class ExportProductPrice extends SearchEvent {
   final int? productId;
   final int? quantity;
+
   ExportProductPrice({
     this.productId,
     this.quantity,
