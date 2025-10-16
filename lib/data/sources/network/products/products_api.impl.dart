@@ -1,21 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:hoomo_pos/core/constants/network.dart';
-import 'package:hoomo_pos/core/network/dio_client.dart';
-import 'package:hoomo_pos/data/dtos/add_currency/add_currency_request.dart';
-import 'package:hoomo_pos/data/dtos/add_product/add_product_request.dart';
-import 'package:hoomo_pos/data/dtos/currency_dto.dart';
-import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
-import 'package:hoomo_pos/data/dtos/pos_manager_dto.dart';
-import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
-import 'package:hoomo_pos/data/dtos/product_dto.dart';
-import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/data/sources/app_database.dart';
-import 'package:hoomo_pos/data/sources/network/products/products_api.dart';
-import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
-import 'package:injectable/injectable.dart';
-
-import '../../../../core/exceptions/server_exception.dart';
+part of 'products_api.dart';
 
 @Injectable(as: ProductsApi)
 class ProductsApiImpl implements ProductsApi {
