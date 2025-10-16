@@ -199,7 +199,8 @@ class StockProductsScreen extends HookWidget {
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             if (selectedFilter.value == 'local') {
-                              context.searchBloc.add(value.isEmpty ? GetLocalProducts() : SearchTextChangedEvent(value));
+                              context.searchBloc
+                                  .add(value.isEmpty ? GetLocalProducts() : SearchTextChangedEvent(value));
                             } else {
                               context.searchBloc.add(value.isEmpty
                                   ? SearchRemoteTextChangedEvent('', stockId: stock.id)
@@ -303,35 +304,38 @@ class StockProductsScreen extends HookWidget {
                     ///
                     AppUtils.kGap12,
                     BlocBuilder<SearchBloc, SearchState>(
-                      builder: (context, state) => Expanded(
-                        child: state.status.isLoading && (state.products?.results ?? []).isEmpty
-                            ? const Center(child: CupertinoActivityIndicator())
-                            : (state.products?.results ?? []).isEmpty
-                                ? Center(child: Text(context.tr(Dictionary.not_found)))
-                                : BarcodeKeyboardListener(
-                                    onBarcodeScanned: (value) {
-                                      if (value.isEmpty) value = searchController.text;
-                                      searchController.clear();
-                                      searchController.text = value;
-                                      context.searchBloc.add(SearchRemoteTextChangedEvent(value, stockId: stock.id));
-                                    },
-                                    child: Material(
-                                      child: ListView.separated(
-                                        shrinkWrap: true,
-                                        controller: scrollController,
-                                        padding: AppUtils.kPaddingB12,
-                                        itemCount: state.products!.results.length,
-                                        separatorBuilder: (_, __) => AppUtils.kGap12,
-                                        itemBuilder: (context, index) => ProductItemWidget(
-                                          navigationKey: navigationKey,
-                                          product: state.products!.results.elementAt(index),
-                                          stock: stock,
-                                          organization: organization,
+                      builder: (context, state) {
+                        final products = state.products?.results ?? [];
+                        return Expanded(
+                          child: state.status.isLoading && products.isEmpty
+                              ? const Center(child: CupertinoActivityIndicator())
+                              : products.isEmpty
+                                  ? Center(child: Text(context.tr(Dictionary.not_found)))
+                                  : BarcodeKeyboardListener(
+                                      onBarcodeScanned: (value) {
+                                        if (value.isEmpty) value = searchController.text;
+                                        searchController.clear();
+                                        searchController.text = value;
+                                        context.searchBloc.add(SearchRemoteTextChangedEvent(value, stockId: stock.id));
+                                      },
+                                      child: Material(
+                                        child: ListView.separated(
+                                          shrinkWrap: true,
+                                          controller: scrollController,
+                                          padding: AppUtils.kPaddingB12,
+                                          itemCount: products.length,
+                                          separatorBuilder: (_, __) => AppUtils.kGap12,
+                                          itemBuilder: (context, index) => ProductItemWidget(
+                                            navigationKey: navigationKey,
+                                            product: products.elementAt(index),
+                                            stock: stock,
+                                            organization: organization,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
