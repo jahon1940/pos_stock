@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/app/router.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 import '../../../../../../../app/router.gr.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
@@ -181,39 +182,22 @@ class ProductItemWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
+              CustomSquareIconBtn(
+                Icons.edit,
                 onTap: () async => router.push(AddProductRoute(
                   product: product,
                   stock: stock,
                   organization: organization,
                 )),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary500,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                  ),
-                  child: const Icon(Icons.edit, color: Colors.white),
-                ),
               ),
-              GestureDetector(
+              CustomSquareIconBtn(
+                Icons.delete,
+                backgrounColor: AppColors.error500,
                 onTap: () async {
                   final res = await context.showCustomDialog(const DeleteProductWidget());
                   if (res == null) return;
                   context.searchBloc.add(DeleteProduct(product.id));
                 },
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.error500,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [const BoxShadow(color: AppColors.stroke, blurRadius: 3)],
-                  ),
-                  child: const Icon(Icons.delete, color: Colors.white),
-                ),
               ),
             ],
           ),
