@@ -196,8 +196,8 @@ class _CreateCategoryState extends State<CreateCategoryDialog> {
                       },
                       child: state.createCategoryStatus.isLoading
                           ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
-                          : const Text(
-                              'Создать категорию',
+                          : Text(
+                              category.isNotNull ? 'Обновить' : 'Создать',
                               style: AppTextStyles.boldType16,
                             ),
                     ),

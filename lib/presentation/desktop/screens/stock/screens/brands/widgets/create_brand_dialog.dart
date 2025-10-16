@@ -197,8 +197,8 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
                       },
                       child: state.createBrandStatus.isLoading
                           ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
-                          : const Text(
-                              'Создать бренд',
+                          : Text(
+                              brand.isNotNull ? 'Обновить' : 'Создать',
                               style: AppTextStyles.boldType16,
                             ),
                     ),

@@ -59,20 +59,20 @@ class CountryCubit extends Cubit<CountryState> {
   }
 
   Future<void> updateCountry({
-    required String cid,
+    required String countryCid,
     required String name,
     required String fullName,
   }) async {
     if (state.createCountryStatus.isLoading) return;
     emit(state.copyWith(createCountryStatus: StateStatus.loading));
     try {
-      // await _repo.updateBrand(
-      //   brandCid: brandCid,
-      //   data: {
-      //     'name': name,
-      //     if (deleteImage || base64.isNotNull) 'image': base64,
-      //   },
-      // );
+      await _repo.updateCountry(
+        countryCid: countryCid,
+        data: {
+          'name': name,
+          'full_name': fullName,
+        },
+      );
       final res = await _repo.getCountries();
       emit(state.copyWith(
         createCountryStatus: StateStatus.success,

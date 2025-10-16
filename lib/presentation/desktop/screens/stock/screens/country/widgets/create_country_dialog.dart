@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 
 import '../../../../../../../core/styles/colors.dart';
@@ -23,8 +24,8 @@ class CreateCountryDialog extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    final nameController = useTextEditingController();
-    final fullNameController = useTextEditingController();
+    final nameController = useTextEditingController(text: country?.name);
+    final fullNameController = useTextEditingController(text: country?.fullName);
     return AlertDialog(
       shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
       contentPadding: AppUtils.kPaddingAll24,
@@ -102,11 +103,11 @@ class CreateCountryDialog extends HookWidget {
                         return;
                       }
                       if ((country?.cid ?? '').isNotEmpty) {
-                        // context.countryBloc.updateCountry(
-                        //   cid: country!.cid!,
-                        //   name: nameController.text,
-                        //   fullName: fullNameController.text,
-                        // );
+                        context.countryBloc.updateCountry(
+                          countryCid: country!.cid!,
+                          name: nameController.text,
+                          fullName: fullNameController.text,
+                        );
                       } else {
                         context.countryBloc.createCountry(
                           name: nameController.text,
@@ -116,8 +117,8 @@ class CreateCountryDialog extends HookWidget {
                     },
                     child: state.createCountryStatus.isLoading
                         ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
-                        : const Text(
-                            'Создать',
+                        : Text(
+                            country.isNotNull ? 'Обновить' : 'Создать',
                             style: AppTextStyles.boldType16,
                           ),
                   ),
