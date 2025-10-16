@@ -317,17 +317,19 @@ class StockProductsScreen extends HookWidget {
                                       searchController.text = value;
                                       context.searchBloc.add(SearchRemoteTextChanged(value, stockId: stock.id));
                                     },
-                                    child: ListView.separated(
-                                      shrinkWrap: true,
-                                      controller: scrollController,
-                                      padding: AppUtils.kPaddingB12,
-                                      itemCount: state.products!.results.length,
-                                      separatorBuilder: (_, __) => AppUtils.kGap12,
-                                      itemBuilder: (context, index) => ProductItemWidget(
-                                        columnWidths: _columnWidths,
-                                        product: state.products!.results.elementAt(index),
-                                        stock: stock,
-                                        organization: organization,
+                                    child: Material(
+                                      child: ListView.separated(
+                                        shrinkWrap: true,
+                                        controller: scrollController,
+                                        padding: AppUtils.kPaddingB12,
+                                        itemCount: state.products!.results.length,
+                                        separatorBuilder: (_, __) => AppUtils.kGap12,
+                                        itemBuilder: (context, index) => ProductItemWidget(
+                                          columnWidths: _columnWidths,
+                                          product: state.products!.results.elementAt(index),
+                                          stock: stock,
+                                          organization: organization,
+                                        ),
                                       ),
                                     ),
                                   ),
