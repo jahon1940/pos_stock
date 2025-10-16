@@ -65,14 +65,14 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppUtils.kGap16,
+            /// title
             Text(
               'Фото продукта',
               style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
             ),
-            AppUtils.kGap20,
 
             /// image or pick image button
+            AppUtils.kGap20,
             if (_selectedItem.isNotNull)
               ClipRRect(
                 borderRadius: AppUtils.kBorderRadius12,
