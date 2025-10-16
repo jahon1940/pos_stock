@@ -89,11 +89,12 @@ class CountriesScreen extends StatelessWidget {
                       children: [
                         ///
                         TableTitleWidget(
-                          titles: ['ID', context.tr(Dictionary.name), 'Действия'],
+                          titles: ['ID', context.tr(Dictionary.name), 'Полное название', 'Действия'],
                           columnWidths: {
                             0: const FlexColumnWidth(2),
-                            1: const FlexColumnWidth(6),
-                            2: const FlexColumnWidth(2),
+                            1: const FlexColumnWidth(4),
+                            2: const FlexColumnWidth(6),
+                            3: const FlexColumnWidth(2),
                           },
                         ),
 

@@ -26,8 +26,9 @@ class CountryItemWidget extends StatelessWidget {
       TableProductItem(
         columnWidths: {
           0: const FlexColumnWidth(2),
-          1: const FlexColumnWidth(6),
-          2: const FlexColumnWidth(2),
+          1: const FlexColumnWidth(4),
+          2: const FlexColumnWidth(6),
+          3: const FlexColumnWidth(2),
         },
         onTap: () async {},
         children: [
@@ -36,6 +37,9 @@ class CountryItemWidget extends StatelessWidget {
           ),
           _item(
             child: Text(country.name ?? ''),
+          ),
+          _item(
+            child: Text(country.fullName ?? ''),
           ),
           _item(
             child: Row(
