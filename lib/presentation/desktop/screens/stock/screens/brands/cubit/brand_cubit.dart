@@ -50,12 +50,13 @@ class BrandCubit extends Cubit<BrandState> with ImageMixin {
       String? base64;
       if (imageFile.isNotNull) {
         base64 = await fileToBase64(imageFile!);
+        base64 = 'data:image/png;base64,$base64=';
       }
       await _repo.createBrand(
         CreateBrandRequest(
           cid: const Uuid().v4(),
           name: name,
-          image: base64 == null ? null : 'data:image/png;base64,$base64=',
+          image: base64,
         ),
       );
       final res = await _repo.getBrands();
