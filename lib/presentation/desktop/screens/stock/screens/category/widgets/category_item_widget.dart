@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/category/widgets/create_category_dialog.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/category/category_dto.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../../dialogs/confirm_dialog.dart';
+import '../../../../../dialogs/operation_result_dialog.dart';
 
 class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
@@ -42,7 +45,21 @@ class CategoryItemWidget extends StatelessWidget {
                 CustomSquareIconBtn(
                   Icons.edit,
                   backgrounColor: AppColors.primary500,
-                  onTap: () {},
+                  onTap: () => showDialog<bool?>(
+                    context: context,
+                    builder: (_) => CreateCategoryDialog(category: category),
+                  ).then((isSuccess) async {
+                    if (isSuccess.isNotNull) {
+                      await Future.delayed(Durations.medium1);
+                      await showDialog(
+                        context: context,
+                        builder: (context) => OperationResultDialog(
+                          label: isSuccess! ? 'Котегория обновлен' : null,
+                          isError: !isSuccess,
+                        ),
+                      );
+                    }
+                  }),
                 ),
                 CustomSquareIconBtn(
                   Icons.delete,
