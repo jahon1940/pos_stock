@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
@@ -22,6 +21,11 @@ class Details1C extends HookWidget {
   final ProductDto? product;
   final bool? isDialog;
 
+  OutlineInputBorder border(Color color) => OutlineInputBorder(
+        borderRadius: AppUtils.kBorderRadius8,
+        borderSide: BorderSide(color: color),
+      );
+
   @override
   Widget build(
     BuildContext context,
@@ -33,55 +37,48 @@ class Details1C extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Категория: ${product?.category?.name ?? ""}"),
-          AppSpace.vertical24,
+          /// title
+          Text(
+            'Категория: ${product?.category?.name ?? ''}',
+            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+          ),
+
+          ///
+          AppUtils.kGap20,
           BlocBuilder<CategoryBloc, CategoryState>(
             builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.all(3),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(13),
-                  ),
-                  child: DropdownMenu<int?>(
-                    width: 220,
-                    hintText: 'Выбор категории',
-                    textStyle: const TextStyle(fontSize: 11),
-                    controller: categoryController,
-                    onSelected: (value) {
-                      isDialog == true
-                          ? context.addProductBloc.selectCategory(value)
-                          : context.searchBloc.add(SelectCategory(id: value));
-                    },
-                    inputDecorationTheme: InputDecorationTheme(
-                      hintStyle: const TextStyle(fontSize: 11),
-                      isDense: true,
-                      constraints: BoxConstraints.tight(const Size.fromHeight(35)),
-                    ),
-                    dropdownMenuEntries: [
-                      const DropdownMenuEntry(
-                        value: null,
-                        label: 'Все категории',
-                      ),
-                      ...state.categories?.results
-                              .map(
-                                (e) => DropdownMenuEntry(value: e.id, label: e.name),
-                              )
-                              .toList() ??
-                          []
-                    ],
-                  ),
+              final categories = state.categories?.results ?? [];
+              return DropdownMenu<int?>(
+                width: 220,
+                hintText: 'Выбор категории',
+                textStyle: const TextStyle(fontSize: 11),
+                controller: categoryController,
+                onSelected: (value) {
+                  isDialog == true
+                      ? context.addProductBloc.selectCategory(value)
+                      : context.searchBloc.add(SelectCategory(id: value));
+                },
+                inputDecorationTheme: InputDecorationTheme(
+                  enabledBorder: border(Colors.grey.shade400),
+                  hintStyle: const TextStyle(fontSize: 11),
+                  isDense: true,
+                  constraints: BoxConstraints.tight(const Size.fromHeight(48)),
                 ),
+                dropdownMenuEntries: [
+                  const DropdownMenuEntry(
+                    value: null,
+                    label: 'Все категории',
+                  ),
+                  ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                ],
               );
             },
           ),
-          AppSpace.vertical24,
+
+          ///
+          AppUtils.kGap20,
           AppTextField(
-            prefix: Icon(
-              Icons.title,
-              color: context.primary,
-            ),
+            prefix: Icon(Icons.title, color: context.primary),
             fieldController: cubit.titleController,
             width: double.maxFinite,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -89,7 +86,9 @@ class Details1C extends HookWidget {
             alignLabelWithHint: true,
             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
           ),
-          AppSpace.vertical24,
+
+          ///
+          AppUtils.kGap20,
           Row(
             children: [
               GestureDetector(
@@ -109,7 +108,9 @@ class Details1C extends HookWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+
+              ///
+              AppUtils.kGap12,
               Expanded(
                 flex: 2,
                 child: AppTextField(
@@ -126,7 +127,8 @@ class Details1C extends HookWidget {
                 ),
               ),
 
-              AppSpace.horizontal12,
+              ///
+              AppUtils.kGap12,
               Expanded(
                 child: AppTextField(
                   prefix: Icon(
