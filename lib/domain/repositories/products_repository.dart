@@ -35,7 +35,7 @@ abstract class ProductsRepository {
 
   Future<ProductDto?> getProduct(int productId);
 
-  Future<void> addProduct(CreateProductRequest request);
+  Future<void> createProduct(CreateProductRequest request);
 
   Future<void> putProduct(CreateProductRequest request, int productId);
 

@@ -72,7 +72,7 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<void> addProduct(CreateProductRequest request) async {
+  Future<void> createProduct(CreateProductRequest request) async {
     try {
       final result = await _dioClient.postRequest(
         NetworkConstants.addProducts,

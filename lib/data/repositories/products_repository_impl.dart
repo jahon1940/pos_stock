@@ -121,9 +121,9 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
   }
 
   @override
-  Future<void> addProduct(CreateProductRequest request) async {
+  Future<void> createProduct(CreateProductRequest request) async {
     try {
-      return await _productsApi.addProduct(request);
+      return await _productsApi.createProduct(request);
     } catch (e) {
       rethrow;
     }

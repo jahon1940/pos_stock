@@ -209,7 +209,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       PosManagerDto posManagerDto = await _posManagerRepo.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
       CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
-      await _productRepo.addProduct(addProductRequest);
+      await _productRepo.createProduct(addProductRequest);
       emit(state.copyWith(createProductStatus: StateStatus.success));
       add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
     } catch (e) {
