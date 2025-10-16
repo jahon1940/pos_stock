@@ -30,9 +30,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
       _categoryApi.getCategoryId(categoryId);
 
   @override
-  Future<void> updateCategory(
-    String categoryId,
-    CreateCategoryRequest request,
-  ) async =>
-      _categoryApi.updateCategory(categoryId, request);
+  Future<void> updateCategory({
+    required String categoryCid,
+    required Map<String, dynamic> data,
+  }) async =>
+      _categoryApi.updateCategory(categoryCid: categoryCid, data: data);
 }

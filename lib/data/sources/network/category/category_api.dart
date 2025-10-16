@@ -15,7 +15,10 @@ abstract class CategoryApi {
 
   Future<void> createCategory(CreateCategoryRequest request);
 
-  Future<void> updateCategory(String categoryId, CreateCategoryRequest request);
+  Future<void> updateCategory({
+    required String categoryCid,
+    required Map<String, dynamic> data,
+  });
 
   Future<void> deleteCategory(String categoryId);
 }

@@ -106,14 +106,30 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> with ImageMixin {
     UpdateCategoryEvent event,
     Emitter<CategoryState> emit,
   ) async {
-    if (state.status.isLoading) return;
+    if (state.createCategoryStatus.isLoading) return;
+    emit(state.copyWith(createCategoryStatus: StateStatus.loading));
     try {
-      emit(state.copyWith(status: StateStatus.loading));
-      await _categoryRepository.updateCategory(event.id!, event.request);
-      add(const GetCategoryEvent());
+      String? base64;
+      if (event.imageFile.isNotNull) {
+        base64 = await fileToBase64(event.imageFile!);
+        base64 = 'data:image/png;base64,$base64=';
+      }
+      await _categoryRepository.updateCategory(
+        categoryCid: event.categoryCid,
+        data: {
+          'name': event.name,
+          if (event.deleteImage || base64.isNotNull) 'image': base64,
+        },
+      );
+      final res = await _categoryRepository.getCategory();
+      emit(state.copyWith(
+        createCategoryStatus: StateStatus.success,
+        categories: res,
+      ));
     } catch (e) {
-      debugPrint(e.toString());
+      emit(state.copyWith(createCategoryStatus: StateStatus.error));
     }
+    emit(state.copyWith(createCategoryStatus: StateStatus.initial));
   }
 
   Future<void> _deleteId(

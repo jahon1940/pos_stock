@@ -32,20 +32,18 @@ class CategoryApiImpl extends CategoryApi {
   }
 
   @override
-  Future<PaginatedDto<CategoryDto>?> getCategory() async {
-    final res = await _dioClient.getRequest(NetworkConstants.categoriesManagers,
+  Future<PaginatedDto<CategoryDto>?> getCategory() async => _dioClient.getRequest(
+        NetworkConstants.categoriesManagers,
         converter: (response) => PaginatedDto.fromJson(
-              response,
-              (json) => CategoryDto.fromJson(json),
-            ));
-    return res;
-  }
+          response,
+          (json) => CategoryDto.fromJson(json),
+        ),
+      );
 
   @override
-  Future<void> updateCategory(
-    String categoryId,
-    CreateCategoryRequest request,
-  ) async {
-    await _dioClient.putRequest('${NetworkConstants.categoriesManagers}/$categoryId', data: request.toJson());
-  }
+  Future<void> updateCategory({
+    required String categoryCid,
+    required Map<String, dynamic> data,
+  }) async =>
+      _dioClient.putRequest('${NetworkConstants.categoriesManagers}/$categoryCid', data: data);
 }

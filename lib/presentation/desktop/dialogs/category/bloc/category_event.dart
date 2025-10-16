@@ -27,13 +27,17 @@ class CreateCategoryEvent extends CategoryEvent {
 }
 
 class UpdateCategoryEvent extends CategoryEvent {
-  const UpdateCategoryEvent(
-    this.request,
-    this.id,
-  );
+  const UpdateCategoryEvent({
+    required this.categoryCid,
+    required this.name,
+    this.imageFile,
+    this.deleteImage = false,
+  });
 
-  final String? id;
-  final CreateCategoryRequest request;
+  final String categoryCid;
+  final String name;
+  final File? imageFile;
+  final bool deleteImage;
 }
 
 class DeleteCategoryIdEvent extends CategoryEvent {

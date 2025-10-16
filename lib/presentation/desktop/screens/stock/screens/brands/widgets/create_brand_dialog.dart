@@ -46,7 +46,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
   }
 
   bool get _hasChanges =>
-      (_nameController.text.isNotEmpty && _nameController.text != brand?.name) ||
+      (_nameController.text.trim().isNotEmpty && _nameController.text != brand?.name) ||
       _imageFile.isNotNull ||
       _hasImage == false;
 

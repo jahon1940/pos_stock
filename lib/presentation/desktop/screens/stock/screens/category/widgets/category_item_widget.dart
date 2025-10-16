@@ -42,6 +42,12 @@ class CategoryItemWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // for testing
+                // Container(
+                //   height: 40,
+                //   width: 40,
+                //   child: category.image.isEmpty ? null : Image.network(category.imageLink),
+                // ),
                 CustomSquareIconBtn(
                   Icons.edit,
                   backgrounColor: AppColors.primary500,
