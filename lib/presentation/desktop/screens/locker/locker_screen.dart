@@ -49,7 +49,7 @@ class _LockerScreenState extends State<LockerScreen> {
         });
       } else {
         if (_firstPin == pin) {
-                    context.read<UserCubit>().init();
+          context.read<UserCubit>().init();
 
           await userDataService.setPinCode(pin);
           widget.onResult?.call();
@@ -59,19 +59,19 @@ class _LockerScreenState extends State<LockerScreen> {
             _firstPin = null;
           });
           messanger.showSnackBar(
-            SnackBar(content: Text('Коды не совпадают, попробуйте снова')),
+            const SnackBar(content: Text('Коды не совпадают, попробуйте снова')),
           );
         }
       }
     } else {
-      String pinCode = await userDataService.getPinCode() ?? "1234";
+      String pinCode = await userDataService.getPinCode() ?? '1234';
       if (pin == pinCode) {
         context.read<UserCubit>().init();
 
         widget.onResult?.call();
       } else {
         messanger.showSnackBar(
-          SnackBar(content: Text('Неверный PIN-код')),
+          const SnackBar(content: Text('Неверный PIN-код')),
         );
       }
     }
@@ -84,7 +84,7 @@ class _LockerScreenState extends State<LockerScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isFirstAuth == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(child: CircularProgressIndicator()), // Показываем загрузку
       );
     }
@@ -95,26 +95,20 @@ class _LockerScreenState extends State<LockerScreen> {
       backgroundColor: themeData.cardColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 300, maxWidth: 600),
+          constraints: const BoxConstraints(minWidth: 300, maxWidth: 600),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                  width: 150,
-                  height: 80,
-                  child: Image.asset('assets/images/logo.png')),
-              SizedBox(height: 24),
+              SizedBox(width: 150, height: 80, child: Image.asset('assets/images/logo.png')),
+              const SizedBox(height: 24),
               Text(
                 _isFirstAuth!
-                    ? (_isConfirming
-                        ? context.tr('confirm_pin')
-                        : context.tr('create_pin'))
+                    ? (_isConfirming ? context.tr('confirm_pin') : context.tr('create_pin'))
                     : context.tr('enter_pin'),
                 style: AppTextStyles.semiType32,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               PinInputWidget(onResult: _onPinEntered),
             ],
           ),

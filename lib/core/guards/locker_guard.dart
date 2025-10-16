@@ -7,23 +7,26 @@ class LockerGuard extends AutoRouteGuard {
   final userDataService = getIt<UserDataService>();
 
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+  void onNavigation(
+    NavigationResolver resolver,
+    StackRouter router,
+  ) async {
     final isUnlocked = userDataService.unlocked.value;
     bool isFirstAuth = userDataService.isFirstAuth.value;
     final bool hasPin = await userDataService.getPinCode() != null;
 
-    if(!hasPin) {
+    if (!hasPin) {
       isFirstAuth = true;
     }
 
     if (isUnlocked) {
       resolver.next();
     } else {
-      resolver.redirect(
+      await resolver.redirect(
         LockerRoute(
           onResult: () {
             userDataService.setUnlocked(true);
-            resolver.next(true);
+            resolver.next();
           },
           isFirstAuth: isFirstAuth,
         ),
