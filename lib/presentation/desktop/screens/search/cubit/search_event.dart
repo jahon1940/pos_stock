@@ -25,13 +25,9 @@ class SearchRemoteTextChanged extends SearchEvent {
 }
 
 class AddProductEvent extends SearchEvent {
-  AddProductEvent(
-    this.addProductRequest,
-    this.context,
-  );
+  AddProductEvent(this.addProductRequest);
 
   final AddProductRequest addProductRequest;
-  final BuildContext context;
 }
 
 class PutProduct extends SearchEvent {

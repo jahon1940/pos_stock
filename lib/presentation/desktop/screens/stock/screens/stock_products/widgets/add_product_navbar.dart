@@ -64,7 +64,6 @@ class AddProductNavbar extends StatelessWidget {
                             price: cubit.sellController.text,
                             categoryId: cubit.state.categoryId,
                           ),
-                          context,
                         ),
                       );
                     } else {
