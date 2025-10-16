@@ -15,10 +15,10 @@ import 'package:hoomo_pos/domain/services/formatter_service.dart';
 import 'package:injectable/injectable.dart' show Injectable;
 import 'package:intl/intl.dart' show DateFormat;
 
-import '../../../domain/repositories/pos_manager_repository.dart';
-import '../../dtos/create_reserve_dto.dart';
-import '../../dtos/pagination_dto.dart';
-import '../../dtos/receipts/receipts_search.dart';
+import '../../../../domain/repositories/pos_manager_repository.dart';
+import '../../../dtos/create_reserve_dto.dart';
+import '../../../dtos/pagination_dto.dart';
+import '../../../dtos/receipts/receipts_search.dart';
 
 part 'receipt_api.impl.dart';
 
