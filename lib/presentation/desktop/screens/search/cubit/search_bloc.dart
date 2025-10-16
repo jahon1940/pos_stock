@@ -10,7 +10,6 @@ import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
 import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
 import 'package:hoomo_pos/domain/repositories/products.dart';
-import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -18,7 +17,9 @@ import '../../../../../data/dtos/add_currency/add_currency_request.dart';
 import '../../../../../data/dtos/add_product/add_product_request.dart';
 
 part 'search_state.dart';
+
 part 'search_event.dart';
+
 part 'search_bloc.freezed.dart';
 
 @injectable
@@ -26,11 +27,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductsRepository _searchProducts;
   final PosManagerRepository _posManagerRepository;
 
-  SearchBloc(this._searchProducts, this._posManagerRepository)
-      : super(SearchState()) {
+  SearchBloc(
+    this._searchProducts,
+    this._posManagerRepository,
+  ) : super(const SearchState()) {
     on<SearchTextChanged>(onSearchTextChanged, transformer: _debounce());
-    on<SearchRemoteTextChanged>(_onSearchRemoteTextChanged,
-        transformer: _debounce());
+    on<SearchRemoteTextChanged>(_onSearchRemoteTextChanged, transformer: _debounce());
     on<GetLocalProducts>(_onGetLocalProducts);
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<NullRemoteProducts>(_nullRemoteProducts);
@@ -47,18 +49,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   EventTransformer<T> _debounce<T>() {
-    return (events, mapper) => events
-        .debounceTime(const Duration(milliseconds: 300))
-        .switchMap(mapper);
+    return (events, mapper) => events.debounceTime(const Duration(milliseconds: 300)).switchMap(mapper);
   }
 
   Future<void> onSearchTextChanged(
-      SearchTextChanged event, Emitter<SearchState> emit) async {
+    SearchTextChanged event,
+    Emitter<SearchState> emit,
+  ) async {
     if (state.status == StateStatus.loading) return;
 
     var value = event.value;
-    var request = state.request?.copyWith(title: value) ??
-        SearchRequest(title: value, page: 1);
+    var request = state.request?.copyWith(title: value) ?? SearchRequest(title: value, page: 1);
 
     if (state.products != null && value.isEmpty) {
       request = request.copyWith(page: request.page! + 1);
@@ -72,10 +73,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final res = await _searchProducts.search(request, null);
       emit(state.copyWith(
         status: StateStatus.loaded,
-        products: request.page == 1
-            ? res
-            : state.products!.copyWith(
-                results: [...state.products!.results, ...res.results]),
+        products:
+            request.page == 1 ? res : state.products!.copyWith(results: [...state.products!.results, ...res.results]),
         request: request,
       ));
     } catch (e) {
@@ -84,7 +83,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onSearchRemoteTextChanged(
-      SearchRemoteTextChanged event, Emitter<SearchState> emit) async {
+    SearchRemoteTextChanged event,
+    Emitter<SearchState> emit,
+  ) async {
     var value = event.value;
     var request = SearchRequest(
       title: value,
@@ -102,10 +103,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final res = await _searchProducts.searchRemote(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
-        products: request.page == 1
-            ? res
-            : state.products!.copyWith(
-                results: [...state.products!.results, ...res.results]),
+        products:
+            request.page == 1 ? res : state.products!.copyWith(results: [...state.products!.results, ...res.results]),
         request: request,
       ));
     } catch (e) {
@@ -114,7 +113,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onGetLocalProducts(
-      GetLocalProducts event, Emitter<SearchState> emit) async {
+    GetLocalProducts event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       final res = await _searchProducts.getLocalProducts(1);
@@ -125,7 +126,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> onGetRemoteProducts(
-      GetRemoteProducts event, Emitter<SearchState> emit) async {
+    GetRemoteProducts event,
+    Emitter<SearchState> emit,
+  ) async {
     try {
       emit(
         state.copyWith(
@@ -148,7 +151,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _nullRemoteProducts(
-      NullRemoteProducts event, Emitter<SearchState> emit) async {
+    NullRemoteProducts event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       Future.delayed(const Duration(seconds: 5), () async {
@@ -171,7 +176,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onLoadMore(
-      LoadMoreSearch event, Emitter<SearchState> emit) async {
+    LoadMoreSearch event,
+    Emitter<SearchState> emit,
+  ) async {
     if (state.status == StateStatus.loadingMore) return;
 
     try {
@@ -179,9 +186,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final data = state.products?.results ?? [];
       final nextPage = (state.products?.pageNumber ?? 0) + 1;
       final res = event.remote
-          ? await _searchProducts.searchRemote(
-              state.request?.copyWith(page: nextPage) ??
-                  SearchRequest(title: '', page: 1))
+          ? await _searchProducts
+              .searchRemote(state.request?.copyWith(page: nextPage) ?? SearchRequest(title: '', page: 1))
           : await _searchProducts.getLocalProducts(nextPage);
 
       emit(state.copyWith(
@@ -194,41 +200,35 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _addProductRequest(
-      AddProduct event, Emitter<SearchState> emit) async {
+    AddProduct event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
-
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
-
-      AddProductRequest addProductRequest =
-          event.addProductRequest.copyWith(stockId: stockId);
-
+      AddProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
       await _searchProducts.addProduct(addProductRequest);
-      add(SearchRemoteTextChanged(state.request?.title ?? '',
-          stockId: stockId, clearPrevious: true));
+      add(SearchRemoteTextChanged(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
     } catch (e) {
       debugPrint(e.toString());
     }
-
     emit(state.copyWith(status: StateStatus.success));
   }
 
   Future<void> _putProductRequest(
-      PutProduct event, Emitter<SearchState> emit) async {
+    PutProduct event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
 
-      AddProductRequest putProductRequest =
-          event.putProductRequest.copyWith(stockId: stockId);
+      AddProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
       await _searchProducts.putProduct(putProductRequest, event.productId);
-      // Показываем диалог
-      add(SearchRemoteTextChanged(state.request?.title ?? '',
-          stockId: stockId, clearPrevious: true));
-
+      add(SearchRemoteTextChanged(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
       Navigator.pop(event.context);
     } catch (e) {
       debugPrint(e.toString());
@@ -238,7 +238,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _deleteProduct(
-      DeleteProduct event, Emitter<SearchState> emit) async {
+    DeleteProduct event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
@@ -251,9 +253,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _addCurrencyRequest(
-      AddCurrency event, Emitter<SearchState> emit) async {
+    AddCurrency event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
-
     try {
       await _searchProducts.updateCurrency(event.addCurrencyRequest);
     } catch (e) {
@@ -262,9 +265,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _exportProducts(
-      ExportProducts event, Emitter<SearchState> emit) async {
+    ExportProducts event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
-
     try {
       await _searchProducts.exportProduct();
     } catch (e) {
@@ -274,12 +278,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _exportInventoryProducts(
-      ExportInventoryProducts event, Emitter<SearchState> emit) async {
+    ExportInventoryProducts event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
-    print("----------------------${state.request?.categoryId}");
     try {
-      await _searchProducts.exportInventoryProducts(event.id!,
-          categoryId: state.request?.categoryId);
+      await _searchProducts.exportInventoryProducts(event.id!, categoryId: state.request?.categoryId);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -287,12 +291,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _exportProductPrice(
-      ExportProductPrice event, Emitter<SearchState> emit) async {
+    ExportProductPrice event,
+    Emitter<SearchState> emit,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
-    print("----------------------${state.request?.categoryId}");
     try {
       await _searchProducts.exportProductPrice(
-          productId: event.productId!, quantity: event.quantity!);
+        productId: event.productId!,
+        quantity: event.quantity!,
+      );
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -300,20 +307,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onSelectSupplier(
-      SelectSupplier event, Emitter<SearchState> emit) {
+    SelectSupplier event,
+    Emitter<SearchState> emit,
+  ) {
     emit(state.copyWith(status: StateStatus.loading));
-    emit(
-        state.copyWith(request: state.request?.copyWith(supplierId: event.id)));
+    emit(state.copyWith(request: state.request?.copyWith(supplierId: event.id)));
     emit(state.copyWith(status: StateStatus.loaded));
   }
 
   FutureOr<void> _onSelectCategory(
-      SelectCategory event, Emitter<SearchState> emit) {
+    SelectCategory event,
+    Emitter<SearchState> emit,
+  ) {
     emit(state.copyWith(status: StateStatus.loading));
-    emit(
-        state.copyWith(request: state.request?.copyWith(categoryId: event.id)));
+    emit(state.copyWith(request: state.request?.copyWith(categoryId: event.id)));
     emit(state.copyWith(status: StateStatus.loaded));
-
-    print("----------------------${state.request?.categoryId}");
   }
 }
