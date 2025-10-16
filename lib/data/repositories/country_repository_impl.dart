@@ -16,4 +16,11 @@ class CountryRepositoryImpl implements CountryRepository {
     required Map<String, dynamic> data,
   }) =>
       _api.createCountry(data: data);
+
+  @override
+  Future<void> updateCountry({
+    required Map<String, dynamic> data,
+    required String countryCid,
+  }) =>
+      _api.updateCountry(data: data, countryCid: countryCid);
 }

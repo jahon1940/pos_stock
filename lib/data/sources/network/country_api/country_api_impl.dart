@@ -22,4 +22,11 @@ class CountryApiImpl implements CountryApi {
     required Map<String, dynamic> data,
   }) async =>
       _dioClient.postRequest(NetworkConstants.countryManagers, data: data);
+
+  @override
+  Future<void> updateCountry({
+    required Map<String, dynamic> data,
+    required String countryCid,
+  }) async =>
+      _dioClient.putRequest('${NetworkConstants.countryManagers}/$countryCid', data: data);
 }

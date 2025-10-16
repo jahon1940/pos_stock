@@ -12,4 +12,9 @@ abstract class CountryRepository {
   Future<void> createCountry({
     required Map<String, dynamic> data,
   });
+
+  Future<void> updateCountry({
+    required Map<String, dynamic> data,
+    required String countryCid,
+  });
 }
