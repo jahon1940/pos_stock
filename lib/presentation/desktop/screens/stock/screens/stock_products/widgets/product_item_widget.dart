@@ -46,7 +46,7 @@ class ProductItemWidget extends StatelessWidget {
         builder: (context) => ProductDetailDialog(productDto: product),
       ),
       children: [
-        ///
+        /// name and vendor code
         _item(
           Row(
             children: [
@@ -77,7 +77,7 @@ class ProductItemWidget extends StatelessWidget {
           ),
         ),
 
-        ///
+        /// category name
         _item(
           Text(
             product.category?.name ?? '',
@@ -86,7 +86,7 @@ class ProductItemWidget extends StatelessWidget {
           ),
         ),
 
-        ///
+        /// supplier name
         _item(
           Text(
             product.supplier?.name ?? '',
@@ -95,7 +95,7 @@ class ProductItemWidget extends StatelessWidget {
           ),
         ),
 
-        ///
+        /// quantity
         _item(
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +115,7 @@ class ProductItemWidget extends StatelessWidget {
           ),
         ),
 
-        ///
+        /// purchase price
         _item(
           SizedBox(
             child: product.price == null
@@ -144,7 +144,7 @@ class ProductItemWidget extends StatelessWidget {
           ),
         ),
 
-        ///
+        /// price
         _item(
           SizedBox(
             child: product.price == null
