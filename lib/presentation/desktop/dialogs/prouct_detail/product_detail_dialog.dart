@@ -7,6 +7,7 @@ import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
+import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/prouct_detail/cubit/product_detail_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/prouct_detail/tabs/product_info.dart';
@@ -14,7 +15,10 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/prouct_detail/tabs/quanti
 import 'package:hoomo_pos/presentation/desktop/dialogs/prouct_detail/tabs/update_barcode.dart';
 
 class ProductDetailDialog extends HookWidget {
-  const ProductDetailDialog({super.key, required this.productDto});
+  const ProductDetailDialog({
+    super.key,
+    required this.productDto,
+  });
 
   final ProductDto productDto;
 
@@ -71,22 +75,15 @@ class ProductDetailDialog extends HookWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: AppColors.error100,
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        style: IconButton.styleFrom(overlayColor: AppColors.error500),
-                                        icon: const Icon(Icons.close, color: AppColors.error600),
-                                      ),
-                                    ),
+
+                                  /// close button
+                                  CustomSquareIconBtn(
+                                    size: 50,
+                                    Icons.close,
+                                    backgrounColor: AppColors.error100,
+                                    darkenColors: true,
+                                    onTap: context.pop,
+                                    iconColor: AppColors.error600,
                                   ),
                                 ],
                               )

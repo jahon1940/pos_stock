@@ -49,9 +49,7 @@ class ProductItemWidget extends StatelessWidget {
       },
       onTap: () => showDialog(
         context: context,
-        builder: (context) => Center(
-          child: ProductDetailDialog(productDto: product),
-        ),
+        builder: (context) => ProductDetailDialog(productDto: product),
       ),
       children: [
         ///
