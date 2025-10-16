@@ -6,6 +6,14 @@ class CountryApiImpl implements CountryApi {
     required DioClient dioClient,
   }) : _dioClient = dioClient;
 
-  // ignore: unused_field
   final DioClient _dioClient;
+
+  @override
+  Future<PaginatedDto<CountryDto>?> getCountries() async => _dioClient.getRequest(
+        NetworkConstants.countryManagers,
+        converter: (response) => PaginatedDto.fromJson(
+          response,
+          (json) => CountryDto.fromJson(json),
+        ),
+      );
 }

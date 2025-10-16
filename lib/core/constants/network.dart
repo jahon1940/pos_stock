@@ -24,6 +24,7 @@ class NetworkConstants {
   static String get companyBonuses => '$apiUrl/company-bonuses';
   static String get categoriesManagers => '$apiManagerUrl/categories';
   static String get brandsManagers => '$apiManagerUrl/brands';
+  static String get countryManagers => '$apiManagerUrl/countries';
   static String get addSuppliers => '$apiManagerUrl/suppliers';
   static String get addManagers => '$apiManagerUrl/managers';
   static String get addSupplies => '$apiManagerUrl/supplies';
