@@ -7,25 +7,26 @@ import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
+import 'package:hoomo_pos/data/dtos/category/category_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_square_icon_btn.dart';
-import '../../../../../../../data/dtos/product_param_dto.dart';
 
 class CreateCategoryDialog extends StatefulWidget {
   const CreateCategoryDialog({
     super.key,
-    this.categoryDto,
+    this.category,
   });
 
-  final ProductParamDto? categoryDto;
+  final CategoryDto? category;
 
   @override
   State<CreateCategoryDialog> createState() => _CreateCategoryState();
 }
 
 class _CreateCategoryState extends State<CreateCategoryDialog> {
+  CategoryDto? get category => widget.category;
   File? _imageFile;
 
   @override
