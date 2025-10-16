@@ -7,6 +7,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
+import 'package:provider/provider.dart' show Provider;
 
 import '../../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../../core/styles/colors.dart';
@@ -26,9 +27,9 @@ class CountriesScreen extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) =>
-      BlocProvider(
+      Provider(
         create: (context) => getIt<CountryCubit>()..getCountries(),
-        child: Scaffold(
+        builder: (blocContext, _) => Scaffold(
           body: Padding(
             padding: AppUtils.kPaddingAll10,
             child: Column(
@@ -54,10 +55,14 @@ class CountriesScreen extends StatelessWidget {
                         ),
                         onPressed: () => showDialog<bool?>(
                           context: context,
-                          builder: (_) => const Center(child: CreateCountryDialog()),
-                        ).then((isSuccess) {
+                          builder: (_) => BlocProvider.value(
+                            value: blocContext.countryBloc,
+                            child: const CreateCountryDialog(),
+                          ),
+                        ).then((isSuccess) async {
                           if (isSuccess.isNotNull) {
-                            showDialog(
+                            await Future.delayed(Durations.medium1);
+                            await showDialog(
                               context: context,
                               builder: (context) => OperationResultDialog(
                                 label: isSuccess! ? 'Страна производства создан' : null,

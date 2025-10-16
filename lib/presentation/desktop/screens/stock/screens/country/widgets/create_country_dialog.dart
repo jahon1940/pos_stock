@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
@@ -6,17 +8,23 @@ import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../core/widgets/text_field.dart';
+import '../../../../../../../data/dtos/country/country_dto.dart';
+import '../cubit/country_cubit.dart';
 
-class CreateCountryDialog extends StatelessWidget {
+class CreateCountryDialog extends HookWidget {
   const CreateCountryDialog({
     super.key,
+    this.country,
   });
+
+  final CountryDto? country;
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    final nameController = TextEditingController();
+    final nameController = useTextEditingController();
+    final fullNameController = useTextEditingController();
     return AlertDialog(
       shape: const RoundedRectangleBorder(borderRadius: AppUtils.kBorderRadius12),
       contentPadding: AppUtils.kPaddingAll24,
@@ -62,20 +70,56 @@ class CreateCountryDialog extends StatelessWidget {
                   fieldController: nameController,
                 ),
 
+                ///
+                AppUtils.kGap24,
+                AppTextField(
+                  label: 'Полное название',
+                  enabledBorderWith: 1,
+                  enabledBorderColor: AppColors.stroke,
+                  focusedBorderColor: AppColors.stroke,
+                  focusedBorderWith: 1,
+                  fieldController: fullNameController,
+                ),
+
                 /// button
                 AppUtils.kGap24,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary800,
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: () {
-                    /// todo implement create event
-                    context.pop(context);
+                BlocConsumer<CountryCubit, CountryState>(
+                  listenWhen: (p, c) => p.createCountryStatus != c.createCountryStatus,
+                  listener: (_, state) {
+                    if (state.createCountryStatus.isSuccess || state.createCountryStatus.isError) {
+                      context.pop(state.createCountryStatus.isSuccess);
+                    }
                   },
-                  child: const Text(
-                    'Создать',
-                    style: AppTextStyles.boldType16,
+                  buildWhen: (p, c) => p.createCountryStatus != c.createCountryStatus,
+                  builder: (context, state) => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary800,
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      if (nameController.text == country?.name && fullNameController.text == country?.fullName) {
+                        context.pop();
+                        return;
+                      }
+                      if ((country?.cid ?? '').isNotEmpty) {
+                        // context.countryBloc.updateCountry(
+                        //   cid: country!.cid!,
+                        //   name: nameController.text,
+                        //   fullName: fullNameController.text,
+                        // );
+                      } else {
+                        context.countryBloc.createCountry(
+                          name: nameController.text,
+                          fullName: fullNameController.text,
+                        );
+                      }
+                    },
+                    child: state.createCountryStatus.isLoading
+                        ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
+                        : const Text(
+                            'Создать',
+                            style: AppTextStyles.boldType16,
+                          ),
                   ),
                 ),
               ],
