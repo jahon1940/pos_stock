@@ -16,13 +16,11 @@ import '../../../widgets/delete_product_widget.dart';
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
     super.key,
-    required this.columnWidths,
     required this.product,
     required this.stock,
     required this.organization,
   });
 
-  final Map<int, TableColumnWidth>? columnWidths;
   final ProductDto product;
   final StockDto stock;
   final CompanyDto organization;
@@ -38,7 +36,15 @@ class ProductItemWidget extends StatelessWidget {
       decimalDigits: 0,
     );
     return TableProductItem(
-      columnWidths: columnWidths,
+      columnWidths: {
+        0: const FlexColumnWidth(6),
+        1: const FlexColumnWidth(4),
+        2: const FlexColumnWidth(3),
+        3: const FlexColumnWidth(3),
+        4: const FlexColumnWidth(3),
+        5: const FlexColumnWidth(3),
+        6: const FlexColumnWidth(3),
+      },
       onTap: () => showDialog(
         context: context,
         builder: (context) => Center(

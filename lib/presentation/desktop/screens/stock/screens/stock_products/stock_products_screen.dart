@@ -36,16 +36,6 @@ class StockProductsScreen extends HookWidget {
   final StockDto stock;
   final CompanyDto organization;
 
-  static const _columnWidths = {
-    0: FlexColumnWidth(6),
-    1: FlexColumnWidth(4),
-    2: FlexColumnWidth(3),
-    3: FlexColumnWidth(3),
-    4: FlexColumnWidth(3),
-    5: FlexColumnWidth(3),
-    6: FlexColumnWidth(3),
-  };
-
   @override
   Widget build(
     BuildContext context,
@@ -290,7 +280,15 @@ class StockProductsScreen extends HookWidget {
                 child: Column(
                   children: [
                     TableTitleWidget(
-                      columnWidths: _columnWidths,
+                      columnWidths: {
+                        0: const FlexColumnWidth(6),
+                        1: const FlexColumnWidth(4),
+                        2: const FlexColumnWidth(3),
+                        3: const FlexColumnWidth(3),
+                        4: const FlexColumnWidth(3),
+                        5: const FlexColumnWidth(3),
+                        6: const FlexColumnWidth(3),
+                      },
                       titles: [
                         '${context.tr("name")}/${context.tr("article")}',
                         'Категория',
@@ -325,7 +323,6 @@ class StockProductsScreen extends HookWidget {
                                         itemCount: state.products!.results.length,
                                         separatorBuilder: (_, __) => AppUtils.kGap12,
                                         itemBuilder: (context, index) => ProductItemWidget(
-                                          columnWidths: _columnWidths,
                                           product: state.products!.results.elementAt(index),
                                           stock: stock,
                                           organization: organization,
