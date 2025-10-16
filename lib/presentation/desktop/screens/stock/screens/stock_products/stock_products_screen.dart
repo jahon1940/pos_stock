@@ -328,8 +328,6 @@ class StockProductsScreen extends HookWidget {
                                           itemBuilder: (context, index) => ProductItemWidget(
                                             navigationKey: navigationKey,
                                             product: products.elementAt(index),
-                                            stock: stock,
-                                            organization: organization,
                                           ),
                                         ),
                                       ),
@@ -352,11 +350,7 @@ class StockProductsScreen extends HookWidget {
   ]) =>
       navigationKey.currentState!.push(
         MaterialPageRoute(
-          builder: (_) => AddProductScreen(
-            stock: stock,
-            organization: organization,
-            product: product,
-          ),
+          builder: (_) => AddProductScreen(product: product),
         ),
       );
 }

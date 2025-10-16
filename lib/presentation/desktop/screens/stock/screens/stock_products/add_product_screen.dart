@@ -7,8 +7,6 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../../../data/dtos/company/company_dto.dart';
-import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
@@ -22,14 +20,10 @@ import 'widgets/product_images_widget.dart';
 class AddProductScreen extends HookWidget {
   const AddProductScreen({
     super.key,
-    this.stock,
-    this.organization,
     this.product,
     this.isDialog = false,
   });
 
-  final StockDto? stock;
-  final CompanyDto? organization;
   final ProductDto? product;
   final bool isDialog;
 

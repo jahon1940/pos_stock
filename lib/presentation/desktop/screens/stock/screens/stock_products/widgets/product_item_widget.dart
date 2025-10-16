@@ -5,9 +5,7 @@ import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
-import '../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
-import '../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../../search/cubit/search_bloc.dart';
 import '../../../widgets/delete_product_widget.dart';
@@ -18,14 +16,10 @@ class ProductItemWidget extends StatelessWidget {
     super.key,
     required this.navigationKey,
     required this.product,
-    required this.stock,
-    required this.organization,
   });
 
   final GlobalKey<NavigatorState> navigationKey;
   final ProductDto product;
-  final StockDto stock;
-  final CompanyDto organization;
 
   @override
   Widget build(
@@ -217,11 +211,7 @@ class ProductItemWidget extends StatelessWidget {
   ) =>
       navigationKey.currentState!.push(
         MaterialPageRoute(
-          builder: (_) => AddProductScreen(
-            stock: stock,
-            organization: organization,
-            product: product,
-          ),
+          builder: (_) => AddProductScreen(product: product),
         ),
       );
 }
