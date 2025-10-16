@@ -54,19 +54,21 @@ class OrganizationScreen extends HookWidget {
                               ? const Center(child: CupertinoActivityIndicator())
                               : state.organizations.isEmpty
                                   ? Center(child: Text(context.tr(Dictionary.not_found)))
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: AppUtils.kPaddingB12,
-                                      itemCount: state.organizations.length,
-                                      separatorBuilder: (_, __) => AppUtils.kGap12,
-                                      itemBuilder: (context, i) {
-                                        final organization = state.organizations.elementAt(i);
-                                        return TableItemWidget(
-                                          leadingLabel: organization.id.toString(),
-                                          bodyLabel: organization.name ?? '',
-                                          onTap: () => router.push(StocksRoute(organization: organization)),
-                                        );
-                                      },
+                                  : Material(
+                                      child: ListView.separated(
+                                        shrinkWrap: true,
+                                        padding: AppUtils.kPaddingB12,
+                                        itemCount: state.organizations.length,
+                                        separatorBuilder: (_, __) => AppUtils.kGap12,
+                                        itemBuilder: (context, i) {
+                                          final organization = state.organizations.elementAt(i);
+                                          return TableItemWidget(
+                                            leadingLabel: organization.id.toString(),
+                                            bodyLabel: organization.name ?? '',
+                                            onTap: () => router.push(StocksRoute(organization: organization)),
+                                          );
+                                        },
+                                      ),
                                     ),
                         ),
                       ),
