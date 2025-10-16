@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
+import 'package:hoomo_pos/presentation/desktop/dialogs/confirm_dialog.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../../search/cubit/search_bloc.dart';
-import '../../../widgets/delete_product_widget.dart';
 import '../add_product_screen.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -183,11 +183,16 @@ class ProductItemWidget extends StatelessWidget {
               CustomSquareIconBtn(
                 Icons.delete,
                 backgrounColor: AppColors.error500,
-                onTap: () async {
-                  final res = await context.showCustomDialog(const DeleteProductWidget());
-                  if (res == null) return;
-                  context.searchBloc.add(DeleteProductEvent(product.id));
-                },
+                onTap: () async => showDialog(
+                  context: context,
+                  builder: (dialocContext) => ConfirmDialog(
+                    label: 'Вы действительно хотите удалить?',
+                    onConfirm: () {
+                      dialocContext.pop();
+                      context.searchBloc.add(DeleteProductEvent(product.id));
+                    },
+                  ),
+                ),
               ),
             ],
           ),
