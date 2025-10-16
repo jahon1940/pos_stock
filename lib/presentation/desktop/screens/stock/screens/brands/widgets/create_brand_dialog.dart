@@ -27,9 +27,8 @@ class CreateBrandDialog extends StatefulWidget {
 }
 
 class _CreateBrandDialogState extends State<CreateBrandDialog> {
-  bool? _hasImage;
-
   BrandDto? get brand => widget.brand;
+  bool? _hasImage;
   File? _imageFile;
   late final TextEditingController _nameController;
 
