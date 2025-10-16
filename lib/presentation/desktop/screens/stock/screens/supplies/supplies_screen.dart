@@ -99,43 +99,43 @@ class SuppliesScreen extends HookWidget {
                     ///
                     AppUtils.kGap6,
                     BlocBuilder<SupplierCubit, SupplierState>(
-                      builder: (context, state) => Container(
-                        height: 48,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: AppUtils.kBorderRadius12,
-                        ),
-                        child: DropdownMenu<int?>(
-                          width: 220,
-                          hintText: 'Выбор поставщика',
-                          textStyle: const TextStyle(fontSize: 11),
-                          controller: supplierController,
-                          onSelected: (value) => context
-                            ..searchBloc.add(SelectSupplier(id: value))
-                            ..supplyBloc.selectedSupplier(value),
-                          inputDecorationTheme: InputDecorationTheme(
-                            hintStyle: const TextStyle(fontSize: 11),
-                            isDense: true,
-                            constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                      builder: (context, state) {
+                        final suppliers = state.suppliers ?? [];
+                        return Container(
+                          height: 48,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: AppUtils.kBorderRadius12,
                           ),
-                          dropdownMenuEntries: [
-                            const DropdownMenuEntry(
-                              value: null,
-                              label: 'Все поставщики',
+                          child: DropdownMenu<int?>(
+                            width: 220,
+                            hintText: 'Выбор поставщика',
+                            textStyle: const TextStyle(fontSize: 11),
+                            controller: supplierController,
+                            onSelected: (value) => context
+                              ..searchBloc.add(SelectSupplier(id: value))
+                              ..supplyBloc.selectedSupplier(value),
+                            inputDecorationTheme: InputDecorationTheme(
+                              hintStyle: const TextStyle(fontSize: 11),
+                              isDense: true,
+                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
                             ),
-                            ...state.suppliers
-                                    ?.map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.id,
-                                        label: e.name ?? e.inn ?? e.phoneNumber ?? '',
-                                      ),
-                                    )
-                                    .toList() ??
-                                []
-                          ],
-                        ),
-                      ),
+                            dropdownMenuEntries: [
+                              const DropdownMenuEntry(
+                                value: null,
+                                label: 'Все поставщики',
+                              ),
+                              ...suppliers.map(
+                                (e) => DropdownMenuEntry(
+                                  value: e.id,
+                                  label: e.name ?? e.inn ?? e.phoneNumber ?? '',
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     ),
 
                     ///
