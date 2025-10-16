@@ -219,7 +219,7 @@ class _CreateBrandDialogState extends State<CreateBrandDialog> {
         setState(() {});
       }
     } catch (e) {
-      debugPrint('asklfjdasdf image pick error $e');
+      //
     }
   }
 
