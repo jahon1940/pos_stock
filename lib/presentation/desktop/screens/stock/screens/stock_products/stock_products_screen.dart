@@ -323,6 +323,7 @@ class StockProductsScreen extends HookWidget {
                                         itemCount: state.products!.results.length,
                                         separatorBuilder: (_, __) => AppUtils.kGap12,
                                         itemBuilder: (context, index) => ProductItemWidget(
+                                          navigationKey: navigationKey,
                                           product: state.products!.results.elementAt(index),
                                           stock: stock,
                                           organization: organization,
