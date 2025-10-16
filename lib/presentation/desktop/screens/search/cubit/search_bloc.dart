@@ -8,13 +8,13 @@ import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/pos_manager_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/data/dtos/search_request.dart';
-import 'package:hoomo_pos/domain/repositories/pos_manager.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/dtos/add_currency/add_currency_request.dart';
 import '../../../../../data/dtos/add_product/add_product_request.dart';
+import '../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'search_state.dart';
 
@@ -58,7 +58,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async {
     if (state.status == StateStatus.loading) return;
 
-    var value = event.value;
+    final value = event.value;
     var request = state.request?.copyWith(title: value) ?? SearchRequest(title: value, page: 1);
 
     if (state.products != null && value.isEmpty) {
@@ -86,7 +86,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     SearchRemoteTextChangedEvent event,
     Emitter<SearchState> emit,
   ) async {
-    var value = event.value;
+    final value = event.value;
     var request = SearchRequest(
       title: value,
       orderBy: '-created_at',
@@ -206,9 +206,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (state.createProductStatus.isLoading) return;
     try {
       emit(state.copyWith(createProductStatus: StateStatus.loading));
-      PosManagerDto posManagerDto = await _posManagerRepo.getPosManager();
-      int? stockId = posManagerDto.pos?.stock?.id;
-      CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
+      final PosManagerDto posManagerDto = await _posManagerRepo.getPosManager();
+      final int? stockId = posManagerDto.pos?.stock?.id;
+      final CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
       await _productRepo.createProduct(addProductRequest);
       emit(state.copyWith(createProductStatus: StateStatus.success));
       add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
@@ -224,10 +224,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
-      PosManagerDto posManagerDto = await _posManagerRepo.getPosManager();
-      int? stockId = posManagerDto.pos?.stock?.id;
-
-      CreateProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
+      final posManagerDto = await _posManagerRepo.getPosManager();
+      final stockId = posManagerDto.pos?.stock?.id;
+      final CreateProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
       await _productRepo.putProduct(putProductRequest, event.productId);
       add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
       Navigator.pop(event.context);
