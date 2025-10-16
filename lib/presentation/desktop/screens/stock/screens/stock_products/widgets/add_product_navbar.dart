@@ -40,7 +40,7 @@ class AddProductNavbar extends StatelessWidget {
                         TextButton(
                           onPressed: () => context
                             ..pop()
-                            ..searchBloc.add(SearchRemoteTextChanged('')),
+                            ..searchBloc.add(SearchRemoteTextChangedEvent('')),
                           child: const Text('ОК'),
                         ),
                       ],
@@ -53,8 +53,8 @@ class AddProductNavbar extends StatelessWidget {
                     final cubit = context.addProductBloc;
                     if (product == null) {
                       context.searchBloc.add(
-                        AddProductEvent(
-                          AddProductRequest(
+                        CreateProductEvent(
+                          CreateProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,
                             vendorCode: cubit.codeController.text,
@@ -68,8 +68,8 @@ class AddProductNavbar extends StatelessWidget {
                       );
                     } else {
                       context.searchBloc.add(
-                        PutProduct(
-                          AddProductRequest(
+                        UpdateProductEvent(
+                          CreateProductRequest(
                             cid: const Uuid().v4(),
                             title: cubit.titleController.text,
                             vendorCode: cubit.codeController.text,

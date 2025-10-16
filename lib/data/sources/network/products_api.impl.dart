@@ -92,7 +92,7 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<void> addProduct(AddProductRequest request) async {
+  Future<void> addProduct(CreateProductRequest request) async {
     try {
       final result = await _dioClient.postRequest(
         NetworkConstants.addProducts,
@@ -109,7 +109,7 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<void> putProduct(AddProductRequest request, int productId) async {
+  Future<void> putProduct(CreateProductRequest request, int productId) async {
     try {
       final result = await _dioClient.putRequest(
         "${NetworkConstants.addProducts}/$productId",
@@ -126,7 +126,7 @@ class ProductsApiImpl implements ProductsApi {
   }
 
   @override
-  Future<void> putBarcode(AddProductRequest request, int productId) async {
+  Future<void> putBarcode(CreateProductRequest request, int productId) async {
     try {
       final result = await _dioClient.putRequest(
         "${NetworkConstants.products}/$productId/update_barcode",

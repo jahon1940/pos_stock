@@ -19,11 +19,11 @@ abstract class ProductsApi {
 
   Future<void> updateProduct(int productId);
 
-  Future<void> addProduct(AddProductRequest request);
+  Future<void> addProduct(CreateProductRequest request);
 
-  Future<void> putProduct(AddProductRequest request, int productId);
+  Future<void> putProduct(CreateProductRequest request, int productId);
 
-  Future<void> putBarcode(AddProductRequest request, int productId);
+  Future<void> putBarcode(CreateProductRequest request, int productId);
 
   Future<void> deleteProduct(int productId);
 

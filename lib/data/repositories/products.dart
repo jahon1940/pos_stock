@@ -140,7 +140,7 @@ class ProductsRepositoryImpl
   }
 
   @override
-  Future<void> addProduct(AddProductRequest request) async {
+  Future<void> addProduct(CreateProductRequest request) async {
     try {
       return await _productsApi.addProduct(request);
     } catch (e) {
@@ -149,7 +149,7 @@ class ProductsRepositoryImpl
   }
 
   @override
-  Future<void> putProduct(AddProductRequest request, int productId) async {
+  Future<void> putProduct(CreateProductRequest request, int productId) async {
     try {
       return await _productsApi.putProduct(request, productId);
     } catch (e) {
@@ -158,7 +158,7 @@ class ProductsRepositoryImpl
   }
 
   @override
-  Future<void> putBarcode(AddProductRequest request, int productId) async {
+  Future<void> putBarcode(CreateProductRequest request, int productId) async {
     try {
       return await _productsApi.putBarcode(request, productId);
     } catch (e) {

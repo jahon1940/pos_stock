@@ -38,7 +38,7 @@ class SearchScreen extends HookWidget {
           context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
         }
       });
-      context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
+      context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
       return null;
     }, const []);
 
@@ -112,7 +112,7 @@ class SearchScreen extends HookWidget {
                               onPressed: () {
                                 if (searchController.text.isNotEmpty) {
                                   searchController.clear();
-                                  context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
+                                  context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
                                 }
                               }),
                         ],
@@ -123,13 +123,13 @@ class SearchScreen extends HookWidget {
                             if (value.isEmpty) {
                               context.read<SearchBloc>().add(GetLocalProducts());
                             } else {
-                              context.read<SearchBloc>().add(SearchTextChanged(value));
+                              context.read<SearchBloc>().add(SearchTextChangedEvent(value));
                             }
                           } else {
                             if (value.isEmpty) {
-                              context.read<SearchBloc>().add(SearchRemoteTextChanged(''));
+                              context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
                             } else {
-                              context.read<SearchBloc>().add(SearchRemoteTextChanged(value));
+                              context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(value));
                             }
                           }
                         });
@@ -172,7 +172,7 @@ class SearchScreen extends HookWidget {
                                 searchController.clear();
                                 searchController.text = value;
 
-                                context.read<SearchBloc>().add(SearchRemoteTextChanged(value));
+                                context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(value));
                               },
                               child: Expanded(
                                 child: Material(

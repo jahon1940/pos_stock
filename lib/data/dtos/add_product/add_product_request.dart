@@ -4,8 +4,8 @@ part 'add_product_request.freezed.dart';
 part 'add_product_request.g.dart';
 
 @Freezed(fromJson: true, toJson: true)
-class AddProductRequest with _$AddProductRequest {
-  factory AddProductRequest({
+class CreateProductRequest with _$CreateProductRequest {
+  factory CreateProductRequest({
     @JsonKey(includeIfNull: false) String? cid,
     @JsonKey(includeIfNull: false) int? productId,
     @JsonKey(includeIfNull: false) String? title,
@@ -16,5 +16,5 @@ class AddProductRequest with _$AddProductRequest {
     int? quantity,
     String? purchasePrice,
     String? price,
-  }) = _AddProductRequest;
+  }) = _CreateProductRequest;
 }

@@ -53,7 +53,7 @@ class StockProductsScreen extends HookWidget {
       });
       context.supplierBloc.getSuppliers();
       context.categoryBloc.add(const GetCategoryEvent());
-      context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id));
+      context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id));
       context.reportsBloc.getReports();
       return null;
     }, const []);
@@ -109,7 +109,7 @@ class StockProductsScreen extends HookWidget {
                                     context.searchBloc
                                       ..add(SelectCategory(id: value))
                                       ..add(
-                                        SearchRemoteTextChanged(
+                                        SearchRemoteTextChangedEvent(
                                           searchController.text,
                                           stockId: stock.id,
                                           categoryId: value,
@@ -152,7 +152,7 @@ class StockProductsScreen extends HookWidget {
                                   onSelected: (value) {
                                     context.searchBloc
                                       ..add(SelectSupplier(id: value))
-                                      ..add(SearchRemoteTextChanged(
+                                      ..add(SearchRemoteTextChangedEvent(
                                         searchController.text,
                                         stockId: stock.id,
                                         supplierId: value,
@@ -191,7 +191,7 @@ class StockProductsScreen extends HookWidget {
                                 supplierController.clear();
                                 context.searchBloc.add(SelectSupplier());
                                 searchController.clear();
-                                context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id));
+                                context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id));
                               },
                             ),
                           ],
@@ -199,11 +199,11 @@ class StockProductsScreen extends HookWidget {
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             if (selectedFilter.value == 'local') {
-                              context.searchBloc.add(value.isEmpty ? GetLocalProducts() : SearchTextChanged(value));
+                              context.searchBloc.add(value.isEmpty ? GetLocalProducts() : SearchTextChangedEvent(value));
                             } else {
                               context.searchBloc.add(value.isEmpty
-                                  ? SearchRemoteTextChanged('', stockId: stock.id)
-                                  : SearchRemoteTextChanged(value, stockId: stock.id));
+                                  ? SearchRemoteTextChangedEvent('', stockId: stock.id)
+                                  : SearchRemoteTextChangedEvent(value, stockId: stock.id));
                             }
                           });
                         },
@@ -236,7 +236,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.searchBloc.add(SearchRemoteTextChanged('', stockId: stock.id)),
+                    onTap: () => context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id)),
                     child: Container(
                       width: 48,
                       height: 48,
@@ -313,7 +313,7 @@ class StockProductsScreen extends HookWidget {
                                       if (value.isEmpty) value = searchController.text;
                                       searchController.clear();
                                       searchController.text = value;
-                                      context.searchBloc.add(SearchRemoteTextChanged(value, stockId: stock.id));
+                                      context.searchBloc.add(SearchRemoteTextChangedEvent(value, stockId: stock.id));
                                     },
                                     child: Material(
                                       child: ListView.separated(

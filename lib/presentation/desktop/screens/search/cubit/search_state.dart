@@ -6,8 +6,8 @@ class SearchState with _$SearchState {
     @Default(StateStatus.initial) StateStatus status,
     PaginatedDto<ProductDto>? products,
     SearchRequest? request,
-    AddProductRequest? addProductRequest,
-    AddProductRequest? putProductRequest,
+    CreateProductRequest? addProductRequest,
+    CreateProductRequest? putProductRequest,
     AddCurrencyRequest? addCurrencyRequest,
   }) = _SearchState;
 }

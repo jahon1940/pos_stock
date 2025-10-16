@@ -31,16 +31,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     this._searchProducts,
     this._posManagerRepository,
   ) : super(const SearchState()) {
-    on<SearchTextChanged>(onSearchTextChanged, transformer: _debounce());
-    on<SearchRemoteTextChanged>(_onSearchRemoteTextChanged, transformer: _debounce());
+    on<SearchTextChangedEvent>(onSearchTextChanged, transformer: _debounce());
+    on<SearchRemoteTextChangedEvent>(_onSearchRemoteTextChanged, transformer: _debounce());
     on<GetLocalProducts>(_onGetLocalProducts);
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
-    on<AddProductEvent>(_addProductRequest);
-    on<PutProduct>(_putProductRequest);
-    on<AddCurrency>(_addCurrencyRequest);
-    on<DeleteProduct>(_deleteProduct);
+    on<CreateProductEvent>(_addProductEvent);
+    on<UpdateProductEvent>(_putProductRequest);
+    on<AddCurrencyEvent>(_addCurrencyRequest);
+    on<DeleteProductEvent>(_deleteProduct);
     on<ExportProducts>(_exportProducts);
     on<ExportInventoryProducts>(_exportInventoryProducts);
     on<ExportProductPrice>(_exportProductPrice);
@@ -53,7 +53,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> onSearchTextChanged(
-    SearchTextChanged event,
+    SearchTextChangedEvent event,
     Emitter<SearchState> emit,
   ) async {
     if (state.status == StateStatus.loading) return;
@@ -83,7 +83,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onSearchRemoteTextChanged(
-    SearchRemoteTextChanged event,
+    SearchRemoteTextChangedEvent event,
     Emitter<SearchState> emit,
   ) async {
     var value = event.value;
@@ -199,17 +199,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
-  Future<void> _addProductRequest(
-    AddProductEvent event,
+  Future<void> _addProductEvent(
+    CreateProductEvent event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
-      AddProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
+      CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
       await _searchProducts.addProduct(addProductRequest);
-      add(SearchRemoteTextChanged(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
+      add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -217,28 +217,26 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _putProductRequest(
-    PutProduct event,
+    UpdateProductEvent event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
-
     try {
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
 
-      AddProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
+      CreateProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
       await _searchProducts.putProduct(putProductRequest, event.productId);
-      add(SearchRemoteTextChanged(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
+      add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
       Navigator.pop(event.context);
     } catch (e) {
-      debugPrint(e.toString());
+      //
     }
-
     emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _deleteProduct(
-    DeleteProduct event,
+    DeleteProductEvent event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
@@ -246,14 +244,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       await _searchProducts.deleteProduct(event.productId);
     } catch (e) {
-      debugPrint(e.toString());
+      //
     }
-    add(SearchRemoteTextChanged(''));
+    add(SearchRemoteTextChangedEvent(''));
     emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _addCurrencyRequest(
-    AddCurrency event,
+    AddCurrencyEvent event,
     Emitter<SearchState> emit,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));

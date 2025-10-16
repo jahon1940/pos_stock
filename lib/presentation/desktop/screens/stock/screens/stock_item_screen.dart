@@ -261,7 +261,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
                                 final bloc = context.read<SearchBloc>();
                                 final res = await context.showCustomDialog(const CurrencyDialog());
                                 if (res == null) return;
-                                bloc.add(SearchRemoteTextChanged(''));
+                                bloc.add(SearchRemoteTextChangedEvent(''));
                               },
                             ),
                           ],

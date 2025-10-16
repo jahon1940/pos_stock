@@ -9,14 +9,18 @@ import 'package:injectable/injectable.dart';
 import '../../../../../data/dtos/add_product/add_product_request.dart';
 
 part 'product_detail_state.dart';
+
 part 'product_detail_cubit.freezed.dart';
 
 @injectable
 class ProductDetailCubit extends Cubit<ProductDetailState> {
-  ProductDetailCubit(this._searchProducts) : super(ProductDetailState());
+  ProductDetailCubit(
+    this._searchProducts,
+  ) : super(const ProductDetailState());
 
   final ProductsRepository _searchProducts;
   final titleController = TextEditingController();
+
   void search(int productId) async {
     if (state.status == StateStatus.loading) return;
     emit(state.copyWith(status: StateStatus.loading));
@@ -48,7 +52,7 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
   void putBarcode(int productId) async {
     if (state.status == StateStatus.loading) return;
     emit(state.copyWith(status: StateStatus.loading));
-    final AddProductRequest request = AddProductRequest(
+    final CreateProductRequest request = CreateProductRequest(
       barcode: [titleController.text],
     );
     try {

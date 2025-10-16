@@ -16,8 +16,7 @@ abstract class ProductsRepository {
 
   Future<PaginatedDto<ProductDto>> searchRemote(SearchRequest request);
 
-  Future<(int, int)> synchronize(int page,
-      {CancelToken? cancelToken, String? receiptId});
+  Future<(int, int)> synchronize(int page, {CancelToken? cancelToken, String? receiptId});
 
   Future<PaginatedDto<ProductDto>> getLocalProducts(int page);
 
@@ -27,11 +26,11 @@ abstract class ProductsRepository {
 
   Future<ProductDto?> getProduct(int productId);
 
-  Future<void> addProduct(AddProductRequest request);
+  Future<void> addProduct(CreateProductRequest request);
 
-  Future<void> putProduct(AddProductRequest request, int productId);
+  Future<void> putProduct(CreateProductRequest request, int productId);
 
-  Future<void> putBarcode(AddProductRequest request, int productId);
+  Future<void> putBarcode(CreateProductRequest request, int productId);
 
   Future<void> updateCurrency(AddCurrencyRequest request);
 
@@ -47,11 +46,9 @@ abstract class ProductsRepository {
 
   Future<void> exportInventoryProducts(int stockId, {int? categoryId});
 
-  Future<void> exportProductPrice(
-      {required int productId, required int quantity});
+  Future<void> exportProductPrice({required int productId, required int quantity});
 
-  Future<void> updateProductInStock(
-      int productId, int quantity, int quantityInReserve);
+  Future<void> updateProductInStock(int productId, int quantity, int quantityInReserve);
 
   Future<void> updateProductPrice(int productId, num price);
 

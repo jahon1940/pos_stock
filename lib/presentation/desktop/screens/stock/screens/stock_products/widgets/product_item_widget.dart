@@ -192,7 +192,7 @@ class ProductItemWidget extends StatelessWidget {
                 onTap: () async {
                   final res = await context.showCustomDialog(const DeleteProductWidget());
                   if (res == null) return;
-                  context.searchBloc.add(DeleteProduct(product.id));
+                  context.searchBloc.add(DeleteProductEvent(product.id));
                 },
               ),
             ],
