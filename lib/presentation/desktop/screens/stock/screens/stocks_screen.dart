@@ -97,22 +97,24 @@ class StocksScreen extends HookWidget {
                             ? const Center(child: CupertinoActivityIndicator())
                             : state.stocks.isEmpty
                                 ? Center(child: Text(context.tr(Dictionary.not_found)))
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.symmetric(vertical: 12).withT0,
-                                    itemCount: state.stocks.length,
-                                    separatorBuilder: (context, index) => AppUtils.kGap12,
-                                    itemBuilder: (context, i) {
-                                      final stock = state.stocks.elementAt(i);
-                                      return TableItemWidget(
-                                        leadingLabel: stock.id.toString(),
-                                        bodyLabel: stock.name,
-                                        onTap: () => router.push(StockItemRoute(
-                                          stock: stock,
-                                          organization: organization,
-                                        )),
-                                      );
-                                    },
+                                : Material(
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      padding: const EdgeInsets.symmetric(vertical: 12).withT0,
+                                      itemCount: state.stocks.length,
+                                      separatorBuilder: (context, index) => AppUtils.kGap12,
+                                      itemBuilder: (context, i) {
+                                        final stock = state.stocks.elementAt(i);
+                                        return TableItemWidget(
+                                          leadingLabel: stock.id.toString(),
+                                          bodyLabel: stock.name,
+                                          onTap: () => router.push(StockItemRoute(
+                                            stock: stock,
+                                            organization: organization,
+                                          )),
+                                        );
+                                      },
+                                    ),
                                   ),
                       ),
                     )
