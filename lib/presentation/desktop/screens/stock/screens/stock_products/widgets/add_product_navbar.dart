@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
@@ -29,7 +30,7 @@ class AddProductNavbar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BlocConsumer<SearchBloc, SearchState>(
+              BlocConsumer<AddProductCubit, AddProductState>(
                 listener: (context, state) async {
                   if (state.createProductStatus.isError) {
                     await showDialog(
@@ -37,7 +38,7 @@ class AddProductNavbar extends StatelessWidget {
                       builder: (context) => const OperationResultDialog(isError: true),
                     );
                   }
-                  if (!state.status.isSuccess) return;
+                  if (!state.createProductStatus.isSuccess) return;
                   await showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -59,17 +60,12 @@ class AddProductNavbar extends StatelessWidget {
                   onTap: () {
                     final cubit = context.addProductBloc;
                     if (product == null) {
-                      context.searchBloc.add(
-                        CreateProductEvent(
-                          CreateProductRequest(
-                            cid: const Uuid().v4(),
-                            title: cubit.titleController.text,
-                            vendorCode: cubit.codeController.text,
-                            quantity: int.tryParse(cubit.quantityController.text) ?? 0,
-                            purchasePrice: cubit.incomeController.text,
-                            barcode: cubit.barcodeController.text.isNotEmpty ? [cubit.barcodeController.text] : null,
-                            price: cubit.sellController.text,
-                            categoryId: cubit.state.categoryId,
+                      context.addProductBloc.createProductEvent(
+                        onCreated: (stockId) => context.searchBloc.add(
+                          SearchRemoteTextChangedEvent(
+                            context.searchBloc.state.request?.title ?? '',
+                            stockId: stockId,
+                            clearPrevious: true,
                           ),
                         ),
                       );

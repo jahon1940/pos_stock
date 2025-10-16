@@ -8,6 +8,10 @@ import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart' show Uuid;
+
+import '../../../../../../../data/dtos/add_product/add_product_request.dart';
+import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'add_product_state.dart';
 
@@ -17,9 +21,11 @@ part 'add_product_cubit.freezed.dart';
 class AddProductCubit extends Cubit<AddProductState> {
   AddProductCubit(
     this._searchProducts,
+    this._posManagerRepo,
   ) : super(const AddProductState());
 
   final ProductsRepository _searchProducts;
+  final PosManagerRepository _posManagerRepo;
 
   final titleController = TextEditingController();
   final barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
@@ -60,4 +66,33 @@ class AddProductCubit extends Cubit<AddProductState> {
   }
 
   void selectCategory(int? categoryId) => emit(state.copyWith(categoryId: categoryId));
+
+  Future<void> createProductEvent({
+    required Function(int? stockId) onCreated,
+  }) async {
+    if (state.createProductStatus.isLoading) return;
+    emit(state.copyWith(createProductStatus: StateStatus.loading));
+    try {
+      final posManagerDto = await _posManagerRepo.getPosManager();
+      final stockId = posManagerDto.pos?.stock?.id;
+      await _searchProducts.createProduct(
+        CreateProductRequest(
+          cid: const Uuid().v4(),
+          title: titleController.text,
+          vendorCode: codeController.text,
+          quantity: int.tryParse(quantityController.text) ?? 0,
+          purchasePrice: incomeController.text,
+          barcode: barcodeController.text.isNotEmpty ? [barcodeController.text] : null,
+          price: sellController.text,
+          categoryId: state.categoryId,
+          stockId: stockId,
+        ),
+      );
+      emit(state.copyWith(createProductStatus: StateStatus.success));
+      onCreated(stockId);
+    } catch (e) {
+      emit(state.copyWith(createProductStatus: StateStatus.error));
+    }
+    emit(state.copyWith(createProductStatus: StateStatus.initial));
+  }
 }
