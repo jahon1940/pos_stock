@@ -16,4 +16,10 @@ class CountryApiImpl implements CountryApi {
           (json) => CountryDto.fromJson(json),
         ),
       );
+
+  @override
+  Future<void> createCountry({
+    required Map<String, dynamic> data,
+  }) async =>
+      _dioClient.postRequest(NetworkConstants.countryManagers, data: data);
 }

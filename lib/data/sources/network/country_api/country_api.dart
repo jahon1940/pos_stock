@@ -9,4 +9,8 @@ part 'country_api_impl.dart';
 
 abstract class CountryApi {
   Future<PaginatedDto<CountryDto>?> getCountries();
+
+  Future<void> createCountry({
+    required Map<String, dynamic> data,
+  });
 }

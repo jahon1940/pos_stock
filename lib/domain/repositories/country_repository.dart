@@ -8,4 +8,8 @@ part '../../data/repositories/country_repository_impl.dart';
 
 abstract class CountryRepository {
   Future<PaginatedDto<CountryDto>?> getCountries();
+
+  Future<void> createCountry({
+    required Map<String, dynamic> data,
+  });
 }

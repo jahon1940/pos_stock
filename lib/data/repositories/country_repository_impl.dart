@@ -8,7 +8,12 @@ class CountryRepositoryImpl implements CountryRepository {
 
   final CountryApi _api;
 
-
   @override
   Future<PaginatedDto<CountryDto>?> getCountries() async => _api.getCountries();
+
+  @override
+  Future<void> createCountry({
+    required Map<String, dynamic> data,
+  }) =>
+      _api.createCountry(data: data);
 }
