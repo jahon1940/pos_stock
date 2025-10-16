@@ -203,17 +203,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     CreateProductEvent event,
     Emitter<SearchState> emit,
   ) async {
-    emit(state.copyWith(status: StateStatus.loading));
+    if (state.createProductStatus.isLoading) return;
     try {
+      emit(state.copyWith(createProductStatus: StateStatus.loading));
       PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
       int? stockId = posManagerDto.pos?.stock?.id;
       CreateProductRequest addProductRequest = event.addProductRequest.copyWith(stockId: stockId);
       await _searchProducts.addProduct(addProductRequest);
+      emit(state.copyWith(createProductStatus: StateStatus.success));
       add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
     } catch (e) {
-      debugPrint(e.toString());
+      emit(state.copyWith(createProductStatus: StateStatus.error));
     }
-    emit(state.copyWith(status: StateStatus.success));
+    emit(state.copyWith(createProductStatus: StateStatus.initial));
   }
 
   Future<void> _putProductRequest(

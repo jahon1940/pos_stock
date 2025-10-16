@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
@@ -30,6 +31,12 @@ class AddProductNavbar extends StatelessWidget {
             children: [
               BlocConsumer<SearchBloc, SearchState>(
                 listener: (context, state) async {
+                  if (state.createProductStatus.isError) {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => const OperationResultDialog(isError: true),
+                    );
+                  }
                   if (!state.status.isSuccess) return;
                   await showDialog(
                     context: context,
@@ -91,11 +98,13 @@ class AddProductNavbar extends StatelessWidget {
                     height: 50,
                     width: context.width * .1,
                     child: Center(
-                      child: Text(
-                        'Сохранить',
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 13, color: context.onPrimary),
-                      ),
+                      child: state.createProductStatus.isLoading
+                          ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
+                          : Text(
+                              'Сохранить',
+                              maxLines: 2,
+                              style: TextStyle(fontSize: 13, color: context.onPrimary),
+                            ),
                     ),
                   ),
                 ),
