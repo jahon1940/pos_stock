@@ -1,6 +1,8 @@
 part of 'search_bloc.dart';
 
-abstract class SearchEvent {}
+abstract class SearchEvent {
+  const SearchEvent();
+}
 
 class SearchTextChangedEvent extends SearchEvent {
   SearchTextChangedEvent(this.value);
@@ -25,7 +27,9 @@ class SearchRemoteTextChangedEvent extends SearchEvent {
 }
 
 class CreateProductEvent extends SearchEvent {
-  CreateProductEvent(this.addProductRequest);
+  const CreateProductEvent(
+    this.addProductRequest,
+  );
 
   final CreateProductRequest addProductRequest;
 }
