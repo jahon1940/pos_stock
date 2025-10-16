@@ -67,9 +67,7 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   void selectCategory(int? categoryId) => emit(state.copyWith(categoryId: categoryId));
 
-  Future<void> createProductEvent({
-    required Function(int? stockId) onCreated,
-  }) async {
+  Future<void> createProduct() async {
     if (state.createProductStatus.isLoading) return;
     emit(state.copyWith(createProductStatus: StateStatus.loading));
     try {
@@ -89,7 +87,6 @@ class AddProductCubit extends Cubit<AddProductState> {
         ),
       );
       emit(state.copyWith(createProductStatus: StateStatus.success));
-      onCreated(stockId);
     } catch (e) {
       emit(state.copyWith(createProductStatus: StateStatus.error));
     }

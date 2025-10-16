@@ -60,15 +60,7 @@ class AddProductNavbar extends StatelessWidget {
                   onTap: () {
                     final cubit = context.addProductBloc;
                     if (product == null) {
-                      context.addProductBloc.createProductEvent(
-                        onCreated: (stockId) => context.searchBloc.add(
-                          SearchRemoteTextChangedEvent(
-                            context.searchBloc.state.request?.title ?? '',
-                            stockId: stockId,
-                            clearPrevious: true,
-                          ),
-                        ),
-                      );
+                      context.addProductBloc.createProduct();
                     } else {
                       context.searchBloc.add(
                         UpdateProductEvent(
