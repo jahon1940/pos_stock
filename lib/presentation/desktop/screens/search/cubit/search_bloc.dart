@@ -260,14 +260,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(state.copyWith(status: StateStatus.loaded));
   }
 
-  FutureOr<void> _onSelectSupplier(
+  void _onSelectSupplier(
     SelectSupplier event,
     Emitter<SearchState> emit,
-  ) {
-    emit(state.copyWith(status: StateStatus.loading));
-    emit(state.copyWith(request: state.request?.copyWith(supplierId: event.id)));
-    emit(state.copyWith(status: StateStatus.loaded));
-  }
+  ) =>
+      emit(
+        state.copyWith(
+          request: state.request?.copyWith(supplierId: event.id),
+          status: StateStatus.loaded,
+        ),
+      );
 
   void _onSelectCategory(
     SelectCategoryEvent event,
