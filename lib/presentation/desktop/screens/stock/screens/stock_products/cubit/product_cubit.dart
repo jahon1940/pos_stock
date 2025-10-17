@@ -11,6 +11,8 @@ import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart' show Uuid;
 
 import '../../../../../../../data/dtos/add_product/create_product_request.dart';
+import '../../../../../../../data/dtos/pagination_dto.dart';
+import '../../../../../../../data/dtos/search_request.dart';
 import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'product_state.dart';
@@ -43,7 +45,31 @@ class ProductCubit extends Cubit<ProductState> {
     return super.close();
   }
 
-  Future<void> getProducts() async {}
+  Future<void> getProducts({
+    int? stockId,
+  }) async {
+    if (state.status.isLoading) return;
+    emit(state.copyWith(status: StateStatus.loading));
+    try {
+      final request = SearchRequest(
+        title: '',
+        orderBy: '-created_at',
+        page: 1,
+        stockId: stockId,
+      );
+      final res = await _repo.searchRemote(request);
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+          productPageData: request.page == 1
+              ? res
+              : state.productPageData.copyWith(results: [...state.productPageData.results, ...res.results]),
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(status: StateStatus.error));
+    }
+  }
 
   Future<void> init(
     ProductDto? product,
@@ -58,7 +84,7 @@ class ProductCubit extends Cubit<ProductState> {
     quantityController.text = data.leftQuantity.toString();
     incomeController.text = data.purchasePriceDollar?.toString() ?? '';
     sellController.text = data.priceDollar?.toString() ?? '';
-    emit(state.copyWith(product: data));
+    emit(state.copyWith());
   }
 
   Future<ProductDetailDto?> _getProduct(int productId) async {
