@@ -170,8 +170,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     LoadMoreSearch event,
     Emitter<SearchState> emit,
   ) async {
-    if (state.status == StateStatus.loadingMore) return;
-
+    if (state.status.isLoadingMore) return;
     try {
       emit(state.copyWith(status: StateStatus.loadingMore));
       final data = state.products?.results ?? [];
@@ -186,7 +185,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         products: res.copyWith(results: [...data, ...res.results]),
       ));
     } catch (e) {
-      debugPrint(e.toString());
+      //
     }
   }
 
