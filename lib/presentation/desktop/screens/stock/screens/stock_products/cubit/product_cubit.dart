@@ -1,7 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show TextEditingController;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/utils/barcode.dart';
 import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
@@ -14,8 +14,6 @@ import '../../../../../../../data/dtos/add_product/create_product_request.dart';
 import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'product_state.dart';
-
-part 'product_cubit.freezed.dart';
 
 @injectable
 class ProductCubit extends Cubit<ProductState> {
@@ -33,6 +31,17 @@ class ProductCubit extends Cubit<ProductState> {
   final quantityController = TextEditingController();
   final incomeController = TextEditingController();
   final sellController = TextEditingController();
+
+  @override
+  Future<void> close() {
+    titleController.dispose();
+    barcodeController.dispose();
+    codeController.dispose();
+    quantityController.dispose();
+    incomeController.dispose();
+    sellController.dispose();
+    return super.close();
+  }
 
   Future<void> init(
     ProductDto? product,

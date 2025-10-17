@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
@@ -16,8 +16,6 @@ import '../../../../../data/dtos/add_currency/add_currency_request.dart';
 part 'search_state.dart';
 
 part 'search_event.dart';
-
-part 'search_bloc.freezed.dart';
 
 @injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
