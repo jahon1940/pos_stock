@@ -15,8 +15,8 @@ class ProductsApiImpl implements ProductsApi {
     SearchRequest request,
   ) async {
     try {
-      PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
-      Map<String, dynamic> requestData = request.toJson();
+      final posManagerDto = await _posManagerRepository.getPosManager();
+      final requestData = request.toJson();
       requestData.addAll({'region_id': posManagerDto.pos?.stock?.region?.id});
       final res = await _dioClient.postRequest<PaginatedDto<ProductDto>>(
         NetworkConstants.search,
@@ -142,7 +142,7 @@ class ProductsApiImpl implements ProductsApi {
   @override
   Future<void> updateCurrency(AddCurrencyRequest request) async {
     try {
-      PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
+      final PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
 
       final result = await _dioClient.putRequest(
         '${NetworkConstants.addCurrency}/${posManagerDto.pos?.stock?.id}',
@@ -162,7 +162,7 @@ class ProductsApiImpl implements ProductsApi {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = '$directory/products.xlsx';
+      final String savePath = '$directory/products.xlsx';
       await _dioClient.downloadRequest(NetworkConstants.exportProducts, savePath);
     } catch (_) {}
   }
@@ -172,7 +172,7 @@ class ProductsApiImpl implements ProductsApi {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = '$directory/products.xlsx';
+      final String savePath = '$directory/products.xlsx';
       await _dioClient.downloadRequest(
           "${NetworkConstants.exportInventoryProducts}/$stockId/download-excel?category_id=${categoryId ?? ''}",
           savePath);
@@ -184,7 +184,7 @@ class ProductsApiImpl implements ProductsApi {
     try {
       final directory = await FilePicker.platform.getDirectoryPath();
       if (directory == null) return;
-      String savePath = '$directory/products-$productId.xlsx';
+      final String savePath = '$directory/products-$productId.xlsx';
       await _dioClient.downloadRequest(
           '${NetworkConstants.apiUrl}/products/$productId/stiker-download-excel?count=$quantity', savePath);
     } catch (_) {}
@@ -193,7 +193,7 @@ class ProductsApiImpl implements ProductsApi {
   @override
   Future<CurrencyDto> getCurrency() async {
     try {
-      PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
+      final PosManagerDto posManagerDto = await _posManagerRepository.getPosManager();
 
       final result = await _dioClient.getRequest(
         '${NetworkConstants.addCurrency}/${posManagerDto.pos?.stock?.id}',
