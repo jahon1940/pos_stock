@@ -38,7 +38,7 @@ class SearchScreen extends HookWidget {
           context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
         }
       });
-      context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
+      context.searchBloc.add(SearchRemoteTextChangedEvent(''));
       return null;
     }, const []);
 
@@ -112,7 +112,7 @@ class SearchScreen extends HookWidget {
                               onPressed: () {
                                 if (searchController.text.isNotEmpty) {
                                   searchController.clear();
-                                  context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
+                                  context.searchBloc.add(SearchRemoteTextChangedEvent(''));
                                 }
                               }),
                         ],
@@ -121,15 +121,15 @@ class SearchScreen extends HookWidget {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           if (selectedFilter.value == 'local') {
                             if (value.isEmpty) {
-                              context.read<SearchBloc>().add(GetLocalProducts());
+                              context.searchBloc.add(GetLocalProducts());
                             } else {
-                              context.read<SearchBloc>().add(SearchTextChangedEvent(value));
+                              context.searchBloc.add(SearchTextChangedEvent(value));
                             }
                           } else {
                             if (value.isEmpty) {
-                              context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(''));
+                              context.searchBloc.add(SearchRemoteTextChangedEvent(''));
                             } else {
-                              context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(value));
+                              context.searchBloc.add(SearchRemoteTextChangedEvent(value));
                             }
                           }
                         });
@@ -172,7 +172,7 @@ class SearchScreen extends HookWidget {
                                 searchController.clear();
                                 searchController.text = value;
 
-                                context.read<SearchBloc>().add(SearchRemoteTextChangedEvent(value));
+                                context.searchBloc.add(SearchRemoteTextChangedEvent(value));
                               },
                               child: Expanded(
                                 child: Material(
