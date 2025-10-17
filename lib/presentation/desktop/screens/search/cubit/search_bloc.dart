@@ -79,16 +79,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
 
-    final request = SearchRequest(
-      title: event.value,
-      orderBy: '-created_at',
-      page: 1,
-      stockId: event.stockId,
-      categoryId: event.categoryId,
-      supplierId: event.supplierId,
-    );
-
     try {
+      final request = SearchRequest(
+        title: event.value,
+        orderBy: '-created_at',
+        page: 1,
+        stockId: event.stockId,
+        categoryId: event.categoryId,
+        supplierId: event.supplierId,
+      );
       final res = await _productRepo.searchRemote(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
