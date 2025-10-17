@@ -121,7 +121,7 @@ class SearchScreen extends HookWidget {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           if (selectedFilter.value == 'local') {
                             if (value.isEmpty) {
-                              context.searchBloc.add(GetLocalProducts());
+                              context.searchBloc.add(const GetLocalProducts());
                             } else {
                               context.searchBloc.add(SearchTextChangedEvent(value));
                             }
