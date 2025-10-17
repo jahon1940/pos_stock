@@ -36,13 +36,17 @@ class AddCurrencyEvent extends SearchEvent {
   final AddCurrencyRequest addCurrencyRequest;
 }
 
-class GetLocalProducts extends SearchEvent {}
+class GetLocalProducts extends SearchEvent {
+  const GetLocalProducts();
+}
 
-class GetRemoteProducts extends SearchEvent {}
+class GetRemoteProducts extends SearchEvent {
+  const GetRemoteProducts();
+}
 
-class NullRemoteProducts extends SearchEvent {}
-
-class ExportProducts extends SearchEvent {}
+class ExportProducts extends SearchEvent {
+  const ExportProducts();
+}
 
 class ExportInventoryProducts extends SearchEvent {
   ExportInventoryProducts({

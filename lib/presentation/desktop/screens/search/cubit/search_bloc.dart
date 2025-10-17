@@ -26,7 +26,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchRemoteTextChangedEvent>(_onSearchRemoteTextChanged, transformer: _debounce());
     on<GetLocalProducts>(_onGetLocalProducts);
     on<GetRemoteProducts>(onGetRemoteProducts);
-    on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<DeleteProductEvent>(_deleteProduct);
@@ -139,31 +138,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } catch (e, s) {
       debugPrint(s.toString());
     }
-  }
-
-  Future<void> _nullRemoteProducts(
-    NullRemoteProducts event,
-    Emitter<SearchState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      Future.delayed(const Duration(seconds: 5), () async {
-        emit(
-          state.copyWith(
-              status: StateStatus.loading,
-              products: const PaginatedDto<ProductDto>(
-                results: [],
-                pageNumber: 1,
-                pageSize: 100,
-                totalPages: 0,
-                count: 0,
-              )),
-        );
-      });
-    } catch (e, s) {
-      debugPrint(s.toString());
-    }
-    emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _onLoadMore(
