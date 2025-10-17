@@ -7,7 +7,7 @@ class PaginatedDto<T> {
   final String? next;
   final String? previous;
 
-  PaginatedDto({
+  const PaginatedDto({
     required this.results,
     required this.pageNumber,
     required this.pageSize,
