@@ -26,18 +26,6 @@ class SearchRemoteTextChangedEvent extends SearchEvent {
   final bool clearPrevious;
 }
 
-class UpdateProductEvent extends SearchEvent {
-  UpdateProductEvent({
-    required this.context,
-    required this.productId,
-    required this.putProductRequest,
-  });
-
-  final BuildContext context;
-  final int productId;
-  final CreateProductRequest putProductRequest;
-}
-
 class DeleteProductEvent extends SearchEvent {
   DeleteProductEvent(this.productId);
 

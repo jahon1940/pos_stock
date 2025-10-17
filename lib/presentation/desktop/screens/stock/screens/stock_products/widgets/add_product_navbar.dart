@@ -4,11 +4,9 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
-import '../../../../../../../data/dtos/add_product/add_product_request.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 import '../../../../search/cubit/search_bloc.dart';
 
@@ -31,52 +29,30 @@ class AddProductNavbar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BlocConsumer<AddProductCubit, AddProductState>(
+                listenWhen: (p, c) =>
+                    p.createProductStatus != c.createProductStatus &&
+                    (c.createProductStatus.isError || c.createProductStatus.isSuccess),
                 listener: (context, state) async {
-                  if (state.createProductStatus.isError) {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => const OperationResultDialog(isError: true),
-                    );
-                  }
-                  if (!state.createProductStatus.isSuccess) return;
                   await showDialog(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Успешно'),
-                      content: const Text(''),
-                      actions: [
-                        TextButton(
-                          onPressed: () => context
-                            ..pop()
-                            ..searchBloc.add(SearchRemoteTextChangedEvent('')),
-                          child: const Text('ОК'),
-                        ),
-                      ],
+                    builder: (context) => OperationResultDialog(
+                      isError: state.createProductStatus.isError,
                     ),
                   );
-                  context.pop(context.addProductBloc.barcodeController.text);
+                  if (state.createProductStatus.isSuccess) {
+                    await Future.delayed(Durations.medium1);
+                    context.searchBloc.add(SearchRemoteTextChangedEvent(''));
+                    context.pop(context.addProductBloc.barcodeController.text);
+                  }
                 },
                 builder: (context, state) => InkWell(
                   onTap: () {
-                    final cubit = context.addProductBloc;
                     if (product == null) {
                       context.addProductBloc.createProduct();
                     } else {
-                      context.searchBloc.add(
-                        UpdateProductEvent(
-                          context: context,
-                          productId: product!.id,
-                          putProductRequest: CreateProductRequest(
-                            cid: const Uuid().v4(),
-                            title: cubit.titleController.text,
-                            vendorCode: cubit.codeController.text,
-                            quantity: int.tryParse(cubit.quantityController.text) ?? 0,
-                            purchasePrice: cubit.incomeController.text,
-                            barcode: cubit.barcodeController.text.isNotEmpty ? [cubit.barcodeController.text] : null,
-                            price: cubit.sellController.text,
-                            categoryId: context.searchBloc.state.request?.categoryId,
-                          ),
-                        ),
+                      context.addProductBloc.updateProduct(
+                        productId: product!.id,
+                        categoryId: context.searchBloc.state.request?.categoryId,
                       );
                     }
                   },

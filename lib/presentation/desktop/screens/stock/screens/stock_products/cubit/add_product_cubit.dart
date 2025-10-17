@@ -20,11 +20,11 @@ part 'add_product_cubit.freezed.dart';
 @injectable
 class AddProductCubit extends Cubit<AddProductState> {
   AddProductCubit(
-    this._searchProducts,
+    this._repo,
     this._posManagerRepo,
   ) : super(const AddProductState());
 
-  final ProductsRepository _searchProducts;
+  final ProductsRepository _repo;
   final PosManagerRepository _posManagerRepo;
 
   final titleController = TextEditingController();
@@ -52,7 +52,7 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   Future<ProductDetailDto?> _getProduct(int productId) async {
     try {
-      final res = await _searchProducts.getProductDetail(productId);
+      final res = await _repo.getProductDetail(productId);
       return res;
     } catch (e) {
       debugPrint(e.toString());
@@ -73,7 +73,7 @@ class AddProductCubit extends Cubit<AddProductState> {
     try {
       final posManagerDto = await _posManagerRepo.getPosManager();
       final stockId = posManagerDto.pos?.stock?.id;
-      await _searchProducts.createProduct(
+      await _repo.createProduct(
         CreateProductRequest(
           cid: const Uuid().v4(),
           title: titleController.text,
@@ -84,6 +84,35 @@ class AddProductCubit extends Cubit<AddProductState> {
           price: sellController.text,
           categoryId: state.categoryId,
           stockId: stockId,
+        ),
+      );
+      emit(state.copyWith(createProductStatus: StateStatus.success));
+    } catch (e) {
+      emit(state.copyWith(createProductStatus: StateStatus.error));
+    }
+    emit(state.copyWith(createProductStatus: StateStatus.initial));
+  }
+
+  Future<void> updateProduct({
+    required int productId,
+    required int? categoryId,
+  }) async {
+    if (state.createProductStatus.isLoading) return;
+    emit(state.copyWith(createProductStatus: StateStatus.loading));
+    try {
+      final posManagerDto = await _posManagerRepo.getPosManager();
+      await _repo.putProduct(
+        productId: productId,
+        request: CreateProductRequest(
+          cid: const Uuid().v4(),
+          title: titleController.text,
+          vendorCode: codeController.text,
+          quantity: int.tryParse(quantityController.text) ?? 0,
+          barcode: barcodeController.text.isNotEmpty ? [barcodeController.text] : null,
+          purchasePrice: incomeController.text,
+          price: sellController.text,
+          categoryId: categoryId,
+          stockId: posManagerDto.pos?.stock?.id,
         ),
       );
       emit(state.copyWith(createProductStatus: StateStatus.success));

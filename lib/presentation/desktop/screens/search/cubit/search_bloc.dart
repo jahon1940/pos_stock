@@ -12,8 +12,6 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/dtos/add_currency/add_currency_request.dart';
-import '../../../../../data/dtos/add_product/add_product_request.dart';
-import '../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'search_state.dart';
 
@@ -25,7 +23,6 @@ part 'search_bloc.freezed.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc(
     this._productRepo,
-    this._posManagerRepo,
   ) : super(const SearchState()) {
     on<SearchTextChangedEvent>(onSearchTextChanged, transformer: _debounce());
     on<SearchRemoteTextChangedEvent>(_onSearchRemoteTextChanged, transformer: _debounce());
@@ -33,7 +30,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<NullRemoteProducts>(_nullRemoteProducts);
     on<LoadMoreSearch>(_onLoadMore);
-    on<UpdateProductEvent>(_updateProductRequest);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<DeleteProductEvent>(_deleteProduct);
     on<ExportProducts>(_exportProducts);
@@ -44,7 +40,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   final ProductsRepository _productRepo;
-  final PosManagerRepository _posManagerRepo;
 
   EventTransformer<T> _debounce<T>() {
     return (events, mapper) => events.debounceTime(const Duration(milliseconds: 300)).switchMap(mapper);
@@ -195,24 +190,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } catch (e) {
       debugPrint(e.toString());
     }
-  }
-
-  Future<void> _updateProductRequest(
-    UpdateProductEvent event,
-    Emitter<SearchState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      final posManagerDto = await _posManagerRepo.getPosManager();
-      final stockId = posManagerDto.pos?.stock?.id;
-      final CreateProductRequest putProductRequest = event.putProductRequest.copyWith(stockId: stockId);
-      await _productRepo.putProduct(putProductRequest, event.productId);
-      add(SearchRemoteTextChangedEvent(state.request?.title ?? '', stockId: stockId, clearPrevious: true));
-      Navigator.pop(event.context);
-    } catch (e) {
-      //
-    }
-    emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _deleteProduct(
