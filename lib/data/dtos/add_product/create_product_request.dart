@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'add_product_request.freezed.dart';
-part 'add_product_request.g.dart';
+part 'create_product_request.freezed.dart';
+part 'create_product_request.g.dart';
 
 @Freezed(fromJson: true, toJson: true)
 class CreateProductRequest with _$CreateProductRequest {
