@@ -24,12 +24,6 @@ class SearchRemoteTextChangedEvent extends SearchEvent {
   final int? supplierId;
 }
 
-class DeleteProductEvent extends SearchEvent {
-  DeleteProductEvent(this.productId);
-
-  final int productId;
-}
-
 class AddCurrencyEvent extends SearchEvent {
   AddCurrencyEvent(this.addCurrencyRequest);
 

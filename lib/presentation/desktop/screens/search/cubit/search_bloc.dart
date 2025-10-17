@@ -28,7 +28,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetRemoteProducts>(onGetRemoteProducts);
     on<LoadMoreSearchEvent>(_onLoadMore);
     on<AddCurrencyEvent>(_addCurrencyRequest);
-    on<DeleteProductEvent>(_deleteProduct);
     on<ExportProducts>(_exportProducts);
     on<ExportInventoryProducts>(_exportInventoryProducts);
     on<ExportProductPrice>(_exportProductPrice);
@@ -161,20 +160,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } catch (e) {
       //
     }
-  }
-
-  Future<void> _deleteProduct(
-    DeleteProductEvent event,
-    Emitter<SearchState> emit,
-  ) async {
-    emit(state.copyWith(status: StateStatus.loading));
-    try {
-      await _productRepo.deleteProduct(event.productId);
-    } catch (e) {
-      //
-    }
-    add(SearchRemoteTextChangedEvent(''));
-    emit(state.copyWith(status: StateStatus.loaded));
   }
 
   Future<void> _addCurrencyRequest(
