@@ -50,9 +50,7 @@ class InventoriesProductDialog extends HookWidget with SecureStorageMixin {
                     hintText: 'Выбор категории',
                     textStyle: const TextStyle(fontSize: 11),
                     controller: categoryController,
-                    onSelected: (value) {
-                      context.read<SearchBloc>().add(SelectCategoryEvent(id: value));
-                    },
+                    onSelected: (value) => context.searchBloc.add(SelectCategoryEvent(id: value)),
                     inputDecorationTheme: InputDecorationTheme(
                       hintStyle: const TextStyle(fontSize: 11),
                       isDense: true,
