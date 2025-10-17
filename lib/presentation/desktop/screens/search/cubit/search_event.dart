@@ -72,8 +72,8 @@ class SelectSupplier extends SearchEvent {
   final int? id;
 }
 
-class SelectCategory extends SearchEvent {
-  SelectCategory({this.id});
+class SelectCategoryEvent extends SearchEvent {
+  SelectCategoryEvent({this.id});
 
   final int? id;
 }

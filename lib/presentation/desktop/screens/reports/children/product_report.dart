@@ -93,6 +93,7 @@ class ProductReportScreen extends HookWidget {
                       children: [
                         BlocBuilder<CategoryBloc, CategoryState>(
                           builder: (context, state) {
+                            final categories = state.categories?.results ?? [];
                             return Padding(
                               padding: const EdgeInsets.all(3),
                               child: Container(
@@ -106,7 +107,7 @@ class ProductReportScreen extends HookWidget {
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: categoryController,
                                   onSelected: (value) {
-                                    context.read<SearchBloc>().add(SelectCategory(id: value));
+                                    context.read<SearchBloc>().add(SelectCategoryEvent(id: value));
                                     context.read<ReportsCubit>().getReports(categoryId: value);
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
@@ -119,15 +120,9 @@ class ProductReportScreen extends HookWidget {
                                       value: null,
                                       label: 'Все категории',
                                     ),
-                                    ...state.categories?.results
-                                            .map(
-                                              (e) => DropdownMenuEntry(
-                                                value: e.id,
-                                                label: e.name ?? '',
-                                              ),
-                                            )
-                                            .toList() ??
-                                        []
+                                    ...categories.map(
+                                      (e) => DropdownMenuEntry(value: e.id, label: e.name),
+                                    )
                                   ],
                                 ),
                               ),

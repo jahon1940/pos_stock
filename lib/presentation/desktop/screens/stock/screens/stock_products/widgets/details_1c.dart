@@ -56,7 +56,7 @@ class Details1C extends HookWidget {
                 onSelected: (value) {
                   isDialog == true
                       ? context.productBloc.selectCategory(value)
-                      : context.searchBloc.add(SelectCategory(id: value));
+                      : context.searchBloc.add(SelectCategoryEvent(id: value));
                 },
                 inputDecorationTheme: InputDecorationTheme(
                   enabledBorder: border(Colors.grey.shade400),

@@ -36,7 +36,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<ExportInventoryProducts>(_exportInventoryProducts);
     on<ExportProductPrice>(_exportProductPrice);
     on<SelectSupplier>(_onSelectSupplier);
-    on<SelectCategory>(_onSelectCategory);
+    on<SelectCategoryEvent>(_onSelectCategory);
   }
 
   final ProductsRepository _productRepo;
@@ -270,7 +270,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _onSelectCategory(
-    SelectCategory event,
+    SelectCategoryEvent event,
     Emitter<SearchState> emit,
   ) {
     emit(state.copyWith(status: StateStatus.loading));

@@ -107,7 +107,7 @@ class StockProductsScreen extends HookWidget {
                                   controller: categoryController,
                                   onSelected: (value) {
                                     context.searchBloc
-                                      ..add(SelectCategory(id: value))
+                                      ..add(SelectCategoryEvent(id: value))
                                       ..add(
                                         SearchRemoteTextChangedEvent(
                                           searchController.text,
