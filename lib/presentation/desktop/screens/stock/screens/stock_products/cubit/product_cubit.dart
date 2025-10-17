@@ -29,6 +29,7 @@ class ProductCubit extends Cubit<ProductState> {
   final PosManagerRepository _posManagerRepo;
 
   final titleController = TextEditingController();
+  final categoryController = TextEditingController();
   final barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
   final codeController = TextEditingController();
   final quantityController = TextEditingController();
@@ -38,6 +39,7 @@ class ProductCubit extends Cubit<ProductState> {
   @override
   Future<void> close() {
     titleController.dispose();
+    categoryController.dispose();
     barcodeController.dispose();
     codeController.dispose();
     quantityController.dispose();
@@ -117,6 +119,7 @@ class ProductCubit extends Cubit<ProductState> {
     if (data == null) return;
 
     titleController.text = data.title ?? '';
+    categoryController.text = data.category?.name ?? '';
     barcodeController.text = data.barcode?.firstOrNull ?? '';
     codeController.text = data.vendorCode ?? '';
     quantityController.text = data.leftQuantity.toString();

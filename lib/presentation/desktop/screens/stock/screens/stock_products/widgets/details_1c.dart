@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
@@ -11,7 +10,7 @@ import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../search/cubit/search_bloc.dart';
 
-class Details1C extends HookWidget {
+class Details1C extends StatelessWidget {
   const Details1C(
     this.product, {
     super.key,
@@ -31,7 +30,6 @@ class Details1C extends HookWidget {
     BuildContext context,
   ) {
     final cubit = context.productBloc;
-    final categoryController = useTextEditingController();
     return CustomBox(
       padding: AppUtils.kPaddingAll12,
       child: Column(
@@ -52,7 +50,7 @@ class Details1C extends HookWidget {
                 width: 220,
                 hintText: 'Выбор категории',
                 textStyle: const TextStyle(fontSize: 11),
-                controller: categoryController,
+                controller: cubit.categoryController,
                 onSelected: (value) {
                   context.productBloc.setCrateProductData(categoryId: value);
                   if (isDialog == true) return;
