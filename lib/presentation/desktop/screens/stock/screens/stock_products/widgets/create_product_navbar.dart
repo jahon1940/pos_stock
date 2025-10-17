@@ -8,7 +8,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_produ
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
-import '../../../../search/cubit/search_bloc.dart';
 
 class CreateProductNavbar extends StatelessWidget {
   const CreateProductNavbar({
@@ -41,7 +40,6 @@ class CreateProductNavbar extends StatelessWidget {
                   );
                   if (state.createProductStatus.isSuccess) {
                     await Future.delayed(Durations.medium1);
-                    context.searchBloc.add(SearchRemoteTextChangedEvent(''));
                     context.pop(context.productBloc.barcodeController.text);
                   }
                 },

@@ -8,6 +8,7 @@ import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
 
@@ -18,6 +19,7 @@ import '../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../../data/dtos/category/category_dto.dart';
 import '../../../../../../data/dtos/product_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../search/cubit/search_bloc.dart';
@@ -99,9 +101,10 @@ class StockProductsScreen extends HookWidget {
                         fieldController: searchController,
                         suffix: Row(
                           children: [
-                            ///
-                            BlocBuilder<CategoryBloc, CategoryState>(
-                              builder: (context, state) => Container(
+                            /// categories
+                            BlocSelector<CategoryBloc, CategoryState, List<CategoryDto>>(
+                              selector: (state) => state.categories?.results ?? [],
+                              builder: (context, categories) => Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: AppUtils.kBorderRadius12,
@@ -126,19 +129,17 @@ class StockProductsScreen extends HookWidget {
                                       value: null,
                                       label: 'Все категории',
                                     ),
-                                    ...state.categories?.results
-                                            .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                                            .toList() ??
-                                        []
+                                    ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                                   ],
                                 ),
                               ),
                             ),
 
-                            ///
+                            /// suppliers
                             AppUtils.kGap6,
-                            BlocBuilder<SupplierCubit, SupplierState>(
-                              builder: (context, state) => Container(
+                            BlocSelector<SupplierCubit, SupplierState, List<SupplierDto>>(
+                              selector: (state) => state.suppliers ?? [],
+                              builder: (context, suppliers) => Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: AppUtils.kBorderRadius12,
@@ -148,15 +149,11 @@ class StockProductsScreen extends HookWidget {
                                   hintText: 'Выбор поставщика',
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: supplierController,
-                                  onSelected: (value) {
-                                    context.searchBloc
-                                      ..add(SelectSupplierEvent(id: value))
-                                      ..add(SearchRemoteTextChangedEvent(
-                                        searchController.text,
-                                        stockId: stock.id,
-                                        supplierId: value,
-                                      ));
-                                  },
+                                  onSelected: (value) => context.productBloc.getProducts(
+                                    startsWith: searchController.text,
+                                    stockId: stock.id,
+                                    supplierId: value,
+                                  ),
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
@@ -167,15 +164,12 @@ class StockProductsScreen extends HookWidget {
                                       value: null,
                                       label: 'Все поставщики',
                                     ),
-                                    ...state.suppliers
-                                            ?.map(
-                                              (e) => DropdownMenuEntry(
-                                                value: e.id,
-                                                label: e.name ?? e.inn ?? e.phoneNumber ?? '',
-                                              ),
-                                            )
-                                            .toList() ??
-                                        []
+                                    ...suppliers.map(
+                                      (e) => DropdownMenuEntry(
+                                        value: e.id,
+                                        label: e.name ?? e.inn ?? e.phoneNumber ?? '',
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),

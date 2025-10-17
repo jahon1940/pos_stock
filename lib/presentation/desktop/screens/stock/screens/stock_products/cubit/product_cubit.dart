@@ -54,16 +54,18 @@ class ProductCubit extends Cubit<ProductState> {
     String startsWith = '',
     int? stockId,
     int? categoryId,
+    int? supplierId,
   }) async {
     if (state.status.isLoading) return;
     emit(state.copyWith(status: StateStatus.loading));
     try {
-      _loadedPageData = SearchRequest(
+      _loadedPageData = _loadedPageData.copyWith(
         title: startsWith,
         orderBy: '-created_at',
         page: 1,
         stockId: stockId,
         categoryId: categoryId,
+        supplierId: supplierId,
       );
       final res = await _repo.searchRemote(_loadedPageData);
       emit(
@@ -175,6 +177,7 @@ class ProductCubit extends Cubit<ProductState> {
           stockId: stockId,
         ),
       );
+      await getProducts();
       emit(state.copyWith(createProductStatus: StateStatus.success));
     } catch (e) {
       emit(state.copyWith(createProductStatus: StateStatus.error));
@@ -209,5 +212,16 @@ class ProductCubit extends Cubit<ProductState> {
       emit(state.copyWith(createProductStatus: StateStatus.error));
     }
     emit(state.copyWith(createProductStatus: StateStatus.initial));
+  }
+
+  Future<void> deleteProduct(
+    int productId,
+  ) async {
+    try {
+      await _repo.deleteProduct(productId);
+      await getProducts();
+    } catch (e) {
+      //
+    }
   }
 }

@@ -8,7 +8,6 @@ import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
-import '../../../../search/cubit/search_bloc.dart';
 import '../create_product_screen.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -189,7 +188,7 @@ class ProductItemWidget extends StatelessWidget {
                     label: 'Вы действительно хотите удалить?',
                     onConfirm: () {
                       dialocContext.pop();
-                      context.searchBloc.add(DeleteProductEvent(product.id));
+                      context.productBloc.deleteProduct(product.id);
                     },
                   ),
                 ),
