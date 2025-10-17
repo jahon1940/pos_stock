@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -26,6 +27,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/organizatio
 import 'package:hoomo_pos/presentation/desktop/screens/supplier/children/cubit/supplier_cubit.dart';
 import 'package:provider/provider.dart';
 import 'core/styles/theme_provider.dart';
+import 'core/utils/log_bloc_observer.dart' show LogBlocObserver;
 
 void main() async {
   try {
@@ -35,6 +37,10 @@ void main() async {
   } catch (e) {
     debugPrint(e.toString());
   } finally {
+    /// bloc logger
+    if (kDebugMode) {
+      Bloc.observer = LogBlocObserver();
+    }
     runApp(
       Phoenix(
         child: ChangeNotifierProvider(
