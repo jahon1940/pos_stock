@@ -114,7 +114,7 @@ class SuppliesScreen extends HookWidget {
                             textStyle: const TextStyle(fontSize: 11),
                             controller: supplierController,
                             onSelected: (value) => context
-                              ..searchBloc.add(SelectSupplier(id: value))
+                              ..searchBloc.add(SelectSupplierEvent(id: value))
                               ..supplyBloc.selectedSupplier(value),
                             inputDecorationTheme: InputDecorationTheme(
                               hintStyle: const TextStyle(fontSize: 11),

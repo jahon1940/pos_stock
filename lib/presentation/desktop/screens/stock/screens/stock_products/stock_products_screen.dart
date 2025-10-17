@@ -148,7 +148,7 @@ class StockProductsScreen extends HookWidget {
                                   controller: supplierController,
                                   onSelected: (value) {
                                     context.searchBloc
-                                      ..add(SelectSupplier(id: value))
+                                      ..add(SelectSupplierEvent(id: value))
                                       ..add(SearchRemoteTextChangedEvent(
                                         searchController.text,
                                         stockId: stock.id,
@@ -184,8 +184,8 @@ class StockProductsScreen extends HookWidget {
                               icon: const Icon(Icons.close),
                               onPressed: () {
                                 supplierController.clear();
-                                context.searchBloc.add(SelectSupplier());
                                 searchController.clear();
+                                context.searchBloc.add(SelectSupplierEvent());
                                 context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id));
                               },
                             ),

@@ -35,7 +35,7 @@ class SearchScreen extends HookWidget {
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
-          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
+          context.searchBloc.add(LoadMoreSearchEvent(remote: selectedFilter.value == 'remote'));
         }
       });
       context.searchBloc.add(SearchRemoteTextChangedEvent(''));

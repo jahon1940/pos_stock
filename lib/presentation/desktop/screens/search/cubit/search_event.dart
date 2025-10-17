@@ -68,8 +68,8 @@ class ExportProductPrice extends SearchEvent {
   final int? quantity;
 }
 
-class SelectSupplier extends SearchEvent {
-  SelectSupplier({this.id});
+class SelectSupplierEvent extends SearchEvent {
+  SelectSupplierEvent({this.id});
 
   final int? id;
 }
@@ -80,10 +80,12 @@ class SelectCategoryEvent extends SearchEvent {
   final int? id;
 }
 
-class LoadMoreSearch extends SearchEvent {
-  LoadMoreSearch({this.remote = false});
+class LoadMoreSearchEvent extends SearchEvent {
+  LoadMoreSearchEvent({this.remote = false});
 
   final bool remote;
 }
 
-class InfoProducts extends SearchEvent {}
+class InfoProductsEvent extends SearchEvent {
+  const InfoProductsEvent();
+}

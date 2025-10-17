@@ -26,13 +26,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchRemoteTextChangedEvent>(_onSearchRemoteTextChanged, transformer: _debounce());
     on<GetLocalProducts>(_onGetLocalProducts);
     on<GetRemoteProducts>(onGetRemoteProducts);
-    on<LoadMoreSearch>(_onLoadMore);
+    on<LoadMoreSearchEvent>(_onLoadMore);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<DeleteProductEvent>(_deleteProduct);
     on<ExportProducts>(_exportProducts);
     on<ExportInventoryProducts>(_exportInventoryProducts);
     on<ExportProductPrice>(_exportProductPrice);
-    on<SelectSupplier>(_onSelectSupplier);
+    on<SelectSupplierEvent>(_onSelectSupplier);
     on<SelectCategoryEvent>(_onSelectCategory);
   }
 
@@ -141,7 +141,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<void> _onLoadMore(
-    LoadMoreSearch event,
+    LoadMoreSearchEvent event,
     Emitter<SearchState> emit,
   ) async {
     if (state.status.isLoadingMore) return;
@@ -232,7 +232,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   void _onSelectSupplier(
-    SelectSupplier event,
+    SelectSupplierEvent event,
     Emitter<SearchState> emit,
   ) =>
       emit(
