@@ -77,29 +77,30 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     SearchRemoteTextChangedEvent event,
     Emitter<SearchState> emit,
   ) async {
-    final value = event.value;
-    var request = SearchRequest(
-      title: value,
+    emit(state.copyWith(status: StateStatus.loading));
+
+    final request = SearchRequest(
+      title: event.value,
       orderBy: '-created_at',
       page: 1,
       stockId: event.stockId,
       categoryId: event.categoryId,
       supplierId: event.supplierId,
     );
-    request = request.copyWith(page: 1);
-
-    emit(state.copyWith(status: StateStatus.loading));
 
     try {
       final res = await _productRepo.searchRemote(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
-        products:
-            request.page == 1 ? res : state.products!.copyWith(results: [...state.products!.results, ...res.results]),
+        products: request.page == 1
+            ? res
+            : state.products!.copyWith(
+                results: [...state.products!.results, ...res.results],
+              ),
         request: request,
       ));
     } catch (e) {
-      debugPrint(e.toString());
+      emit(state.copyWith(status: StateStatus.error));
     }
   }
 
