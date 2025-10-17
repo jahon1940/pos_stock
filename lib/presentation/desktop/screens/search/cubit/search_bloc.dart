@@ -124,7 +124,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(
         state.copyWith(
             status: StateStatus.loading,
-            products: PaginatedDto<ProductDto>(
+            products: const PaginatedDto<ProductDto>(
               results: [],
               pageNumber: 1,
               pageSize: 100,
@@ -151,7 +151,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(
           state.copyWith(
               status: StateStatus.loading,
-              products: PaginatedDto<ProductDto>(
+              products: const PaginatedDto<ProductDto>(
                 results: [],
                 pageNumber: 1,
                 pageSize: 100,
