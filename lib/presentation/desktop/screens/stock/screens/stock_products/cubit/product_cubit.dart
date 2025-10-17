@@ -10,6 +10,7 @@ import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart' show Uuid;
 
+import '../../../../../../../data/dtos/add_product/create_product_data_dto.dart';
 import '../../../../../../../data/dtos/add_product/create_product_request.dart';
 import '../../../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../../../data/dtos/search_request.dart';
@@ -139,7 +140,16 @@ class ProductCubit extends Cubit<ProductState> {
     barcodeController.text = barcode;
   }
 
-  void selectCategory(int? categoryId) => emit(state.copyWith(categoryId: categoryId));
+  void setCrateProductData({
+    int? categoryId,
+  }) =>
+      emit(
+        state.copyWith(
+          createProductDataDto: state.createProductDataDto.copyWith(
+            categoryId: categoryId,
+          ),
+        ),
+      );
 
   Future<void> createProduct() async {
     if (state.createProductStatus.isLoading) return;
@@ -156,7 +166,7 @@ class ProductCubit extends Cubit<ProductState> {
           purchasePrice: incomeController.text,
           barcode: barcodeController.text.isNotEmpty ? [barcodeController.text] : null,
           price: sellController.text,
-          categoryId: state.categoryId,
+          categoryId: state.createProductDataDto.categoryId,
           stockId: stockId,
         ),
       );

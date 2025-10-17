@@ -54,7 +54,7 @@ class Details1C extends HookWidget {
                 textStyle: const TextStyle(fontSize: 11),
                 controller: categoryController,
                 onSelected: (value) {
-                  context.productBloc.selectCategory(value);
+                  context.productBloc.setCrateProductData(categoryId: value);
                   if (isDialog == true) return;
                   context.searchBloc.add(SelectCategoryEvent(id: value));
                 },
