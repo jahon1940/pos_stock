@@ -45,29 +45,66 @@ class ProductCubit extends Cubit<ProductState> {
     return super.close();
   }
 
+  SearchRequest _loadedPageData = SearchRequest(page: 1);
+
   Future<void> getProducts({
+    String startsWith = '',
     int? stockId,
   }) async {
     if (state.status.isLoading) return;
     emit(state.copyWith(status: StateStatus.loading));
     try {
-      final request = SearchRequest(
-        title: '',
+      _loadedPageData = SearchRequest(
+        title: startsWith,
         orderBy: '-created_at',
         page: 1,
         stockId: stockId,
       );
-      final res = await _repo.searchRemote(request);
+      final res = await _repo.searchRemote(_loadedPageData);
       emit(
         state.copyWith(
           status: StateStatus.success,
-          productPageData: request.page == 1
+          productPageData: _loadedPageData.page == 1
               ? res
               : state.productPageData.copyWith(results: [...state.productPageData.results, ...res.results]),
         ),
       );
     } catch (e) {
       emit(state.copyWith(status: StateStatus.error));
+    }
+  }
+
+  Future<void> getMoreProducts({
+    required bool isRemote,
+  }) async {
+    if (state.status.isLoadingMore) return;
+    emit(state.copyWith(status: StateStatus.loadingMore));
+    try {
+      final nextPage = state.productPageData.pageNumber + 1;
+      final res = isRemote
+          ? await _repo.searchRemote(_loadedPageData.copyWith(page: nextPage))
+          : await _repo.getLocalProducts(nextPage);
+
+      emit(state.copyWith(
+        status: StateStatus.success,
+        productPageData: res.copyWith(results: [...state.productPageData.results, ...res.results]),
+      ));
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> getLocalProducts() async {
+    if (state.status.isLoading) return;
+    emit(state.copyWith(status: StateStatus.loading));
+    try {
+      final res = await _repo.getLocalProducts(1);
+      emit(state.copyWith(
+        status: StateStatus.success,
+        productPageData: res,
+      ));
+    } catch (e) {
+      //
     }
   }
 

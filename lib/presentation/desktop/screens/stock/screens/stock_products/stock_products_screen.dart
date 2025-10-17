@@ -8,6 +8,7 @@ import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
@@ -40,20 +41,20 @@ class StockProductsScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
+    const isRemote = true;
     final scrollController = useScrollController();
     final searchController = useTextEditingController();
-    final selectedFilter = useState<String>('remote');
     final supplierController = useTextEditingController();
     final categoryController = useTextEditingController();
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
-          context.searchBloc.add(LoadMoreSearch(remote: selectedFilter.value == 'remote'));
+          context.productBloc.getMoreProducts(isRemote: isRemote);
         }
       });
       context.supplierBloc.getSuppliers();
       context.categoryBloc.add(const GetCategoryEvent());
-      context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id));
+      context.productBloc.getProducts(stockId: stock.id);
       context.reportsBloc.getReports();
       return null;
     }, const []);
@@ -75,9 +76,6 @@ class StockProductsScreen extends HookWidget {
               ),
               child: Row(
                 children: [
-                  // const BackButtonWidget(),
-                  // AppUtils.kGap6,
-
                   ///
                   Expanded(
                     child: DecoratedBox(
@@ -113,7 +111,6 @@ class StockProductsScreen extends HookWidget {
                                           searchController.text,
                                           stockId: stock.id,
                                           categoryId: value,
-                                          clearPrevious: true,
                                         ),
                                       );
                                   },
@@ -156,7 +153,6 @@ class StockProductsScreen extends HookWidget {
                                         searchController.text,
                                         stockId: stock.id,
                                         supplierId: value,
-                                        clearPrevious: true,
                                       ));
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
@@ -184,7 +180,6 @@ class StockProductsScreen extends HookWidget {
                             ),
 
                             ///
-                            AppUtils.kGap6,
                             IconButton(
                               icon: const Icon(Icons.close),
                               onPressed: () {
@@ -198,13 +193,10 @@ class StockProductsScreen extends HookWidget {
                         ),
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (selectedFilter.value == 'local') {
-                              context.searchBloc
-                                  .add(value.isEmpty ? GetLocalProducts() : SearchTextChangedEvent(value));
+                            if (isRemote) {
+                              context.productBloc.getProducts(startsWith: value, stockId: stock.id);
                             } else {
-                              context.searchBloc.add(value.isEmpty
-                                  ? SearchRemoteTextChangedEvent('', stockId: stock.id)
-                                  : SearchRemoteTextChangedEvent(value, stockId: stock.id));
+                              context.productBloc.getLocalProducts();
                             }
                           });
                         },
@@ -215,7 +207,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.searchBloc.add(ExportProducts()),
+                    onTap: () => context.searchBloc.add(const ExportProducts()),
                     child: Container(
                       height: 48,
                       padding: AppUtils.kPaddingHor12,
@@ -303,9 +295,9 @@ class StockProductsScreen extends HookWidget {
 
                     ///
                     AppUtils.kGap12,
-                    BlocBuilder<SearchBloc, SearchState>(
+                    BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
-                        final products = state.products?.results ?? [];
+                        final products = state.productPageData.results;
                         return Expanded(
                           child: state.status.isLoading && products.isEmpty
                               ? const Center(child: CupertinoActivityIndicator())
