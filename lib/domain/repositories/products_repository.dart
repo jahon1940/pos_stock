@@ -37,7 +37,10 @@ abstract class ProductsRepository {
 
   Future<void> createProduct(CreateProductRequest request);
 
-  Future<void> putProduct(CreateProductRequest request, int productId);
+  Future<void> putProduct({
+    required int productId,
+    required CreateProductRequest request,
+  });
 
   Future<void> putBarcode(CreateProductRequest request, int productId);
 

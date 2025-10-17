@@ -130,7 +130,10 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
   }
 
   @override
-  Future<void> putProduct(CreateProductRequest request, int productId) async {
+  Future<void> putProduct({
+    required int productId,
+    required CreateProductRequest request,
+  }) async {
     try {
       return await _productsApi.putProduct(request, productId);
     } catch (e) {
@@ -167,13 +170,13 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
 
   @override
   Future<int> getProductInStocksTotalCount() async {
-    int? totalCount = await _productParamsDao.getTotalItemCount();
+    final int? totalCount = await _productParamsDao.getTotalItemCount();
     return totalCount ?? 0;
   }
 
   @override
   Future<int> getProductsTotalCount() async {
-    int? totalCount = await _productsDao.getTotalItemCount();
+    final int? totalCount = await _productsDao.getTotalItemCount();
     return totalCount ?? 0;
   }
 
@@ -197,7 +200,7 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
 
   @override
   Future<ProductDto?> getProduct(int productId) async {
-    Products? product = await _productsDao.getProduct(productId);
+    final Products? product = await _productsDao.getProduct(productId);
     final inStock = await _productParamsDao.getProductInStockByProduct(productId);
     if (product != null) {
       return ProductDto.toDto(product).copyWith(
