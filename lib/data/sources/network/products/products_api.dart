@@ -14,7 +14,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/exceptions/server_exception.dart';
 import '../../../../domain/repositories/pos_manager_repository.dart';
 import '../../../dtos/add_currency/add_currency_request.dart';
-import '../../../dtos/add_product/add_product_request.dart';
+import '../../../dtos/add_product/create_product_request.dart';
 
 part 'products_api_impl.dart';
 

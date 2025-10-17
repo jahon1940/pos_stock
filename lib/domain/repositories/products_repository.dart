@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart' show LazySingleton;
 
 import '../../core/mixins/secure_storage_mixin.dart';
 import '../../data/dtos/add_currency/add_currency_request.dart';
-import '../../data/dtos/add_product/add_product_request.dart';
+import '../../data/dtos/add_product/create_product_request.dart';
 import '../../data/sources/app_database.dart';
 import '../../data/sources/local/daos/product_dao.dart';
 import '../../data/sources/local/daos/product_params_dao.dart';

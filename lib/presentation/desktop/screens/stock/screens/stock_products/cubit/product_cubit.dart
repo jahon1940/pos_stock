@@ -10,7 +10,7 @@ import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart' show Uuid;
 
-import '../../../../../../../data/dtos/add_product/add_product_request.dart';
+import '../../../../../../../data/dtos/add_product/create_product_request.dart';
 import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'product_state.dart';

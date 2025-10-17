@@ -6,7 +6,7 @@ import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../data/dtos/add_product/add_product_request.dart';
+import '../../../../../data/dtos/add_product/create_product_request.dart';
 
 part 'product_detail_state.dart';
 
