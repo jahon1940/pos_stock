@@ -30,7 +30,7 @@ class Details1C extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    final cubit = context.addProductBloc;
+    final cubit = context.productBloc;
     final categoryController = useTextEditingController();
     return CustomBox(
       padding: AppUtils.kPaddingAll12,
@@ -55,7 +55,7 @@ class Details1C extends HookWidget {
                 controller: categoryController,
                 onSelected: (value) {
                   isDialog == true
-                      ? context.addProductBloc.selectCategory(value)
+                      ? context.productBloc.selectCategory(value)
                       : context.searchBloc.add(SelectCategory(id: value));
                 },
                 inputDecorationTheme: InputDecorationTheme(

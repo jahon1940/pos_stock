@@ -13,7 +13,7 @@ import '../../presentation/desktop/screens/search/cubit/search_bloc.dart';
 import '../../presentation/desktop/screens/settings/blocs/update_cubit/update_cubit_cubit.dart';
 import '../../presentation/desktop/screens/stock/bloc/stock_bloc.dart';
 import '../../presentation/desktop/screens/stock/screens/organizations/cubit/organization_cubit.dart';
-import '../../presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
+import '../../presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 import '../../presentation/desktop/screens/supplier/children/cubit/supplier_cubit.dart';
 
 extension BuildContextEntension<T> on BuildContext {
@@ -200,7 +200,7 @@ extension BlocExtension on BuildContext {
 
   WriteOffCubit get writeOffBloc => read<WriteOffCubit>();
 
-  AddProductCubit get addProductBloc => read<AddProductCubit>();
+  ProductCubit get productBloc => read<ProductCubit>();
 
   BrandCubit get brandBloc => read<BrandCubit>();
 

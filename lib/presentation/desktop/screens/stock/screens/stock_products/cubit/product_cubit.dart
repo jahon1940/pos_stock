@@ -13,16 +13,16 @@ import 'package:uuid/uuid.dart' show Uuid;
 import '../../../../../../../data/dtos/add_product/add_product_request.dart';
 import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
-part 'add_product_state.dart';
+part 'product_state.dart';
 
-part 'add_product_cubit.freezed.dart';
+part 'product_cubit.freezed.dart';
 
 @injectable
-class AddProductCubit extends Cubit<AddProductState> {
-  AddProductCubit(
+class ProductCubit extends Cubit<ProductState> {
+  ProductCubit(
     this._repo,
     this._posManagerRepo,
-  ) : super(const AddProductState());
+  ) : super(const ProductState());
 
   final ProductsRepository _repo;
   final PosManagerRepository _posManagerRepo;

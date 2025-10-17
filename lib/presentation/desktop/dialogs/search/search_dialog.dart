@@ -14,7 +14,7 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/search/cubit/fast_search_
 
 import '../../../../core/styles/colors.dart';
 import '../../screens/stock/screens/stock_products/add_product_screen.dart';
-import '../../screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
+import '../../screens/stock/screens/stock_products/cubit/product_cubit.dart';
 
 class SearchDialog extends StatefulWidget {
   const SearchDialog({
@@ -195,7 +195,7 @@ class _SearchDialogState extends State<SearchDialog> {
                                     onTap: () async {
                                       final bloc = context.read<FastSearchBloc>();
                                       final res = await context.showCustomDialog(BlocProvider(
-                                        create: (context) => getIt<AddProductCubit>(),
+                                        create: (context) => getIt<ProductCubit>(),
                                         child: const AddProductScreen(isDialog: true),
                                       )) as String?;
                                       _searchController.text = res ?? '';

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
-import 'cubit/add_product_cubit.dart';
+import 'cubit/product_cubit.dart';
 import 'widgets/add_product_navbar.dart';
 import 'widgets/details_1c.dart';
 import 'widgets/pricing.dart';
@@ -36,8 +36,8 @@ class AddProductScreen extends HookWidget {
       return null;
     }, const []);
     final productName = '${product?.title ?? ""} ${product?.vendorCode ?? ""}'.trim();
-    return Provider<AddProductCubit>(
-      create: (context) => getIt<AddProductCubit>()..init(product),
+    return Provider<ProductCubit>(
+      create: (context) => getIt<ProductCubit>()..init(product),
       builder: (blocContext, _) => Scaffold(
         body: Padding(
           padding: AppUtils.kPaddingAll10,

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/add_product_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
@@ -28,7 +28,7 @@ class AddProductNavbar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BlocConsumer<AddProductCubit, AddProductState>(
+              BlocConsumer<ProductCubit, ProductState>(
                 listenWhen: (p, c) =>
                     p.createProductStatus != c.createProductStatus &&
                     (c.createProductStatus.isError || c.createProductStatus.isSuccess),
@@ -42,15 +42,15 @@ class AddProductNavbar extends StatelessWidget {
                   if (state.createProductStatus.isSuccess) {
                     await Future.delayed(Durations.medium1);
                     context.searchBloc.add(SearchRemoteTextChangedEvent(''));
-                    context.pop(context.addProductBloc.barcodeController.text);
+                    context.pop(context.productBloc.barcodeController.text);
                   }
                 },
                 builder: (context, state) => InkWell(
                   onTap: () {
                     if (product == null) {
-                      context.addProductBloc.createProduct();
+                      context.productBloc.createProduct();
                     } else {
-                      context.addProductBloc.updateProduct(
+                      context.productBloc.updateProduct(
                         productId: product!.id,
                         categoryId: context.searchBloc.state.request?.categoryId,
                       );
