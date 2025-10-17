@@ -13,7 +13,6 @@ class SearchTextChangedEvent extends SearchEvent {
 class SearchRemoteTextChangedEvent extends SearchEvent {
   SearchRemoteTextChangedEvent(
     this.value, {
-    this.clearPrevious = false,
     this.stockId,
     this.categoryId,
     this.supplierId,
@@ -23,7 +22,6 @@ class SearchRemoteTextChangedEvent extends SearchEvent {
   final int? stockId;
   final int? categoryId;
   final int? supplierId;
-  final bool clearPrevious;
 }
 
 class DeleteProductEvent extends SearchEvent {
