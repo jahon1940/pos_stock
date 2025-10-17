@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:tabbed_view/tabbed_view.dart';
@@ -258,10 +257,9 @@ class _StockItemScreenState extends State<StockItemScreen> {
                               context,
                               label: 'Установить Курс',
                               onPressed: () async {
-                                final bloc = context.read<SearchBloc>();
                                 final res = await context.showCustomDialog(const CurrencyDialog());
                                 if (res == null) return;
-                                bloc.add(SearchRemoteTextChangedEvent(''));
+                                context.searchBloc.add(SearchRemoteTextChangedEvent(''));
                               },
                             ),
                           ],

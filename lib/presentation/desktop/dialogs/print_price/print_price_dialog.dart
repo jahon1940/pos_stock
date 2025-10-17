@@ -1,16 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/colors.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
-import 'package:hoomo_pos/data/dtos/category/create_category_request.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/dialogs/category/bloc/category_bloc.dart';
-import 'package:uuid/uuid.dart';
 import '../../../../core/constants/spaces.dart';
-import '../../../../data/dtos/product_param_dto.dart';
 import '../../screens/search/cubit/search_bloc.dart';
 
 class ExposrPriceDialog extends StatefulWidget {
@@ -47,10 +42,7 @@ class _CreateCategoryState extends State<ExposrPriceDialog> {
                     padding: const EdgeInsets.all(4),
                     child: Text(
                       " Цена: ${currencyFormatter.format(widget.product!.price).replaceAll('.', ' ')}",
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: AppColors.primary500,
-                          fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 20, color: AppColors.primary500, fontWeight: FontWeight.bold),
                     ),
                   ),
                   AppSpace.horizontal24,
@@ -68,9 +60,8 @@ class _CreateCategoryState extends State<ExposrPriceDialog> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          style: IconButton.styleFrom(
-                              overlayColor: AppColors.error500),
-                          icon: Icon(Icons.close, color: AppColors.error600),
+                          style: IconButton.styleFrom(overlayColor: AppColors.error500),
+                          icon: const Icon(Icons.close, color: AppColors.error600),
                         ),
                       ),
                     ),
@@ -81,7 +72,7 @@ class _CreateCategoryState extends State<ExposrPriceDialog> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
                 child: AppTextField(
                   width: 250,
-                  label: "Укажите количество",
+                  label: 'Укажите количество',
                   enabledBorderWith: 1,
                   enabledBorderColor: AppColors.stroke,
                   focusedBorderColor: AppColors.stroke,
@@ -101,14 +92,14 @@ class _CreateCategoryState extends State<ExposrPriceDialog> {
                     ),
                   ),
                   onPressed: () {
-                    context.read<SearchBloc>().add(ExportProductPrice(
-                          productId: widget.product!.id,
-                          quantity: int.parse(nameController.text),
-                        ));
+                    context.searchBloc.add(ExportProductPrice(
+                      productId: widget.product!.id,
+                      quantity: int.parse(nameController.text),
+                    ));
                     Navigator.pop(context);
                   },
-                  child: Text(
-                    "Скачать ценник",
+                  child: const Text(
+                    'Скачать ценник',
                     style: AppTextStyles.boldType16,
                     textAlign: TextAlign.center,
                   ),

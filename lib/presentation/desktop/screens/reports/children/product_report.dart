@@ -145,10 +145,8 @@ class ProductReportScreen extends HookWidget {
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: supplierController,
                                   onSelected: (value) {
-                                    context.read<SearchBloc>().add(
-                                          SelectSupplier(id: value),
-                                        );
-                                    context.read<ReportsCubit>().getReports(supplierId: value);
+                                    context.searchBloc.add(SelectSupplier(id: value));
+                                    context.reportsBloc.getReports(supplierId: value);
                                   },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
