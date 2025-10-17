@@ -13,7 +13,7 @@ class ProductState extends Equatable {
       count: 1,
     ),
     this.status = StateStatus.initial,
-    this.createProductStatus = StateStatus.loading,
+    this.createProductStatus = StateStatus.initial,
     this.createProductDataDto = const CreateProductDataDto(),
   });
 
