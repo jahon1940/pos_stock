@@ -8,7 +8,6 @@ import '../../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
-import '../../../../search/cubit/search_bloc.dart';
 
 class Details1C extends StatelessWidget {
   const Details1C(
@@ -51,11 +50,7 @@ class Details1C extends StatelessWidget {
                 hintText: 'Выбор категории',
                 textStyle: const TextStyle(fontSize: 11),
                 controller: cubit.categoryController,
-                onSelected: (value) {
-                  context.productBloc.setCrateProductData(categoryId: value);
-                  if (isDialog == true) return;
-                  context.searchBloc.add(SelectCategoryEvent(id: value));
-                },
+                onSelected: (value) => context.productBloc.setCrateProductData(categoryId: value),
                 inputDecorationTheme: InputDecorationTheme(
                   enabledBorder: border(Colors.grey.shade400),
                   hintStyle: const TextStyle(fontSize: 11),

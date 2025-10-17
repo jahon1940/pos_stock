@@ -59,6 +59,14 @@ class StockProductsScreen extends HookWidget {
       return null;
     }, const []);
 
+    void clearFilter() {
+      categoryController.clear();
+      supplierController.clear();
+      searchController.clear();
+      context.productBloc.getProducts(stockId: stock.id);
+      context.searchBloc.add(SelectSupplierEvent());
+    }
+
     return Scaffold(
       body: Padding(
         padding: AppUtils.kPaddingAll10,
@@ -103,17 +111,11 @@ class StockProductsScreen extends HookWidget {
                                   hintText: 'Выбор категории',
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: categoryController,
-                                  onSelected: (value) {
-                                    context.searchBloc
-                                      ..add(SelectCategoryEvent(id: value))
-                                      ..add(
-                                        SearchRemoteTextChangedEvent(
-                                          searchController.text,
-                                          stockId: stock.id,
-                                          categoryId: value,
-                                        ),
-                                      );
-                                  },
+                                  onSelected: (value) => context.productBloc.getProducts(
+                                    startsWith: searchController.text,
+                                    stockId: stock.id,
+                                    categoryId: value,
+                                  ),
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
@@ -182,12 +184,7 @@ class StockProductsScreen extends HookWidget {
                             ///
                             IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: () {
-                                supplierController.clear();
-                                searchController.clear();
-                                context.searchBloc.add(SelectSupplierEvent());
-                                context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id));
-                              },
+                              onPressed: clearFilter,
                             ),
                           ],
                         ),

@@ -53,6 +53,7 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> getProducts({
     String startsWith = '',
     int? stockId,
+    int? categoryId,
   }) async {
     if (state.status.isLoading) return;
     emit(state.copyWith(status: StateStatus.loading));
@@ -62,6 +63,7 @@ class ProductCubit extends Cubit<ProductState> {
         orderBy: '-created_at',
         page: 1,
         stockId: stockId,
+        categoryId: categoryId,
       );
       final res = await _repo.searchRemote(_loadedPageData);
       emit(
