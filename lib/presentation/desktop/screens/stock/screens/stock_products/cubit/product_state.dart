@@ -12,7 +12,7 @@ class ProductState extends Equatable {
       totalPages: 1,
       count: 1,
     ),
-    this.status = StateStatus.loading,
+    this.status = StateStatus.initial,
     this.categoryId,
     this.createProductStatus = StateStatus.loading,
   });
