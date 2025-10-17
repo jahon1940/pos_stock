@@ -10,8 +10,8 @@ import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 import '../../../../search/cubit/search_bloc.dart';
 
-class AddProductNavbar extends StatelessWidget {
-  const AddProductNavbar({
+class CreateProductNavbar extends StatelessWidget {
+  const CreateProductNavbar({
     super.key,
     required this.product,
   });

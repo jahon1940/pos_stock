@@ -9,7 +9,7 @@ import '../../../../../../../core/widgets/product_table_item.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../dialogs/prouct_detail/product_detail_dialog.dart';
 import '../../../../search/cubit/search_bloc.dart';
-import '../add_product_screen.dart';
+import '../create_product_screen.dart';
 
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
@@ -216,7 +216,7 @@ class ProductItemWidget extends StatelessWidget {
   ) =>
       navigationKey.currentState!.push(
         MaterialPageRoute(
-          builder: (_) => AddProductScreen(product: product),
+          builder: (_) => CreateProductScreen(product: product),
         ),
       );
 }

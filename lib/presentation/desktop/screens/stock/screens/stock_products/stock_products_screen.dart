@@ -21,7 +21,7 @@ import '../../../../../../data/dtos/product_dto.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
-import 'add_product_screen.dart';
+import 'create_product_screen.dart';
 import 'widgets/product_item_widget.dart';
 
 class StockProductsScreen extends HookWidget {
@@ -350,7 +350,7 @@ class StockProductsScreen extends HookWidget {
   ]) =>
       navigationKey.currentState!.push(
         MaterialPageRoute(
-          builder: (_) => AddProductScreen(product: product),
+          builder: (_) => CreateProductScreen(product: product),
         ),
       );
 }

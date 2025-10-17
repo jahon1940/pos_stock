@@ -11,14 +11,14 @@ import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
 import 'cubit/product_cubit.dart';
-import 'widgets/add_product_navbar.dart';
+import 'widgets/create_product_navbar.dart';
 import 'widgets/details_1c.dart';
 import 'widgets/pricing.dart';
 import 'widgets/product_images_widget.dart';
 
 @RoutePage()
-class AddProductScreen extends HookWidget {
-  const AddProductScreen({
+class CreateProductScreen extends HookWidget {
+  const CreateProductScreen({
     super.key,
     this.product,
     this.isDialog = false,
@@ -114,7 +114,7 @@ class AddProductScreen extends HookWidget {
             ],
           ),
         ),
-        bottomNavigationBar: AddProductNavbar(product: product),
+        bottomNavigationBar: CreateProductNavbar(product: product),
       ),
     );
   }

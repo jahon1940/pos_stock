@@ -132,7 +132,7 @@ class SuppliesProducts extends HookWidget {
                         );
                         if (res == null) return;
                         if (res == true) {
-                          final data = await router.push(AddProductRoute()) as String?;
+                          final data = await router.push(CreateProductRoute()) as String?;
                           if (data == null) return;
                           context.supplyBloc.addProductByBarcode(data);
                           return;
