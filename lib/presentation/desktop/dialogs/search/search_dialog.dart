@@ -193,13 +193,12 @@ class _SearchDialogState extends State<SearchDialog> {
                                 if (!state.isLocalSearch)
                                   GestureDetector(
                                     onTap: () async {
-                                      final bloc = context.read<FastSearchBloc>();
                                       final res = await context.showCustomDialog(BlocProvider(
                                         create: (context) => getIt<ProductCubit>(),
                                         child: const CreateProductScreen(isDialog: true),
                                       )) as String?;
                                       _searchController.text = res ?? '';
-                                      bloc.add(SearchTextChanged(res ?? ''));
+                                      context.fastSearchBloc.add(SearchTextChanged(res ?? ''));
                                     },
                                     behavior: HitTestBehavior.opaque,
                                     child: Container(

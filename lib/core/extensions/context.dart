@@ -7,6 +7,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/supplies/cu
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/transfer/cubit/transfer_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/write_off/cubit/write_off_cubit.dart';
 import '../../presentation/desktop/dialogs/category/bloc/category_bloc.dart';
+import '../../presentation/desktop/dialogs/search/cubit/fast_search_bloc.dart';
 import '../../presentation/desktop/screens/manager/children/cubit/manager_cubit.dart';
 import '../../presentation/desktop/screens/reports/children/cubit/reports_cubit.dart';
 import '../../presentation/desktop/screens/search/cubit/search_bloc.dart';
@@ -205,4 +206,6 @@ extension BlocExtension on BuildContext {
   BrandCubit get brandBloc => read<BrandCubit>();
 
   CountryCubit get countryBloc => read<CountryCubit>();
+
+  FastSearchBloc get fastSearchBloc => read<FastSearchBloc>();
 }
