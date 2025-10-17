@@ -30,7 +30,7 @@ class CreateProductScreen extends HookWidget {
   ) {
     useEffect(() {
       context.categoryBloc.add(const GetCategoryEvent());
-      context.productBloc.init(product);
+      context.productBloc.setDataToFields(product);
       return null;
     }, const []);
     final productName = '${product?.title ?? ""} ${product?.vendorCode ?? ""}'.trim();

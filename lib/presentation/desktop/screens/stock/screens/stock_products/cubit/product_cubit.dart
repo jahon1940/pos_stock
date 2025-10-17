@@ -109,7 +109,7 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> init(
+  Future<void> setDataToFields(
     ProductDto? product,
   ) async {
     if (product == null) return;
