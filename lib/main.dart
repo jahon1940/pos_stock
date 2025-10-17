@@ -28,6 +28,7 @@ import 'package:hoomo_pos/presentation/desktop/screens/supplier/children/cubit/s
 import 'package:provider/provider.dart';
 import 'core/styles/theme_provider.dart';
 import 'core/utils/log_bloc_observer.dart' show LogBlocObserver;
+import 'presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 
 void main() async {
   try {
@@ -63,6 +64,7 @@ void main() async {
                 BlocProvider(create: (context) => getIt<OrganizationCubit>()),
                 BlocProvider(create: (context) => getIt<StockBloc>()),
                 BlocProvider(create: (context) => getIt<ManagerCubit>()),
+                BlocProvider(create: (context) => getIt<ProductCubit>()),
 
                 ///
                 BlocProvider(create: (context) => getIt<UserCubit>()),

@@ -43,6 +43,8 @@ class ProductCubit extends Cubit<ProductState> {
     return super.close();
   }
 
+  Future<void> getProducts() async {}
+
   Future<void> init(
     ProductDto? product,
   ) async {
