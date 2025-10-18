@@ -92,7 +92,7 @@ class CreateProductScreen extends HookWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Product1CDetails(product),
+                        Expanded(child: Product1CDetails(product)),
                         AppUtils.kMainObjectsGap,
                         const Pricing(),
                         // About(),

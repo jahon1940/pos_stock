@@ -63,181 +63,183 @@ class _Product1CDetailsState extends State<Product1CDetails> {
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// title
-              Text(
-                'Категория: ${product?.category?.name ?? ''}',
-                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// title
+                Text(
+                  'Категория: ${product?.category?.name ?? ''}',
+                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                ),
 
-              ///
-              AppUtils.kGap20,
-              BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, state) {
-                  final categories = state.categories?.results ?? [];
-                  return DropdownMenu<int?>(
-                    width: 220,
-                    hintText: 'Выбор категории',
-                    textStyle: const TextStyle(fontSize: 11),
-                    controller: _categoryController,
-                    onSelected: (value) => context.productBloc.setCrateProductData(
-                      categoryId: value,
-                      categoryName: _categoryController.text,
-                    ),
-                    inputDecorationTheme: InputDecorationTheme(
-                      enabledBorder: border(Colors.grey.shade400),
-                      hintStyle: const TextStyle(fontSize: 11),
-                      isDense: true,
-                      constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                    ),
-                    dropdownMenuEntries: [
-                      const DropdownMenuEntry(
-                        value: null,
-                        label: 'Все категории',
+                ///
+                AppUtils.kGap20,
+                BlocBuilder<CategoryBloc, CategoryState>(
+                  builder: (context, state) {
+                    final categories = state.categories?.results ?? [];
+                    return DropdownMenu<int?>(
+                      width: 220,
+                      hintText: 'Выбор категории',
+                      textStyle: const TextStyle(fontSize: 11),
+                      controller: _categoryController,
+                      onSelected: (value) => context.productBloc.setCrateProductData(
+                        categoryId: value,
+                        categoryName: _categoryController.text,
                       ),
-                      ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                    ],
-                  );
-                },
-              ),
-
-              ///
-              AppUtils.kGap20,
-              AppTextField(
-                prefix: Icon(Icons.title, color: context.primary),
-                fieldController: _nameController,
-                width: double.maxFinite,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                label: 'Название Продукта ...',
-                alignLabelWithHint: true,
-                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                onChange: (value) => context.productBloc.setCrateProductData(name: value),
-              ),
-
-              /// barcode
-              AppUtils.kGap20,
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _barcodes.length,
-                separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
-                itemBuilder: (_, index) => _barcodesWidget(
-                  value: _barcodes.elementAt(index),
-                  isLast: index == _barcodes.length - 1,
-                  onGenerate: () {
-                    _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
-                    context.productBloc.setCrateProductData(barcodes: _barcodes);
-                    setState(() {});
-                  },
-                  onChange: (value) {
-                    _barcodes[index] = value;
-                    context.productBloc.setCrateProductData(barcodes: _barcodes);
-                  },
-                  onRemoveWidget: () {
-                    _barcodes.removeAt(index);
-                    context.productBloc.setCrateProductData(barcodes: _barcodes);
-                    setState(() {});
+                      inputDecorationTheme: InputDecorationTheme(
+                        enabledBorder: border(Colors.grey.shade400),
+                        hintStyle: const TextStyle(fontSize: 11),
+                        isDense: true,
+                        constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                      ),
+                      dropdownMenuEntries: [
+                        const DropdownMenuEntry(
+                          value: null,
+                          label: 'Все категории',
+                        ),
+                        ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                      ],
+                    );
                   },
                 ),
-              ),
 
-              /// vendor code
-              AppUtils.kGap20,
-              Row(
-                children: [
-                  Expanded(
-                    child: AppTextField(
-                      prefix: Icon(
-                        Icons.abc,
-                        color: context.primary,
-                      ),
-                      fieldController: _vendorCodeController,
-                      width: double.maxFinite,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                      label: 'Артикул продукта...',
-                      alignLabelWithHint: true,
-                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                      onChange: (value) => context.productBloc.setCrateProductData(vendorCode: value),
-                    ),
+                ///
+                AppUtils.kGap20,
+                AppTextField(
+                  prefix: Icon(Icons.title, color: context.primary),
+                  fieldController: _nameController,
+                  width: double.maxFinite,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  label: 'Название Продукта ...',
+                  alignLabelWithHint: true,
+                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                  onChange: (value) => context.productBloc.setCrateProductData(name: value),
+                ),
+
+                /// barcode
+                AppUtils.kGap20,
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _barcodes.length,
+                  separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
+                  itemBuilder: (_, index) => _barcodesWidget(
+                    value: _barcodes.elementAt(index),
+                    isLast: index == _barcodes.length - 1,
+                    onGenerate: () {
+                      _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
+                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                      setState(() {});
+                    },
+                    onChange: (value) {
+                      _barcodes[index] = value;
+                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                    },
+                    onRemoveWidget: () {
+                      _barcodes.removeAt(index);
+                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                      setState(() {});
+                    },
                   ),
+                ),
 
-                  // AppSpace.horizontal12,
-                  // Expanded(
-                  //   flex: 1,
-                  //   child: AppTextField(
-                  //     prefix: Icon(
-                  //       Icons.check_box_outline_blank,
-                  //       color: context.primary,
-                  //     ),
-                  //     fieldController: cubit.quantityController,
-                  //     width: double.maxFinite,
-                  //     contentPadding: const EdgeInsets.symmetric(
-                  //         horizontal: 16, vertical: 18),
-                  //     label: 'Количество...',
-                  //     alignLabelWithHint: true,
-                  //     maxLines: 1,
-                  //     textInputType: TextInputType.text,
-                  //     style: AppTextStyles.boldType14
-                  //         .copyWith(fontWeight: FontWeight.w400),
-                  //   ),
-                  // ),
-                  // AppSpace.horizontal12,
-                  // SizedBox(
-                  //   width: 120,
-                  //   child: CustomBox(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.only(left: 5, right: 5),
-                  //       child: DropdownButton<String>(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //         isExpanded: true,
-                  //         underline: const SizedBox(),
-                  //         value: "KG",
-                  //         hint: Padding(
-                  //           padding: const EdgeInsets.only(left: 10),
-                  //           child: Text(
-                  //             "viewModel.product.measure" ?? '',
-                  //             style: AppTextStyles.boldType14
-                  //                 .copyWith(fontWeight: FontWeight.w400),
-                  //           ),
-                  //         ),
-                  //         alignment: Alignment.centerLeft,
-                  //         items: <String>[
-                  //           'KG',
-                  //           'GR',
-                  //           'LITR',
-                  //           'PIECE',
-                  //         ].map((String value) {
-                  //           return DropdownMenuItem<String>(
-                  //             value: value,
-                  //             child: Padding(
-                  //               padding: const EdgeInsets.only(left: 10),
-                  //               child: Text(
-                  //                   value == 'KG'
-                  //                       ? "Кило"
-                  //                       : value == 'GR'
-                  //                           ? "Грамм"
-                  //                           : value == 'LITR'
-                  //                               ? "Литр"
-                  //                               : value == 'PIECE'
-                  //                                   ? "Штука"
-                  //                                   : "",
-                  //                   style: AppTextStyles.boldType14
-                  //                       .copyWith(fontWeight: FontWeight.w500)),
-                  //             ),
-                  //           );
-                  //         }).toList(),
-                  //         onChanged: (value) {
-                  //           // viewModel.onChangeMeasure(value);
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ],
+                /// vendor code
+                AppUtils.kGap20,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppTextField(
+                        prefix: Icon(
+                          Icons.abc,
+                          color: context.primary,
+                        ),
+                        fieldController: _vendorCodeController,
+                        width: double.maxFinite,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                        label: 'Артикул продукта...',
+                        alignLabelWithHint: true,
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                        onChange: (value) => context.productBloc.setCrateProductData(vendorCode: value),
+                      ),
+                    ),
+
+                    // AppSpace.horizontal12,
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: AppTextField(
+                    //     prefix: Icon(
+                    //       Icons.check_box_outline_blank,
+                    //       color: context.primary,
+                    //     ),
+                    //     fieldController: cubit.quantityController,
+                    //     width: double.maxFinite,
+                    //     contentPadding: const EdgeInsets.symmetric(
+                    //         horizontal: 16, vertical: 18),
+                    //     label: 'Количество...',
+                    //     alignLabelWithHint: true,
+                    //     maxLines: 1,
+                    //     textInputType: TextInputType.text,
+                    //     style: AppTextStyles.boldType14
+                    //         .copyWith(fontWeight: FontWeight.w400),
+                    //   ),
+                    // ),
+                    // AppSpace.horizontal12,
+                    // SizedBox(
+                    //   width: 120,
+                    //   child: CustomBox(
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.only(left: 5, right: 5),
+                    //       child: DropdownButton<String>(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //         isExpanded: true,
+                    //         underline: const SizedBox(),
+                    //         value: "KG",
+                    //         hint: Padding(
+                    //           padding: const EdgeInsets.only(left: 10),
+                    //           child: Text(
+                    //             "viewModel.product.measure" ?? '',
+                    //             style: AppTextStyles.boldType14
+                    //                 .copyWith(fontWeight: FontWeight.w400),
+                    //           ),
+                    //         ),
+                    //         alignment: Alignment.centerLeft,
+                    //         items: <String>[
+                    //           'KG',
+                    //           'GR',
+                    //           'LITR',
+                    //           'PIECE',
+                    //         ].map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.only(left: 10),
+                    //               child: Text(
+                    //                   value == 'KG'
+                    //                       ? "Кило"
+                    //                       : value == 'GR'
+                    //                           ? "Грамм"
+                    //                           : value == 'LITR'
+                    //                               ? "Литр"
+                    //                               : value == 'PIECE'
+                    //                                   ? "Штука"
+                    //                                   : "",
+                    //                   style: AppTextStyles.boldType14
+                    //                       .copyWith(fontWeight: FontWeight.w500)),
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //         onChanged: (value) {
+                    //           // viewModel.onChangeMeasure(value);
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
