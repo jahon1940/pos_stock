@@ -220,7 +220,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.searchBloc.add(SearchRemoteTextChangedEvent('', stockId: stock.id)),
+                    onTap: () => context.productBloc.getProducts(stockId: stock.id),
                     child: Container(
                       width: 48,
                       height: 48,
@@ -299,7 +299,7 @@ class StockProductsScreen extends HookWidget {
                                         if (value.isEmpty) value = searchController.text;
                                         searchController.clear();
                                         searchController.text = value;
-                                        context.searchBloc.add(SearchRemoteTextChangedEvent(value, stockId: stock.id));
+                                        context.productBloc.getProducts(startsWith: value, stockId: stock.id);
                                       },
                                       child: Material(
                                         child: ListView.separated(
