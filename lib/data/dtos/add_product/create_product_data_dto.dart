@@ -1,3 +1,5 @@
+import 'dart:io' show File;
+
 import 'package:equatable/equatable.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 
@@ -17,6 +19,7 @@ class CreateProductDataDto extends Equatable {
     this.quantity = 0,
     this.purchasePrice,
     this.price,
+    this.imageFiles = const [],
   });
 
   final String name;
@@ -33,6 +36,7 @@ class CreateProductDataDto extends Equatable {
   final int quantity;
   final int? purchasePrice;
   final int? price;
+  final List<File> imageFiles;
 
   CreateProductDataDto copyWith({
     String? name,
@@ -49,6 +53,7 @@ class CreateProductDataDto extends Equatable {
     int? quantity,
     int? purchasePrice,
     int? price,
+    List<File>? imageFiles,
   }) =>
       CreateProductDataDto(
         name: name ?? this.name,
@@ -65,6 +70,7 @@ class CreateProductDataDto extends Equatable {
         quantity: quantity ?? this.quantity,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
+        imageFiles: imageFiles ?? this.imageFiles,
       );
 
   @override
@@ -83,6 +89,7 @@ class CreateProductDataDto extends Equatable {
         quantity,
         purchasePrice,
         price,
+        imageFiles,
       ];
 
   Map<String, dynamic> toJson() => {
