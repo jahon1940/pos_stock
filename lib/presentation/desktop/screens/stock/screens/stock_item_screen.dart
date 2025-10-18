@@ -8,6 +8,7 @@ import 'package:tabbed_view/tabbed_view.dart';
 import '../../../../../../core/constants/app_utils.dart';
 import '../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../data/dtos/stock_dto.dart';
+import '../../../../../core/styles/colors.dart';
 import '../../search/cubit/search_bloc.dart';
 import '../dialogs/currency/currency_dialog.dart';
 import '../widgets/page_title_widget.dart';
@@ -48,6 +49,8 @@ class _StockItemScreenState extends State<StockItemScreen> {
   late final GlobalKey<NavigatorState> _stockProductsNavKey;
 
   late final TabbedViewController _controller;
+
+  String? _selectedItem;
 
   @override
   void initState() {
@@ -289,31 +292,47 @@ class _StockItemScreenState extends State<StockItemScreen> {
     BuildContext context, {
     required String label,
     required VoidCallback onPressed,
-  }) =>
-      GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          // width: context.width * .3,
-          height: 50,
-          padding: AppUtils.kPaddingHor12,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: context.primary,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: TextStyle(fontSize: 13, color: context.onPrimary),
-              ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
-                size: 16,
-              ),
-            ],
+  }) {
+    final isSelected = _selectedItem == label;
+    return SizedBox(
+      height: 50,
+      child: Material(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: context.primary),
+        ),
+        color: isSelected ? context.onPrimary : AppColors.primary500,
+        child: InkWell(
+          onTap: () {
+            _selectedItem = label;
+            onPressed.call();
+          },
+          hoverColor: isSelected ? context.onPrimary : AppColors.primary400,
+          highlightColor: AppColors.primary300,
+          splashColor: AppColors.primary300,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: AppUtils.kPaddingHor12,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isSelected ? context.primary : context.onPrimary,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: isSelected ? context.primary : context.onPrimary,
+                  size: 16,
+                ),
+              ],
+            ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }
