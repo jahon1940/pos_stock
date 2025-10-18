@@ -1,6 +1,10 @@
+import 'dart:io' show File;
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
+import 'package:hoomo_pos/core/mixins/image_mixin.dart';
 import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
@@ -15,7 +19,7 @@ import '../../../../../../../data/dtos/search_request.dart';
 part 'product_state.dart';
 
 @injectable
-class ProductCubit extends Cubit<ProductState> {
+class ProductCubit extends Cubit<ProductState> with ImageMixin {
   ProductCubit(
     this._repo,
   ) : super(const ProductState());
@@ -151,6 +155,7 @@ class ProductCubit extends Cubit<ProductState> {
     String? vendorCode,
     int? purchasePrice,
     int? price,
+    List<File>? imageFiles,
   }) =>
       emit(
         state.copyWith(
@@ -166,6 +171,7 @@ class ProductCubit extends Cubit<ProductState> {
             vendorCode: vendorCode,
             purchasePrice: purchasePrice,
             price: price,
+            imageFiles: imageFiles,
           ),
         ),
       );
@@ -174,6 +180,14 @@ class ProductCubit extends Cubit<ProductState> {
     if (state.createProductStatus.isLoading) return;
     emit(state.copyWith(createProductStatus: StateStatus.loading));
     try {
+      final List<String> base64Images = [];
+      for (final item in state.createProductDataDto.imageFiles) {
+        String? base64 = await fileToBase64(item);
+        if (base64.isNotNull) {
+          base64 = 'data:image/png;base64,$base64=';
+          base64Images.add(base64);
+        }
+      }
       final data = state.createProductDataDto;
       await _repo.createProduct(
         CreateProductRequest(
@@ -187,6 +201,7 @@ class ProductCubit extends Cubit<ProductState> {
           categoryId: data.categoryId,
           // brandId: data.brandId, // todo implement from backend
           // countryId: data.countryId, // todo implement from backend
+          // images: base64Images, // todo implement from backend
           stockId: _stockId,
         ),
       );

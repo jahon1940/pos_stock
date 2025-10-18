@@ -22,7 +22,7 @@ class ProductImagesWidget extends StatefulWidget {
 }
 
 class _ProductImagesWidgetState extends State<ProductImagesWidget> {
-  final List<File> _images = [];
+  final List<File> _imageFiles = [];
   File? _selectedItem;
 
   Future<void> _pickImage() async {
@@ -30,11 +30,12 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
       final xfile = await ImagePicker().pickMedia();
       if (xfile.isNotNull) {
         final file = File(xfile!.path);
-        for (final item in _images) {
+        for (final item in _imageFiles) {
           if (item.path == file.path) return;
         }
-        if (_images.isEmpty) _selectedItem = file;
-        _images.add(file);
+        if (_imageFiles.isEmpty) _selectedItem = file;
+        _imageFiles.add(file);
+        context.productBloc.setCreateProductData(imageFiles: _imageFiles);
         setState(() {});
       }
     } catch (e) {
@@ -48,8 +49,9 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
           label: 'Вы хотите удалить?',
           onConfirm: () {
             context.pop();
-            _images.removeWhere((item) => item.path == _selectedItem!.path);
-            _selectedItem = _images.firstOrNull;
+            _imageFiles.removeWhere((item) => item.path == _selectedItem!.path);
+            _selectedItem = _imageFiles.firstOrNull;
+            context.productBloc.setCreateProductData(imageFiles: _imageFiles);
             setState(() {});
           },
         ),
@@ -108,15 +110,15 @@ class _ProductImagesWidgetState extends State<ProductImagesWidget> {
               ),
 
             /// mini images
-            if (_images.isNotEmpty) ...[
+            if (_imageFiles.isNotEmpty) ...[
               AppUtils.kGap12,
               Row(
                 spacing: AppUtils.kGap12.mainAxisExtent,
                 children: List.generate(
-                  min(4, _images.length + 1),
+                  min(4, _imageFiles.length + 1),
                   (index) {
-                    final isLast = index == _images.length;
-                    final file = isLast ? null : _images.elementAt(index);
+                    final isLast = index == _imageFiles.length;
+                    final file = isLast ? null : _imageFiles.elementAt(index);
                     final isSelected = file.isNotNull && file?.path == _selectedItem?.path;
                     return isLast
                         ? OutlinedButton(
