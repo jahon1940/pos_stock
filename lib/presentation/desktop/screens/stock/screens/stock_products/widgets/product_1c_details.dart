@@ -4,6 +4,7 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/data/dtos/brand/brand_dto.dart';
 import 'package:hoomo_pos/data/dtos/category/category_dto.dart';
+import 'package:hoomo_pos/data/dtos/country/country_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/widgets/select_item_dialog.dart';
@@ -122,12 +123,12 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                     builder: (_) => SelectItemDialog(categories),
                                   );
                                   if (item.isNotNull) {
-                                    setState(() {});
                                     _selectedCategoryName = item!.name;
                                     context.productBloc.setCreateProductData(
                                       categoryId: item.id,
                                       categoryName: item.name,
                                     );
+                                    setState(() {});
                                   }
                                 },
                               ),
@@ -186,12 +187,12 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                     builder: (_) => SelectItemDialog(brands),
                                   );
                                   if (item.isNotNull) {
-                                    setState(() {});
                                     _selectedBrandName = item!.name;
                                     context.productBloc.setCreateProductData(
                                       brandId: item.id,
                                       brandName: item.name,
                                     );
+                                    setState(() {});
                                   }
                                 },
                               ),
@@ -221,27 +222,45 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       child: BlocBuilder<CountryCubit, CountryState>(
                         builder: (context, state) {
                           final countries = state.countries?.results ?? [];
-                          return DropdownMenu<int?>(
+                          return SizedBox(
                             width: 220,
-                            hintText: 'Выбор cтрана',
-                            textStyle: const TextStyle(fontSize: 11),
-                            onSelected: (value) => context.productBloc.setCreateProductData(
-                              countryId: value,
-                              countryName: _selectedCountryName,
-                            ),
-                            inputDecorationTheme: InputDecorationTheme(
-                              enabledBorder: border(Colors.grey.shade400),
-                              hintStyle: const TextStyle(fontSize: 11),
-                              isDense: true,
-                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                            ),
-                            dropdownMenuEntries: [
-                              const DropdownMenuEntry(
-                                value: null,
-                                label: 'Все cтрана',
+                            height: 50,
+                            child: Material(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                side: BorderSide(color: Colors.grey.shade400),
                               ),
-                              ...countries.map((e) => DropdownMenuEntry(value: e.id, label: e.name ?? ''))
-                            ],
+                              child: InkWell(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                hoverColor: Colors.grey.shade100,
+                                child: Row(
+                                  children: [
+                                    AppUtils.kGap12,
+                                    Text(
+                                      _selectedCountryName.isEmpty ? 'Все cтрана' : _selectedCountryName,
+                                      style: const TextStyle(fontSize: 11),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_drop_down, size: 18),
+                                    AppUtils.kGap12,
+                                  ],
+                                ),
+                                onTap: () async {
+                                  final item = await showDialog<CountryDto?>(
+                                    context: context,
+                                    builder: (_) => SelectItemDialog(countries),
+                                  );
+                                  if (item.isNotNull) {
+                                    _selectedCountryName = item!.name ?? ' - ';
+                                    context.productBloc.setCreateProductData(
+                                      countryId: item.id,
+                                      countryName: item.name,
+                                    );
+                                    setState(() {});
+                                  }
+                                },
+                              ),
+                            ),
                           );
                         },
                       ),
