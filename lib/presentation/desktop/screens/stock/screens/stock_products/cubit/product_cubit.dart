@@ -32,6 +32,18 @@ class ProductCubit extends Cubit<ProductState> {
     getProducts();
   }
 
+  void getFilteredProducts({
+    required String startsWith,
+    required int? categoryId,
+    required int? supplierId,
+  }) {
+    getProducts(
+      startsWith: startsWith,
+      categoryId: categoryId,
+      supplierId: supplierId,
+    );
+  }
+
   Future<void> getProducts({
     String startsWith = '',
     int? categoryId,

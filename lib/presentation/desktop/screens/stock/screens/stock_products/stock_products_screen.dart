@@ -47,7 +47,9 @@ class StockProductsScreen extends HookWidget {
     final scrollController = useScrollController();
     final searchController = useTextEditingController();
     final supplierController = useTextEditingController();
+    int? supplierId;
     final categoryController = useTextEditingController();
+    int? categoryId;
     useEffect(() {
       scrollController.addListener(() {
         if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
@@ -62,11 +64,12 @@ class StockProductsScreen extends HookWidget {
     }, const []);
 
     void clearFilter() {
-      categoryController.clear();
-      supplierController.clear();
       searchController.clear();
+      categoryController.clear();
+      categoryId = null;
+      supplierController.clear();
+      supplierId = null;
       context.productBloc.getProducts();
-      context.searchBloc.add(SelectSupplierEvent());
     }
 
     return Scaffold(
@@ -114,10 +117,14 @@ class StockProductsScreen extends HookWidget {
                                   hintText: 'Выбор категории',
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: categoryController,
-                                  onSelected: (value) => context.productBloc.getProducts(
-                                    startsWith: searchController.text,
-                                    categoryId: value,
-                                  ),
+                                  onSelected: (value) {
+                                    categoryId = value;
+                                    context.productBloc.getFilteredProducts(
+                                      startsWith: searchController.text,
+                                      categoryId: categoryId,
+                                      supplierId: supplierId,
+                                    );
+                                  },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
@@ -148,10 +155,14 @@ class StockProductsScreen extends HookWidget {
                                   hintText: 'Выбор поставщика',
                                   textStyle: const TextStyle(fontSize: 11),
                                   controller: supplierController,
-                                  onSelected: (value) => context.productBloc.getProducts(
-                                    startsWith: searchController.text,
-                                    supplierId: value,
-                                  ),
+                                  onSelected: (value) {
+                                    supplierId = value;
+                                    context.productBloc.getFilteredProducts(
+                                      startsWith: searchController.text,
+                                      categoryId: categoryId,
+                                      supplierId: supplierId,
+                                    );
+                                  },
                                   inputDecorationTheme: InputDecorationTheme(
                                     hintStyle: const TextStyle(fontSize: 11),
                                     isDense: true,
@@ -183,7 +194,11 @@ class StockProductsScreen extends HookWidget {
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             if (isRemote) {
-                              context.productBloc.getProducts(startsWith: value);
+                              context.productBloc.getFilteredProducts(
+                                startsWith: value,
+                                categoryId: categoryId,
+                                supplierId: supplierId,
+                              );
                             } else {
                               context.productBloc.getLocalProducts();
                             }
