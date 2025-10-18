@@ -63,7 +63,6 @@ class _StockItemScreenState extends State<StockItemScreen> {
     _controller = TabbedViewController([]);
     _controller.addListener(() {
       _selectedItem = _controller.selectedTab?.text;
-      print('ajskfasd $_selectedItem');
       setState(() {});
     });
   }
