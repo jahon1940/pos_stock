@@ -9,8 +9,8 @@ import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
-import 'widgets/product_1c_details.dart';
 import 'widgets/pricing.dart';
+import 'widgets/product_1c_details.dart';
 import 'widgets/product_images_widget.dart';
 
 @RoutePage()
