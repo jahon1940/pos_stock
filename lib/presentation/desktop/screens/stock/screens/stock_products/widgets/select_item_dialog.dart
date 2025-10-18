@@ -100,13 +100,22 @@ class _SelectItemDialogState extends State<SelectItemDialog> {
                   itemBuilder: (ctx, index) {
                     final item = filteredItems.elementAt(index);
                     if (item is CategoryDto) {
-                      return Container(
-                        padding: AppUtils.kPaddingAll12,
-                        decoration: BoxDecoration(
-                          borderRadius: AppUtils.kBorderRadius12,
-                          border: Border.all(color: context.theme.dividerColor, width: 2),
+                      return SizedBox(
+                        height: 50,
+                        child: Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: AppUtils.kBorderRadius8,
+                            side: BorderSide(color: context.theme.dividerColor, width: 2),
+                          ),
+                          child: InkWell(
+                            borderRadius: AppUtils.kBorderRadius8,
+                            onTap: () => context.pop(item),
+                            child: Padding(
+                              padding: AppUtils.kPaddingAll12,
+                              child: Text(item.name),
+                            ),
+                          ),
                         ),
-                        child: Text(item.name),
                       );
                     }
                     return const SizedBox();

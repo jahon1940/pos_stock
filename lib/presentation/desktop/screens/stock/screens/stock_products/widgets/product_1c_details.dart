@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
+import 'package:hoomo_pos/data/dtos/category/category_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/widgets/select_item_dialog.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
@@ -28,7 +31,7 @@ class Product1CDetails extends StatefulWidget {
 
 class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
-  late final TextEditingController _categoryController;
+  String _selectedCategoryName = '';
   late final TextEditingController _brandController;
   late final TextEditingController _countryController;
   late final TextEditingController _nameController;
@@ -38,7 +41,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   @override
   void initState() {
     super.initState();
-    _categoryController = TextEditingController();
     _brandController = TextEditingController();
     _countryController = TextEditingController();
     _nameController = TextEditingController();
@@ -49,7 +51,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
 
   @override
   void dispose() {
-    _categoryController.dispose();
     _brandController.dispose();
     _countryController.dispose();
     _nameController.dispose();
@@ -64,7 +65,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
       BlocConsumer<ProductCubit, ProductState>(
         listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
         listener: (context, state) {
-          _categoryController.text = state.createProductDataDto.categoryName;
+          _selectedCategoryName = state.createProductDataDto.categoryName;
           // _brandController.text = state.createProductDataDto;  // todo
           // _countryController.text = state.createProductDataDto;  // todo
           _nameController.text = state.createProductDataDto.name;
@@ -78,6 +79,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// category
+
                 Row(
                   children: [
                     Expanded(
@@ -94,28 +96,45 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       child: BlocBuilder<CategoryBloc, CategoryState>(
                         builder: (context, state) {
                           final categories = state.categories?.results ?? [];
-                          return DropdownMenu<int?>(
+                          return SizedBox(
                             width: 220,
-                            hintText: 'Выбор категории',
-                            textStyle: const TextStyle(fontSize: 11),
-                            controller: _categoryController,
-                            onSelected: (value) => context.productBloc.setCreateProductData(
-                              categoryId: value,
-                              categoryName: _categoryController.text,
-                            ),
-                            inputDecorationTheme: InputDecorationTheme(
-                              enabledBorder: border(Colors.grey.shade400),
-                              hintStyle: const TextStyle(fontSize: 11),
-                              isDense: true,
-                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                            ),
-                            dropdownMenuEntries: [
-                              const DropdownMenuEntry(
-                                value: null,
-                                label: 'Все категории',
+                            height: 50,
+                            child: Material(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                side: BorderSide(color: Colors.grey.shade400),
                               ),
-                              ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                            ],
+                              child: InkWell(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                hoverColor: Colors.grey.shade100,
+                                child: Row(
+                                  children: [
+                                    AppUtils.kGap12,
+                                    Text(
+                                      _selectedCategoryName.isEmpty ? 'Все категории' : _selectedCategoryName,
+                                      style: const TextStyle(fontSize: 11),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_drop_down, size: 18),
+                                    AppUtils.kGap12,
+                                  ],
+                                ),
+                                onTap: () async {
+                                  final item = await showDialog<CategoryDto?>(
+                                    context: context,
+                                    builder: (_) => SelectItemDialog(categories),
+                                  );
+                                  if (item.isNotNull) {
+                                    setState(() {});
+                                    _selectedCategoryName = item!.name;
+                                    context.productBloc.setCreateProductData(
+                                      categoryId: item.id,
+                                      categoryName: item.name,
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
                           );
                         },
                       ),
