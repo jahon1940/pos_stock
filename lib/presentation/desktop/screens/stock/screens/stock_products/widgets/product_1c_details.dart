@@ -28,16 +28,16 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
   late final TextEditingController categoryController;
   late final TextEditingController titleController;
-  late final TextEditingController barcodeController;
   late final TextEditingController vendorCodeController;
+  List<String> _barcodes = [];
 
   @override
   void initState() {
     super.initState();
     categoryController = TextEditingController();
     titleController = TextEditingController();
-    barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
-    context.productBloc.setCrateProductData(barcode: barcodeController.text);
+    _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
+    context.productBloc.setCrateProductData(barcodes: _barcodes);
     vendorCodeController = TextEditingController();
   }
 
@@ -45,7 +45,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   void dispose() {
     categoryController.dispose();
     titleController.dispose();
-    barcodeController.dispose();
     vendorCodeController.dispose();
     super.dispose();
   }
@@ -59,7 +58,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
       listener: (context, state) {
         categoryController.text = state.createProductDataDto.categoryName;
         titleController.text = state.createProductDataDto.name;
-        barcodeController.text = state.createProductDataDto.barcode;
+        _barcodes = state.createProductDataDto.barcodes;
         vendorCodeController.text = state.createProductDataDto.vendorCode;
       },
       child: CustomBox(
@@ -122,9 +121,21 @@ class _Product1CDetailsState extends State<Product1CDetails> {
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 1,
+              itemCount: _barcodes.length,
               separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
-              itemBuilder: (_, index) => barcodesWidget(),
+              itemBuilder: (_, index) => _barcodesWidget(
+                value: _barcodes.elementAt(index),
+                isLast: index == _barcodes.length - 1,
+                onGenerate: () {
+                  _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
+                  context.productBloc.setCrateProductData(barcodes: _barcodes);
+                  setState(() {});
+                },
+                onChange: (value) {
+                  _barcodes[index] = value;
+                  context.productBloc.setCrateProductData(barcodes: _barcodes);
+                },
+              ),
             ),
 
             /// vendor code
@@ -227,12 +238,20 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     );
   }
 
+  void _addWidget() => setState(() => _barcodes.add(''));
+
   OutlineInputBorder border(Color color) => OutlineInputBorder(
         borderRadius: AppUtils.kBorderRadius8,
         borderSide: BorderSide(color: color),
       );
 
-  Widget barcodesWidget() => Row(
+  Widget _barcodesWidget({
+    required String value,
+    required VoidCallback onGenerate,
+    required bool isLast,
+    required Function(String) onChange,
+  }) =>
+      Row(
         children: [
           /// generate button
           SizedBox(
@@ -242,10 +261,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               borderRadius: AppUtils.kBorderRadius8,
               color: AppColors.primary500,
               child: InkWell(
-                onTap: () {
-                  barcodeController.text = BarcodeIdGenerator.generateRandom13DigitNumber();
-                  context.productBloc.setCrateProductData(barcode: barcodeController.text);
-                },
+                onTap: onGenerate,
                 hoverColor: AppColors.primary400,
                 highlightColor: AppColors.primary300,
                 splashColor: AppColors.primary300,
@@ -270,37 +286,39 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                 Icons.barcode_reader,
                 color: context.primary,
               ),
-              fieldController: barcodeController,
+              fieldController: TextEditingController(text: value),
               width: double.maxFinite,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               label: 'Штрих код продукта...',
               alignLabelWithHint: true,
               style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-              onChange: (value) => context.productBloc.setCrateProductData(barcode: value),
+              onChange: onChange,
             ),
           ),
 
           /// add button
-          AppUtils.kGap12,
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: Material(
-              borderRadius: AppUtils.kBorderRadius8,
-              color: AppColors.primary500,
-              child: InkWell(
-                onTap: () {},
-                hoverColor: AppColors.primary400,
-                highlightColor: AppColors.primary300,
-                splashColor: AppColors.primary300,
+          if (isLast) ...[
+            AppUtils.kGap12,
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: Material(
                 borderRadius: AppUtils.kBorderRadius8,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
+                color: AppColors.primary500,
+                child: InkWell(
+                  onTap: _addWidget,
+                  hoverColor: AppColors.primary400,
+                  highlightColor: AppColors.primary300,
+                  splashColor: AppColors.primary300,
+                  borderRadius: AppUtils.kBorderRadius8,
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
       );
 }

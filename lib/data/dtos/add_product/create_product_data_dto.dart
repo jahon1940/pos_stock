@@ -4,7 +4,7 @@ import 'package:hoomo_pos/core/extensions/null_extension.dart';
 class CreateProductDataDto extends Equatable {
   const CreateProductDataDto({
     this.name = '',
-    this.barcode = '',
+    this.barcodes = const [],
     this.vendorCode = '',
     this.productId = '',
     this.stockId = '',
@@ -16,7 +16,7 @@ class CreateProductDataDto extends Equatable {
   });
 
   final String name;
-  final String barcode;
+  final List<String> barcodes;
   final String vendorCode;
   final String productId;
   final String stockId;
@@ -28,7 +28,7 @@ class CreateProductDataDto extends Equatable {
 
   CreateProductDataDto copyWith({
     String? name,
-    String? barcode,
+    List<String>? barcodes,
     String? vendorCode,
     String? productId,
     String? stockId,
@@ -40,7 +40,7 @@ class CreateProductDataDto extends Equatable {
   }) =>
       CreateProductDataDto(
         name: name ?? this.name,
-        barcode: barcode ?? this.barcode,
+        barcodes: barcodes ?? this.barcodes,
         vendorCode: vendorCode ?? this.vendorCode,
         productId: productId ?? this.productId,
         stockId: stockId ?? this.stockId,
@@ -54,7 +54,7 @@ class CreateProductDataDto extends Equatable {
   @override
   List<Object?> get props => [
         name,
-        barcode,
+        barcodes,
         vendorCode,
         productId,
         stockId,
@@ -69,7 +69,7 @@ class CreateProductDataDto extends Equatable {
         if (productId.isNotEmpty) 'product_id': productId,
         if (name.isNotEmpty) 'title': name,
         if (vendorCode.isNotEmpty) 'vendor_code': vendorCode,
-        if (barcode.isNotEmpty) 'barcode': barcode,
+        if (barcodes.isNotEmpty) 'barcode': barcodes,
         if (stockId.isNotEmpty) 'stock_id': stockId,
         if (categoryId.isNotNull) 'category_name': categoryName,
         if (categoryId.isNotNull) 'category_id': categoryId,
