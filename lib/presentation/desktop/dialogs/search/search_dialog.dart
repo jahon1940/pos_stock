@@ -195,7 +195,7 @@ class _SearchDialogState extends State<SearchDialog> {
                                     onTap: () async {
                                       final res = await context.showCustomDialog(BlocProvider(
                                         create: (context) => getIt<ProductCubit>(),
-                                        child: const CreateProductScreen(isDialog: true),
+                                        child: const CreateProductScreen(),
                                       )) as String?;
                                       _searchController.text = res ?? '';
                                       context.fastSearchBloc.add(SearchTextChanged(res ?? ''));

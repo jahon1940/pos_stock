@@ -18,11 +18,9 @@ class CreateProductScreen extends HookWidget {
   const CreateProductScreen({
     super.key,
     this.product,
-    this.isDialog = false,
   });
 
   final ProductDto? product;
-  final bool isDialog;
 
   @override
   Widget build(
@@ -94,7 +92,7 @@ class CreateProductScreen extends HookWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Product1CDetails(product, isDialog: isDialog),
+                        Product1CDetails(product),
                         AppUtils.kMainObjectsGap,
                         const Pricing(),
                         // About(),
