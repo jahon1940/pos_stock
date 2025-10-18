@@ -139,7 +139,7 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  void setCrateProductData({
+  void setCreateProductData({
     String? name,
     int? categoryId,
     String? categoryName,

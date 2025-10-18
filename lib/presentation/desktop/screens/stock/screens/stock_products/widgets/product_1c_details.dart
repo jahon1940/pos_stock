@@ -37,7 +37,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     _categoryController = TextEditingController();
     _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
-    context.productBloc.setCrateProductData(barcodes: _barcodes);
+    context.productBloc.setCreateProductData(barcodes: _barcodes);
     _vendorCodeController = TextEditingController();
   }
 
@@ -83,7 +83,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       hintText: 'Выбор категории',
                       textStyle: const TextStyle(fontSize: 11),
                       controller: _categoryController,
-                      onSelected: (value) => context.productBloc.setCrateProductData(
+                      onSelected: (value) => context.productBloc.setCreateProductData(
                         categoryId: value,
                         categoryName: _categoryController.text,
                       ),
@@ -114,7 +114,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   label: 'Название Продукта ...',
                   alignLabelWithHint: true,
                   style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                  onChange: (value) => context.productBloc.setCrateProductData(name: value),
+                  onChange: (value) => context.productBloc.setCreateProductData(name: value),
                 ),
 
                 /// barcode
@@ -129,16 +129,16 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     isLast: index == _barcodes.length - 1,
                     onGenerate: () {
                       _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
-                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                      context.productBloc.setCreateProductData(barcodes: _barcodes);
                       setState(() {});
                     },
                     onChange: (value) {
                       _barcodes[index] = value;
-                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                      context.productBloc.setCreateProductData(barcodes: _barcodes);
                     },
                     onRemoveWidget: () {
                       _barcodes.removeAt(index);
-                      context.productBloc.setCrateProductData(barcodes: _barcodes);
+                      context.productBloc.setCreateProductData(barcodes: _barcodes);
                       setState(() {});
                     },
                   ),
@@ -160,31 +160,25 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                         label: 'Артикул продукта...',
                         alignLabelWithHint: true,
                         style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                        onChange: (value) => context.productBloc.setCrateProductData(vendorCode: value),
+                        onChange: (value) => context.productBloc.setCreateProductData(vendorCode: value),
                       ),
                     ),
-
-                    // AppSpace.horizontal12,
+                    // AppUtils.kMainObjectsGap,
                     // Expanded(
-                    //   flex: 1,
                     //   child: AppTextField(
                     //     prefix: Icon(
-                    //       Icons.check_box_outline_blank,
+                    //       Icons.onetwothree,
                     //       color: context.primary,
                     //     ),
-                    //     fieldController: cubit.quantityController,
+                    //     // fieldController: _quantityController,
                     //     width: double.maxFinite,
-                    //     contentPadding: const EdgeInsets.symmetric(
-                    //         horizontal: 16, vertical: 18),
+                    //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     //     label: 'Количество...',
                     //     alignLabelWithHint: true,
-                    //     maxLines: 1,
-                    //     textInputType: TextInputType.text,
-                    //     style: AppTextStyles.boldType14
-                    //         .copyWith(fontWeight: FontWeight.w400),
+                    //     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                     //   ),
                     // ),
-                    // AppSpace.horizontal12,
+                    // AppUtils.kMainObjectsGap,
                     // SizedBox(
                     //   width: 120,
                     //   child: CustomBox(
@@ -194,13 +188,12 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     //         borderRadius: BorderRadius.circular(10),
                     //         isExpanded: true,
                     //         underline: const SizedBox(),
-                    //         value: "KG",
+                    //         value: 'KG',
                     //         hint: Padding(
                     //           padding: const EdgeInsets.only(left: 10),
                     //           child: Text(
-                    //             "viewModel.product.measure" ?? '',
-                    //             style: AppTextStyles.boldType14
-                    //                 .copyWith(fontWeight: FontWeight.w400),
+                    //             'viewModel.product.measure' ?? '',
+                    //             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                     //           ),
                     //         ),
                     //         alignment: Alignment.centerLeft,
@@ -216,22 +209,19 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     //               padding: const EdgeInsets.only(left: 10),
                     //               child: Text(
                     //                   value == 'KG'
-                    //                       ? "Кило"
+                    //                       ? 'Кило'
                     //                       : value == 'GR'
-                    //                           ? "Грамм"
+                    //                           ? 'Грамм'
                     //                           : value == 'LITR'
-                    //                               ? "Литр"
+                    //                               ? 'Литр'
                     //                               : value == 'PIECE'
-                    //                                   ? "Штука"
-                    //                                   : "",
-                    //                   style: AppTextStyles.boldType14
-                    //                       .copyWith(fontWeight: FontWeight.w500)),
+                    //                                   ? 'Штука'
+                    //                                   : '',
+                    //                   style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500)),
                     //             ),
                     //           );
                     //         }).toList(),
-                    //         onChanged: (value) {
-                    //           // viewModel.onChangeMeasure(value);
-                    //         },
+                    //         onChanged: (value) {},
                     //       ),
                     //     ),
                     //   ),
