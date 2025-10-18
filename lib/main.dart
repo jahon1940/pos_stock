@@ -29,6 +29,7 @@ import 'package:provider/provider.dart';
 import 'core/styles/theme_provider.dart';
 import 'core/utils/log_bloc_observer.dart' show LogBlocObserver;
 import 'presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
+import 'presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
 import 'presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 
 void main() async {
@@ -67,6 +68,7 @@ void main() async {
                 BlocProvider(create: (context) => getIt<ManagerCubit>()),
                 BlocProvider(create: (context) => getIt<ProductCubit>()),
                 BlocProvider(create: (context) => getIt<BrandCubit>()),
+                BlocProvider(create: (context) => getIt<CountryCubit>()),
 
                 ///
                 BlocProvider(create: (context) => getIt<UserCubit>()),

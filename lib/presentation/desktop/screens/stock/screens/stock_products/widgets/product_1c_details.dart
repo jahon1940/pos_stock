@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
@@ -29,6 +30,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
   late final TextEditingController _categoryController;
   late final TextEditingController _brandController;
+  late final TextEditingController _countryController;
   late final TextEditingController _nameController;
   late final TextEditingController _vendorCodeController;
   List<String> _barcodes = [];
@@ -38,6 +40,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     super.initState();
     _categoryController = TextEditingController();
     _brandController = TextEditingController();
+    _countryController = TextEditingController();
     _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCreateProductData(barcodes: _barcodes);
@@ -48,6 +51,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   void dispose() {
     _categoryController.dispose();
     _brandController.dispose();
+    _countryController.dispose();
     _nameController.dispose();
     _vendorCodeController.dispose();
     super.dispose();
@@ -62,6 +66,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
         listener: (context, state) {
           _categoryController.text = state.createProductDataDto.categoryName;
           // _brandController.text = state.createProductDataDto;  // todo
+          // _countryController.text = state.createProductDataDto;  // todo
           _nameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
@@ -85,7 +90,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     ///
                     AppUtils.kGap20,
                     Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: BlocBuilder<CategoryBloc, CategoryState>(
                         builder: (context, state) {
                           final categories = state.categories?.results ?? [];
@@ -132,7 +137,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     ///
                     AppUtils.kGap20,
                     Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: BlocBuilder<BrandCubit, BrandState>(
                         builder: (context, state) {
                           final brands = state.brands?.results ?? [];
@@ -157,6 +162,53 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                 label: 'Все бренды',
                               ),
                               ...brands.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                /// country
+                AppUtils.kGap12,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Страна производства: ${product?.madeIn?.name ?? ''}',
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                      ),
+                    ),
+
+                    ///
+                    AppUtils.kGap20,
+                    Expanded(
+                      flex: 3,
+                      child: BlocBuilder<CountryCubit, CountryState>(
+                        builder: (context, state) {
+                          final countries = state.countries?.results ?? [];
+                          return DropdownMenu<int?>(
+                            width: 220,
+                            hintText: 'Выбор cтрана',
+                            textStyle: const TextStyle(fontSize: 11),
+                            controller: _countryController,
+                            onSelected: (value) => context.productBloc.setCreateProductData(
+                              countryId: value,
+                              countryName: _countryController.text,
+                            ),
+                            inputDecorationTheme: InputDecorationTheme(
+                              enabledBorder: border(Colors.grey.shade400),
+                              hintStyle: const TextStyle(fontSize: 11),
+                              isDense: true,
+                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                            ),
+                            dropdownMenuEntries: [
+                              const DropdownMenuEntry(
+                                value: null,
+                                label: 'Все cтрана',
+                              ),
+                              ...countries.map((e) => DropdownMenuEntry(value: e.id, label: e.name ?? ''))
                             ],
                           );
                         },

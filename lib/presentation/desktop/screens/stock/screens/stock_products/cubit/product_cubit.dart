@@ -145,6 +145,8 @@ class ProductCubit extends Cubit<ProductState> {
     int? categoryId,
     String? brandName,
     int? brandId,
+    String? countryName,
+    int? countryId,
     List<String>? barcodes,
     String? vendorCode,
     int? purchasePrice,
@@ -158,6 +160,8 @@ class ProductCubit extends Cubit<ProductState> {
             categoryId: categoryId,
             brandName: brandName,
             brandId: brandId,
+            countryName: countryName,
+            countryId: countryId,
             barcodes: barcodes,
             vendorCode: vendorCode,
             purchasePrice: purchasePrice,
@@ -182,6 +186,7 @@ class ProductCubit extends Cubit<ProductState> {
           price: data.price.toString(),
           categoryId: data.categoryId,
           // brandId: data.brandId, // todo implement from backend
+          // countryId: data.countryId, // todo implement from backend
           stockId: _stockId,
         ),
       );
