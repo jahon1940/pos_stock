@@ -189,7 +189,7 @@ class _EmptyImageWidget extends StatelessWidget {
             ),
             AppUtils.kGap6,
             Text(
-              'Upload your product image.',
+              'Выберите основное фото',
               style: AppTextStyles.rType16.copyWith(
                 fontWeight: FontWeight.w500,
                 color: context.theme.unselectedWidgetColor,
@@ -198,11 +198,6 @@ class _EmptyImageWidget extends StatelessWidget {
             AppUtils.kGap6,
             Text(
               'Only PNG, JPG format allowed.',
-              style: AppTextStyles.rType12.withColor(context.theme.disabledColor),
-            ),
-            AppUtils.kGap6,
-            Text(
-              '500x500 pixels are recommended.',
               style: AppTextStyles.rType12.withColor(context.theme.disabledColor),
             ),
           ],
