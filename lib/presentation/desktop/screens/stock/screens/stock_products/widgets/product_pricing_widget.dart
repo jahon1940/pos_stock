@@ -67,7 +67,7 @@ class ProductPricingWidget extends HookWidget {
                 ),
               ],
             ),
-            AppSpace.vertical24,
+            // AppSpace.vertical24,
             // Row(
             //   children: [
             //     Row(
