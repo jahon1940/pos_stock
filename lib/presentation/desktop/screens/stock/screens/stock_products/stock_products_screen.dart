@@ -233,7 +233,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.productBloc.getProducts(),
+                    onTap: clearFilter,
                     child: Container(
                       width: 48,
                       height: 48,
