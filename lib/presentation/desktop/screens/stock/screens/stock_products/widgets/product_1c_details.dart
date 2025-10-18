@@ -135,6 +135,11 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   _barcodes[index] = value;
                   context.productBloc.setCrateProductData(barcodes: _barcodes);
                 },
+                onRemoveWidget: () {
+                  _barcodes.removeAt(index);
+                  context.productBloc.setCrateProductData(barcodes: _barcodes);
+                  setState(() {});
+                },
               ),
             ),
 
@@ -250,6 +255,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     required VoidCallback onGenerate,
     required bool isLast,
     required Function(String) onChange,
+    required VoidCallback onRemoveWidget,
   }) =>
       Row(
         children: [
@@ -314,6 +320,32 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   child: const Icon(
                     Icons.add,
                     color: Colors.white,
+                    size: 18,
+                  ),
+                ),
+              ),
+            ),
+          ],
+
+          /// remove button
+          if (_barcodes.length > 1) ...[
+            AppUtils.kGap12,
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: Material(
+                borderRadius: AppUtils.kBorderRadius8,
+                color: AppColors.error300,
+                child: InkWell(
+                  onTap: onRemoveWidget,
+                  hoverColor: AppColors.error200,
+                  highlightColor: AppColors.error100,
+                  splashColor: AppColors.error100,
+                  borderRadius: AppUtils.kBorderRadius8,
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 18,
                   ),
                 ),
               ),
