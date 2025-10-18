@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
@@ -8,35 +7,53 @@ import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../core/widgets/text_field.dart';
 import '../../../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/utils/barcode.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../cubit/product_cubit.dart';
 
-class Product1CDetails extends HookWidget {
+class Product1CDetails extends StatefulWidget {
   const Product1CDetails(
     this.product, {
     super.key,
-    this.isDialog,
   });
 
   final ProductDto? product;
-  final bool? isDialog;
 
-  OutlineInputBorder border(Color color) => OutlineInputBorder(
-        borderRadius: AppUtils.kBorderRadius8,
-        borderSide: BorderSide(color: color),
-      );
+  @override
+  State<Product1CDetails> createState() => _Product1CDetailsState();
+}
+
+class _Product1CDetailsState extends State<Product1CDetails> {
+  ProductDto? get product => widget.product;
+  late final TextEditingController categoryController;
+  late final TextEditingController titleController;
+  late final TextEditingController barcodeController;
+  late final TextEditingController vendorCodeController;
+
+  @override
+  void initState() {
+    super.initState();
+    categoryController = TextEditingController();
+    titleController = TextEditingController();
+    barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
+    context.productBloc.setCrateProductData(barcode: barcodeController.text);
+    vendorCodeController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    categoryController.dispose();
+    titleController.dispose();
+    barcodeController.dispose();
+    vendorCodeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    final categoryController = useTextEditingController();
-    final titleController = useTextEditingController();
-    final barcodeController = useTextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
-    context.productBloc.setCrateProductData(barcode: barcodeController.text);
-    final vendorCodeController = useTextEditingController();
-
     return BlocListener<ProductCubit, ProductState>(
       listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
       listener: (context, state) {
@@ -100,53 +117,20 @@ class Product1CDetails extends HookWidget {
               onChange: (value) => context.productBloc.setCrateProductData(name: value),
             ),
 
-            ///
+            /// barcode
+            AppUtils.kGap20,
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 1,
+              separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
+              itemBuilder: (_, index) => barcodesWidget(),
+            ),
+
+            /// vendor code
             AppUtils.kGap20,
             Row(
               children: [
-                /// generate button
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    barcodeController.text = BarcodeIdGenerator.generateRandom13DigitNumber();
-                    context.productBloc.setCrateProductData(barcode: barcodeController.text);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
-                    height: 50,
-                    width: context.width * .1,
-                    child: Center(
-                      child: Text(
-                        'Генерировать',
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 13, color: context.onPrimary),
-                      ),
-                    ),
-                  ),
-                ),
-
-                /// barcode
-                AppUtils.kGap12,
-                Expanded(
-                  flex: 2,
-                  child: AppTextField(
-                    prefix: Icon(
-                      Icons.barcode_reader,
-                      color: context.primary,
-                    ),
-                    fieldController: barcodeController,
-                    width: double.maxFinite,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    label: 'Штрих код продукта...',
-                    alignLabelWithHint: true,
-                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                    onChange: (value) => context.productBloc.setCrateProductData(barcode: value),
-                  ),
-                ),
-
-                /// vendor code
-                AppUtils.kGap12,
                 Expanded(
                   child: AppTextField(
                     prefix: Icon(
@@ -162,6 +146,7 @@ class Product1CDetails extends HookWidget {
                     onChange: (value) => context.productBloc.setCrateProductData(vendorCode: value),
                   ),
                 ),
+
                 // AppSpace.horizontal12,
                 // Expanded(
                 //   flex: 1,
@@ -241,4 +226,81 @@ class Product1CDetails extends HookWidget {
       ),
     );
   }
+
+  OutlineInputBorder border(Color color) => OutlineInputBorder(
+        borderRadius: AppUtils.kBorderRadius8,
+        borderSide: BorderSide(color: color),
+      );
+
+  Widget barcodesWidget() => Row(
+        children: [
+          /// generate button
+          SizedBox(
+            height: 50,
+            width: context.width * .1,
+            child: Material(
+              borderRadius: AppUtils.kBorderRadius8,
+              color: AppColors.primary500,
+              child: InkWell(
+                onTap: () {
+                  barcodeController.text = BarcodeIdGenerator.generateRandom13DigitNumber();
+                  context.productBloc.setCrateProductData(barcode: barcodeController.text);
+                },
+                hoverColor: AppColors.primary400,
+                highlightColor: AppColors.primary300,
+                splashColor: AppColors.primary300,
+                borderRadius: AppUtils.kBorderRadius8,
+                child: Center(
+                  child: Text(
+                    'Сгенерировать',
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 13, color: context.onPrimary),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          /// barcode
+          AppUtils.kGap12,
+          Expanded(
+            flex: 4,
+            child: AppTextField(
+              prefix: Icon(
+                Icons.barcode_reader,
+                color: context.primary,
+              ),
+              fieldController: barcodeController,
+              width: double.maxFinite,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              label: 'Штрих код продукта...',
+              alignLabelWithHint: true,
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+              onChange: (value) => context.productBloc.setCrateProductData(barcode: value),
+            ),
+          ),
+
+          /// add button
+          AppUtils.kGap12,
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: Material(
+              borderRadius: AppUtils.kBorderRadius8,
+              color: AppColors.primary500,
+              child: InkWell(
+                onTap: () {},
+                hoverColor: AppColors.primary400,
+                highlightColor: AppColors.primary300,
+                splashColor: AppColors.primary300,
+                borderRadius: AppUtils.kBorderRadius8,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 }
