@@ -61,6 +61,11 @@ class _StockItemScreenState extends State<StockItemScreen> {
     _inventoriesNavKey = GlobalKey<NavigatorState>();
     _stockProductsNavKey = GlobalKey<NavigatorState>();
     _controller = TabbedViewController([]);
+    _controller.addListener(() {
+      _selectedItem = _controller.selectedTab?.text;
+      print('ajskfasd $_selectedItem');
+      setState(() {});
+    });
   }
 
   @override
@@ -293,7 +298,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
     required String label,
     required VoidCallback onPressed,
   }) {
-    final isSelected = _selectedItem == label;
+    final isSelected = _selectedItem != null ? label.startsWith(_selectedItem!) : false;
     return SizedBox(
       height: 50,
       child: Material(
