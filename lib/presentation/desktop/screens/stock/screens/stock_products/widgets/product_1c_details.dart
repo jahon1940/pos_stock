@@ -12,8 +12,8 @@ import '../../../../../../../core/utils/barcode.dart';
 import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../cubit/product_cubit.dart';
 
-class Details1C extends HookWidget {
-  const Details1C(
+class Product1CDetails extends HookWidget {
+  const Product1CDetails(
     this.product, {
     super.key,
     this.isDialog,
