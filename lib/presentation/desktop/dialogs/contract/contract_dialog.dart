@@ -17,16 +17,16 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/contract/widgets/create_c
 import 'cubit/contract_bloc.dart';
 
 class ContractDialog extends HookWidget {
-  const ContractDialog(
-      {super.key, required this.companyDto, this.fromCart = false});
+  const ContractDialog({super.key, required this.companyDto, this.fromCart = false});
 
   final CompanyDto companyDto;
   final bool fromCart;
 
   @override
-  Widget build(BuildContext context) {
-    ValueNotifier<bool> showCreate = useState(false);
-
+  Widget build(
+    BuildContext context,
+  ) {
+    final ValueNotifier<bool> showCreate = useState(false);
     useEffect(() {
       context.read<ContractBloc>().add(ContractLoad(companyDto.id));
       return null;
@@ -49,8 +49,7 @@ class ContractDialog extends HookWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(15),
-                        child: Text(companyDto.name ?? "",
-                            style: AppTextStyles.boldType14),
+                        child: Text(companyDto.name ?? '', style: AppTextStyles.boldType14),
                       ),
                       Row(
                         children: [
@@ -68,16 +67,16 @@ class ContractDialog extends HookWidget {
                               onPressed: () {
                                 showCreate.value = !showCreate.value;
                                 bloc.contractId = null;
-                                bloc.contractDate.text =
-                                    DateFormat("dd.MM.yyyy")
-                                        .format(DateTime.now());
-                                bloc.contractNumber.text = "";
+                                bloc.contractDate.text = DateFormat('dd.MM.yyyy').format(DateTime.now());
+                                bloc.contractNumber.text = '';
                                 bloc.number = 0;
                                 bloc.generateContractNumber();
                               },
-                              child: Text("Создать договор",
-                                  style: AppTextStyles.boldType16,
-                                  textAlign: TextAlign.center),
+                              child: const Text(
+                                'Создать договор',
+                                style: AppTextStyles.boldType16,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                           Padding(
@@ -94,10 +93,8 @@ class ContractDialog extends HookWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  style: IconButton.styleFrom(
-                                      overlayColor: AppColors.error500),
-                                  icon: Icon(Icons.close,
-                                      color: AppColors.error600),
+                                  style: IconButton.styleFrom(overlayColor: AppColors.error500),
+                                  icon: const Icon(Icons.close, color: AppColors.error600),
                                 ),
                               ),
                             ),
@@ -107,21 +104,19 @@ class ContractDialog extends HookWidget {
                     ],
                   ),
                   if (showCreate.value) ...[
-                    CreateContract(
-                        companyDto: companyDto,
-                        posManagerDto: state.posManagerDto!)
+                    CreateContract(companyDto: companyDto, posManagerDto: state.posManagerDto!)
                   ],
                   TableTitleProducts(
                     fillColor: AppColors.stroke,
                     columnWidths: const {
-                      0: FlexColumnWidth(1),
+                      0: FlexColumnWidth(),
                       1: FlexColumnWidth(4),
-                      2: FlexColumnWidth(1),
+                      2: FlexColumnWidth(),
                     },
                     titles: [
-                      context.tr("contract_id"),
-                      context.tr("contract_number"),
-                      context.tr("action"),
+                      context.tr('contract_id'),
+                      context.tr('contract_number'),
+                      context.tr('action'),
                     ],
                   ),
                   Expanded(
@@ -129,13 +124,13 @@ class ContractDialog extends HookWidget {
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(8.0),
                       itemBuilder: (context, index) {
-                        ContractDto contract = state.contracts![index];
+                        final ContractDto contract = state.contracts![index];
                         return Material(
                           child: TableProductItem(
                             columnWidths: const {
-                              0: FlexColumnWidth(1),
+                              0: FlexColumnWidth(),
                               1: FlexColumnWidth(4),
-                              2: FlexColumnWidth(1),
+                              2: FlexColumnWidth(),
                             },
                             onTap: () async {
                               if (fromCart) {
@@ -150,8 +145,7 @@ class ContractDialog extends HookWidget {
                               SizedBox(
                                 height: 50,
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 5, 5, 5),
+                                  padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
                                   child: Text(
                                     contract.id.toString(),
                                     textAlign: TextAlign.center,
@@ -160,12 +154,9 @@ class ContractDialog extends HookWidget {
                               ),
                               SizedBox(
                                 child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 5, 0, 0),
+                                    padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
                                     child: Text(
-                                      contract.name ??
-                                          contract.number ??
-                                          "Не указано",
+                                      contract.name ?? contract.number ?? 'Не указано',
                                       textAlign: TextAlign.center,
                                     )),
                               ),
@@ -180,7 +171,7 @@ class ContractDialog extends HookWidget {
                                       bloc.updateContract(contract);
                                       showCreate.value = true;
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                       size: 15,
                                     ),
