@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
 
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
@@ -27,6 +28,7 @@ class Product1CDetails extends StatefulWidget {
 class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
   late final TextEditingController _categoryController;
+  late final TextEditingController _brandController;
   late final TextEditingController _nameController;
   late final TextEditingController _vendorCodeController;
   List<String> _barcodes = [];
@@ -35,6 +37,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   void initState() {
     super.initState();
     _categoryController = TextEditingController();
+    _brandController = TextEditingController();
     _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCreateProductData(barcodes: _barcodes);
@@ -44,6 +47,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   @override
   void dispose() {
     _categoryController.dispose();
+    _brandController.dispose();
     _nameController.dispose();
     _vendorCodeController.dispose();
     super.dispose();
@@ -57,6 +61,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
         listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
         listener: (context, state) {
           _categoryController.text = state.createProductDataDto.categoryName;
+          // _brandController.text = state.createProductDataDto;  // todo
           _nameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
@@ -67,42 +72,84 @@ class _Product1CDetailsState extends State<Product1CDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// title
-                Text(
-                  'Категория: ${product?.category?.name ?? ''}',
-                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                ),
+                /// category
+                ...[
+                  Text(
+                    'Категория: ${product?.category?.name ?? ''}',
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                  ),
 
-                ///
-                AppUtils.kGap20,
-                BlocBuilder<CategoryBloc, CategoryState>(
-                  builder: (context, state) {
-                    final categories = state.categories?.results ?? [];
-                    return DropdownMenu<int?>(
-                      width: 220,
-                      hintText: 'Выбор категории',
-                      textStyle: const TextStyle(fontSize: 11),
-                      controller: _categoryController,
-                      onSelected: (value) => context.productBloc.setCreateProductData(
-                        categoryId: value,
-                        categoryName: _categoryController.text,
-                      ),
-                      inputDecorationTheme: InputDecorationTheme(
-                        enabledBorder: border(Colors.grey.shade400),
-                        hintStyle: const TextStyle(fontSize: 11),
-                        isDense: true,
-                        constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                      ),
-                      dropdownMenuEntries: [
-                        const DropdownMenuEntry(
-                          value: null,
-                          label: 'Все категории',
+                  ///
+                  AppUtils.kGap20,
+                  BlocBuilder<CategoryBloc, CategoryState>(
+                    builder: (context, state) {
+                      final categories = state.categories?.results ?? [];
+                      return DropdownMenu<int?>(
+                        width: 220,
+                        hintText: 'Выбор категории',
+                        textStyle: const TextStyle(fontSize: 11),
+                        controller: _categoryController,
+                        onSelected: (value) => context.productBloc.setCreateProductData(
+                          categoryId: value,
+                          categoryName: _categoryController.text,
                         ),
-                        ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                      ],
-                    );
-                  },
-                ),
+                        inputDecorationTheme: InputDecorationTheme(
+                          enabledBorder: border(Colors.grey.shade400),
+                          hintStyle: const TextStyle(fontSize: 11),
+                          isDense: true,
+                          constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                        ),
+                        dropdownMenuEntries: [
+                          const DropdownMenuEntry(
+                            value: null,
+                            label: 'Все категории',
+                          ),
+                          ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                        ],
+                      );
+                    },
+                  ),
+                ],
+
+                /// brand
+                AppUtils.kGap20,
+                ...[
+                  Text(
+                    'Бренд: ${product?.brand?.name ?? ''}',
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                  ),
+
+                  ///
+                  AppUtils.kGap20,
+                  BlocBuilder<BrandCubit, BrandState>(
+                    builder: (context, state) {
+                      final brands = state.brands?.results ?? [];
+                      return DropdownMenu<int?>(
+                        width: 220,
+                        hintText: 'Выбор бренд',
+                        textStyle: const TextStyle(fontSize: 11),
+                        controller: _brandController,
+                        onSelected: (value) => context.productBloc.setCreateProductData(
+                          brandId: value,
+                          brandName: _brandController.text,
+                        ),
+                        inputDecorationTheme: InputDecorationTheme(
+                          enabledBorder: border(Colors.grey.shade400),
+                          hintStyle: const TextStyle(fontSize: 11),
+                          isDense: true,
+                          constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                        ),
+                        dropdownMenuEntries: [
+                          const DropdownMenuEntry(
+                            value: null,
+                            label: 'Все бренды',
+                          ),
+                          ...brands.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                        ],
+                      );
+                    },
+                  ),
+                ],
 
                 ///
                 AppUtils.kGap20,

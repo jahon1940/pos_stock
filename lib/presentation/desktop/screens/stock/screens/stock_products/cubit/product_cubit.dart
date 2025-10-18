@@ -141,8 +141,10 @@ class ProductCubit extends Cubit<ProductState> {
 
   void setCreateProductData({
     String? name,
-    int? categoryId,
     String? categoryName,
+    int? categoryId,
+    String? brandName,
+    int? brandId,
     List<String>? barcodes,
     String? vendorCode,
     int? purchasePrice,
@@ -154,6 +156,8 @@ class ProductCubit extends Cubit<ProductState> {
             name: name,
             categoryName: categoryName,
             categoryId: categoryId,
+            brandName: brandName,
+            brandId: brandId,
             barcodes: barcodes,
             vendorCode: vendorCode,
             purchasePrice: purchasePrice,
@@ -177,6 +181,7 @@ class ProductCubit extends Cubit<ProductState> {
           purchasePrice: data.purchasePrice.toString(),
           price: data.price.toString(),
           categoryId: data.categoryId,
+          // brandId: data.brandId, // todo implement from backend
           stockId: _stockId,
         ),
       );

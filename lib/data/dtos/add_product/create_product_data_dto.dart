@@ -10,6 +10,8 @@ class CreateProductDataDto extends Equatable {
     this.stockId = '',
     this.categoryName = '',
     this.categoryId,
+    this.brandName = '',
+    this.brandId,
     this.quantity = 0,
     this.purchasePrice,
     this.price,
@@ -22,6 +24,8 @@ class CreateProductDataDto extends Equatable {
   final String stockId;
   final String categoryName;
   final int? categoryId;
+  final String brandName;
+  final int? brandId;
   final int quantity;
   final int? purchasePrice;
   final int? price;
@@ -34,6 +38,8 @@ class CreateProductDataDto extends Equatable {
     String? stockId,
     String? categoryName,
     int? categoryId,
+    String? brandName,
+    int? brandId,
     int? quantity,
     int? purchasePrice,
     int? price,
@@ -46,6 +52,8 @@ class CreateProductDataDto extends Equatable {
         stockId: stockId ?? this.stockId,
         categoryName: categoryName ?? this.categoryName,
         categoryId: categoryId ?? this.categoryId,
+        brandName: brandName ?? this.brandName,
+        brandId: brandId ?? this.brandId,
         quantity: quantity ?? this.quantity,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
@@ -60,6 +68,8 @@ class CreateProductDataDto extends Equatable {
         stockId,
         categoryName,
         categoryId,
+        brandName,
+        brandId,
         quantity,
         purchasePrice,
         price,
@@ -71,8 +81,10 @@ class CreateProductDataDto extends Equatable {
         if (vendorCode.isNotEmpty) 'vendor_code': vendorCode,
         if (barcodes.isNotEmpty) 'barcode': barcodes,
         if (stockId.isNotEmpty) 'stock_id': stockId,
-        if (categoryId.isNotNull) 'category_name': categoryName,
+        if (categoryName.isNotEmpty) 'category_name': categoryName,
         if (categoryId.isNotNull) 'category_id': categoryId,
+        if (brandName.isNotEmpty) 'brand_name': brandName,
+        if (brandId.isNotNull) 'brand_id': brandId,
         'quantity': quantity,
         'purchase_price': purchasePrice,
         'price': price,
