@@ -104,6 +104,7 @@ class Product1CDetails extends HookWidget {
             AppUtils.kGap20,
             Row(
               children: [
+                /// generate button
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
@@ -117,7 +118,7 @@ class Product1CDetails extends HookWidget {
                     width: context.width * .1,
                     child: Center(
                       child: Text(
-                        'Сгенерить',
+                        'Генерировать',
                         maxLines: 2,
                         style: TextStyle(fontSize: 13, color: context.onPrimary),
                       ),
@@ -125,7 +126,7 @@ class Product1CDetails extends HookWidget {
                   ),
                 ),
 
-                ///
+                /// barcode
                 AppUtils.kGap12,
                 Expanded(
                   flex: 2,
@@ -144,7 +145,7 @@ class Product1CDetails extends HookWidget {
                   ),
                 ),
 
-                ///
+                /// vendor code
                 AppUtils.kGap12,
                 Expanded(
                   child: AppTextField(
