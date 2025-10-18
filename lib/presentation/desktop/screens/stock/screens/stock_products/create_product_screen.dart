@@ -28,6 +28,7 @@ class CreateProductScreen extends HookWidget {
   ) {
     useEffect(() {
       context.categoryBloc.add(const GetCategoryEvent());
+      context.brandBloc.getBrands();
       context.productBloc.getProductDetailAndSet(product);
       return null;
     }, const []);
