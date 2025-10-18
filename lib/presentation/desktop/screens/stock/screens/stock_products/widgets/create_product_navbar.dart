@@ -6,6 +6,7 @@ import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.d
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
+import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../data/dtos/product_dto.dart';
 
@@ -43,27 +44,30 @@ class CreateProductNavbar extends StatelessWidget {
                     context.pop();
                   }
                 },
-                builder: (context, state) => InkWell(
-                  onTap: () {
-                    if (product == null) {
-                      context.productBloc.createProduct();
-                    } else {
-                      context.productBloc.updateProduct(productId: product!.id);
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.primary),
-                    height: 50,
-                    width: context.width * .1,
-                    child: Center(
-                      child: state.createProductStatus.isLoading
-                          ? const CircularProgressIndicator.adaptive(backgroundColor: Colors.white)
-                          : Text(
-                              'Сохранить',
-                              maxLines: 2,
-                              style: TextStyle(fontSize: 13, color: context.onPrimary),
-                            ),
+                builder: (context, state) => SizedBox(
+                  height: 50,
+                  width: context.width * .1,
+                  child: Material(
+                    borderRadius: AppUtils.kBorderRadius8,
+                    color: AppColors.primary500,
+                    child: InkWell(
+                      onTap: () {
+                        if (product == null) {
+                          context.productBloc.createProduct();
+                        } else {
+                          context.productBloc.updateProduct(productId: product!.id);
+                        }
+                      },
+                      hoverColor: AppColors.primary400,
+                      highlightColor: AppColors.primary300,
+                      splashColor: AppColors.primary300,
+                      borderRadius: AppUtils.kBorderRadius8,
+                      child: Center(
+                        child: Text(
+                          'Сохранить',
+                          style: TextStyle(fontSize: 13, color: context.onPrimary),
+                        ),
+                      ),
                     ),
                   ),
                 ),
