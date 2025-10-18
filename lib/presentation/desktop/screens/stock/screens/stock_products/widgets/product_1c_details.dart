@@ -34,7 +34,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
   String _selectedCategoryName = '';
   String _selectedBrandName = '';
-  late final TextEditingController _countryController;
+  String _selectedCountryName = '';
   late final TextEditingController _nameController;
   late final TextEditingController _vendorCodeController;
   List<String> _barcodes = [];
@@ -42,7 +42,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   @override
   void initState() {
     super.initState();
-    _countryController = TextEditingController();
     _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCreateProductData(barcodes: _barcodes);
@@ -51,7 +50,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
 
   @override
   void dispose() {
-    _countryController.dispose();
     _nameController.dispose();
     _vendorCodeController.dispose();
     super.dispose();
@@ -227,10 +225,9 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                             width: 220,
                             hintText: 'Выбор cтрана',
                             textStyle: const TextStyle(fontSize: 11),
-                            controller: _countryController,
                             onSelected: (value) => context.productBloc.setCreateProductData(
                               countryId: value,
-                              countryName: _countryController.text,
+                              countryName: _selectedCountryName,
                             ),
                             inputDecorationTheme: InputDecorationTheme(
                               enabledBorder: border(Colors.grey.shade400),
