@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
@@ -7,6 +8,7 @@ import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
 
 import '../../../../../../../core/constants/app_utils.dart';
+import '../cubit/product_cubit.dart';
 
 class Pricing extends HookWidget {
   const Pricing({
@@ -16,8 +18,17 @@ class Pricing extends HookWidget {
   @override
   Widget build(
     BuildContext context,
-  ) =>
-      CustomBox(
+  ) {
+    final incomeController = useTextEditingController();
+    final sellController = useTextEditingController();
+
+    return BlocListener<ProductCubit, ProductState>(
+      listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
+      listener: (context, state) {
+        incomeController.text = state.createProductDataDto.purchasePrice?.toString() ?? '';
+        sellController.text = state.createProductDataDto.price?.toString() ?? '';
+      },
+      child: CustomBox(
         padding: AppUtils.kPaddingAll12,
         child: Column(
           children: [
@@ -31,11 +42,12 @@ class Pricing extends HookWidget {
                       Icons.monetization_on,
                       color: context.primary,
                     ),
-                    fieldController: context.productBloc.incomeController,
+                    fieldController: incomeController,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     label: 'Приходная цена...',
                     alignLabelWithHint: true,
                     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCrateProductData(purchasePrice: int.tryParse(value)),
                   ),
                 ),
                 AppSpace.horizontal12,
@@ -45,11 +57,12 @@ class Pricing extends HookWidget {
                       Icons.monetization_on,
                       color: context.primary,
                     ),
-                    fieldController: context.productBloc.sellController,
+                    fieldController: sellController,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     label: 'Цена продажи...',
                     alignLabelWithHint: true,
                     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCrateProductData(price: int.tryParse(value)),
                   ),
                 ),
               ],
@@ -196,5 +209,7 @@ class Pricing extends HookWidget {
             // ),
           ],
         ),
-      );
+      ),
+    );
+  }
 }

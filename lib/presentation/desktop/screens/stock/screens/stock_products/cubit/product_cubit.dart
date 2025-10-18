@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show TextEditingController;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
-import 'package:hoomo_pos/core/utils/barcode.dart';
 import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 import 'package:hoomo_pos/domain/repositories/products_repository.dart';
@@ -27,26 +24,6 @@ class ProductCubit extends Cubit<ProductState> {
 
   final ProductsRepository _repo;
   final PosManagerRepository _posManagerRepo;
-
-  final titleController = TextEditingController();
-  final categoryController = TextEditingController();
-  final barcodeController = TextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
-  final codeController = TextEditingController();
-  final quantityController = TextEditingController();
-  final incomeController = TextEditingController();
-  final sellController = TextEditingController();
-
-  @override
-  Future<void> close() {
-    titleController.dispose();
-    categoryController.dispose();
-    barcodeController.dispose();
-    codeController.dispose();
-    quantityController.dispose();
-    incomeController.dispose();
-    sellController.dispose();
-    return super.close();
-  }
 
   SearchRequest _loadedPageData = SearchRequest(page: 1);
 
@@ -115,21 +92,26 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> setDataToFields(
+  Future<void> getProductDetailAndSet(
     ProductDto? product,
   ) async {
+    emit(state.copyWith(createProductDataDto: const CreateProductDataDto()));
     if (product == null) return;
     final data = await _getProduct(product.id);
     if (data == null) return;
 
-    titleController.text = data.title ?? '';
-    categoryController.text = data.category?.name ?? '';
-    barcodeController.text = data.barcode?.firstOrNull ?? '';
-    codeController.text = data.vendorCode ?? '';
-    quantityController.text = data.leftQuantity.toString();
-    incomeController.text = data.purchasePriceDollar?.toString() ?? '';
-    sellController.text = data.priceDollar?.toString() ?? '';
-    emit(state.copyWith());
+    emit(state.copyWith(
+      isProductDataLoaded: true,
+      createProductDataDto: state.createProductDataDto.copyWith(
+        name: data.title,
+        categoryName: data.category?.name,
+        barcode: data.barcode?.firstOrNull,
+        vendorCode: data.vendorCode,
+        quantity: data.leftQuantity,
+        purchasePrice: data.purchasePriceDollar,
+        price: data.priceDollar,
+      ),
+    ));
   }
 
   Future<ProductDetailDto?> _getProduct(int productId) async {
@@ -137,23 +119,29 @@ class ProductCubit extends Cubit<ProductState> {
       final res = await _repo.getProductDetail(productId);
       return res;
     } catch (e) {
-      debugPrint(e.toString());
       return null;
     }
   }
 
-  void generateBarcode() {
-    final barcode = BarcodeIdGenerator.generateRandom13DigitNumber();
-    barcodeController.text = barcode;
-  }
-
   void setCrateProductData({
+    String? name,
     int? categoryId,
+    String? categoryName,
+    String? barcode,
+    String? vendorCode,
+    int? purchasePrice,
+    int? price,
   }) =>
       emit(
         state.copyWith(
           createProductDataDto: state.createProductDataDto.copyWith(
+            name: name,
+            categoryName: categoryName,
             categoryId: categoryId,
+            barcode: barcode,
+            vendorCode: vendorCode,
+            purchasePrice: purchasePrice,
+            price: price,
           ),
         ),
       );
@@ -164,16 +152,17 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       final posManagerDto = await _posManagerRepo.getPosManager();
       final stockId = posManagerDto.pos?.stock?.id;
+      final data = state.createProductDataDto;
       await _repo.createProduct(
         CreateProductRequest(
           cid: const Uuid().v4(),
-          title: titleController.text,
-          vendorCode: codeController.text,
-          quantity: int.tryParse(quantityController.text) ?? 0,
-          purchasePrice: incomeController.text,
-          barcode: barcodeController.text.isNotEmpty ? [barcodeController.text] : null,
-          price: sellController.text,
-          categoryId: state.createProductDataDto.categoryId,
+          title: data.name,
+          vendorCode: data.vendorCode,
+          quantity: data.quantity,
+          barcode: data.barcode.isNotEmpty ? [data.barcode] : null,
+          purchasePrice: data.purchasePrice.toString(),
+          price: data.price.toString(),
+          categoryId: data.categoryId,
           stockId: stockId,
         ),
       );
@@ -187,26 +176,27 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<void> updateProduct({
     required int productId,
-    required int? categoryId,
   }) async {
     if (state.createProductStatus.isLoading) return;
     emit(state.copyWith(createProductStatus: StateStatus.loading));
     try {
       final posManagerDto = await _posManagerRepo.getPosManager();
+      final data = state.createProductDataDto;
       await _repo.putProduct(
         productId: productId,
         request: CreateProductRequest(
           cid: const Uuid().v4(),
-          title: titleController.text,
-          vendorCode: codeController.text,
-          quantity: int.tryParse(quantityController.text) ?? 0,
-          barcode: barcodeController.text.isNotEmpty ? [barcodeController.text] : null,
-          purchasePrice: incomeController.text,
-          price: sellController.text,
-          categoryId: categoryId,
+          title: data.name,
+          vendorCode: data.vendorCode,
+          quantity: data.quantity,
+          barcode: data.barcode.isNotEmpty ? [data.barcode] : null,
+          purchasePrice: data.purchasePrice.toString(),
+          price: data.price.toString(),
+          categoryId: data.categoryId,
           stockId: posManagerDto.pos?.stock?.id,
         ),
       );
+      await getProducts();
       emit(state.copyWith(createProductStatus: StateStatus.success));
     } catch (e) {
       emit(state.copyWith(createProductStatus: StateStatus.error));

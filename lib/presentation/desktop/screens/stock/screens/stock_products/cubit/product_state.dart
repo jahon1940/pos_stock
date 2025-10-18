@@ -15,18 +15,21 @@ class ProductState extends Equatable {
     this.status = StateStatus.initial,
     this.createProductStatus = StateStatus.initial,
     this.createProductDataDto = const CreateProductDataDto(),
+    this.isProductDataLoaded = false,
   });
 
   final PaginatedDto<ProductDto> productPageData;
   final StateStatus status;
   final StateStatus createProductStatus;
   final CreateProductDataDto createProductDataDto;
+  final bool isProductDataLoaded;
 
   ProductState copyWith({
     PaginatedDto<ProductDto>? productPageData,
     StateStatus? status,
     StateStatus? createProductStatus,
     CreateProductDataDto? createProductDataDto,
+    bool? isProductDataLoaded,
   }) =>
       ProductState(
         isUpdated: !isUpdated,
@@ -34,6 +37,7 @@ class ProductState extends Equatable {
         status: status ?? this.status,
         createProductStatus: createProductStatus ?? this.createProductStatus,
         createProductDataDto: createProductDataDto ?? this.createProductDataDto,
+        isProductDataLoaded: isProductDataLoaded ?? false,
       );
 
   @override
@@ -43,5 +47,6 @@ class ProductState extends Equatable {
         status,
         createProductStatus,
         createProductDataDto,
+        isProductDataLoaded,
       ];
 }

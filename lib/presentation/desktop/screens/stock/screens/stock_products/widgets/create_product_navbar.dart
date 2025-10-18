@@ -48,10 +48,7 @@ class CreateProductNavbar extends StatelessWidget {
                     if (product == null) {
                       context.productBloc.createProduct();
                     } else {
-                      context.productBloc.updateProduct(
-                        productId: product!.id,
-                        categoryId: context.searchBloc.state.request?.categoryId,
-                      );
+                      context.productBloc.updateProduct(productId: product!.id);
                     }
                   },
                   child: Container(
