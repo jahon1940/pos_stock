@@ -34,6 +34,7 @@ class Product1CDetails extends HookWidget {
     final categoryController = useTextEditingController();
     final titleController = useTextEditingController();
     final barcodeController = useTextEditingController(text: BarcodeIdGenerator.generateRandom13DigitNumber());
+    context.productBloc.setCrateProductData(barcode: barcodeController.text);
     final vendorCodeController = useTextEditingController();
 
     return BlocListener<ProductCubit, ProductState>(
