@@ -26,26 +26,26 @@ class Product1CDetails extends StatefulWidget {
 
 class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
-  late final TextEditingController categoryController;
-  late final TextEditingController titleController;
-  late final TextEditingController vendorCodeController;
+  late final TextEditingController _categoryController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _vendorCodeController;
   List<String> _barcodes = [];
 
   @override
   void initState() {
     super.initState();
-    categoryController = TextEditingController();
-    titleController = TextEditingController();
+    _categoryController = TextEditingController();
+    _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCrateProductData(barcodes: _barcodes);
-    vendorCodeController = TextEditingController();
+    _vendorCodeController = TextEditingController();
   }
 
   @override
   void dispose() {
-    categoryController.dispose();
-    titleController.dispose();
-    vendorCodeController.dispose();
+    _categoryController.dispose();
+    _nameController.dispose();
+    _vendorCodeController.dispose();
     super.dispose();
   }
 
@@ -56,10 +56,10 @@ class _Product1CDetailsState extends State<Product1CDetails> {
       BlocConsumer<ProductCubit, ProductState>(
         listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
         listener: (context, state) {
-          categoryController.text = state.createProductDataDto.categoryName;
-          titleController.text = state.createProductDataDto.name;
+          _categoryController.text = state.createProductDataDto.categoryName;
+          _nameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
-          vendorCodeController.text = state.createProductDataDto.vendorCode;
+          _vendorCodeController.text = state.createProductDataDto.vendorCode;
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
@@ -81,10 +81,10 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                     width: 220,
                     hintText: 'Выбор категории',
                     textStyle: const TextStyle(fontSize: 11),
-                    controller: categoryController,
+                    controller: _categoryController,
                     onSelected: (value) => context.productBloc.setCrateProductData(
                       categoryId: value,
-                      categoryName: categoryController.text,
+                      categoryName: _categoryController.text,
                     ),
                     inputDecorationTheme: InputDecorationTheme(
                       enabledBorder: border(Colors.grey.shade400),
@@ -107,7 +107,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               AppUtils.kGap20,
               AppTextField(
                 prefix: Icon(Icons.title, color: context.primary),
-                fieldController: titleController,
+                fieldController: _nameController,
                 width: double.maxFinite,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                 label: 'Название Продукта ...',
@@ -153,7 +153,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                         Icons.abc,
                         color: context.primary,
                       ),
-                      fieldController: vendorCodeController,
+                      fieldController: _vendorCodeController,
                       width: double.maxFinite,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                       label: 'Артикул продукта...',
