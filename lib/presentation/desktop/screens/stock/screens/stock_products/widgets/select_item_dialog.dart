@@ -3,7 +3,9 @@ import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
+import 'package:hoomo_pos/data/dtos/brand/brand_dto.dart';
 import 'package:hoomo_pos/data/dtos/category/category_dto.dart';
+import 'package:hoomo_pos/data/dtos/country/country_dto.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/text_field.dart';
@@ -22,11 +24,11 @@ class SelectItemDialog extends StatefulWidget {
 
 class _SelectItemDialogState extends State<SelectItemDialog> {
   List<dynamic> get items => widget.items;
-  final List<dynamic> filteredItems = [];
+  List<dynamic> filteredItems = [];
 
   @override
   void initState() {
-    filteredItems.addAll(widget.items);
+    filteredItems = [...items];
     super.initState();
   }
 
@@ -60,14 +62,17 @@ class _SelectItemDialogState extends State<SelectItemDialog> {
                         radius: 12,
                         contentPadding: const EdgeInsets.all(14),
                         hint: 'Поиск',
-                        // fieldController: searchController,
                         onChange: (value) {
                           if (value.isEmpty) {
-                            filteredItems.addAll(items);
+                            filteredItems = [...items];
                           } else {
                             filteredItems.removeWhere((e) {
                               if (filteredItems.firstOrNull is CategoryDto) {
                                 return !(e as CategoryDto).name.toLowerCase().startsWith(value.toLowerCase());
+                              } else if (filteredItems.firstOrNull is BrandDto) {
+                                return !(e as BrandDto).name.toLowerCase().startsWith(value.toLowerCase());
+                              } else if (filteredItems.firstOrNull is CountryDto) {
+                                return !((e as CountryDto).name ?? '').toLowerCase().startsWith(value.toLowerCase());
                               }
                               return false;
                             });
@@ -99,26 +104,27 @@ class _SelectItemDialogState extends State<SelectItemDialog> {
                   separatorBuilder: (_, __) => AppUtils.kGap8,
                   itemBuilder: (ctx, index) {
                     final item = filteredItems.elementAt(index);
-                    if (item is CategoryDto) {
-                      return SizedBox(
-                        height: 50,
-                        child: Material(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: AppUtils.kBorderRadius8,
-                            side: BorderSide(color: context.theme.dividerColor, width: 2),
-                          ),
-                          child: InkWell(
-                            borderRadius: AppUtils.kBorderRadius8,
-                            onTap: () => context.pop(item),
-                            child: Padding(
-                              padding: AppUtils.kPaddingAll12,
-                              child: Text(item.name),
-                            ),
+                    String name = '';
+                    if (item is CategoryDto) name = item.name;
+                    if (item is BrandDto) name = item.name;
+                    if (item is CountryDto) name = item.name ?? '';
+                    return SizedBox(
+                      height: 50,
+                      child: Material(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: AppUtils.kBorderRadius8,
+                          side: BorderSide(color: context.theme.dividerColor, width: 2),
+                        ),
+                        child: InkWell(
+                          borderRadius: AppUtils.kBorderRadius8,
+                          onTap: () => context.pop(item),
+                          child: Padding(
+                            padding: AppUtils.kPaddingAll12,
+                            child: Text(name),
                           ),
                         ),
-                      );
-                    }
-                    return const SizedBox();
+                      ),
+                    );
                   },
                 ),
               ),

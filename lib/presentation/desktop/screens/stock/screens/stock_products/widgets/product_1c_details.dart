@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
+import 'package:hoomo_pos/data/dtos/brand/brand_dto.dart';
 import 'package:hoomo_pos/data/dtos/category/category_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
@@ -32,7 +33,7 @@ class Product1CDetails extends StatefulWidget {
 class _Product1CDetailsState extends State<Product1CDetails> {
   ProductDto? get product => widget.product;
   String _selectedCategoryName = '';
-  late final TextEditingController _brandController;
+  String _selectedBrandName = '';
   late final TextEditingController _countryController;
   late final TextEditingController _nameController;
   late final TextEditingController _vendorCodeController;
@@ -41,7 +42,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   @override
   void initState() {
     super.initState();
-    _brandController = TextEditingController();
     _countryController = TextEditingController();
     _nameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
@@ -51,7 +51,6 @@ class _Product1CDetailsState extends State<Product1CDetails> {
 
   @override
   void dispose() {
-    _brandController.dispose();
     _countryController.dispose();
     _nameController.dispose();
     _vendorCodeController.dispose();
@@ -160,28 +159,45 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       child: BlocBuilder<BrandCubit, BrandState>(
                         builder: (context, state) {
                           final brands = state.brands?.results ?? [];
-                          return DropdownMenu<int?>(
+                          return SizedBox(
                             width: 220,
-                            hintText: 'Выбор бренд',
-                            textStyle: const TextStyle(fontSize: 11),
-                            controller: _brandController,
-                            onSelected: (value) => context.productBloc.setCreateProductData(
-                              brandId: value,
-                              brandName: _brandController.text,
-                            ),
-                            inputDecorationTheme: InputDecorationTheme(
-                              enabledBorder: border(Colors.grey.shade400),
-                              hintStyle: const TextStyle(fontSize: 11),
-                              isDense: true,
-                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                            ),
-                            dropdownMenuEntries: [
-                              const DropdownMenuEntry(
-                                value: null,
-                                label: 'Все бренды',
+                            height: 50,
+                            child: Material(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                side: BorderSide(color: Colors.grey.shade400),
                               ),
-                              ...brands.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                            ],
+                              child: InkWell(
+                                borderRadius: AppUtils.kBorderRadius8,
+                                hoverColor: Colors.grey.shade100,
+                                child: Row(
+                                  children: [
+                                    AppUtils.kGap12,
+                                    Text(
+                                      _selectedBrandName.isEmpty ? 'Все бренды' : _selectedBrandName,
+                                      style: const TextStyle(fontSize: 11),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_drop_down, size: 18),
+                                    AppUtils.kGap12,
+                                  ],
+                                ),
+                                onTap: () async {
+                                  final item = await showDialog<BrandDto?>(
+                                    context: context,
+                                    builder: (_) => SelectItemDialog(brands),
+                                  );
+                                  if (item.isNotNull) {
+                                    setState(() {});
+                                    _selectedBrandName = item!.name;
+                                    context.productBloc.setCreateProductData(
+                                      brandId: item.id,
+                                      brandName: item.name,
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
                           );
                         },
                       ),
