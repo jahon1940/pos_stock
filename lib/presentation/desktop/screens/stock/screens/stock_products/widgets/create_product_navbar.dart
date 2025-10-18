@@ -40,7 +40,7 @@ class CreateProductNavbar extends StatelessWidget {
                   );
                   if (state.createProductStatus.isSuccess) {
                     await Future.delayed(Durations.medium1);
-                    context.pop(context.productBloc.barcodeController.text);
+                    context.pop();
                   }
                 },
                 builder: (context, state) => InkWell(
