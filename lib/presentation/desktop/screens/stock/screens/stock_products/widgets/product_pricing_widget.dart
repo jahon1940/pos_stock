@@ -31,9 +31,16 @@ class ProductPricingWidget extends HookWidget {
       child: CustomBox(
         padding: AppUtils.kPaddingAll12,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Ценообразование', style: AppTextStyles.boldType14),
-            AppSpace.vertical24,
+            /// title
+            Text(
+              'Ценообразование',
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+            ),
+
+            /// price fields
+            AppUtils.kGap20,
             Row(
               children: [
                 Expanded(
