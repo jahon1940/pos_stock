@@ -9,7 +9,7 @@ import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
-import 'widgets/pricing.dart';
+import 'widgets/product_pricing_widget.dart';
 import 'widgets/product_1c_details.dart';
 import 'widgets/product_images_widget.dart';
 
@@ -95,7 +95,7 @@ class CreateProductScreen extends HookWidget {
                       children: [
                         Expanded(child: Product1CDetails(product)),
                         AppUtils.kMainObjectsGap,
-                        const Pricing(),
+                        const ProductPricingWidget(),
                         // About(),
                         // AddCategories(),
                         // Characteristics(),

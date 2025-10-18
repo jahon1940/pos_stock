@@ -10,8 +10,8 @@ import 'package:hoomo_pos/core/widgets/text_field.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../cubit/product_cubit.dart';
 
-class Pricing extends HookWidget {
-  const Pricing({
+class ProductPricingWidget extends HookWidget {
+  const ProductPricingWidget({
     super.key,
   });
 
