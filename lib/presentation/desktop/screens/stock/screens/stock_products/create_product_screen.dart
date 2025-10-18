@@ -9,9 +9,9 @@ import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
-import 'widgets/product_pricing_widget.dart';
 import 'widgets/product_1c_details.dart';
 import 'widgets/product_images_widget.dart';
+import 'widgets/product_pricing_widget.dart';
 
 @RoutePage()
 class CreateProductScreen extends HookWidget {
@@ -65,7 +65,7 @@ class CreateProductScreen extends HookWidget {
                   /// button
                   const Spacer(),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .15, 48)),
+                    style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .2, 48)),
                     onPressed: () => showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
@@ -76,7 +76,11 @@ class CreateProductScreen extends HookWidget {
                         ),
                       ),
                     ),
-                    child: const Text('Добавить из справочника'),
+                    child: const Text(
+                      'Добавить из справочника',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(height: 1.1),
+                    ),
                   ),
                 ],
               ),
@@ -96,8 +100,7 @@ class CreateProductScreen extends HookWidget {
                         Expanded(child: Product1CDetails(product)),
                         AppUtils.kMainObjectsGap,
                         const ProductPricingWidget(),
-                        // About(),
-                        // AddCategories(),
+                        // ProductAbout(),
                         // Characteristics(),
                       ],
                     ),
