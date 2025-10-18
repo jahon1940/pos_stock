@@ -56,7 +56,7 @@ class StockProductsScreen extends HookWidget {
       });
       context.supplierBloc.getSuppliers();
       context.categoryBloc.add(const GetCategoryEvent());
-      context.productBloc.getProducts(stockId: stock.id);
+      context.productBloc.getInitialProductsAndSetStockId(stockId: stock.id);
       context.reportsBloc.getReports();
       return null;
     }, const []);
@@ -65,7 +65,7 @@ class StockProductsScreen extends HookWidget {
       categoryController.clear();
       supplierController.clear();
       searchController.clear();
-      context.productBloc.getProducts(stockId: stock.id);
+      context.productBloc.getProducts();
       context.searchBloc.add(SelectSupplierEvent());
     }
 
@@ -116,7 +116,6 @@ class StockProductsScreen extends HookWidget {
                                   controller: categoryController,
                                   onSelected: (value) => context.productBloc.getProducts(
                                     startsWith: searchController.text,
-                                    stockId: stock.id,
                                     categoryId: value,
                                   ),
                                   inputDecorationTheme: InputDecorationTheme(
@@ -151,7 +150,6 @@ class StockProductsScreen extends HookWidget {
                                   controller: supplierController,
                                   onSelected: (value) => context.productBloc.getProducts(
                                     startsWith: searchController.text,
-                                    stockId: stock.id,
                                     supplierId: value,
                                   ),
                                   inputDecorationTheme: InputDecorationTheme(
@@ -185,7 +183,7 @@ class StockProductsScreen extends HookWidget {
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             if (isRemote) {
-                              context.productBloc.getProducts(startsWith: value, stockId: stock.id);
+                              context.productBloc.getProducts(startsWith: value);
                             } else {
                               context.productBloc.getLocalProducts();
                             }
@@ -220,7 +218,7 @@ class StockProductsScreen extends HookWidget {
                   ///
                   AppUtils.kGap6,
                   GestureDetector(
-                    onTap: () => context.productBloc.getProducts(stockId: stock.id),
+                    onTap: () => context.productBloc.getProducts(),
                     child: Container(
                       width: 48,
                       height: 48,
@@ -299,7 +297,7 @@ class StockProductsScreen extends HookWidget {
                                         if (value.isEmpty) value = searchController.text;
                                         searchController.clear();
                                         searchController.text = value;
-                                        context.productBloc.getProducts(startsWith: value, stockId: stock.id);
+                                        context.productBloc.getProducts(startsWith: value);
                                       },
                                       child: Material(
                                         child: ListView.separated(

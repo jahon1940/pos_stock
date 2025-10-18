@@ -11,7 +11,6 @@ import '../../../../../../../data/dtos/add_product/create_product_data_dto.dart'
 import '../../../../../../../data/dtos/add_product/create_product_request.dart';
 import '../../../../../../../data/dtos/pagination_dto.dart';
 import '../../../../../../../data/dtos/search_request.dart';
-import '../../../../../../../domain/repositories/pos_manager_repository.dart';
 
 part 'product_state.dart';
 
@@ -19,17 +18,22 @@ part 'product_state.dart';
 class ProductCubit extends Cubit<ProductState> {
   ProductCubit(
     this._repo,
-    this._posManagerRepo,
   ) : super(const ProductState());
 
   final ProductsRepository _repo;
-  final PosManagerRepository _posManagerRepo;
 
   SearchRequest _loadedPageData = SearchRequest(page: 1);
+  int? _stockId;
+
+  void getInitialProductsAndSetStockId({
+    required int? stockId,
+  }) {
+    _stockId = stockId;
+    getProducts();
+  }
 
   Future<void> getProducts({
     String startsWith = '',
-    int? stockId,
     int? categoryId,
     int? supplierId,
   }) async {
@@ -40,7 +44,7 @@ class ProductCubit extends Cubit<ProductState> {
         title: startsWith,
         orderBy: '-created_at',
         page: 1,
-        stockId: stockId,
+        stockId: _stockId,
         categoryId: categoryId,
         supplierId: supplierId,
       );
@@ -150,8 +154,6 @@ class ProductCubit extends Cubit<ProductState> {
     if (state.createProductStatus.isLoading) return;
     emit(state.copyWith(createProductStatus: StateStatus.loading));
     try {
-      final posManagerDto = await _posManagerRepo.getPosManager();
-      final stockId = posManagerDto.pos?.stock?.id;
       final data = state.createProductDataDto;
       await _repo.createProduct(
         CreateProductRequest(
@@ -163,7 +165,7 @@ class ProductCubit extends Cubit<ProductState> {
           purchasePrice: data.purchasePrice.toString(),
           price: data.price.toString(),
           categoryId: data.categoryId,
-          stockId: stockId,
+          stockId: _stockId,
         ),
       );
       await getProducts();
@@ -180,7 +182,6 @@ class ProductCubit extends Cubit<ProductState> {
     if (state.createProductStatus.isLoading) return;
     emit(state.copyWith(createProductStatus: StateStatus.loading));
     try {
-      final posManagerDto = await _posManagerRepo.getPosManager();
       final data = state.createProductDataDto;
       await _repo.putProduct(
         productId: productId,
@@ -193,7 +194,7 @@ class ProductCubit extends Cubit<ProductState> {
           purchasePrice: data.purchasePrice.toString(),
           price: data.price.toString(),
           categoryId: data.categoryId,
-          stockId: posManagerDto.pos?.stock?.id,
+          stockId: _stockId,
         ),
       );
       await getProducts();
