@@ -92,8 +92,7 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
+    final theme = Theme.of(context);
     final Color bgColor = fillColor != null ? fillColor! : theme.shadowColor;
     return SizedBox(
       height: height,
@@ -123,8 +122,7 @@ class AppTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorText: errorText,
           labelStyle: labelStyle ?? AppTextStyles.rType16,
-          contentPadding: contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           counterText: '',
           prefixIcon: prefix != null
               ? Padding(
@@ -140,17 +138,14 @@ class AppTextField extends StatelessWidget {
                     if (showKeyboard)
                       VirtualKeyboardWidget(
                         controller: fieldController ?? TextEditingController(),
-                        keyboardType:
-                            keyboardType ?? VirtualKeyboardType.Alphanumeric,
+                        keyboardType: keyboardType ?? VirtualKeyboardType.Alphanumeric,
                         containerMarginRight: 10,
-                        clearTextControllerBeforeKeyPress: true,
                       ),
                   ],
                 )
               : null,
           isDense: true,
-          prefixIconConstraints:
-              const BoxConstraints(minWidth: 0, minHeight: 0),
+          prefixIconConstraints: const BoxConstraints(),
           filled: true,
           hintText: hint,
           labelText: label,
@@ -163,7 +158,6 @@ class AppTextField extends StatelessWidget {
             borderSide: BorderSide(
               width: 0.5,
               color: focusedBorderColor ?? theme.primaryColor,
-              style: 0.5 == 0 ? BorderStyle.none : BorderStyle.solid,
             ),
             borderRadius: BorderRadius.circular(radius),
           ),
@@ -171,17 +165,16 @@ class AppTextField extends StatelessWidget {
             borderSide: BorderSide(
               width: enableBorderWidth ?? 0.3,
               color: enabledBorderColor ?? context.theme.colorScheme.outline,
-              style: 0.3 == 0 ? BorderStyle.none : BorderStyle.solid,
             ),
             borderRadius: BorderRadius.circular(radius),
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.error500),
+            borderSide: const BorderSide(color: AppColors.error500),
             borderRadius: BorderRadius.circular(radius),
           ),
           errorMaxLines: 3,
           focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.error500),
+            borderSide: const BorderSide(color: AppColors.error500),
             borderRadius: BorderRadius.circular(radius),
           ),
         ),
