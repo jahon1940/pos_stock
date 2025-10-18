@@ -12,6 +12,8 @@ class CreateProductDataDto extends Equatable {
     this.categoryId,
     this.brandName = '',
     this.brandId,
+    this.countryName = '',
+    this.countryId,
     this.quantity = 0,
     this.purchasePrice,
     this.price,
@@ -26,6 +28,8 @@ class CreateProductDataDto extends Equatable {
   final int? categoryId;
   final String brandName;
   final int? brandId;
+  final String countryName;
+  final int? countryId;
   final int quantity;
   final int? purchasePrice;
   final int? price;
@@ -40,6 +44,8 @@ class CreateProductDataDto extends Equatable {
     int? categoryId,
     String? brandName,
     int? brandId,
+    String? countryName,
+    int? countryId,
     int? quantity,
     int? purchasePrice,
     int? price,
@@ -54,6 +60,8 @@ class CreateProductDataDto extends Equatable {
         categoryId: categoryId ?? this.categoryId,
         brandName: brandName ?? this.brandName,
         brandId: brandId ?? this.brandId,
+        countryName: countryName ?? this.countryName,
+        countryId: countryId ?? this.countryId,
         quantity: quantity ?? this.quantity,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
@@ -70,6 +78,8 @@ class CreateProductDataDto extends Equatable {
         categoryId,
         brandName,
         brandId,
+        countryName,
+        countryId,
         quantity,
         purchasePrice,
         price,
@@ -84,6 +94,9 @@ class CreateProductDataDto extends Equatable {
         if (categoryName.isNotEmpty) 'category_name': categoryName,
         if (categoryId.isNotNull) 'category_id': categoryId,
         if (brandName.isNotEmpty) 'brand_name': brandName,
+        if (brandId.isNotNull) 'brand_id': brandId,
+        if (countryName.isNotEmpty) 'country_name': countryName,
+        if (countryId.isNotNull) 'country_id': countryId,
         if (brandId.isNotNull) 'brand_id': brandId,
         'quantity': quantity,
         'purchase_price': purchasePrice,
