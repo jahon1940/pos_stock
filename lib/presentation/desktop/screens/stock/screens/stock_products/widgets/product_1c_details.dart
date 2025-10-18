@@ -73,83 +73,97 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// category
-                ...[
-                  Text(
-                    'Категория: ${product?.category?.name ?? ''}',
-                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Категория: ${product?.category?.name ?? ''}',
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                      ),
+                    ),
 
-                  ///
-                  AppUtils.kGap20,
-                  BlocBuilder<CategoryBloc, CategoryState>(
-                    builder: (context, state) {
-                      final categories = state.categories?.results ?? [];
-                      return DropdownMenu<int?>(
-                        width: 220,
-                        hintText: 'Выбор категории',
-                        textStyle: const TextStyle(fontSize: 11),
-                        controller: _categoryController,
-                        onSelected: (value) => context.productBloc.setCreateProductData(
-                          categoryId: value,
-                          categoryName: _categoryController.text,
-                        ),
-                        inputDecorationTheme: InputDecorationTheme(
-                          enabledBorder: border(Colors.grey.shade400),
-                          hintStyle: const TextStyle(fontSize: 11),
-                          isDense: true,
-                          constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                        ),
-                        dropdownMenuEntries: [
-                          const DropdownMenuEntry(
-                            value: null,
-                            label: 'Все категории',
-                          ),
-                          ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                    ///
+                    AppUtils.kGap20,
+                    Expanded(
+                      flex: 4,
+                      child: BlocBuilder<CategoryBloc, CategoryState>(
+                        builder: (context, state) {
+                          final categories = state.categories?.results ?? [];
+                          return DropdownMenu<int?>(
+                            width: 220,
+                            hintText: 'Выбор категории',
+                            textStyle: const TextStyle(fontSize: 11),
+                            controller: _categoryController,
+                            onSelected: (value) => context.productBloc.setCreateProductData(
+                              categoryId: value,
+                              categoryName: _categoryController.text,
+                            ),
+                            inputDecorationTheme: InputDecorationTheme(
+                              enabledBorder: border(Colors.grey.shade400),
+                              hintStyle: const TextStyle(fontSize: 11),
+                              isDense: true,
+                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                            ),
+                            dropdownMenuEntries: [
+                              const DropdownMenuEntry(
+                                value: null,
+                                label: 'Все категории',
+                              ),
+                              ...categories.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
 
                 /// brand
-                AppUtils.kGap20,
-                ...[
-                  Text(
-                    'Бренд: ${product?.brand?.name ?? ''}',
-                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                  ),
+                AppUtils.kGap12,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Бренд: ${product?.brand?.name ?? ''}',
+                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                      ),
+                    ),
 
-                  ///
-                  AppUtils.kGap20,
-                  BlocBuilder<BrandCubit, BrandState>(
-                    builder: (context, state) {
-                      final brands = state.brands?.results ?? [];
-                      return DropdownMenu<int?>(
-                        width: 220,
-                        hintText: 'Выбор бренд',
-                        textStyle: const TextStyle(fontSize: 11),
-                        controller: _brandController,
-                        onSelected: (value) => context.productBloc.setCreateProductData(
-                          brandId: value,
-                          brandName: _brandController.text,
-                        ),
-                        inputDecorationTheme: InputDecorationTheme(
-                          enabledBorder: border(Colors.grey.shade400),
-                          hintStyle: const TextStyle(fontSize: 11),
-                          isDense: true,
-                          constraints: BoxConstraints.tight(const Size.fromHeight(48)),
-                        ),
-                        dropdownMenuEntries: [
-                          const DropdownMenuEntry(
-                            value: null,
-                            label: 'Все бренды',
-                          ),
-                          ...brands.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                    ///
+                    AppUtils.kGap20,
+                    Expanded(
+                      flex: 4,
+                      child: BlocBuilder<BrandCubit, BrandState>(
+                        builder: (context, state) {
+                          final brands = state.brands?.results ?? [];
+                          return DropdownMenu<int?>(
+                            width: 220,
+                            hintText: 'Выбор бренд',
+                            textStyle: const TextStyle(fontSize: 11),
+                            controller: _brandController,
+                            onSelected: (value) => context.productBloc.setCreateProductData(
+                              brandId: value,
+                              brandName: _brandController.text,
+                            ),
+                            inputDecorationTheme: InputDecorationTheme(
+                              enabledBorder: border(Colors.grey.shade400),
+                              hintStyle: const TextStyle(fontSize: 11),
+                              isDense: true,
+                              constraints: BoxConstraints.tight(const Size.fromHeight(48)),
+                            ),
+                            dropdownMenuEntries: [
+                              const DropdownMenuEntry(
+                                value: null,
+                                label: 'Все бренды',
+                              ),
+                              ...brands.map((e) => DropdownMenuEntry(value: e.id, label: e.name))
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
 
                 ///
                 AppUtils.kGap20,
