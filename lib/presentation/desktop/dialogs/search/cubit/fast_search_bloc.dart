@@ -11,6 +11,8 @@ import 'package:hoomo_pos/domain/repositories/products_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../../data/dtos/product_detail_dto.dart';
+
 part 'fast_search_state.dart';
 
 part 'fast_search_event.dart';
@@ -47,16 +49,14 @@ class FastSearchBloc extends Bloc<FastSearchEvent, FastSearchState> {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
-      final res = state.isLocalSearch
-          ? await _productsRepo.search(request, state.priceLimit)
-          : await _productsRepo.searchRemote(request.copyWith(priceTo: state.priceLimit));
+      final res =
+      // state.isLocalSearch
+      //     ? await _productsRepo.search(request, state.priceLimit)
+      //     :
+      await _productsRepo.searchMirel(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
-        products: request.page == 1
-            ? res
-            : state.products!.copyWith(
-                results: [...state.products!.results, ...res.results],
-              ),
+        mirelProducts:  res,
         request: request,
       ));
       // for (CartProductDto p

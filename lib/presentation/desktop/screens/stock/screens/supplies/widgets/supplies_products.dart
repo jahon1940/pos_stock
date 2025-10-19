@@ -127,7 +127,7 @@ class SuppliesProducts extends HookWidget {
                           context: context,
                           builder: (context) => BlocProvider(
                             create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
-                            child: const SearchDialog(isDialog: true, isReserve: false),
+                            child: const SearchDialog(isDialog: true, ),
                           ),
                         );
                         if (res == null) return;

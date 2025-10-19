@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
 
+import '../../../../../../app/di.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
+import '../../../../dialogs/search/cubit/fast_search_bloc.dart';
+import '../../../../dialogs/search/search_dialog.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
 import 'widgets/product_1c_details.dart';
@@ -15,13 +19,19 @@ import 'widgets/product_pricing_widget.dart';
 
 @RoutePage()
 class CreateProductScreen extends HookWidget {
-  const CreateProductScreen({
+  const CreateProductScreen( {
     super.key,
     this.product,
+    this.isDialogOpen,
   });
 
   final ProductDto? product;
-
+  final ValueNotifier<bool>? isDialogOpen;
+  void _showDialog(BuildContext context, Widget dialog) {
+    isDialogOpen?.value = true;
+    showDialog(context: context, builder: (_) => dialog)
+        .then((_) => isDialogOpen?.value = false);
+  }
   @override
   Widget build(
     BuildContext context,
@@ -65,21 +75,24 @@ class CreateProductScreen extends HookWidget {
                   /// button
                   const Spacer(),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .2, 48)),
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        content: SizedBox(
-                          width: context.width * .5,
-                          height: context.width * .6,
-                          child: const Center(child: BackButtonWidget()), // todo implement
+                    style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .12, 48),padding: EdgeInsets.zero),
+                    onPressed: () async{
+                      final res = await showDialog(
+                        context: context,
+                        builder: (context) => BlocProvider(
+                          create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
+                          child: const SearchDialog(
+                            isDialog: true,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                     child: const Text(
                       'Добавить из справочника',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: TextStyle(height: 1.1),
+                      style: TextStyle(fontSize: 11),
                     ),
                   ),
                 ],

@@ -16,6 +16,7 @@ import '../../../../../../../../data/dtos/company/company_dto.dart';
 import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../data/dtos/write_offs/write_off_dto.dart';
+import '../../widgets/table_title_widget.dart';
 import '../../widgets/title_supplies.dart';
 import 'add_write_off_screen.dart';
 import 'cubit/write_off_cubit.dart';
@@ -32,7 +33,12 @@ class WriteOffsScreen extends HookWidget {
   final GlobalKey<NavigatorState> navigationKey;
   final StockDto stock;
   final CompanyDto organization;
-
+  static const _columnWidths = {
+    0: FlexColumnWidth(2),
+    1: FlexColumnWidth(2),
+    2: FlexColumnWidth(2),
+    3: FlexColumnWidth(2),
+  };
   @override
   Widget build(
     BuildContext context,
@@ -57,26 +63,27 @@ class WriteOffsScreen extends HookWidget {
                   boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     // const BackButtonWidget(),
                     // AppUtils.kGap6,
 
                     ///
-                    Expanded(
-                      child: Container(
-                        padding: AppUtils.kPaddingAll12,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary100.opcty(.3),
-                          borderRadius: AppUtils.kBorderRadius12,
-                        ),
-                        child: Text(
-                          'Списание товаров с склада : ${stock.name}',
-                          style: const TextStyle(fontSize: 13),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: AppUtils.kPaddingAll12,
+                    //     alignment: Alignment.center,
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.primary100.opcty(.3),
+                    //       borderRadius: AppUtils.kBorderRadius12,
+                    //     ),
+                    //     child: Text(
+                    //       'Списание товаров с склада : ${stock.name}',
+                    //       style: const TextStyle(fontSize: 13),
+                    //       maxLines: 1,
+                    //     ),
+                    //   ),
+                    // ),
 
                     ///
                     AppUtils.kGap6,
@@ -219,12 +226,12 @@ class WriteOffsScreen extends HookWidget {
               AppUtils.kMainObjectsGap,
               Expanded(
                 child: CustomBox(
-                  padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      const TitleSupplies(),
-
-                      ///
+                      const TableTitleWidget(
+                        columnWidths: _columnWidths,
+                        titles: ['Номер', 'Дата создания', 'Продукты', 'Действия'],
+                      ),
                       BlocBuilder<WriteOffCubit, WriteOffState>(
                         buildWhen: (p, c) => p.writeOffs != c.writeOffs,
                         builder: (context, state) => Expanded(

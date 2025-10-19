@@ -10,6 +10,7 @@ import '../../../../../core/widgets/product_table_item.dart';
 import '../../../../../core/widgets/product_table_title.dart';
 import '../../../../../data/dtos/product_dto.dart';
 import '../../../../../data/dtos/stock_detail_dto.dart';
+import '../../../../../data/dtos/stock_dto.dart';
 import '../cubit/product_detail_cubit.dart';
 
 class QuantityInfo extends HookWidget {
@@ -70,8 +71,8 @@ class QuantityInfo extends HookWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(stockDetail.stock.name),
-                              Text(stockDetail.stock.address ??
+                              Text(stockDetail.stock?.name ?? ""),
+                              Text(stockDetail.stock?.address ??
                                   context.tr("not_specified")),
                             ],
                           ),
@@ -79,7 +80,7 @@ class QuantityInfo extends HookWidget {
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: Text(
-                              stockDetail.stock.phoneNumber ??
+                              stockDetail.stock?.phoneNumber ??
                                   context.tr("not_specified"),
                               textAlign: TextAlign.center),
                         ),

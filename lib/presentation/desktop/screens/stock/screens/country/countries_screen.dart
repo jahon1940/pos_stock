@@ -38,6 +38,7 @@ class CountriesScreen extends HookWidget {
           children: [
             /// header
             Container(
+              height: 60,
               padding: AppUtils.kPaddingAll6,
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
@@ -49,12 +50,8 @@ class CountriesScreen extends HookWidget {
                   const Spacer(),
 
                   ///
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary800,
-                      minimumSize: Size(context.width * .15, 48),
-                    ),
-                    onPressed: () => showDialog<bool?>(
+                  GestureDetector(
+                    onTap: () =>  showDialog<bool?>(
                       context: context,
                       builder: (_) => BlocProvider.value(
                         value: context.countryBloc,
@@ -72,9 +69,19 @@ class CountriesScreen extends HookWidget {
                         );
                       }
                     }),
-                    child: Text(
-                      'Создать страна',
-                      style: TextStyle(fontSize: 13, color: context.onPrimary),
+                    child: Container(
+                      height: 48,
+                      width: context.width * .1,
+                      decoration: const BoxDecoration(
+                        borderRadius: AppUtils.kBorderRadius12,
+                        color: AppColors.primary800,
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Добавить',
+                          style: TextStyle(fontSize: 13, color: context.onPrimary),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -85,7 +92,6 @@ class CountriesScreen extends HookWidget {
             AppUtils.kMainObjectsGap,
             Expanded(
               child: CustomBox(
-                padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
                     ///

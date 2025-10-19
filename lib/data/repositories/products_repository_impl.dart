@@ -89,6 +89,15 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
   }
 
   @override
+  Future<PaginatedDto<ProductDetailDto>> searchMirel(SearchRequest request) async {
+    try {
+      return await _productsApi.searchMirel(request);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<PaginatedDto<ProductDto>> getRemoteProducts(int page) async {
     try {
       final res = await _productsApi.getProducts(page);

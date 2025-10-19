@@ -7,9 +7,9 @@ part 'organization_dto.g.dart';
 @freezed
 class OrganizationDto with _$OrganizationDto {
   factory OrganizationDto({
-    required int id,
-    required String name,
-    required String inn,
+     int? id,
+     String? name,
+     String? inn,
   }) = _OrganizationDto;
 
   factory OrganizationDto.fromJson(Map<String, dynamic> json) =>

@@ -25,6 +25,8 @@ abstract class ProductsRepository {
 
   Future<PaginatedDto<ProductDto>> searchRemote(SearchRequest request);
 
+  Future<PaginatedDto<ProductDetailDto>> searchMirel(SearchRequest request);
+
   Future<(int, int)> synchronize(int page, {CancelToken? cancelToken, String? receiptId});
 
   Future<PaginatedDto<ProductDto>> getLocalProducts(int page);

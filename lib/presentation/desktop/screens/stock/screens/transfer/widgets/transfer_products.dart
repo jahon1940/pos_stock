@@ -94,7 +94,7 @@ class TransferProducts extends HookWidget {
                               .map(
                                 (e) => DropdownMenuEntry(
                                   value: stock?.id != e.id ? e.id : 0,
-                                  label: stock?.name != e.name ? e.name : '',
+                                  label: stock?.name != e.name!  ? e.name! : '',
                                 ),
                               )
                               .toList(),
@@ -142,7 +142,6 @@ class TransferProducts extends HookWidget {
                             create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
                             child: SearchDialog(
                               isDialog: true,
-                              isReserve: false,
                               stockId: stock!.id,
                             ),
                           ),

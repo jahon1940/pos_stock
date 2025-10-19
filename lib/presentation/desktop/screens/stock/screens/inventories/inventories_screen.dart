@@ -19,6 +19,7 @@ import '../../../../../../../../core/constants/dictionary.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../data/dtos/inventories/inventory_dto.dart';
 import '../../../../dialogs/inventories_product/inventories_product.dart';
+import '../../widgets/table_title_widget.dart';
 import '../../widgets/title_supplies.dart';
 import 'widgets/inventory_item_widget.dart';
 
@@ -35,6 +36,13 @@ class InventoriesScreen extends HookWidget {
   final StockDto stock;
   final CompanyDto organization;
 
+  static const _columnWidths = {
+    0: FlexColumnWidth(2),
+    1: FlexColumnWidth(2),
+    2: FlexColumnWidth(2),
+    3: FlexColumnWidth(2),
+  };
+
   @override
   Widget build(
     BuildContext context,
@@ -42,7 +50,7 @@ class InventoriesScreen extends HookWidget {
     final fromController = useTextEditingController();
     final toController = useTextEditingController();
     return Provider<InventoryCubit>(
-      create: (context) => getIt<InventoryCubit>()..searchInventories(stock.id, true),
+      create: (context) => getIt<InventoryCubit>()..searchInventories(stock.id ?? 0, true),
       builder: (blocContext, _) => Scaffold(
         body: Padding(
           padding: AppUtils.kPaddingAll10,
@@ -59,26 +67,27 @@ class InventoriesScreen extends HookWidget {
                   boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     // const BackButtonWidget(),
                     // AppUtils.kGap6,
 
                     ///
-                    Expanded(
-                      child: Container(
-                        padding: AppUtils.kPaddingAll12,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary100.opcty(.3),
-                          borderRadius: AppUtils.kBorderRadius12,
-                        ),
-                        child: Text(
-                          'Инвентаризация товаров в складе : ${stock.name}',
-                          style: const TextStyle(fontSize: 13),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: AppUtils.kPaddingAll12,
+                    //     alignment: Alignment.center,
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.primary100.opcty(.3),
+                    //       borderRadius: AppUtils.kBorderRadius12,
+                    //     ),
+                    //     child: Text(
+                    //       'Инвентаризация товаров в складе : ${stock.name}',
+                    //       style: const TextStyle(fontSize: 13),
+                    //       maxLines: 1,
+                    //     ),
+                    //   ),
+                    // ),
 
                     ///
                     AppUtils.kGap6,
@@ -171,7 +180,7 @@ class InventoriesScreen extends HookWidget {
                               ///
                               AppUtils.kGap6,
                               GestureDetector(
-                                onTap: () => context.inventoryBloc.searchInventories(stock.id, false),
+                                onTap: () => context.inventoryBloc.searchInventories(stock.id ?? 0, false),
                                 child: Container(
                                   height: 48,
                                   width: context.width * .10,
@@ -246,17 +255,16 @@ class InventoriesScreen extends HookWidget {
                   ],
                 ),
               ),
-
-              /// body
               AppUtils.kMainObjectsGap,
               Expanded(
                 child: CustomBox(
-                  padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
-                      const TitleSupplies(),
+                      const TableTitleWidget(
+                        columnWidths: _columnWidths,
+                        titles: ['Номер', 'Дата создания', 'Продукты', 'Действия'],
+                      ),
 
-                      ///
                       BlocBuilder<InventoryCubit, InventoryState>(
                         buildWhen: (p, c) => p.inventories != c.inventories,
                         builder: (context, state) => Expanded(

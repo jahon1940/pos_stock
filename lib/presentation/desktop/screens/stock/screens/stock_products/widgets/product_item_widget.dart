@@ -55,7 +55,7 @@ class ProductItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${context.tr("article")}: ${product.vendorCode ?? 'Не найдено'}",
+                      "${context.tr("article")}: ${product.vendorCode ?? ''}",
                       maxLines: 1,
                       style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 9),
                     ),
@@ -117,8 +117,8 @@ class ProductItemWidget extends StatelessWidget {
         /// purchase price
         _item(
           SizedBox(
-            child: product.price == null
-                ? null
+            child: product.purchasePriceDollar == 0
+                ? const SizedBox()
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -147,19 +147,19 @@ class ProductItemWidget extends StatelessWidget {
         _item(
           SizedBox(
             child: product.price == null
-                ? null
+                ? const SizedBox()
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      product.purchasePriceDollar == 0 ? const SizedBox() : Text(
                         "${currencyFormatter.format(product.priceDollar).replaceAll('.', ' ')}\$",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 11,
                         ),
                       ),
-                      const Divider(height: 6),
+                      product.purchasePriceDollar == 0 ? const SizedBox() : const Divider(height: 6),
                       Text(
                         "${currencyFormatter.format(product.price).replaceAll('.', ' ')}сум",
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),

@@ -12,7 +12,7 @@ class StockDto with _$StockDto {
 
   factory StockDto({
     required int id,
-    required String name,
+     String? name,
     String? address,
     String? phoneNumber,
     RegionDto? region,

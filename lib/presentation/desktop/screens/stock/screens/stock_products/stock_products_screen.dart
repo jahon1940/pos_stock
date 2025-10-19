@@ -273,7 +273,6 @@ class StockProductsScreen extends HookWidget {
             AppUtils.kGap12,
             Expanded(
               child: CustomBox(
-                padding: AppUtils.kPaddingAll12.withB0,
                 child: Column(
                   children: [
                     TableTitleWidget(

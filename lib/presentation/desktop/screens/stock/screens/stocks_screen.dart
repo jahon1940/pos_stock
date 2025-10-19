@@ -107,7 +107,7 @@ class StocksScreen extends HookWidget {
                                         final stock = state.stocks.elementAt(i);
                                         return TableItemWidget(
                                           leadingLabel: stock.id.toString(),
-                                          bodyLabel: stock.name,
+                                          bodyLabel: stock?.name ?? "",
                                           onTap: () => router.push(StockItemRoute(
                                             stock: stock,
                                             organization: organization,

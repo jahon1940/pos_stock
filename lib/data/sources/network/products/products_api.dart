@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:hoomo_pos/core/constants/network.dart';
+import 'package:hoomo_pos/core/logging/app_logger.dart';
 import 'package:hoomo_pos/core/network/dio_client.dart';
 import 'package:hoomo_pos/data/dtos/currency_dto.dart';
 import 'package:hoomo_pos/data/dtos/pagination_dto.dart';
@@ -20,6 +21,8 @@ part 'products_api_impl.dart';
 
 abstract class ProductsApi {
   Future<PaginatedDto<ProductDto>> search(SearchRequest request);
+
+  Future<PaginatedDto<ProductDetailDto>> searchMirel(SearchRequest request);
 
   Future<PaginatedDto<Products>> getProducts(int page, {CancelToken? cancelToken, String? receiptId});
 

@@ -94,9 +94,8 @@ class ManagerReportScreen extends HookWidget {
                                   builder: (context) => BlocProvider(
                                     create: (context) => getIt<FastSearchBloc>()
                                       ..add(SearchInit(false)),
-                                    child: SearchDialog(
+                                    child: const SearchDialog(
                                       isDialog: true,
-                                      isReserve: false,
                                       isSelect: true,
                                     ),
                                   ),

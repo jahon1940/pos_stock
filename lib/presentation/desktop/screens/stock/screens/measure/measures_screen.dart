@@ -36,6 +36,7 @@ class MeasuresScreen extends StatelessWidget {
               children: [
                 /// header
                 Container(
+                  height: 60,
                   padding: AppUtils.kPaddingAll6,
                   decoration: BoxDecoration(
                     color: context.theme.cardColor,
@@ -47,12 +48,8 @@ class MeasuresScreen extends StatelessWidget {
                       const Spacer(),
 
                       ///
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary800,
-                          minimumSize: Size(context.width * .15, 48),
-                        ),
-                        onPressed: () => showDialog<bool?>(
+                      GestureDetector(
+                        onTap: () => showDialog<bool?>(
                           context: context,
                           builder: (_) => const Center(child: CreateMeasureDialog()),
                         ).then((isSuccess) {
@@ -66,9 +63,19 @@ class MeasuresScreen extends StatelessWidget {
                             );
                           }
                         }),
-                        child: Text(
-                          'Создать измерения',
-                          style: TextStyle(fontSize: 13, color: context.onPrimary),
+                        child: Container(
+                          height: 48,
+                          width: context.width * .1,
+                          decoration: const BoxDecoration(
+                            borderRadius: AppUtils.kBorderRadius12,
+                            color: AppColors.primary800,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Добавить',
+                              style: TextStyle(fontSize: 13, color: context.onPrimary),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -79,7 +86,6 @@ class MeasuresScreen extends StatelessWidget {
                 AppUtils.kMainObjectsGap,
                 Expanded(
                   child: CustomBox(
-                    padding: AppUtils.kPaddingAll12.withB0,
                     child: Column(
                       children: [
                         ///

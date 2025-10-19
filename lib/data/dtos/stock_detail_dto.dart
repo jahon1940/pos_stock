@@ -9,8 +9,8 @@ class StockDetailDto with _$StockDetailDto {
   const StockDetailDto._();
 
   factory StockDetailDto({
-    required int id,
-    required StockDto stock,
+    int? id,
+    StockDto? stock,
     int? quantity,
     int? freeQuantity,
     int? quantityReserve

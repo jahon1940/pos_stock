@@ -8,8 +8,8 @@ class RegionDto with _$RegionDto {
   const RegionDto._();
 
   factory RegionDto({
-    required int id,
-    required String name,
+     int? id,
+     String? name,
   }) = _RegionDto;
 
   factory RegionDto.fromJson(Map<String, dynamic> json) =>

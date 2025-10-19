@@ -65,26 +65,27 @@ class TransfersScreen extends HookWidget {
                   boxShadow: [BoxShadow(color: context.theme.dividerColor, blurRadius: 3)],
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     // const BackButtonWidget(),
                     // AppUtils.kGap6,
 
                     ///
-                    Expanded(
-                      child: Container(
-                        padding: AppUtils.kPaddingAll12,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary100.opcty(.3),
-                          borderRadius: AppUtils.kBorderRadius12,
-                        ),
-                        child: Text(
-                          'Перемещение товаров с склада : ${stock.name}',
-                          style: const TextStyle(fontSize: 13),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: AppUtils.kPaddingAll12,
+                    //     alignment: Alignment.center,
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.primary100.opcty(.3),
+                    //       borderRadius: AppUtils.kBorderRadius12,
+                    //     ),
+                    //     child: Text(
+                    //       'Перемещение товаров с склада : ${stock.name}',
+                    //       style: const TextStyle(fontSize: 13),
+                    //       maxLines: 1,
+                    //     ),
+                    //   ),
+                    // ),
 
                     ///
                     AppUtils.kGap6,
@@ -224,10 +225,9 @@ class TransfersScreen extends HookWidget {
               ),
 
               /// body
-              AppUtils.kGap12,
+              AppUtils.kMainObjectsGap,
               Expanded(
                 child: CustomBox(
-                  padding: AppUtils.kPaddingAll12.withB0,
                   child: Column(
                     children: [
                       /// table title

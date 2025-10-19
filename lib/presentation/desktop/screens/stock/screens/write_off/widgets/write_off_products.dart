@@ -92,7 +92,6 @@ class WriteOffProducts extends HookWidget {
                                   create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
                                   child: SearchDialog(
                                     isDialog: true,
-                                    isReserve: false,
                                     stockId: stock!.id,
                                   ),
                                 ),

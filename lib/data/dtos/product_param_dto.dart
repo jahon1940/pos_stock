@@ -7,7 +7,7 @@ part 'product_param_dto.g.dart';
 class ProductParamDto with _$ProductParamDto {
   factory ProductParamDto({
     required int id,
-    required String name,
+     String? name,
     String? imageUrl,
   }) = _ProductParamDto;
 

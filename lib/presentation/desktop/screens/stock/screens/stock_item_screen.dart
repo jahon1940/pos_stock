@@ -100,7 +100,23 @@ class _StockItemScreenState extends State<StockItemScreen> {
   @override
   Widget build(
     BuildContext context,
-  ) =>
+  ) {
+    const MaterialColor whiteMaterialColor = MaterialColor(
+      0xFF000000,
+      <int, Color>{
+        50: Color(0xFF000000),
+        100: Color(0xFF000000),
+        200: Color(0xFF000000),
+        300: Color(0xFFFFFFFF),
+        400: Color(0xFFFFFFFF),
+        500: Color(0xFF000000),
+        600: Color(0xFF000000),
+        700: Color(0xFFC7D0FF),
+        800: Color(0xFFC7D0FF),
+        900: Color(0xFF000000),
+      },
+    );
+    return
       Scaffold(
         body: Padding(
           padding: AppUtils.kPaddingAll10,
@@ -108,7 +124,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
             children: [
               /// title
               PageTitleWidget(
-                label: widget.stock.name,
+                label: widget.stock.name ?? "",
                 canPop: true,
               ),
 
@@ -277,7 +293,8 @@ class _StockItemScreenState extends State<StockItemScreen> {
                     /// tabbed view
                     Expanded(
                       child: TabbedViewTheme(
-                        data: TabbedViewThemeData.classic(tabRadius: 12),
+                        data: TabbedViewThemeData.minimalist( brightness: Brightness.light,colorSet: whiteMaterialColor,tabRadius: 8
+                          ),
                         child: TabbedView(
                           controller: _controller,
                           tabReorderEnabled: false,
@@ -290,7 +307,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
             ],
           ),
         ),
-      );
+      );}
 
   Widget _item(
     BuildContext context, {
@@ -302,19 +319,19 @@ class _StockItemScreenState extends State<StockItemScreen> {
       height: 50,
       child: Material(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: context.primary),
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: context.background,width: 2),
         ),
-        color: isSelected ? context.onPrimary : AppColors.primary500,
+        color: isSelected ? context.primary : context.onPrimary,
         child: InkWell(
           onTap: () {
             _selectedItem = label;
             onPressed.call();
           },
-          hoverColor: isSelected ? context.onPrimary : AppColors.primary400,
+          hoverColor:  AppColors.primary100,
           highlightColor: AppColors.primary300,
           splashColor: AppColors.primary300,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: AppUtils.kPaddingHor12,
             child: Row(
@@ -324,12 +341,12 @@ class _StockItemScreenState extends State<StockItemScreen> {
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    color: isSelected ? context.primary : context.onPrimary,
+                    color: isSelected ? context.onPrimary : context.titleLarge?.color?.withOpacity(0.8),
                   ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: isSelected ? context.primary : context.onPrimary,
+                  color: isSelected ? context.onPrimary : context.titleLarge?.color?.withOpacity(0.8),
                   size: 16,
                 ),
               ],
