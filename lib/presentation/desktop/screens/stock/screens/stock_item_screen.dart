@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/data/dtos/company/company_dto.dart';
 import 'package:tabbed_view/tabbed_view.dart';
@@ -116,198 +117,198 @@ class _StockItemScreenState extends State<StockItemScreen> {
         900: Color(0xFF000000),
       },
     );
-    return
-      Scaffold(
-        body: Padding(
-          padding: AppUtils.kPaddingAll10,
-          child: Column(
-            children: [
-              /// title
-              PageTitleWidget(
-                label: widget.stock.name ?? "",
-                canPop: true,
-              ),
+    return Scaffold(
+      body: Padding(
+        padding: AppUtils.kPaddingAll10,
+        child: Column(
+          children: [
+            /// title
+            PageTitleWidget(
+              label: widget.stock.name,
+              canPop: true,
+            ),
 
-              /// items
-              AppUtils.kGap12,
-              Expanded(
-                child: Row(
-                  spacing: AppUtils.mainSpacing,
-                  children: [
-                    ///
-                    CustomBox(
-                      padding: AppUtils.kPaddingAll12,
-                      child: SizedBox(
-                        width: 220,
-                        child: Column(
-                          spacing: AppUtils.kGap12.mainAxisExtent,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ///
-                            _item(
-                              context,
-                              label: 'Поступление товаров',
-                              // onPressed: () => _addTab('Поступление', SuppliesScreen(stock, organization)),
-                              onPressed: () => _addTab(
-                                'Поступление',
-                                Navigator(
-                                  key: _suppliesNavKey,
-                                  onGenerateRoute: (_) => MaterialPageRoute(
-                                    builder: (_) => SuppliesScreen(
-                                      stock,
-                                      organization,
-                                      navigationKey: _suppliesNavKey,
-                                    ),
+            /// items
+            AppUtils.kGap12,
+            Expanded(
+              child: Row(
+                spacing: AppUtils.mainSpacing,
+                children: [
+                  ///
+                  CustomBox(
+                    padding: AppUtils.kPaddingAll12,
+                    child: SizedBox(
+                      width: 220,
+                      child: Column(
+                        spacing: AppUtils.kGap12.mainAxisExtent,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///
+                          _item(
+                            context,
+                            label: 'Поступление товаров',
+                            // onPressed: () => _addTab('Поступление', SuppliesScreen(stock, organization)),
+                            onPressed: () => _addTab(
+                              'Поступление',
+                              Navigator(
+                                key: _suppliesNavKey,
+                                onGenerateRoute: (_) => MaterialPageRoute(
+                                  builder: (_) => SuppliesScreen(
+                                    stock,
+                                    organization,
+                                    navigationKey: _suppliesNavKey,
                                   ),
                                 ),
                               ),
                             ),
-
-                            ///
-                            _item(
-                              context,
-                              label: 'Перемещение товаров',
-                              // onPressed: () => _addTab('Перемещение', TransfersScreen(stock, organization)),
-                              onPressed: () => _addTab(
-                                'Перемещение',
-                                Navigator(
-                                  key: _transfersNavKey,
-                                  onGenerateRoute: (_) => MaterialPageRoute(
-                                    builder: (_) => TransfersScreen(
-                                      navigationKey: _transfersNavKey,
-                                      stock: stock,
-                                      organization: organization,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            ///
-                            _item(
-                              context,
-                              label: 'Списание товаров',
-                              // onPressed: () => _addTab('Списание', WriteOffsScreen(stock, organization)),
-                              onPressed: () => _addTab(
-                                'Списание',
-                                Navigator(
-                                  key: _writeOffsNavKey,
-                                  onGenerateRoute: (_) => MaterialPageRoute(
-                                    builder: (_) => WriteOffsScreen(
-                                      navigationKey: _writeOffsNavKey,
-                                      stock: stock,
-                                      organization: organization,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            ///
-                            _item(
-                              context,
-                              label: 'Инвентаризация',
-                              // onPressed: () => _addTab('Инвентаризация', InventoriesScreen(stock, organization)),
-                              onPressed: () => _addTab(
-                                'Инвентаризация',
-                                Navigator(
-                                  key: _inventoriesNavKey,
-                                  onGenerateRoute: (_) => MaterialPageRoute(
-                                    builder: (_) => InventoriesScreen(
-                                      navigationKey: _inventoriesNavKey,
-                                      stock: stock,
-                                      organization: organization,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            ///
-                            _item(
-                              context,
-                              label: context.tr('sidebar.catalog'),
-                              // onPressed: () => _addTab(
-                              //   context.tr('sidebar.catalog'),
-                              //   StockProductsScreen(stock, organization),
-                              // ),
-                              onPressed: () => _addTab(
-                                context.tr('sidebar.catalog'),
-                                Navigator(
-                                  key: _stockProductsNavKey,
-                                  onGenerateRoute: (_) => MaterialPageRoute(
-                                    builder: (_) => StockProductsScreen(
-                                      navigationKey: _stockProductsNavKey,
-                                      stock: stock,
-                                      organization: organization,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            /// category
-                            _item(
-                              context,
-                              label: 'Категории',
-                              onPressed: () => _addTab('Категории', const CategoriesScreen()),
-                              // onPressed: () => router.push(const CategoriesRoute()),
-                            ),
-
-                            /// brands
-                            _item(
-                              context,
-                              label: 'Бренды',
-                              onPressed: () => _addTab('Бренды', const BrandsScreen()),
-                            ),
-
-                            /// country
-                            _item(
-                              context,
-                              label: 'Страна производства',
-                              onPressed: () => _addTab('Страна производства', const CountriesScreen()),
-                            ),
-
-                            /// measure
-                            _item(
-                              context,
-                              label: 'Единица измерения',
-                              onPressed: () => _addTab('Единица измерения', const MeasuresScreen()),
-                            ),
-
-                            ///
-                            _item(
-                              context,
-                              label: 'Установить Курс',
-                              onPressed: () async {
-                                final res = await context.showCustomDialog(const CurrencyDialog());
-                                if (res == null) return;
-                                context.searchBloc.add(SearchRemoteTextChangedEvent(''));
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    /// tabbed view
-                    Expanded(
-                      child: TabbedViewTheme(
-                        data: TabbedViewThemeData.minimalist( brightness: Brightness.light,colorSet: whiteMaterialColor,tabRadius: 8
                           ),
-                        child: TabbedView(
-                          controller: _controller,
-                          tabReorderEnabled: false,
-                        ),
+
+                          ///
+                          _item(
+                            context,
+                            label: 'Перемещение товаров',
+                            // onPressed: () => _addTab('Перемещение', TransfersScreen(stock, organization)),
+                            onPressed: () => _addTab(
+                              'Перемещение',
+                              Navigator(
+                                key: _transfersNavKey,
+                                onGenerateRoute: (_) => MaterialPageRoute(
+                                  builder: (_) => TransfersScreen(
+                                    navigationKey: _transfersNavKey,
+                                    stock: stock,
+                                    organization: organization,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: 'Списание товаров',
+                            // onPressed: () => _addTab('Списание', WriteOffsScreen(stock, organization)),
+                            onPressed: () => _addTab(
+                              'Списание',
+                              Navigator(
+                                key: _writeOffsNavKey,
+                                onGenerateRoute: (_) => MaterialPageRoute(
+                                  builder: (_) => WriteOffsScreen(
+                                    navigationKey: _writeOffsNavKey,
+                                    stock: stock,
+                                    organization: organization,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: 'Инвентаризация',
+                            // onPressed: () => _addTab('Инвентаризация', InventoriesScreen(stock, organization)),
+                            onPressed: () => _addTab(
+                              'Инвентаризация',
+                              Navigator(
+                                key: _inventoriesNavKey,
+                                onGenerateRoute: (_) => MaterialPageRoute(
+                                  builder: (_) => InventoriesScreen(
+                                    navigationKey: _inventoriesNavKey,
+                                    stock: stock,
+                                    organization: organization,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: context.tr('sidebar.catalog'),
+                            // onPressed: () => _addTab(
+                            //   context.tr('sidebar.catalog'),
+                            //   StockProductsScreen(stock, organization),
+                            // ),
+                            onPressed: () => _addTab(
+                              context.tr('sidebar.catalog'),
+                              Navigator(
+                                key: _stockProductsNavKey,
+                                onGenerateRoute: (_) => MaterialPageRoute(
+                                  builder: (_) => StockProductsScreen(
+                                    navigationKey: _stockProductsNavKey,
+                                    stock: stock,
+                                    organization: organization,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /// category
+                          _item(
+                            context,
+                            label: 'Категории',
+                            onPressed: () => _addTab('Категории', const CategoriesScreen()),
+                            // onPressed: () => router.push(const CategoriesRoute()),
+                          ),
+
+                          /// brands
+                          _item(
+                            context,
+                            label: 'Бренды',
+                            onPressed: () => _addTab('Бренды', const BrandsScreen()),
+                          ),
+
+                          /// country
+                          _item(
+                            context,
+                            label: 'Страна производства',
+                            onPressed: () => _addTab('Страна производства', const CountriesScreen()),
+                          ),
+
+                          /// measure
+                          _item(
+                            context,
+                            label: 'Единица измерения',
+                            onPressed: () => _addTab('Единица измерения', const MeasuresScreen()),
+                          ),
+
+                          ///
+                          _item(
+                            context,
+                            label: 'Установить Курс',
+                            onPressed: () async {
+                              final res = await context.showCustomDialog(const CurrencyDialog());
+                              if (res == null) return;
+                              context.searchBloc.add(SearchRemoteTextChangedEvent(''));
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  /// tabbed view
+                  Expanded(
+                    child: TabbedViewTheme(
+                      data: TabbedViewThemeData.minimalist(
+                          brightness: Brightness.light, colorSet: whiteMaterialColor, tabRadius: 8),
+                      child: TabbedView(
+                        controller: _controller,
+                        tabReorderEnabled: false,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );}
+      ),
+    );
+  }
 
   Widget _item(
     BuildContext context, {
@@ -320,7 +321,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
       child: Material(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: context.background,width: 2),
+          side: BorderSide(color: context.background, width: 2),
         ),
         color: isSelected ? context.primary : context.onPrimary,
         child: InkWell(
@@ -328,7 +329,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
             _selectedItem = label;
             onPressed.call();
           },
-          hoverColor:  AppColors.primary100,
+          hoverColor: AppColors.primary100,
           highlightColor: AppColors.primary300,
           splashColor: AppColors.primary300,
           borderRadius: BorderRadius.circular(12),
@@ -341,12 +342,12 @@ class _StockItemScreenState extends State<StockItemScreen> {
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    color: isSelected ? context.onPrimary : context.titleLarge?.color?.withOpacity(0.8),
+                    color: isSelected ? context.onPrimary : context.titleLarge?.color?.opcty(0.8),
                   ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: isSelected ? context.onPrimary : context.titleLarge?.color?.withOpacity(0.8),
+                  color: isSelected ? context.onPrimary : context.titleLarge?.color?.opcty(0.8),
                   size: 16,
                 ),
               ],

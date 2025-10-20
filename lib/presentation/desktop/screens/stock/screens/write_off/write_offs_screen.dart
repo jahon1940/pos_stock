@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
@@ -17,7 +15,6 @@ import '../../../../../../../../data/dtos/stock_dto.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../data/dtos/write_offs/write_off_dto.dart';
 import '../../widgets/table_title_widget.dart';
-import '../../widgets/title_supplies.dart';
 import 'add_write_off_screen.dart';
 import 'cubit/write_off_cubit.dart';
 import 'widgets/write_off_item_widget.dart';
@@ -39,6 +36,7 @@ class WriteOffsScreen extends HookWidget {
     2: FlexColumnWidth(2),
     3: FlexColumnWidth(2),
   };
+
   @override
   Widget build(
     BuildContext context,
