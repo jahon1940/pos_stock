@@ -19,7 +19,7 @@ import 'widgets/product_pricing_widget.dart';
 
 @RoutePage()
 class CreateProductScreen extends HookWidget {
-  const CreateProductScreen( {
+  const CreateProductScreen({
     super.key,
     this.product,
     this.isDialogOpen,
@@ -27,11 +27,7 @@ class CreateProductScreen extends HookWidget {
 
   final ProductDto? product;
   final ValueNotifier<bool>? isDialogOpen;
-  void _showDialog(BuildContext context, Widget dialog) {
-    isDialogOpen?.value = true;
-    showDialog(context: context, builder: (_) => dialog)
-        .then((_) => isDialogOpen?.value = false);
-  }
+
   @override
   Widget build(
     BuildContext context,
@@ -75,18 +71,19 @@ class CreateProductScreen extends HookWidget {
                   /// button
                   const Spacer(),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: Size(context.width * .12, 48),padding: EdgeInsets.zero),
-                    onPressed: () async{
-                      final res = await showDialog(
-                        context: context,
-                        builder: (context) => BlocProvider(
-                          create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
-                          child: const SearchDialog(
-                            isDialog: true,
-                          ),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(context.width * .12, 48),
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: () async => showDialog(
+                      context: context,
+                      builder: (context) => BlocProvider(
+                        create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
+                        child: const SearchDialog(
+                          isDialog: true,
                         ),
-                      );
-                    },
+                      ),
+                    ),
                     child: const Text(
                       'Добавить из справочника',
                       maxLines: 1,
