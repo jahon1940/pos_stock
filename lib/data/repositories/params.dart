@@ -18,7 +18,7 @@ class ParamsRepositoryImpl implements ParamsRepository {
       await _productParamsDao.insertBrands(res.results
           .map((e) => Brads(
                 id: e.id,
-                name: e.name,
+                name: e.name ?? '',
                 image_url: e.imageUrl,
               ))
           .toList());
@@ -36,7 +36,7 @@ class ParamsRepositoryImpl implements ParamsRepository {
       await _productParamsDao.insertCategories(res.results
           .map((e) => Categories(
                 id: e.id,
-                name: e.name,
+                name: e.name ?? '',
                 image_url: e.imageUrl,
               ))
           .toList());
@@ -53,7 +53,7 @@ class ParamsRepositoryImpl implements ParamsRepository {
       await _productParamsDao.insertOrganizations(res.results
           .map((e) => Organizations(
                 id: e.id,
-                name: e.name,
+                name: e.name ?? '',
               ))
           .toList());
       return (res.pageNumber, res.totalPages);
@@ -91,7 +91,7 @@ class ParamsRepositoryImpl implements ParamsRepository {
       await _productParamsDao.insertRegions(res.results
           .map((e) => Regions(
                 id: e.id,
-                name: e.name,
+                name: e.name ?? '',
               ))
           .toList());
       return (res.pageNumber, res.totalPages);
@@ -107,7 +107,7 @@ class ParamsRepositoryImpl implements ParamsRepository {
       await _productParamsDao.insertStocks(res.results
           .map((e) => Stocks(
                 id: e.id,
-                name: e.name,
+                name: e.name ?? '',
               ))
           .toList());
       return (res.pageNumber, res.totalPages);

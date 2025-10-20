@@ -124,7 +124,7 @@ class _StockItemScreenState extends State<StockItemScreen> {
           children: [
             /// title
             PageTitleWidget(
-              label: widget.stock.name,
+              label: widget.stock.name ?? '',
               canPop: true,
             ),
 
