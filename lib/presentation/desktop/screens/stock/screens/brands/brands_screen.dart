@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/presentation/desktop/dialogs/operation_result_dialog.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/brands/cubit/brand_cubit.dart';
@@ -96,11 +95,12 @@ class BrandsScreen extends HookWidget {
                   children: [
                     ///
                     TableTitleWidget(
-                      titles: ['ID', context.tr(Dictionary.name), 'Действия'],
+                      titles: ['ID', context.tr(Dictionary.name),  'Фото', 'Действия'],
                       columnWidths: {
                         0: const FlexColumnWidth(2),
-                        1: const FlexColumnWidth(6),
-                        2: const FlexColumnWidth(2),
+                        1: const FlexColumnWidth(5),
+                        2: const FlexColumnWidth(),
+                        3: const FlexColumnWidth(2),
                       },
                     ),
 

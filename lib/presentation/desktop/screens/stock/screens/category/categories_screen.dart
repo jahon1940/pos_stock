@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 
 import '../../../../../../../../core/constants/app_utils.dart';
@@ -53,7 +52,7 @@ class CategoriesScreen extends HookWidget {
 
                   ///
                   GestureDetector(
-                    onTap: () =>  showDialog<bool?>(
+                    onTap: () => showDialog<bool?>(
                       context: context,
                       builder: (context) => const Center(child: CreateCategoryDialog()),
                     ).then((isSuccess) async {
@@ -68,7 +67,7 @@ class CategoriesScreen extends HookWidget {
                         );
                       }
                     }),
-                    child:  Container(
+                    child: Container(
                       height: 48,
                       width: context.width * .1,
                       decoration: const BoxDecoration(
@@ -95,11 +94,12 @@ class CategoriesScreen extends HookWidget {
                   children: [
                     ///
                     TableTitleWidget(
-                      titles: ['ID', context.tr(Dictionary.name), 'Действия'],
+                      titles: ['ID', context.tr(Dictionary.name), 'Фото', 'Действия'],
                       columnWidths: {
                         0: const FlexColumnWidth(2),
-                        1: const FlexColumnWidth(6),
-                        2: const FlexColumnWidth(2),
+                        1: const FlexColumnWidth(5),
+                        2: const FlexColumnWidth(),
+                        3: const FlexColumnWidth(2),
                       },
                     ),
 

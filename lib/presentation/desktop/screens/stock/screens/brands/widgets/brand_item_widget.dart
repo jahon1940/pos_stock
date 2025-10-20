@@ -26,8 +26,9 @@ class BrandItemWidget extends StatelessWidget {
       TableProductItem(
         columnWidths: {
           0: const FlexColumnWidth(2),
-          1: const FlexColumnWidth(6),
-          2: const FlexColumnWidth(2),
+          1: const FlexColumnWidth(5),
+          2: const FlexColumnWidth(),
+          3: const FlexColumnWidth(2),
         },
         onTap: () async {},
         children: [
@@ -36,6 +37,24 @@ class BrandItemWidget extends StatelessWidget {
           ),
           _item(
             child: Text(brand.name),
+          ),
+          _item(
+            child: brand.image.isNotEmpty
+                ? Center(
+                    child: ClipRRect(
+                      borderRadius: AppUtils.kBorderRadius8,
+                      child: Container(
+                        color: Colors.red,
+                        height: 40,
+                        width: 40,
+                        child: Image.network(
+                          brand.imageLink,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  )
+                : const Center(),
           ),
           _item(
             child: Row(
