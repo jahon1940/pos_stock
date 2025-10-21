@@ -12,7 +12,6 @@ import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_produ
 import '../../../../../../../../../core/styles/text_style.dart';
 import '../../../../../../../../../core/widgets/custom_box.dart';
 import '../../../../../../../../../core/widgets/text_field.dart';
-import '../../../../../../../../../data/dtos/product_dto.dart';
 import '../../../../../../../core/constants/app_utils.dart';
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/utils/barcode.dart';
@@ -20,19 +19,15 @@ import '../../../../../dialogs/category/bloc/category_bloc.dart';
 import '../cubit/product_cubit.dart';
 
 class Product1CDetails extends StatefulWidget {
-  const Product1CDetails(
-    this.product, {
+  const Product1CDetails({
     super.key,
   });
-
-  final ProductDto? product;
 
   @override
   State<Product1CDetails> createState() => _Product1CDetailsState();
 }
 
 class _Product1CDetailsState extends State<Product1CDetails> {
-  ProductDto? get product => widget.product;
   String _selectedCategoryName = '';
   String _selectedBrandName = '';
   String _selectedCountryName = '';
@@ -82,7 +77,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Категория: ${product?.category?.name ?? ''}',
+                        'Категория:',
                         style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
                       ),
                     ),
@@ -146,7 +141,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Бренд: ${product?.brand?.name ?? ''}',
+                        'Бренд:',
                         style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
                       ),
                     ),
@@ -210,7 +205,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Страна производства: ${product?.madeIn?.name ?? ''}',
+                        'Страна производства:',
                         style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
                       ),
                     ),

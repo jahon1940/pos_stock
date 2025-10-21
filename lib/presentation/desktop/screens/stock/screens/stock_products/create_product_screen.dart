@@ -14,6 +14,7 @@ import '../../../../dialogs/search/search_dialog.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
 import 'widgets/product_1c_details.dart';
+import 'widgets/product_about.dart';
 import 'widgets/product_images_widget.dart';
 import 'widgets/product_pricing_widget.dart';
 
@@ -98,7 +99,7 @@ class CreateProductScreen extends HookWidget {
 
             /// body
             AppUtils.kMainObjectsGap,
-            Expanded(
+            const Expanded(
               child: Row(
                 spacing: AppUtils.mainSpacing,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,15 +108,15 @@ class CreateProductScreen extends HookWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(child: Product1CDetails(product)),
+                        Expanded(child: Product1CDetails()),
                         AppUtils.kMainObjectsGap,
-                        const ProductPricingWidget(),
-                        // ProductAbout(),
+                        ProductPricingWidget(),
+                        // const ProductAbout(),
                         // Characteristics(),
                       ],
                     ),
                   ),
-                  const ProductImagesWidget(),
+                  ProductImagesWidget(),
                 ],
               ),
             ),
