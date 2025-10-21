@@ -105,8 +105,15 @@ class _SelectItemDialogState extends State<SelectItemDialog> {
                   itemBuilder: (ctx, index) {
                     final item = filteredItems.elementAt(index);
                     String name = '';
-                    if (item is CategoryDto) name = item.name;
-                    if (item is BrandDto) name = item.name;
+                    String imageLink = '';
+                    if (item is CategoryDto) {
+                      name = item.name;
+                      imageLink = item.image.isNotEmpty ? item.imageLink : '';
+                    }
+                    if (item is BrandDto) {
+                      name = item.name;
+                      imageLink = item.image.isNotEmpty ? item.imageLink : '';
+                    }
                     if (item is CountryDto) name = item.name ?? '';
                     return SizedBox(
                       height: 50,
@@ -120,7 +127,27 @@ class _SelectItemDialogState extends State<SelectItemDialog> {
                           onTap: () => context.pop(item),
                           child: Padding(
                             padding: AppUtils.kPaddingAll12,
-                            child: Text(name),
+                            child: Row(
+                              children: [
+                                Center(
+                                  child: ClipRRect(
+                                    borderRadius: AppUtils.kBorderRadius8,
+                                    child: SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: imageLink.isNotEmpty
+                                          ? Image.network(
+                                              imageLink,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : null,
+                                    ),
+                                  ),
+                                ),
+                                AppUtils.kGap12,
+                                Text(name),
+                              ],
+                            ),
                           ),
                         ),
                       ),
