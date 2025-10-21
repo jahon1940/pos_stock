@@ -90,7 +90,8 @@ class ProductsApiImpl implements ProductsApi {
         converter: (response) => ProductDetailDto.fromJson(response),
       );
       return res;
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('Error on getProductDetail: $e, \n$st');
       rethrow;
     }
   }
