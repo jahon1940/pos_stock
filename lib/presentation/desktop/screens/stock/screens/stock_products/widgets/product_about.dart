@@ -18,9 +18,7 @@ class ProductAbout extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    final ruTitleController = useTextEditingController();
     final ruDescriptionController = useTextEditingController();
-    final uzTitleController = useTextEditingController();
     final uzDescriptionController = useTextEditingController();
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) => CustomBox(
@@ -130,15 +128,6 @@ class ProductAbout extends HookWidget {
             ///
             AppUtils.kGap20,
             AppTextField(
-              fieldController: ruTitleController,
-              label: 'Название Продукта на Русском...',
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-            ),
-
-            ///
-            AppUtils.kGap20,
-            AppTextField(
               fieldController: ruDescriptionController,
               label: 'Описание Продукта на Русском...',
               alignLabelWithHint: true,
@@ -148,16 +137,7 @@ class ProductAbout extends HookWidget {
             ),
 
             ///
-            AppUtils.kGap20,
-            AppTextField(
-              fieldController: uzTitleController,
-              label: 'Название Продукта на Узбекском...',
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-            ),
-
-            ///
-            AppUtils.kGap20,
+            AppUtils.kGap12,
             AppTextField(
               fieldController: uzDescriptionController,
               label: 'Описание Продукта на Узбекском...',

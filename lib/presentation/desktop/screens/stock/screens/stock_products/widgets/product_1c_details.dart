@@ -31,14 +31,16 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   String _selectedCategoryName = '';
   String _selectedBrandName = '';
   String _selectedCountryName = '';
-  late final TextEditingController _nameController;
+  late final TextEditingController _ruNameController;
+  late final TextEditingController _uzNameController;
   late final TextEditingController _vendorCodeController;
   List<String> _barcodes = [];
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
+    _ruNameController = TextEditingController();
+    _uzNameController = TextEditingController();
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCreateProductData(barcodes: _barcodes);
     _vendorCodeController = TextEditingController();
@@ -46,7 +48,8 @@ class _Product1CDetailsState extends State<Product1CDetails> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _ruNameController.dispose();
+    _uzNameController.dispose();
     _vendorCodeController.dispose();
     super.dispose();
   }
@@ -61,7 +64,8 @@ class _Product1CDetailsState extends State<Product1CDetails> {
           _selectedCategoryName = state.createProductDataDto.categoryName;
           // _brandController.text = state.createProductDataDto;  // todo
           // _countryController.text = state.createProductDataDto;  // todo
-          _nameController.text = state.createProductDataDto.name;
+          _ruNameController.text = state.createProductDataDto.name;
+          // _uzNameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
         },
@@ -266,10 +270,23 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               AppUtils.kGap20,
               AppTextField(
                 prefix: Icon(Icons.title, color: context.primary),
-                fieldController: _nameController,
+                fieldController: _ruNameController,
                 width: double.maxFinite,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                label: 'Название Продукта ...',
+                label: 'Название Продукта на Русском...',
+                alignLabelWithHint: true,
+                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                onChange: (value) => context.productBloc.setCreateProductData(name: value),
+              ),
+
+              ///
+              AppUtils.kGap12,
+              AppTextField(
+                prefix: Icon(Icons.title, color: context.primary),
+                fieldController: _uzNameController,
+                width: double.maxFinite,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                label: 'Название Продукта на Узбекском...',
                 alignLabelWithHint: true,
                 style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                 onChange: (value) => context.productBloc.setCreateProductData(name: value),
