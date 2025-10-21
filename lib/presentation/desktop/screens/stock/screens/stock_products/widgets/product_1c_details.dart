@@ -35,6 +35,8 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   late final TextEditingController _uzNameController;
   late final TextEditingController _vendorCodeController;
   late final TextEditingController _quantityController;
+  late final TextEditingController _minQuantityController;
+  late final TextEditingController _maxQuantityController;
   List<String> _barcodes = [];
 
   @override
@@ -46,6 +48,8 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     context.productBloc.setCreateProductData(barcodes: _barcodes);
     _vendorCodeController = TextEditingController();
     _quantityController = TextEditingController();
+    _minQuantityController = TextEditingController();
+    _maxQuantityController = TextEditingController();
   }
 
   @override
@@ -54,6 +58,8 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     _uzNameController.dispose();
     _vendorCodeController.dispose();
     _quantityController.dispose();
+    _minQuantityController.dispose();
+    _maxQuantityController.dispose();
     super.dispose();
   }
 
@@ -65,13 +71,15 @@ class _Product1CDetailsState extends State<Product1CDetails> {
         listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
         listener: (context, state) {
           _selectedCategoryName = state.createProductDataDto.categoryName;
-          // _brandController.text = state.createProductDataDto;  // todo
-          // _countryController.text = state.createProductDataDto;  // todo
+          // _brandController.text = state.createProductDataDto;
+          // _countryController.text = state.createProductDataDto;
           _ruNameController.text = state.createProductDataDto.name;
-          // _uzNameController.text = state.createProductDataDto.name; // todo
+          // _uzNameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
-          // _quantityController.text = state.createProductDataDto.quantity.toString(); // todo
+          // _quantityController.text = state.createProductDataDto.quantity.toString();
+          // _minQuantityController.text = state.createProductDataDto.quantity.toString();
+          // _maxQuantityController.text = state.createProductDataDto.quantity.toString();
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
@@ -324,7 +332,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
               ),
 
               /// vendor code
-              AppUtils.kGap20,
+              AppUtils.kGap12,
               Row(
                 children: [
                   Expanded(
@@ -336,7 +344,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       fieldController: _vendorCodeController,
                       width: double.maxFinite,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                      label: 'Артикул продукта...',
+                      label: 'Артикул продукта',
                       alignLabelWithHint: true,
                       style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                       onChange: (value) => context.productBloc.setCreateProductData(vendorCode: value),
@@ -352,10 +360,92 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       fieldController: _quantityController,
                       width: double.maxFinite,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                      label: 'Количество в коробке...',
+                      label: 'Количество в коробке',
                       alignLabelWithHint: true,
                       style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                       onChange: (value) => context.productBloc.setCreateProductData(quantity: int.tryParse(value)),
+                    ),
+                  ),
+                  // AppUtils.kMainObjectsGap,
+                  // SizedBox(
+                  //   width: 120,
+                  //   child: CustomBox(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(left: 5, right: 5),
+                  //       child: DropdownButton<String>(
+                  //         borderRadius: BorderRadius.circular(10),
+                  //         isExpanded: true,
+                  //         underline: const SizedBox(),
+                  //         value: 'KG',
+                  //         hint: Padding(
+                  //           padding: const EdgeInsets.only(left: 10),
+                  //           child: Text(
+                  //             'viewModel.product.measure' ?? '',
+                  //             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                  //           ),
+                  //         ),
+                  //         alignment: Alignment.centerLeft,
+                  //         items: <String>[
+                  //           'KG',
+                  //           'GR',
+                  //           'LITR',
+                  //           'PIECE',
+                  //         ].map((String value) {
+                  //           return DropdownMenuItem<String>(
+                  //             value: value,
+                  //             child: Padding(
+                  //               padding: const EdgeInsets.only(left: 10),
+                  //               child: Text(
+                  //                   value == 'KG'
+                  //                       ? 'Кило'
+                  //                       : value == 'GR'
+                  //                           ? 'Грамм'
+                  //                           : value == 'LITR'
+                  //                               ? 'Литр'
+                  //                               : value == 'PIECE'
+                  //                                   ? 'Штука'
+                  //                                   : '',
+                  //                   style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500)),
+                  //             ),
+                  //           );
+                  //         }).toList(),
+                  //         onChanged: (value) {},
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+              AppUtils.kGap12,
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      prefix: Icon(
+                        Icons.abc,
+                        color: context.primary,
+                      ),
+                      fieldController: _minQuantityController,
+                      width: double.maxFinite,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                      label: 'Mинимальное количество',
+                      alignLabelWithHint: true,
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  AppUtils.kMainObjectsGap,
+                  Expanded(
+                    child: AppTextField(
+                      prefix: Icon(
+                        Icons.onetwothree,
+                        color: context.primary,
+                      ),
+                      fieldController: _maxQuantityController,
+                      width: double.maxFinite,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                      label: 'Mаксимальное количество',
+                      alignLabelWithHint: true,
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                     ),
                   ),
                   // AppUtils.kMainObjectsGap,
