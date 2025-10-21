@@ -124,7 +124,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
       isProductDataLoaded: true,
       createProductDataDto: state.createProductDataDto.copyWith(
         name: data.title,
-        categoryName: data.category?.name,
+        categoryName: data.category.name,
         barcodes: data.barcode,
         vendorCode: data.vendorCode,
         quantity: data.leftQuantity,
