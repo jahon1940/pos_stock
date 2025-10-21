@@ -7,7 +7,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/dictionary.dart';
 import 'package:hoomo_pos/core/extensions/color_extension.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
-import 'package:hoomo_pos/core/extensions/edge_insets_extensions.dart';
 import 'package:hoomo_pos/data/dtos/suppliers/supplier_dto.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/cubit/product_cubit.dart';
 import 'package:hoomo_pos/presentation/desktop/screens/stock/widgets/table_title_widget.dart';
