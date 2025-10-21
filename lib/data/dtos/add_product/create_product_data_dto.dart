@@ -10,11 +10,11 @@ class CreateProductDataDto extends Equatable {
     this.productId = '',
     this.stockId = '',
     this.categoryName = '',
-    this.categoryId,
+    this.categoryCid,
     this.brandName = '',
-    this.brandId,
+    this.brandCid,
     this.countryName = '',
-    this.countryId,
+    this.countryCid,
     this.quantity = 0,
     this.purchasePrice,
     this.price,
@@ -32,11 +32,11 @@ class CreateProductDataDto extends Equatable {
   final String productId;
   final String stockId;
   final String categoryName;
-  final int? categoryId;
+  final String? categoryCid;
   final String brandName;
-  final int? brandId;
+  final String? brandCid;
   final String countryName;
-  final int? countryId;
+  final String? countryCid;
   final int quantity;
   final int? purchasePrice;
   final int? price;
@@ -54,11 +54,11 @@ class CreateProductDataDto extends Equatable {
     String? productId,
     String? stockId,
     String? categoryName,
-    int? categoryId,
+    String? categoryCid,
     String? brandName,
-    int? brandId,
+    String? brandCid,
     String? countryName,
-    int? countryId,
+    String? countryCid,
     int? quantity,
     int? purchasePrice,
     int? price,
@@ -76,11 +76,11 @@ class CreateProductDataDto extends Equatable {
         productId: productId ?? this.productId,
         stockId: stockId ?? this.stockId,
         categoryName: categoryName ?? this.categoryName,
-        categoryId: categoryId ?? this.categoryId,
+        categoryCid: categoryCid ?? this.categoryCid,
         brandName: brandName ?? this.brandName,
-        brandId: brandId ?? this.brandId,
+        brandCid: brandCid ?? this.brandCid,
         countryName: countryName ?? this.countryName,
-        countryId: countryId ?? this.countryId,
+        countryCid: countryCid ?? this.countryCid,
         quantity: quantity ?? this.quantity,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
@@ -100,11 +100,11 @@ class CreateProductDataDto extends Equatable {
         productId,
         stockId,
         categoryName,
-        categoryId,
+        categoryCid,
         brandName,
-        brandId,
+        brandCid,
         countryName,
-        countryId,
+        countryCid,
         quantity,
         purchasePrice,
         price,

@@ -14,9 +14,13 @@ class CreateProductRequest with _$CreateProductRequest {
     @JsonKey(includeIfNull: false) String? vendorCode,
     @JsonKey(includeIfNull: false) List<String>? barcode,
     @JsonKey(includeIfNull: false) int? stockId,
-    @JsonKey(includeIfNull: false) int? categoryId,
-    int? quantity,
-    String? purchasePrice,
-    String? price,
+    @JsonKey(includeIfNull: false) String? categoryCid,
+    @JsonKey(includeIfNull: false) String? brandCid,
+    @JsonKey(includeIfNull: false) String? madeInCid,
+    @JsonKey(includeIfNull: false) int? quantity,
+    @JsonKey(includeIfNull: false) String? purchasePrice,
+    @JsonKey(includeIfNull: false) String? price,
+    @JsonKey(includeIfNull: false) String? image,
+    @JsonKey(includeIfNull: false) List<String>? images,
   }) = _CreateProductRequest;
 }

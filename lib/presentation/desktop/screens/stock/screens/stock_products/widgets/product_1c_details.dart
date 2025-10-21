@@ -135,7 +135,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                 if (item.isNotNull) {
                                   _selectedCategoryName = item!.name;
                                   context.productBloc.setCreateProductData(
-                                    categoryId: item.id,
+                                    categoryCid: item.cid,
                                     categoryName: item.name,
                                   );
                                   setState(() {});
@@ -199,7 +199,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                 if (item.isNotNull) {
                                   _selectedBrandName = item!.name;
                                   context.productBloc.setCreateProductData(
-                                    brandId: item.id,
+                                    brandCid: item.cid,
                                     brandName: item.name,
                                   );
                                   setState(() {});
@@ -263,7 +263,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                                 if (item.isNotNull) {
                                   _selectedCountryName = item!.name ?? ' - ';
                                   context.productBloc.setCreateProductData(
-                                    countryId: item.id,
+                                    countryCid: item.cid,
                                     countryName: item.name,
                                   );
                                   setState(() {});

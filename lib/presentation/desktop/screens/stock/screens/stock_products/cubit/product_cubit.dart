@@ -146,11 +146,11 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
   void setCreateProductData({
     String? name,
     String? categoryName,
-    int? categoryId,
+    String? categoryCid,
     String? brandName,
-    int? brandId,
+    String? brandCid,
     String? countryName,
-    int? countryId,
+    String? countryCid,
     List<String>? barcodes,
     String? vendorCode,
     int? purchasePrice,
@@ -168,11 +168,11 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
           createProductDataDto: state.createProductDataDto.copyWith(
             name: name,
             categoryName: categoryName,
-            categoryId: categoryId,
+            categoryCid: categoryCid,
             brandName: brandName,
-            brandId: brandId,
+            brandCid: brandCid,
             countryName: countryName,
-            countryId: countryId,
+            countryCid: countryCid,
             barcodes: barcodes,
             vendorCode: vendorCode,
             purchasePrice: purchasePrice,
@@ -210,10 +210,11 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
           barcode: data.barcodes.isNotEmpty ? data.barcodes : null,
           purchasePrice: data.purchasePrice.toString(),
           price: data.price.toString(),
-          categoryId: data.categoryId,
-          // brandId: data.brandId, // todo implement from backend
-          // countryId: data.countryId, // todo implement from backend
-          // images: base64Images, // todo implement from backend
+          categoryCid: data.categoryCid,
+          brandCid: data.brandCid,
+          madeInCid: data.countryCid,
+          image: base64Images.firstOrNull,
+          images: base64Images,
           stockId: _stockId,
         ),
       );
@@ -242,7 +243,9 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
           barcode: data.barcodes.isNotEmpty ? data.barcodes : null,
           purchasePrice: data.purchasePrice.toString(),
           price: data.price.toString(),
-          categoryId: data.categoryId,
+          categoryCid: data.categoryCid,
+          brandCid: data.brandCid,
+          madeInCid: data.countryCid,
           stockId: _stockId,
         ),
       );

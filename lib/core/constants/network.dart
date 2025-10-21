@@ -29,7 +29,8 @@ class NetworkConstants {
   static String get addManagers => '$apiManagerUrl/managers';
   static String get addSupplies => '$apiManagerUrl/supplies';
   static String get addCurrency => '$apiManagerUrl/currency';
-  static String get addProducts => '$apiManagerUrl/products-list';
+  // static String get addProducts => '$apiManagerUrl/products-list';
+  static String get addProducts => '$apiManagerUrl/products';
   static String get updateBarcode => '$apiUrl/$product/update_barcode';
   static String product(int productId) => '$products/$productId';
   static String get search => '$products/search';
