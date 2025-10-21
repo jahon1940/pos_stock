@@ -25,6 +25,7 @@ import '../../../search/cubit/search_bloc.dart';
 import '../../../supplier/children/cubit/supplier_cubit.dart';
 import 'create_product_screen.dart';
 import 'widgets/product_item_widget.dart';
+import 'widgets/stock_products_navbar.dart';
 
 class StockProductsScreen extends HookWidget {
   const StockProductsScreen({
@@ -42,19 +43,12 @@ class StockProductsScreen extends HookWidget {
   Widget build(
     BuildContext context,
   ) {
-    const isRemote = true;
-    final scrollController = useScrollController();
     final searchController = useTextEditingController();
     final supplierController = useTextEditingController();
     int? supplierId;
     final categoryController = useTextEditingController();
     int? categoryId;
     useEffect(() {
-      scrollController.addListener(() {
-        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
-          context.productBloc.getMoreProducts(isRemote: isRemote);
-        }
-      });
       context.supplierBloc.getSuppliers();
       context.categoryBloc.add(const GetCategoryEvent());
       context.productBloc.getInitialProductsAndSetStockId(stockId: stock.id);
@@ -192,15 +186,11 @@ class StockProductsScreen extends HookWidget {
                         ),
                         onChange: (value) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (isRemote) {
-                              context.productBloc.getFilteredProducts(
-                                startsWith: value,
-                                categoryId: categoryId,
-                                supplierId: supplierId,
-                              );
-                            } else {
-                              context.productBloc.getLocalProducts();
-                            }
+                            context.productBloc.getFilteredProducts(
+                              startsWith: value,
+                              categoryId: categoryId,
+                              supplierId: supplierId,
+                            );
                           });
                         },
                       ),
@@ -315,7 +305,6 @@ class StockProductsScreen extends HookWidget {
                                       child: Material(
                                         child: ListView.separated(
                                           shrinkWrap: true,
-                                          controller: scrollController,
                                           padding: AppUtils.kPaddingB12,
                                           itemCount: products.length,
                                           separatorBuilder: (_, __) => AppUtils.kGap12,
@@ -333,6 +322,10 @@ class StockProductsScreen extends HookWidget {
                 ),
               ),
             ),
+
+            /// navbar
+            AppUtils.kMainObjectsGap,
+            const StockProductsNavbar(),
           ],
         ),
       ),
