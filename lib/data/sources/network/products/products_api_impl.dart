@@ -20,7 +20,10 @@ class ProductsApiImpl implements ProductsApi {
       requestData.addAll({'region_id': posManagerDto.pos?.stock?.region?.id});
       final res = await _dioClient.postRequest<PaginatedDto<ProductDto>>(
         NetworkConstants.search,
-        queryParameters: {'page': request.page, 'page_size': 20},
+        queryParameters: {
+          'page': request.page,
+          'page_size': 20,
+        },
         data: requestData,
         converter: (response) => PaginatedDto.fromJson(
           response,
