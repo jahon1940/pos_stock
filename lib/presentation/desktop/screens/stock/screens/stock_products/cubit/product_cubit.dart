@@ -161,6 +161,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     bool? hasDiscount,
     bool? promotion,
     bool? stopList,
+    int? quantity,
   }) =>
       emit(
         state.copyWith(
@@ -182,6 +183,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
             hasDiscount: hasDiscount,
             promotion: promotion,
             stopList: stopList,
+            quantity: quantity,
           ),
         ),
       );

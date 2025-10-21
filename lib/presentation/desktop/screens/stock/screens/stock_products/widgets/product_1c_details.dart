@@ -34,6 +34,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
   late final TextEditingController _ruNameController;
   late final TextEditingController _uzNameController;
   late final TextEditingController _vendorCodeController;
+  late final TextEditingController _quantityController;
   List<String> _barcodes = [];
 
   @override
@@ -44,6 +45,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     _barcodes.add(BarcodeIdGenerator.generateRandom13DigitNumber());
     context.productBloc.setCreateProductData(barcodes: _barcodes);
     _vendorCodeController = TextEditingController();
+    _quantityController = TextEditingController();
   }
 
   @override
@@ -51,6 +53,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     _ruNameController.dispose();
     _uzNameController.dispose();
     _vendorCodeController.dispose();
+    _quantityController.dispose();
     super.dispose();
   }
 
@@ -65,9 +68,10 @@ class _Product1CDetailsState extends State<Product1CDetails> {
           // _brandController.text = state.createProductDataDto;  // todo
           // _countryController.text = state.createProductDataDto;  // todo
           _ruNameController.text = state.createProductDataDto.name;
-          // _uzNameController.text = state.createProductDataDto.name;
+          // _uzNameController.text = state.createProductDataDto.name; // todo
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
+          // _quantityController.text = state.createProductDataDto.quantity.toString(); // todo
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
@@ -338,21 +342,22 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                       onChange: (value) => context.productBloc.setCreateProductData(vendorCode: value),
                     ),
                   ),
-                  // AppUtils.kMainObjectsGap,
-                  // Expanded(
-                  //   child: AppTextField(
-                  //     prefix: Icon(
-                  //       Icons.onetwothree,
-                  //       color: context.primary,
-                  //     ),
-                  //     // fieldController: _quantityController,
-                  //     width: double.maxFinite,
-                  //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                  //     label: 'Количество...',
-                  //     alignLabelWithHint: true,
-                  //     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                  //   ),
-                  // ),
+                  AppUtils.kMainObjectsGap,
+                  Expanded(
+                    child: AppTextField(
+                      prefix: Icon(
+                        Icons.onetwothree,
+                        color: context.primary,
+                      ),
+                      fieldController: _quantityController,
+                      width: double.maxFinite,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                      label: 'Количество в коробке...',
+                      alignLabelWithHint: true,
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                      onChange: (value) => context.productBloc.setCreateProductData(quantity: int.tryParse(value)),
+                    ),
+                  ),
                   // AppUtils.kMainObjectsGap,
                   // SizedBox(
                   //   width: 120,

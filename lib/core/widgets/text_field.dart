@@ -121,7 +121,7 @@ class AppTextField extends StatelessWidget {
         obscureText: obscureText,
         decoration: InputDecoration(
           errorText: errorText,
-          labelStyle: labelStyle ?? AppTextStyles.rType16,
+          labelStyle: labelStyle ?? AppTextStyles.rType14.copyWith(color: Colors.grey.shade600),
           contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           counterText: '',
           prefixIcon: prefix != null

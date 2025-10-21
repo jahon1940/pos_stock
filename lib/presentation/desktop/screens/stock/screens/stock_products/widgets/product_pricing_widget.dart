@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/constants/spaces.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
@@ -21,6 +20,8 @@ class ProductPricingWidget extends HookWidget {
   ) {
     final incomeController = useTextEditingController();
     final sellController = useTextEditingController();
+    final sellPriceWithDiscountController = useTextEditingController();
+    final ndsController = useTextEditingController();
 
     return BlocListener<ProductCubit, ProductState>(
       listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
@@ -57,7 +58,7 @@ class ProductPricingWidget extends HookWidget {
                     onChange: (value) => context.productBloc.setCreateProductData(purchasePrice: int.tryParse(value)),
                   ),
                 ),
-                AppSpace.horizontal12,
+                AppUtils.kGap12,
                 Expanded(
                   child: AppTextField(
                     prefix: Icon(
@@ -70,6 +71,39 @@ class ProductPricingWidget extends HookWidget {
                     alignLabelWithHint: true,
                     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                     onChange: (value) => context.productBloc.setCreateProductData(price: int.tryParse(value)),
+                  ),
+                ),
+              ],
+            ),
+            AppUtils.kGap12,
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: sellPriceWithDiscountController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'Цена со скидкой ...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCreateProductData(price: int.tryParse(value)),
+                  ),
+                ),
+                AppUtils.kGap12,
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: ndsController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'НДС ...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
                   ),
                 ),
               ],

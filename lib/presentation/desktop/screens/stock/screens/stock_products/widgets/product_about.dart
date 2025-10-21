@@ -20,10 +20,15 @@ class ProductAbout extends HookWidget {
   ) {
     final ruDescriptionController = useTextEditingController();
     final uzDescriptionController = useTextEditingController();
+    final classifierCodeController = useTextEditingController();
+    final classifierNameController = useTextEditingController();
+    final packageNameController = useTextEditingController();
+    final packageCodeController = useTextEditingController();
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) => CustomBox(
         padding: AppUtils.kPaddingAll12,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// title
             Text(
@@ -125,14 +130,86 @@ class ProductAbout extends HookWidget {
               ],
             ),
 
+            /// classifier
+            AppUtils.kGap12,
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: classifierNameController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'Наименование классификатора...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCreateProductData(price: int.tryParse(value)),
+                  ),
+                ),
+                AppUtils.kGap12,
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: classifierCodeController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'Код классификатора ...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCreateProductData(purchasePrice: int.tryParse(value)),
+                  ),
+                ),
+              ],
+            ),
+
+            /// package
+            AppUtils.kGap12,
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: packageNameController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'Единица измерения (название) ...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCreateProductData(purchasePrice: int.tryParse(value)),
+                  ),
+                ),
+                AppUtils.kGap12,
+                Expanded(
+                  child: AppTextField(
+                    prefix: Icon(
+                      Icons.monetization_on,
+                      color: context.primary,
+                    ),
+                    fieldController: packageCodeController,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    label: 'Код упаковки...',
+                    alignLabelWithHint: true,
+                    style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                    onChange: (value) => context.productBloc.setCreateProductData(price: int.tryParse(value)),
+                  ),
+                ),
+              ],
+            ),
+
             ///
-            AppUtils.kGap20,
+            AppUtils.kGap12,
             AppTextField(
               fieldController: ruDescriptionController,
               label: 'Описание Продукта на Русском...',
               alignLabelWithHint: true,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              maxLines: 6,
+              maxLines: 4,
               style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
             ),
 
@@ -143,7 +220,7 @@ class ProductAbout extends HookWidget {
               label: 'Описание Продукта на Узбекском...',
               alignLabelWithHint: true,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              maxLines: 6,
+              maxLines: 4,
               style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
             ),
           ],
