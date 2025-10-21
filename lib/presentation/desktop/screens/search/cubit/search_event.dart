@@ -34,10 +34,6 @@ class GetLocalProducts extends SearchEvent {
   const GetLocalProducts();
 }
 
-class GetRemoteProducts extends SearchEvent {
-  const GetRemoteProducts();
-}
-
 class ExportProducts extends SearchEvent {
   const ExportProducts();
 }

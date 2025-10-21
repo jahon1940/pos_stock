@@ -25,7 +25,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchTextChangedEvent>(onSearchTextChanged, transformer: _debounce());
     on<SearchRemoteTextChangedEvent>(_onSearchRemoteTextChanged, transformer: _debounce());
     on<GetLocalProducts>(_onGetLocalProducts);
-    on<GetRemoteProducts>(onGetRemoteProducts);
     on<LoadMoreSearchEvent>(_onLoadMore);
     on<AddCurrencyEvent>(_addCurrencyRequest);
     on<ExportProducts>(_exportProducts);
@@ -111,31 +110,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(state.copyWith(status: StateStatus.loaded, products: res));
     } catch (e) {
       debugPrint(e.toString());
-    }
-  }
-
-  Future<void> onGetRemoteProducts(
-    GetRemoteProducts event,
-    Emitter<SearchState> emit,
-  ) async {
-    try {
-      emit(
-        state.copyWith(
-            status: StateStatus.loading,
-            products: const PaginatedDto<ProductDto>(
-              results: [],
-              pageNumber: 1,
-              pageSize: 100,
-              totalPages: 0,
-              count: 0,
-            )),
-      );
-      emit(state.copyWith(status: StateStatus.loading));
-      final res = await _productRepo.getRemoteProducts(1);
-      Future.delayed(const Duration(seconds: 2), () async {});
-      emit(state.copyWith(status: StateStatus.loaded, products: res));
-    } catch (e, s) {
-      debugPrint(s.toString());
     }
   }
 

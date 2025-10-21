@@ -48,6 +48,28 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     );
   }
 
+  // Future<void> onGetRemoteProducts() async {
+  //   try {
+  //     emit(
+  //       state.copyWith(
+  //         status: StateStatus.loading,
+  //         productPageData: const PaginatedDto(
+  //           results: [],
+  //           pageNumber: 1,
+  //           pageSize: 100,
+  //           totalPages: 0,
+  //           count: 0,
+  //         ),
+  //       ),
+  //     );
+  //     emit(state.copyWith(status: StateStatus.loading));
+  //     final res = await _repo.getRemoteProducts(1);
+  //     emit(state.copyWith(status: StateStatus.loaded, productPageData: res));
+  //   } catch (e) {
+  //     ///
+  //   }
+  // }
+
   Future<void> getProducts({
     String startsWith = '',
     int? categoryId,
