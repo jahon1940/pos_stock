@@ -68,13 +68,19 @@ class ProductsApiImpl implements ProductsApi {
     String? receiptId,
   }) async {
     try {
-      final res = await _dioClient.getRequest<PaginatedDto<Products>>(NetworkConstants.products,
-          queryParameters: {'page': page, 'page_size': 50, 'receipt_id': receiptId},
-          converter: (response) => PaginatedDto.fromJson(
-                response,
-                (json) => Products.fromJson(json),
-              ),
-          cancelToken: cancelToken);
+      final res = await _dioClient.getRequest<PaginatedDto<Products>>(
+        NetworkConstants.products,
+        queryParameters: {
+          'page': page,
+          'page_size': 50,
+          'receipt_id': receiptId,
+        },
+        converter: (response) => PaginatedDto.fromJson(
+          response,
+          (json) => Products.fromJson(json),
+        ),
+        cancelToken: cancelToken,
+      );
 
       return res;
     } catch (e) {
