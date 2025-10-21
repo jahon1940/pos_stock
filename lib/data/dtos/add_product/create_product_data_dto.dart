@@ -1,7 +1,6 @@
 import 'dart:io' show File;
 
 import 'package:equatable/equatable.dart';
-import 'package:hoomo_pos/core/extensions/null_extension.dart';
 
 class CreateProductDataDto extends Equatable {
   const CreateProductDataDto({
@@ -20,6 +19,11 @@ class CreateProductDataDto extends Equatable {
     this.purchasePrice,
     this.price,
     this.imageFiles = const [],
+    this.isActual = false,
+    this.isBestseller = false,
+    this.hasDiscount = false,
+    this.promotion = false,
+    this.stopList = false,
   });
 
   final String name;
@@ -37,6 +41,11 @@ class CreateProductDataDto extends Equatable {
   final int? purchasePrice;
   final int? price;
   final List<File> imageFiles;
+  final bool isActual;
+  final bool isBestseller;
+  final bool hasDiscount;
+  final bool promotion;
+  final bool stopList;
 
   CreateProductDataDto copyWith({
     String? name,
@@ -54,6 +63,11 @@ class CreateProductDataDto extends Equatable {
     int? purchasePrice,
     int? price,
     List<File>? imageFiles,
+    bool? isActual,
+    bool? isBestseller,
+    bool? hasDiscount,
+    bool? promotion,
+    bool? stopList,
   }) =>
       CreateProductDataDto(
         name: name ?? this.name,
@@ -71,6 +85,11 @@ class CreateProductDataDto extends Equatable {
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
         imageFiles: imageFiles ?? this.imageFiles,
+        isActual: isActual ?? this.isActual,
+        isBestseller: isBestseller ?? this.isBestseller,
+        hasDiscount: hasDiscount ?? this.hasDiscount,
+        promotion: promotion ?? this.promotion,
+        stopList: stopList ?? this.stopList,
       );
 
   @override
@@ -90,23 +109,28 @@ class CreateProductDataDto extends Equatable {
         purchasePrice,
         price,
         imageFiles,
+        isActual,
+        isBestseller,
+        hasDiscount,
+        promotion,
+        stopList,
       ];
 
-  Map<String, dynamic> toJson() => {
-        if (productId.isNotEmpty) 'product_id': productId,
-        if (name.isNotEmpty) 'title': name,
-        if (vendorCode.isNotEmpty) 'vendor_code': vendorCode,
-        if (barcodes.isNotEmpty) 'barcode': barcodes,
-        if (stockId.isNotEmpty) 'stock_id': stockId,
-        if (categoryName.isNotEmpty) 'category_name': categoryName,
-        if (categoryId.isNotNull) 'category_id': categoryId,
-        if (brandName.isNotEmpty) 'brand_name': brandName,
-        if (brandId.isNotNull) 'brand_id': brandId,
-        if (countryName.isNotEmpty) 'country_name': countryName,
-        if (countryId.isNotNull) 'country_id': countryId,
-        if (brandId.isNotNull) 'brand_id': brandId,
-        'quantity': quantity,
-        'purchase_price': purchasePrice,
-        'price': price,
-      };
+// Map<String, dynamic> toJson() => {
+//       if (productId.isNotEmpty) 'product_id': productId,
+//       if (name.isNotEmpty) 'title': name,
+//       if (vendorCode.isNotEmpty) 'vendor_code': vendorCode,
+//       if (barcodes.isNotEmpty) 'barcode': barcodes,
+//       if (stockId.isNotEmpty) 'stock_id': stockId,
+//       if (categoryName.isNotEmpty) 'category_name': categoryName,
+//       if (categoryId.isNotNull) 'category_id': categoryId,
+//       if (brandName.isNotEmpty) 'brand_name': brandName,
+//       if (brandId.isNotNull) 'brand_id': brandId,
+//       if (countryName.isNotEmpty) 'country_name': countryName,
+//       if (countryId.isNotNull) 'country_id': countryId,
+//       if (brandId.isNotNull) 'brand_id': brandId,
+//       'quantity': quantity,
+//       'purchase_price': purchasePrice,
+//       'price': price,
+//     };
 }

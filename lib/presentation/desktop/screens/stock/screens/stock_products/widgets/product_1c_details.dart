@@ -67,328 +67,326 @@ class _Product1CDetailsState extends State<Product1CDetails> {
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// category
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// category
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Категория:',
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                      ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Категория:',
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
                     ),
-
-                    ///
-                    AppUtils.kGap20,
-                    Expanded(
-                      flex: 3,
-                      child: BlocBuilder<CategoryBloc, CategoryState>(
-                        builder: (context, state) {
-                          final categories = state.categories?.results ?? [];
-                          return SizedBox(
-                            width: 220,
-                            height: 50,
-                            child: Material(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                side: BorderSide(color: Colors.grey.shade400),
-                              ),
-                              child: InkWell(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                hoverColor: Colors.grey.shade100,
-                                child: Row(
-                                  children: [
-                                    AppUtils.kGap12,
-                                    Text(
-                                      _selectedCategoryName.isEmpty ? 'Все категории' : _selectedCategoryName,
-                                      style: const TextStyle(fontSize: 11),
-                                    ),
-                                    const Spacer(),
-                                    const Icon(Icons.arrow_drop_down, size: 18),
-                                    AppUtils.kGap12,
-                                  ],
-                                ),
-                                onTap: () async {
-                                  final item = await showDialog<CategoryDto?>(
-                                    context: context,
-                                    builder: (_) => SelectItemDialog(categories),
-                                  );
-                                  if (item.isNotNull) {
-                                    _selectedCategoryName = item!.name;
-                                    context.productBloc.setCreateProductData(
-                                      categoryId: item.id,
-                                      categoryName: item.name,
-                                    );
-                                    setState(() {});
-                                  }
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                /// brand
-                AppUtils.kGap12,
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Бренд:',
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                      ),
-                    ),
-
-                    ///
-                    AppUtils.kGap20,
-                    Expanded(
-                      flex: 3,
-                      child: BlocBuilder<BrandCubit, BrandState>(
-                        builder: (context, state) {
-                          final brands = state.brands?.results ?? [];
-                          return SizedBox(
-                            width: 220,
-                            height: 50,
-                            child: Material(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                side: BorderSide(color: Colors.grey.shade400),
-                              ),
-                              child: InkWell(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                hoverColor: Colors.grey.shade100,
-                                child: Row(
-                                  children: [
-                                    AppUtils.kGap12,
-                                    Text(
-                                      _selectedBrandName.isEmpty ? 'Все бренды' : _selectedBrandName,
-                                      style: const TextStyle(fontSize: 11),
-                                    ),
-                                    const Spacer(),
-                                    const Icon(Icons.arrow_drop_down, size: 18),
-                                    AppUtils.kGap12,
-                                  ],
-                                ),
-                                onTap: () async {
-                                  final item = await showDialog<BrandDto?>(
-                                    context: context,
-                                    builder: (_) => SelectItemDialog(brands),
-                                  );
-                                  if (item.isNotNull) {
-                                    _selectedBrandName = item!.name;
-                                    context.productBloc.setCreateProductData(
-                                      brandId: item.id,
-                                      brandName: item.name,
-                                    );
-                                    setState(() {});
-                                  }
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                /// country
-                AppUtils.kGap12,
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Страна производства:',
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                      ),
-                    ),
-
-                    ///
-                    AppUtils.kGap20,
-                    Expanded(
-                      flex: 3,
-                      child: BlocBuilder<CountryCubit, CountryState>(
-                        builder: (context, state) {
-                          final countries = state.countries?.results ?? [];
-                          return SizedBox(
-                            width: 220,
-                            height: 50,
-                            child: Material(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                side: BorderSide(color: Colors.grey.shade400),
-                              ),
-                              child: InkWell(
-                                borderRadius: AppUtils.kBorderRadius8,
-                                hoverColor: Colors.grey.shade100,
-                                child: Row(
-                                  children: [
-                                    AppUtils.kGap12,
-                                    Text(
-                                      _selectedCountryName.isEmpty ? 'Все cтрана' : _selectedCountryName,
-                                      style: const TextStyle(fontSize: 11),
-                                    ),
-                                    const Spacer(),
-                                    const Icon(Icons.arrow_drop_down, size: 18),
-                                    AppUtils.kGap12,
-                                  ],
-                                ),
-                                onTap: () async {
-                                  final item = await showDialog<CountryDto?>(
-                                    context: context,
-                                    builder: (_) => SelectItemDialog(countries),
-                                  );
-                                  if (item.isNotNull) {
-                                    _selectedCountryName = item!.name ?? ' - ';
-                                    context.productBloc.setCreateProductData(
-                                      countryId: item.id,
-                                      countryName: item.name,
-                                    );
-                                    setState(() {});
-                                  }
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                ///
-                AppUtils.kGap20,
-                AppTextField(
-                  prefix: Icon(Icons.title, color: context.primary),
-                  fieldController: _nameController,
-                  width: double.maxFinite,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                  label: 'Название Продукта ...',
-                  alignLabelWithHint: true,
-                  style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                  onChange: (value) => context.productBloc.setCreateProductData(name: value),
-                ),
-
-                /// barcode
-                AppUtils.kGap20,
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _barcodes.length,
-                  separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
-                  itemBuilder: (_, index) => _barcodesWidget(
-                    value: _barcodes.elementAt(index),
-                    isLast: index == _barcodes.length - 1,
-                    onGenerate: () {
-                      _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
-                      context.productBloc.setCreateProductData(barcodes: _barcodes);
-                      setState(() {});
-                    },
-                    onChange: (value) {
-                      _barcodes[index] = value;
-                      context.productBloc.setCreateProductData(barcodes: _barcodes);
-                    },
-                    onRemoveWidget: () {
-                      _barcodes.removeAt(index);
-                      context.productBloc.setCreateProductData(barcodes: _barcodes);
-                      setState(() {});
-                    },
                   ),
-                ),
 
-                /// vendor code
-                AppUtils.kGap20,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppTextField(
-                        prefix: Icon(
-                          Icons.abc,
-                          color: context.primary,
-                        ),
-                        fieldController: _vendorCodeController,
-                        width: double.maxFinite,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                        label: 'Артикул продукта...',
-                        alignLabelWithHint: true,
-                        style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                        onChange: (value) => context.productBloc.setCreateProductData(vendorCode: value),
-                      ),
+                  ///
+                  AppUtils.kGap20,
+                  Expanded(
+                    flex: 3,
+                    child: BlocBuilder<CategoryBloc, CategoryState>(
+                      builder: (context, state) {
+                        final categories = state.categories?.results ?? [];
+                        return SizedBox(
+                          width: 220,
+                          height: 50,
+                          child: Material(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              side: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            child: InkWell(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              hoverColor: Colors.grey.shade100,
+                              child: Row(
+                                children: [
+                                  AppUtils.kGap12,
+                                  Text(
+                                    _selectedCategoryName.isEmpty ? 'Все категории' : _selectedCategoryName,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_drop_down, size: 18),
+                                  AppUtils.kGap12,
+                                ],
+                              ),
+                              onTap: () async {
+                                final item = await showDialog<CategoryDto?>(
+                                  context: context,
+                                  builder: (_) => SelectItemDialog(categories),
+                                );
+                                if (item.isNotNull) {
+                                  _selectedCategoryName = item!.name;
+                                  context.productBloc.setCreateProductData(
+                                    categoryId: item.id,
+                                    categoryName: item.name,
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    // AppUtils.kMainObjectsGap,
-                    // Expanded(
-                    //   child: AppTextField(
-                    //     prefix: Icon(
-                    //       Icons.onetwothree,
-                    //       color: context.primary,
-                    //     ),
-                    //     // fieldController: _quantityController,
-                    //     width: double.maxFinite,
-                    //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    //     label: 'Количество...',
-                    //     alignLabelWithHint: true,
-                    //     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                    //   ),
-                    // ),
-                    // AppUtils.kMainObjectsGap,
-                    // SizedBox(
-                    //   width: 120,
-                    //   child: CustomBox(
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.only(left: 5, right: 5),
-                    //       child: DropdownButton<String>(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         isExpanded: true,
-                    //         underline: const SizedBox(),
-                    //         value: 'KG',
-                    //         hint: Padding(
-                    //           padding: const EdgeInsets.only(left: 10),
-                    //           child: Text(
-                    //             'viewModel.product.measure' ?? '',
-                    //             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                    //           ),
-                    //         ),
-                    //         alignment: Alignment.centerLeft,
-                    //         items: <String>[
-                    //           'KG',
-                    //           'GR',
-                    //           'LITR',
-                    //           'PIECE',
-                    //         ].map((String value) {
-                    //           return DropdownMenuItem<String>(
-                    //             value: value,
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.only(left: 10),
-                    //               child: Text(
-                    //                   value == 'KG'
-                    //                       ? 'Кило'
-                    //                       : value == 'GR'
-                    //                           ? 'Грамм'
-                    //                           : value == 'LITR'
-                    //                               ? 'Литр'
-                    //                               : value == 'PIECE'
-                    //                                   ? 'Штука'
-                    //                                   : '',
-                    //                   style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500)),
-                    //             ),
-                    //           );
-                    //         }).toList(),
-                    //         onChanged: (value) {},
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                  ),
+                ],
+              ),
+
+              /// brand
+              AppUtils.kGap12,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Бренд:',
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                    ),
+                  ),
+
+                  ///
+                  AppUtils.kGap20,
+                  Expanded(
+                    flex: 3,
+                    child: BlocBuilder<BrandCubit, BrandState>(
+                      builder: (context, state) {
+                        final brands = state.brands?.results ?? [];
+                        return SizedBox(
+                          width: 220,
+                          height: 50,
+                          child: Material(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              side: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            child: InkWell(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              hoverColor: Colors.grey.shade100,
+                              child: Row(
+                                children: [
+                                  AppUtils.kGap12,
+                                  Text(
+                                    _selectedBrandName.isEmpty ? 'Все бренды' : _selectedBrandName,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_drop_down, size: 18),
+                                  AppUtils.kGap12,
+                                ],
+                              ),
+                              onTap: () async {
+                                final item = await showDialog<BrandDto?>(
+                                  context: context,
+                                  builder: (_) => SelectItemDialog(brands),
+                                );
+                                if (item.isNotNull) {
+                                  _selectedBrandName = item!.name;
+                                  context.productBloc.setCreateProductData(
+                                    brandId: item.id,
+                                    brandName: item.name,
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              /// country
+              AppUtils.kGap12,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Страна производства:',
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                    ),
+                  ),
+
+                  ///
+                  AppUtils.kGap20,
+                  Expanded(
+                    flex: 3,
+                    child: BlocBuilder<CountryCubit, CountryState>(
+                      builder: (context, state) {
+                        final countries = state.countries?.results ?? [];
+                        return SizedBox(
+                          width: 220,
+                          height: 50,
+                          child: Material(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              side: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            child: InkWell(
+                              borderRadius: AppUtils.kBorderRadius8,
+                              hoverColor: Colors.grey.shade100,
+                              child: Row(
+                                children: [
+                                  AppUtils.kGap12,
+                                  Text(
+                                    _selectedCountryName.isEmpty ? 'Все cтрана' : _selectedCountryName,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_drop_down, size: 18),
+                                  AppUtils.kGap12,
+                                ],
+                              ),
+                              onTap: () async {
+                                final item = await showDialog<CountryDto?>(
+                                  context: context,
+                                  builder: (_) => SelectItemDialog(countries),
+                                );
+                                if (item.isNotNull) {
+                                  _selectedCountryName = item!.name ?? ' - ';
+                                  context.productBloc.setCreateProductData(
+                                    countryId: item.id,
+                                    countryName: item.name,
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              ///
+              AppUtils.kGap20,
+              AppTextField(
+                prefix: Icon(Icons.title, color: context.primary),
+                fieldController: _nameController,
+                width: double.maxFinite,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                label: 'Название Продукта ...',
+                alignLabelWithHint: true,
+                style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                onChange: (value) => context.productBloc.setCreateProductData(name: value),
+              ),
+
+              /// barcode
+              AppUtils.kGap20,
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _barcodes.length,
+                separatorBuilder: (_, __) => AppUtils.kMainObjectsGap,
+                itemBuilder: (_, index) => _barcodesWidget(
+                  value: _barcodes.elementAt(index),
+                  isLast: index == _barcodes.length - 1,
+                  onGenerate: () {
+                    _barcodes[index] = BarcodeIdGenerator.generateRandom13DigitNumber();
+                    context.productBloc.setCreateProductData(barcodes: _barcodes);
+                    setState(() {});
+                  },
+                  onChange: (value) {
+                    _barcodes[index] = value;
+                    context.productBloc.setCreateProductData(barcodes: _barcodes);
+                  },
+                  onRemoveWidget: () {
+                    _barcodes.removeAt(index);
+                    context.productBloc.setCreateProductData(barcodes: _barcodes);
+                    setState(() {});
+                  },
                 ),
-              ],
-            ),
+              ),
+
+              /// vendor code
+              AppUtils.kGap20,
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      prefix: Icon(
+                        Icons.abc,
+                        color: context.primary,
+                      ),
+                      fieldController: _vendorCodeController,
+                      width: double.maxFinite,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                      label: 'Артикул продукта...',
+                      alignLabelWithHint: true,
+                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                      onChange: (value) => context.productBloc.setCreateProductData(vendorCode: value),
+                    ),
+                  ),
+                  // AppUtils.kMainObjectsGap,
+                  // Expanded(
+                  //   child: AppTextField(
+                  //     prefix: Icon(
+                  //       Icons.onetwothree,
+                  //       color: context.primary,
+                  //     ),
+                  //     // fieldController: _quantityController,
+                  //     width: double.maxFinite,
+                  //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  //     label: 'Количество...',
+                  //     alignLabelWithHint: true,
+                  //     style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                  //   ),
+                  // ),
+                  // AppUtils.kMainObjectsGap,
+                  // SizedBox(
+                  //   width: 120,
+                  //   child: CustomBox(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(left: 5, right: 5),
+                  //       child: DropdownButton<String>(
+                  //         borderRadius: BorderRadius.circular(10),
+                  //         isExpanded: true,
+                  //         underline: const SizedBox(),
+                  //         value: 'KG',
+                  //         hint: Padding(
+                  //           padding: const EdgeInsets.only(left: 10),
+                  //           child: Text(
+                  //             'viewModel.product.measure' ?? '',
+                  //             style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+                  //           ),
+                  //         ),
+                  //         alignment: Alignment.centerLeft,
+                  //         items: <String>[
+                  //           'KG',
+                  //           'GR',
+                  //           'LITR',
+                  //           'PIECE',
+                  //         ].map((String value) {
+                  //           return DropdownMenuItem<String>(
+                  //             value: value,
+                  //             child: Padding(
+                  //               padding: const EdgeInsets.only(left: 10),
+                  //               child: Text(
+                  //                   value == 'KG'
+                  //                       ? 'Кило'
+                  //                       : value == 'GR'
+                  //                           ? 'Грамм'
+                  //                           : value == 'LITR'
+                  //                               ? 'Литр'
+                  //                               : value == 'PIECE'
+                  //                                   ? 'Штука'
+                  //                                   : '',
+                  //                   style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500)),
+                  //             ),
+                  //           );
+                  //         }).toList(),
+                  //         onChanged: (value) {},
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ],
           ),
         ),
       );

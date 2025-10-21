@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hoomo_pos/core/constants/spaces.dart';
+import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
+
+import '../../../../../../../core/constants/app_utils.dart';
+import '../cubit/product_cubit.dart';
 
 class ProductAbout extends HookWidget {
   const ProductAbout({
@@ -11,48 +15,159 @@ class ProductAbout extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final ruTitleController = useTextEditingController();
     final ruDescriptionController = useTextEditingController();
     final uzTitleController = useTextEditingController();
     final uzDescriptionController = useTextEditingController();
-    return CustomBox(
-      child: Column(
-        children: [
-          const Text('О продукте', style: AppTextStyles.boldType14),
-          AppSpace.vertical24,
-          AppTextField(
-            fieldController: ruTitleController,
-            label: 'Название Продукта на Русском...',
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-          ),
-          AppSpace.vertical24,
-          AppTextField(
-            fieldController: ruDescriptionController,
-            label: 'Описание Продукта на Русском...',
-            alignLabelWithHint: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            maxLines: 12,
-            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-          ),
-          AppSpace.vertical24,
-          AppTextField(
-            fieldController: uzTitleController,
-            label: 'Название Продукта на Узбекском...',
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-          ),
-          AppSpace.vertical24,
-          AppTextField(
-            fieldController: uzDescriptionController,
-            label: 'Описание Продукта на Узбекском...',
-            alignLabelWithHint: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            maxLines: 12,
-            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-          ),
-        ],
+    return BlocBuilder<ProductCubit, ProductState>(
+      builder: (context, state) => CustomBox(
+        padding: AppUtils.kPaddingAll12,
+        child: Column(
+          children: [
+            /// title
+            Text(
+              'О продукте',
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+            ),
+
+            /// switches
+            AppUtils.kGap20,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      /// actual
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Aктуально',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                          ),
+                          Switch(
+                            value: state.createProductDataDto.isActual,
+                            onChanged: (value) => context.productBloc.setCreateProductData(isActual: value),
+                          ),
+                        ],
+                      ),
+
+                      /// bestseller
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Бестселлер',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                          ),
+                          Switch(
+                            value: state.createProductDataDto.isBestseller,
+                            onChanged: (value) => context.productBloc.setCreateProductData(isBestseller: value),
+                          ),
+                        ],
+                      ),
+
+                      /// discount
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Скидка',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                          ),
+                          Switch(
+                            value: state.createProductDataDto.hasDiscount,
+                            onChanged: (value) => context.productBloc.setCreateProductData(hasDiscount: value),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 100),
+                Expanded(
+                  child: Column(
+                    children: [
+                      /// promotion
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Акция',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                          ),
+                          Switch(
+                            value: state.createProductDataDto.promotion,
+                            onChanged: (value) => context.productBloc.setCreateProductData(promotion: value),
+                          ),
+                        ],
+                      ),
+
+                      /// stop list
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Cтоп-лист',
+                            style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                          ),
+                          Switch(
+                            value: state.createProductDataDto.stopList,
+                            onChanged: (value) => context.productBloc.setCreateProductData(stopList: value),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            ///
+            AppUtils.kGap20,
+            AppTextField(
+              fieldController: ruTitleController,
+              label: 'Название Продукта на Русском...',
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+            ),
+
+            ///
+            AppUtils.kGap20,
+            AppTextField(
+              fieldController: ruDescriptionController,
+              label: 'Описание Продукта на Русском...',
+              alignLabelWithHint: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              maxLines: 6,
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+            ),
+
+            ///
+            AppUtils.kGap20,
+            AppTextField(
+              fieldController: uzTitleController,
+              label: 'Название Продукта на Узбекском...',
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+            ),
+
+            ///
+            AppUtils.kGap20,
+            AppTextField(
+              fieldController: uzDescriptionController,
+              label: 'Описание Продукта на Узбекском...',
+              alignLabelWithHint: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              maxLines: 6,
+              style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
       ),
     );
   }

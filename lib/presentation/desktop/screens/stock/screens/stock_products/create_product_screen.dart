@@ -105,15 +105,18 @@ class CreateProductScreen extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(child: Product1CDetails()),
-                        AppUtils.kMainObjectsGap,
-                        ProductPricingWidget(),
-                        // const ProductAbout(),
-                        // Characteristics(),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Product1CDetails(),
+                          AppUtils.kMainObjectsGap,
+                          ProductPricingWidget(),
+                          AppUtils.kMainObjectsGap,
+                          ProductAbout(),
+                          // Characteristics(),
+                        ],
+                      ),
                     ),
                   ),
                   ProductImagesWidget(),
