@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 
 class CreateProductDataDto extends Equatable {
   const CreateProductDataDto({
-    this.name = '',
+    this.nameRu = '',
+    this.nameUz = '',
     this.barcodes = const [],
     this.vendorCode = '',
     this.productId = '',
@@ -16,6 +17,8 @@ class CreateProductDataDto extends Equatable {
     this.countryName = '',
     this.countryCid,
     this.quantity = 0,
+    this.minBoxQuantity,
+    this.maxQuantity,
     this.purchasePrice,
     this.price,
     this.imageFiles = const [],
@@ -26,7 +29,8 @@ class CreateProductDataDto extends Equatable {
     this.stopList = false,
   });
 
-  final String name;
+  final String nameRu;
+  final String nameUz;
   final List<String> barcodes;
   final String vendorCode;
   final String productId;
@@ -38,6 +42,8 @@ class CreateProductDataDto extends Equatable {
   final String countryName;
   final String? countryCid;
   final int quantity;
+  final int? minBoxQuantity;
+  final int? maxQuantity;
   final int? purchasePrice;
   final int? price;
   final List<File> imageFiles;
@@ -48,7 +54,8 @@ class CreateProductDataDto extends Equatable {
   final bool stopList;
 
   CreateProductDataDto copyWith({
-    String? name,
+    String? nameRu,
+    String? nameUz,
     List<String>? barcodes,
     String? vendorCode,
     String? productId,
@@ -60,6 +67,8 @@ class CreateProductDataDto extends Equatable {
     String? countryName,
     String? countryCid,
     int? quantity,
+    int? minBoxQuantity,
+    int? maxQuantity,
     int? purchasePrice,
     int? price,
     List<File>? imageFiles,
@@ -70,7 +79,8 @@ class CreateProductDataDto extends Equatable {
     bool? stopList,
   }) =>
       CreateProductDataDto(
-        name: name ?? this.name,
+        nameRu: nameRu ?? this.nameRu,
+        nameUz: nameUz ?? this.nameUz,
         barcodes: barcodes ?? this.barcodes,
         vendorCode: vendorCode ?? this.vendorCode,
         productId: productId ?? this.productId,
@@ -82,6 +92,8 @@ class CreateProductDataDto extends Equatable {
         countryName: countryName ?? this.countryName,
         countryCid: countryCid ?? this.countryCid,
         quantity: quantity ?? this.quantity,
+        minBoxQuantity: minBoxQuantity ?? this.minBoxQuantity,
+        maxQuantity: maxQuantity ?? this.maxQuantity,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         price: price ?? this.price,
         imageFiles: imageFiles ?? this.imageFiles,
@@ -94,7 +106,8 @@ class CreateProductDataDto extends Equatable {
 
   @override
   List<Object?> get props => [
-        name,
+        nameRu,
+        nameUz,
         barcodes,
         vendorCode,
         productId,
@@ -106,6 +119,8 @@ class CreateProductDataDto extends Equatable {
         countryName,
         countryCid,
         quantity,
+        minBoxQuantity,
+        maxQuantity,
         purchasePrice,
         price,
         imageFiles,
