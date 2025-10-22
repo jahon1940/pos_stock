@@ -2,6 +2,7 @@ import 'dart:io' show File;
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoomo_pos/core/enums/states.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
@@ -173,7 +174,10 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
   Future<void> getProductDetailAndSet(
     ProductDto? product,
   ) async {
-    emit(state.copyWith(createProductDataDto: const CreateProductDataDto()));
+    emit(state.copyWith(
+      createProductDataDto: const CreateProductDataDto(),
+      mirelProductTemplate: () => null,
+    ));
     if (product == null) return;
     final data = await _getProduct(product.id);
     if (data == null) return;
@@ -202,7 +206,8 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
   }
 
   void setCreateProductData({
-    String? name,
+    String? nameRu,
+    String? nameUz,
     String? categoryName,
     String? categoryCid,
     String? brandName,
@@ -224,7 +229,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
       emit(
         state.copyWith(
           createProductDataDto: state.createProductDataDto.copyWith(
-            name: name,
+            name: nameRu,
             categoryName: categoryName,
             categoryCid: categoryCid,
             brandName: brandName,
@@ -325,4 +330,9 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
       //
     }
   }
+
+  void setMirelProductTemplate(
+    ProductDetailDto item,
+  ) =>
+      emit(state.copyWith(mirelProductTemplate: () => item));
 }

@@ -16,6 +16,7 @@ class ProductState extends Equatable {
     this.createProductStatus = StateStatus.initial,
     this.createProductDataDto = const CreateProductDataDto(),
     this.isProductDataLoaded = false,
+    this.mirelProductTemplate,
   });
 
   final PaginatedDto<ProductDto> productPageData;
@@ -23,6 +24,7 @@ class ProductState extends Equatable {
   final StateStatus createProductStatus;
   final CreateProductDataDto createProductDataDto;
   final bool isProductDataLoaded;
+  final ProductDetailDto? mirelProductTemplate;
 
   ProductState copyWith({
     PaginatedDto<ProductDto>? productPageData,
@@ -30,6 +32,7 @@ class ProductState extends Equatable {
     StateStatus? createProductStatus,
     CreateProductDataDto? createProductDataDto,
     bool? isProductDataLoaded,
+    ValueGetter<ProductDetailDto?>? mirelProductTemplate,
   }) =>
       ProductState(
         isUpdated: !isUpdated,
@@ -38,6 +41,7 @@ class ProductState extends Equatable {
         createProductStatus: createProductStatus ?? this.createProductStatus,
         createProductDataDto: createProductDataDto ?? this.createProductDataDto,
         isProductDataLoaded: isProductDataLoaded ?? false,
+        mirelProductTemplate: mirelProductTemplate.isNotNull ? mirelProductTemplate!.call() : this.mirelProductTemplate,
       );
 
   @override
@@ -48,6 +52,7 @@ class ProductState extends Equatable {
         createProductStatus,
         createProductDataDto,
         isProductDataLoaded,
+        mirelProductTemplate,
       ];
 
   List<ProductDto> get pageProducts {

@@ -68,8 +68,28 @@ class _Product1CDetailsState extends State<Product1CDetails> {
     BuildContext context,
   ) =>
       BlocConsumer<ProductCubit, ProductState>(
-        listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
+        listenWhen: (p, c) =>
+            (!p.isProductDataLoaded && c.isProductDataLoaded) ||
+            (c.mirelProductTemplate.isNotNull && p.mirelProductTemplate?.id != c.mirelProductTemplate!.id),
         listener: (context, state) {
+          if (state.mirelProductTemplate.isNotNull) {
+            final template = state.mirelProductTemplate!;
+            _ruNameController.text = template.title ?? _ruNameController.text;
+            _uzNameController.text = template.title ?? _uzNameController.text;
+            _vendorCodeController.text = template.vendorCode ?? _vendorCodeController.text;
+            _quantityController.text = template.quantity?.toString() ?? _quantityController.text;
+            _minQuantityController.text = template.minBoxQuantity?.toString() ?? _minQuantityController.text;
+            _maxQuantityController.text = template.maxQuantity?.toString() ?? _maxQuantityController.text;
+            _barcodes = (template.barcode ?? []).isNotEmpty ? template.barcode! : _barcodes;
+            context.productBloc.setCreateProductData(
+              nameRu: _ruNameController.text,
+              nameUz: _uzNameController.text,
+              vendorCode: _vendorCodeController.text,
+              quantity: int.tryParse(_quantityController.text),
+              barcodes: _barcodes,
+            );
+            return;
+          }
           _selectedCategoryName = state.createProductDataDto.categoryName;
           // _brandController.text = state.createProductDataDto;
           // _countryController.text = state.createProductDataDto;
@@ -88,193 +108,247 @@ class _Product1CDetailsState extends State<Product1CDetails> {
             children: [
               /// category
 
-              Row(
+              Column(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Категория:',
-                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                    ),
-                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Категория:',
+                          style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                        ),
+                      ),
 
-                  ///
-                  AppUtils.kGap20,
-                  Expanded(
-                    flex: 3,
-                    child: BlocBuilder<CategoryBloc, CategoryState>(
-                      builder: (context, state) {
-                        final categories = state.categories?.results ?? [];
-                        return SizedBox(
-                          width: 220,
-                          height: 50,
-                          child: Material(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              side: BorderSide(color: Colors.grey.shade400),
-                            ),
-                            child: InkWell(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              hoverColor: Colors.grey.shade100,
-                              child: Row(
-                                children: [
-                                  AppUtils.kGap12,
-                                  Text(
-                                    _selectedCategoryName.isEmpty ? 'Все категории' : _selectedCategoryName,
-                                    style: const TextStyle(fontSize: 11),
+                      ///
+                      AppUtils.kGap20,
+                      Expanded(
+                        flex: 3,
+                        child: BlocBuilder<CategoryBloc, CategoryState>(
+                          builder: (context, state) {
+                            final categories = state.categories?.results ?? [];
+                            return SizedBox(
+                              width: 220,
+                              height: 50,
+                              child: Material(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  side: BorderSide(color: Colors.grey.shade400),
+                                ),
+                                child: InkWell(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  hoverColor: Colors.grey.shade100,
+                                  child: Row(
+                                    children: [
+                                      AppUtils.kGap12,
+                                      Text(
+                                        _selectedCategoryName.isEmpty ? 'Все категории' : _selectedCategoryName,
+                                        style: const TextStyle(fontSize: 11),
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.arrow_drop_down, size: 18),
+                                      AppUtils.kGap12,
+                                    ],
                                   ),
-                                  const Spacer(),
-                                  const Icon(Icons.arrow_drop_down, size: 18),
-                                  AppUtils.kGap12,
-                                ],
+                                  onTap: () async {
+                                    final item = await showDialog<CategoryDto?>(
+                                      context: context,
+                                      builder: (_) => SelectItemDialog(categories),
+                                    );
+                                    if (item.isNotNull) {
+                                      _selectedCategoryName = item!.name;
+                                      context.productBloc.setCreateProductData(
+                                        categoryCid: item.cid,
+                                        categoryName: item.name,
+                                      );
+                                      setState(() {});
+                                    }
+                                  },
+                                ),
                               ),
-                              onTap: () async {
-                                final item = await showDialog<CategoryDto?>(
-                                  context: context,
-                                  builder: (_) => SelectItemDialog(categories),
-                                );
-                                if (item.isNotNull) {
-                                  _selectedCategoryName = item!.name;
-                                  context.productBloc.setCreateProductData(
-                                    categoryCid: item.cid,
-                                    categoryName: item.name,
-                                  );
-                                  setState(() {});
-                                }
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
+                  if ((state.mirelProductTemplate?.category?.name ?? '').isNotEmpty)
+                    Row(
+                      children: [
+                        const Expanded(child: Center()),
+                        AppUtils.kGap20,
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            '  Категория в справочнике: ${state.mirelProductTemplate!.category!.name!}',
+                            style: AppTextStyles.mType12.copyWith(color: AppColors.primary400),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
 
               /// brand
               AppUtils.kGap12,
-              Row(
+              Column(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Бренд:',
-                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                    ),
-                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Бренд:',
+                          style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                        ),
+                      ),
 
-                  ///
-                  AppUtils.kGap20,
-                  Expanded(
-                    flex: 3,
-                    child: BlocBuilder<BrandCubit, BrandState>(
-                      builder: (context, state) {
-                        final brands = state.brands?.results ?? [];
-                        return SizedBox(
-                          width: 220,
-                          height: 50,
-                          child: Material(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              side: BorderSide(color: Colors.grey.shade400),
-                            ),
-                            child: InkWell(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              hoverColor: Colors.grey.shade100,
-                              child: Row(
-                                children: [
-                                  AppUtils.kGap12,
-                                  Text(
-                                    _selectedBrandName.isEmpty ? 'Все бренды' : _selectedBrandName,
-                                    style: const TextStyle(fontSize: 11),
+                      ///
+                      AppUtils.kGap20,
+                      Expanded(
+                        flex: 3,
+                        child: BlocBuilder<BrandCubit, BrandState>(
+                          builder: (context, state) {
+                            final brands = state.brands?.results ?? [];
+                            return SizedBox(
+                              width: 220,
+                              height: 50,
+                              child: Material(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  side: BorderSide(color: Colors.grey.shade400),
+                                ),
+                                child: InkWell(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  hoverColor: Colors.grey.shade100,
+                                  child: Row(
+                                    children: [
+                                      AppUtils.kGap12,
+                                      Text(
+                                        _selectedBrandName.isEmpty ? 'Все бренды' : _selectedBrandName,
+                                        style: const TextStyle(fontSize: 11),
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.arrow_drop_down, size: 18),
+                                      AppUtils.kGap12,
+                                    ],
                                   ),
-                                  const Spacer(),
-                                  const Icon(Icons.arrow_drop_down, size: 18),
-                                  AppUtils.kGap12,
-                                ],
+                                  onTap: () async {
+                                    final item = await showDialog<BrandDto?>(
+                                      context: context,
+                                      builder: (_) => SelectItemDialog(brands),
+                                    );
+                                    if (item.isNotNull) {
+                                      _selectedBrandName = item!.name;
+                                      context.productBloc.setCreateProductData(
+                                        brandCid: item.cid,
+                                        brandName: item.name,
+                                      );
+                                      setState(() {});
+                                    }
+                                  },
+                                ),
                               ),
-                              onTap: () async {
-                                final item = await showDialog<BrandDto?>(
-                                  context: context,
-                                  builder: (_) => SelectItemDialog(brands),
-                                );
-                                if (item.isNotNull) {
-                                  _selectedBrandName = item!.name;
-                                  context.productBloc.setCreateProductData(
-                                    brandCid: item.cid,
-                                    brandName: item.name,
-                                  );
-                                  setState(() {});
-                                }
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
+                  if ((state.mirelProductTemplate?.brand?.name ?? '').isNotEmpty)
+                    Row(
+                      children: [
+                        const Expanded(child: Center()),
+                        AppUtils.kGap20,
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            '  Бренд в справочнике: ${state.mirelProductTemplate!.brand!.name!}',
+                            style: AppTextStyles.mType12.copyWith(color: AppColors.primary400),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
 
               /// country
               AppUtils.kGap12,
-              Row(
+              Column(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Страна производства:',
-                      style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
-                    ),
-                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Страна производства:',
+                          style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w500, height: 1),
+                        ),
+                      ),
 
-                  ///
-                  AppUtils.kGap20,
-                  Expanded(
-                    flex: 3,
-                    child: BlocBuilder<CountryCubit, CountryState>(
-                      builder: (context, state) {
-                        final countries = state.countries?.results ?? [];
-                        return SizedBox(
-                          width: 220,
-                          height: 50,
-                          child: Material(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              side: BorderSide(color: Colors.grey.shade400),
-                            ),
-                            child: InkWell(
-                              borderRadius: AppUtils.kBorderRadius8,
-                              hoverColor: Colors.grey.shade100,
-                              child: Row(
-                                children: [
-                                  AppUtils.kGap12,
-                                  Text(
-                                    _selectedCountryName.isEmpty ? 'Все cтрана' : _selectedCountryName,
-                                    style: const TextStyle(fontSize: 11),
+                      ///
+                      AppUtils.kGap20,
+                      Expanded(
+                        flex: 3,
+                        child: BlocBuilder<CountryCubit, CountryState>(
+                          builder: (context, state) {
+                            final countries = state.countries?.results ?? [];
+                            return SizedBox(
+                              width: 220,
+                              height: 50,
+                              child: Material(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  side: BorderSide(color: Colors.grey.shade400),
+                                ),
+                                child: InkWell(
+                                  borderRadius: AppUtils.kBorderRadius8,
+                                  hoverColor: Colors.grey.shade100,
+                                  child: Row(
+                                    children: [
+                                      AppUtils.kGap12,
+                                      Text(
+                                        _selectedCountryName.isEmpty ? 'Все cтрана' : _selectedCountryName,
+                                        style: const TextStyle(fontSize: 11),
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.arrow_drop_down, size: 18),
+                                      AppUtils.kGap12,
+                                    ],
                                   ),
-                                  const Spacer(),
-                                  const Icon(Icons.arrow_drop_down, size: 18),
-                                  AppUtils.kGap12,
-                                ],
+                                  onTap: () async {
+                                    final item = await showDialog<CountryDto?>(
+                                      context: context,
+                                      builder: (_) => SelectItemDialog(countries),
+                                    );
+                                    if (item.isNotNull) {
+                                      _selectedCountryName = item!.name ?? ' - ';
+                                      context.productBloc.setCreateProductData(
+                                        countryCid: item.cid,
+                                        countryName: item.name,
+                                      );
+                                      setState(() {});
+                                    }
+                                  },
+                                ),
                               ),
-                              onTap: () async {
-                                final item = await showDialog<CountryDto?>(
-                                  context: context,
-                                  builder: (_) => SelectItemDialog(countries),
-                                );
-                                if (item.isNotNull) {
-                                  _selectedCountryName = item!.name ?? ' - ';
-                                  context.productBloc.setCreateProductData(
-                                    countryCid: item.cid,
-                                    countryName: item.name,
-                                  );
-                                  setState(() {});
-                                }
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
+                  if ((state.mirelProductTemplate?.madeIn?.name ?? '').isNotEmpty)
+                    Row(
+                      children: [
+                        const Expanded(child: Center()),
+                        AppUtils.kGap20,
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            '  Страна производства в справочнике: ${state.mirelProductTemplate!.madeIn!.name!}',
+                            style: AppTextStyles.mType12.copyWith(color: AppColors.primary400),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
 
@@ -288,7 +362,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                 label: 'Название Продукта на Русском...',
                 alignLabelWithHint: true,
                 style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                onChange: (value) => context.productBloc.setCreateProductData(name: value),
+                onChange: (value) => context.productBloc.setCreateProductData(nameRu: value),
               ),
 
               ///
@@ -301,7 +375,7 @@ class _Product1CDetailsState extends State<Product1CDetails> {
                 label: 'Название Продукта на Узбекском...',
                 alignLabelWithHint: true,
                 style: AppTextStyles.boldType14.copyWith(fontWeight: FontWeight.w400),
-                onChange: (value) => context.productBloc.setCreateProductData(name: value),
+                onChange: (value) => context.productBloc.setCreateProductData(nameUz: value),
               ),
 
               /// barcode
