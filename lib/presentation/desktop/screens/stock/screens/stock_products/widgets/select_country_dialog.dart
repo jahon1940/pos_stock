@@ -6,12 +6,12 @@ import 'package:hoomo_pos/core/extensions/context.dart';
 import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/widgets/custom_square_icon_btn.dart';
 import 'package:hoomo_pos/data/dtos/country/country_dto.dart';
-import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/country/cubit/country_cubit.dart';
 
 import '../../../../../../../core/styles/colors.dart';
 import '../../../../../../../core/widgets/text_field.dart';
 import '../../../../../dialogs/operation_result_dialog.dart';
-import '../../category/widgets/create_category_dialog.dart';
+import '../../country/cubit/country_cubit.dart';
+import '../../country/widgets/create_country_dialog.dart';
 
 class SelectCountryDialog extends StatefulWidget {
   const SelectCountryDialog({
@@ -80,14 +80,14 @@ class _SelectCountryDialogState extends State<SelectCountryDialog> {
                       ),
                       onPressed: () => showDialog<bool?>(
                         context: context,
-                        builder: (context) => const Center(child: CreateCategoryDialog()),
+                        builder: (context) => const Center(child: CreateCountryDialog()),
                       ).then((isSuccess) async {
                         if (isSuccess.isNotNull) {
                           await Future.delayed(Durations.medium1);
                           await showDialog(
                             context: context,
                             builder: (context) => OperationResultDialog(
-                              label: isSuccess! ? 'Котегория создан' : null,
+                              label: isSuccess! ? 'Страна производства создан' : null,
                               isError: !isSuccess,
                             ),
                           );
