@@ -8,7 +8,7 @@ class ProductState extends Equatable {
     this.productPageData = const PaginatedDto(
       results: [],
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 50,
       totalPages: 1,
       count: 1,
     ),

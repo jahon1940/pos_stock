@@ -22,52 +22,75 @@ class StockProductsNavbar extends StatelessWidget {
           padding: AppUtils.kPaddingAll12,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 12,
+            spacing: 10,
             children: [
-              OutlinedButton(
-                onPressed: () {},
+              _button(
+                context,
+                isSelected: false,
+                onTap: () => context.productBloc.getPageRelatedProducts(page: state.productPageData.pageNumber - 1),
                 child: const Row(
                   spacing: 4,
                   children: [
-                    Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 12,
-                    ),
+                    Icon(Icons.arrow_back_ios_rounded, size: 12),
                     Text('Назад'),
                   ],
                 ),
               ),
               ...List.generate(
                 min(5, state.productPageData.totalPageQuantity),
-                (index) => OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    fixedSize: const Size(20, 30),
-                    padding: EdgeInsets.zero,
-                    backgroundColor: state.productPageData.pageNumber == index + 1 ? context.primary : null,
-                    foregroundColor: state.productPageData.pageNumber == index + 1 ? context.onPrimary : null,
-                  ),
-                  onPressed: () => context.productBloc.getPageRelatedProducts(page: index + 1),
-                  child: Text(
-                    '${index + 1}',
-                    style: const TextStyle(height: 1),
-                  ),
-                ),
+                (index) {
+                  final isSelected = state.productPageData.pageNumber == index + 1;
+                  return _button(
+                    context,
+                    isSelected: isSelected,
+                    onTap: () => context.productBloc.getPageRelatedProducts(page: index + 1),
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isSelected ? context.onPrimary : null,
+                      ),
+                    ),
+                  );
+                },
               ),
-              OutlinedButton(
-                // onPressed: () => context.productBloc.getMoreProducts(isRemote: true),
-                onPressed: () {},
+              _button(
+                context,
+                isSelected: false,
+                onTap: () => context.productBloc.getPageRelatedProducts(page: state.productPageData.pageNumber + 1),
                 child: const Row(
                   spacing: 4,
                   children: [
                     Text('Вперёд'),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 12,
-                    ),
+                    Icon(Icons.arrow_forward_ios_rounded, size: 12),
                   ],
                 ),
               ),
             ],
+          ),
+        ),
+      );
+
+  Widget _button(
+    BuildContext context, {
+    required bool isSelected,
+    required VoidCallback onTap,
+    required Widget child,
+  }) =>
+      SizedBox(
+        child: Material(
+          shape: RoundedRectangleBorder(
+            borderRadius: AppUtils.kBorderRadius8,
+            side: BorderSide(color: isSelected ? context.primary : Colors.grey),
+          ),
+          color: isSelected ? context.primary : context.onPrimary,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: AppUtils.kBorderRadius8,
+            child: Padding(
+              padding: AppUtils.kPaddingH12V6,
+              child: child,
+            ),
           ),
         ),
       );

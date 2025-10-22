@@ -47,6 +47,7 @@ sealed class AppUtils {
 
   /// padding symmetric HorVer
   static const EdgeInsets kPaddingH8V4 = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+  static const EdgeInsets kPaddingH12V6 = EdgeInsets.symmetric(horizontal: 12, vertical: 6);
   static const EdgeInsets kPaddingH16V10 = EdgeInsets.symmetric(horizontal: 16, vertical: 10);
 
   /// radius
