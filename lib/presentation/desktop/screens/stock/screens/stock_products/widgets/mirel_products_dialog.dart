@@ -285,6 +285,7 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                               },
                                               onTap: () => context.pop(product),
                                               children: [
+                                                /// name ru
                                                 SizedBox(
                                                   child: Padding(
                                                     padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
@@ -302,7 +303,7 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                                     fontWeight: FontWeight.w400, fontSize: 9),
                                                               ),
                                                               Text(
-                                                                product?.title ?? '',
+                                                                product?.titleRu ?? product?.title ?? '',
                                                                 maxLines: 2,
                                                               ),
                                                               AppSpace.vertical2,
@@ -313,6 +314,8 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                     ),
                                                   ),
                                                 ),
+
+                                                /// name uz
                                                 SizedBox(
                                                   child: Padding(
                                                     padding: const EdgeInsets.fromLTRB(8, 5, 5, 5),
@@ -327,10 +330,12 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                                 "${context.tr("article")}: ${product?.vendorCode ?? 'Не найдено'}",
                                                                 maxLines: 1,
                                                                 style: const TextStyle(
-                                                                    fontWeight: FontWeight.w400, fontSize: 9),
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 9,
+                                                                ),
                                                               ),
                                                               Text(
-                                                                product?.title ?? '',
+                                                                product?.titleUz ?? product?.title ?? '',
                                                                 maxLines: 2,
                                                               ),
                                                               AppSpace.vertical2,
@@ -341,6 +346,8 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                     ),
                                                   ),
                                                 ),
+
+                                                /// quantity
                                                 SizedBox(
                                                   child: Center(
                                                     child: Padding(
@@ -367,6 +374,8 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                     ),
                                                   ),
                                                 ),
+
+                                                /// price
                                                 SizedBox(
                                                   child: Padding(
                                                     padding: const EdgeInsets.fromLTRB(15, 5, 10, 5),
@@ -382,23 +391,25 @@ class _MirelProductsDialogState extends State<MirelProductsDialog> {
                                                                   : Text(
                                                                       'Приходная цена: ${product?.purchasePriceDollar} \$',
                                                                       style: const TextStyle(
-                                                                          fontSize: 11, color: AppColors.success600),
+                                                                        fontSize: 11,
+                                                                        color: AppColors.success600,
+                                                                      ),
                                                                     ),
                                                               product?.priceDollar == 0 || product?.priceDollar == null
                                                                   ? const SizedBox()
                                                                   : Text(
                                                                       'Цена продажи: ${product?.priceDollar} \$',
                                                                       style: const TextStyle(
-                                                                          fontSize: 11, color: AppColors.success600),
+                                                                        fontSize: 11,
+                                                                        color: AppColors.success600,
+                                                                      ),
                                                                     ),
                                                               product?.priceDollar == 0 || product?.priceDollar == null
                                                                   ? const SizedBox()
                                                                   : const Divider(),
                                                               Text(
                                                                 "${currencyFormatter.format(product?.price).replaceAll('.', ' ')} сум",
-                                                                style: const TextStyle(
-                                                                  fontWeight: FontWeight.bold,
-                                                                ),
+                                                                style: const TextStyle(fontWeight: FontWeight.bold),
                                                               ),
                                                             ],
                                                           ),
