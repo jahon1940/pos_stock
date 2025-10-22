@@ -37,35 +37,34 @@ class FastSearchBloc extends Bloc<FastSearchEvent, FastSearchState> {
     return (events, mapper) => events.debounceTime(const Duration(milliseconds: 300)).switchMap(mapper);
   }
 
-  Future<void> _onSearchTextChanged(SearchTextChanged event, Emitter<FastSearchState> emit) async {
+  Future<void> _onSearchTextChanged(
+    SearchTextChanged event,
+    Emitter<FastSearchState> emit,
+  ) async {
     final String value = event.value;
-    SearchRequest request =
-        state.request?.copyWith(title: (value.isEmpty ? '' : value).toLowerCase(), page: value.isEmpty ? 1 : null) ??
-            SearchRequest(
-                stockId: event.id, title: (value.isEmpty ? '' : value).toLowerCase(), orderBy: '-created_at', page: 1);
+    SearchRequest request = state.request?.copyWith(
+          title: (value.isEmpty ? '' : value).toLowerCase(),
+          page: value.isEmpty ? 1 : null,
+        ) ??
+        SearchRequest(
+          stockId: event.id,
+          title: (value.isEmpty ? '' : value).toLowerCase(),
+          orderBy: '-created_at',
+          page: 1,
+        );
     request = request.copyWith(page: 1);
 
-    // final cartBloc = router.navigatorKey.currentContext!.read<CartCubit>();
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
-      final res =
-      // state.isLocalSearch
-      //     ? await _productsRepo.search(request, state.priceLimit)
-      //     :
-      await _productsRepo.searchMirel(request);
+      final res = await _productsRepo.searchMirel(request);
       emit(state.copyWith(
         status: StateStatus.loaded,
-        mirelProducts:  res,
+        mirelProducts: res,
         request: request,
       ));
-      // for (CartProductDto p
-      //     in cartBloc.state.cartDto?.products?.results ?? []) {
-      //   add(UpdateCartState(p.product!));
-      // }
     } catch (e) {
       emit(state.copyWith(status: StateStatus.initial));
-
       debugPrint(e.toString());
     }
   }
