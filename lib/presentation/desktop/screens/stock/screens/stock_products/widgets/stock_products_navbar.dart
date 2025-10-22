@@ -13,7 +13,7 @@ class StockProductsNavbar extends StatelessWidget {
     super.key,
   });
 
-  static const _buttonsQuantity = 5;
+  static const _elementsQuantity = 7;
 
   @override
   Widget build(
@@ -31,8 +31,7 @@ class StockProductsNavbar extends StatelessWidget {
                 /// previous
                 _button2(
                   context,
-                  isSelected: false,
-                  onTap: data.pageNumber == 1 ? null : () => _get(context, data.pageNumber - 1),
+                  onTap: data.isFirstPage ? null : () => _get(context, data.pageNumber - 1),
                   child: const Row(
                     spacing: 4,
                     children: [
@@ -42,34 +41,44 @@ class StockProductsNavbar extends StatelessWidget {
                   ),
                 ),
 
-                /// number button
+                /// number buttons
                 ...List.generate(
-                  min(_buttonsQuantity, data.totalPageQuantity),
+                  min(_elementsQuantity, data.totalPageQuantity),
                   (index) {
                     final isSelected = data.pageNumber == index + 1;
+                    if (index == _elementsQuantity - 1) {
+                      /// if is last element
+                      return _button(
+                        context,
+                        isSelected: data.isLastPage,
+                        onTap: () => data.isLastPage ? null : _get(context, data.totalPageQuantity),
+                        label: '${data.totalPageQuantity}',
+                      );
+                    } else if (index == _elementsQuantity - 2) {
+                      /// if element is before the last element
+                      if (_elementsQuantity == data.totalPageQuantity) {
+                        return _button(
+                          context,
+                          isSelected: data.isBeforeLastPage,
+                          onTap: () => data.isBeforeLastPage ? null : _get(context, data.totalPageQuantity - 1),
+                          label: '${data.totalPageQuantity - 1}',
+                        );
+                      }
+                      return const Text('...');
+                    }
                     return _button(
                       context,
                       isSelected: isSelected,
-                      onTap: () => context.productBloc.getPageRelatedProducts(page: index + 1),
+                      onTap: () => isSelected ? null : context.productBloc.getPageRelatedProducts(page: index + 1),
                       label: '${index + 1}',
                     );
                   },
                 ),
-                if (data.totalPageQuantity > _buttonsQuantity) ...[
-                  const Text('...'),
-                  _button(
-                    context,
-                    isSelected: data.pageNumber == data.totalPageQuantity,
-                    onTap: () => _get(context, data.totalPageQuantity),
-                    label: '${data.totalPageQuantity}',
-                  ),
-                ],
 
                 /// next
                 _button2(
                   context,
-                  isSelected: false,
-                  onTap: data.pageNumber == data.totalPageQuantity ? null : () => _get(context, data.pageNumber + 1),
+                  onTap: data.isLastPage ? null : () => _get(context, data.pageNumber + 1),
                   child: const Row(
                     spacing: 4,
                     children: [
@@ -107,7 +116,7 @@ class StockProductsNavbar extends StatelessWidget {
 
   Widget _button2(
     BuildContext context, {
-    required bool isSelected,
+    bool isSelected = false,
     required VoidCallback? onTap,
     required Widget child,
   }) =>

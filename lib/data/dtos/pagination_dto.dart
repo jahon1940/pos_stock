@@ -21,6 +21,12 @@ class PaginatedDto<T> {
 
   int get totalPageQuantity => max(1, (count / pageSize).ceil());
 
+  bool get isFirstPage => pageNumber == 1;
+
+  bool get isLastPage => pageNumber == totalPageQuantity;
+
+  bool get isBeforeLastPage => pageNumber == totalPageQuantity - 1;
+
   /// Фабричный метод для десериализации JSON
   factory PaginatedDto.fromJson(
     Map<String, dynamic> json,
