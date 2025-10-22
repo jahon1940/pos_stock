@@ -308,7 +308,7 @@ class StockProductsScreen extends HookWidget {
                                           shrinkWrap: true,
                                           padding: AppUtils.kPaddingB12,
                                           itemCount: products.length,
-                                          separatorBuilder: (_, __) => AppUtils.kGap12,
+                                          separatorBuilder: (_, __) => AppUtils.kGap8,
                                           itemBuilder: (context, index) => ProductItemWidget(
                                             navigationKey: navigationKey,
                                             product: products.elementAt(index),
