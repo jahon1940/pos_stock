@@ -91,13 +91,13 @@ class _Product1CDetailsState extends State<Product1CDetails> {
             return;
           }
           _selectedCategoryName = state.createProductDataDto.categoryName;
-          // _brandController.text = state.createProductDataDto;
-          // _countryController.text = state.createProductDataDto;
+          _selectedBrandName = state.createProductDataDto.brandName;
+          _selectedCountryName = state.createProductDataDto.countryName;
           _ruNameController.text = state.createProductDataDto.name;
-          // _uzNameController.text = state.createProductDataDto.name;
+          _uzNameController.text = state.createProductDataDto.name;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
-          // _quantityController.text = state.createProductDataDto.quantity.toString();
+          _quantityController.text = state.createProductDataDto.quantity.toString();
           // _minQuantityController.text = state.createProductDataDto.quantity.toString();
           // _maxQuantityController.text = state.createProductDataDto.quantity.toString();
         },
