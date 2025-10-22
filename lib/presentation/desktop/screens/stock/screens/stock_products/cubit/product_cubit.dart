@@ -185,13 +185,22 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     emit(state.copyWith(
       isProductDataLoaded: true,
       createProductDataDto: state.createProductDataDto.copyWith(
-        name: data.title,
+        nameRu: data.title,
         categoryName: data.category?.name,
+        brandName: data.brand?.name,
+        countryName: data.madeIn?.name,
         barcodes: data.barcode,
         vendorCode: data.vendorCode,
         quantity: data.leftQuantity,
         purchasePrice: data.purchasePriceDollar,
         price: data.priceDollar,
+        isActual: data.actual,
+        isBestseller: data.bestseller,
+        hasDiscount: data.discount,
+        promotion: data.promotion,
+        stopList: data.stopList,
+        minBoxQuantity: data.minBoxQuantity,
+        maxQuantity: data.maxQuantity,
       ),
     ));
   }
@@ -225,11 +234,13 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     bool? promotion,
     bool? stopList,
     int? quantity,
+    int? minBoxQuantity,
+    int? maxQuantity,
   }) =>
       emit(
         state.copyWith(
           createProductDataDto: state.createProductDataDto.copyWith(
-            name: nameRu,
+            nameRu: nameRu,
             categoryName: categoryName,
             categoryCid: categoryCid,
             brandName: brandName,
@@ -247,6 +258,8 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
             promotion: promotion,
             stopList: stopList,
             quantity: quantity,
+            minBoxQuantity: minBoxQuantity,
+            maxQuantity: maxQuantity,
           ),
         ),
       );
@@ -267,7 +280,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
       await _repo.createProduct(
         CreateProductRequest(
           cid: const Uuid().v4(),
-          title: data.name,
+          title: data.nameRu,
           vendorCode: data.vendorCode,
           quantity: data.quantity,
           barcode: data.barcodes.isNotEmpty ? data.barcodes : null,
@@ -300,7 +313,7 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
         productId: productId,
         request: CreateProductRequest(
           cid: const Uuid().v4(),
-          title: data.name,
+          title: data.nameRu,
           vendorCode: data.vendorCode,
           quantity: data.quantity,
           barcode: data.barcodes.isNotEmpty ? data.barcodes : null,
@@ -334,5 +347,25 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
   void setMirelProductTemplate(
     ProductDetailDto item,
   ) =>
-      emit(state.copyWith(mirelProductTemplate: () => item));
+      emit(
+        state.copyWith(
+          mirelProductTemplate: () => item,
+          createProductDataDto: state.createProductDataDto.copyWith(
+            nameRu: item.titleRu,
+            nameUz: item.titleUz,
+            barcodes: (item.barcode ?? []).isNotEmpty ? item.barcode : null,
+            vendorCode: item.vendorCode,
+            quantity: item.quantity,
+            minBoxQuantity: item.minBoxQuantity,
+            maxQuantity: item.maxQuantity,
+            purchasePrice: item.purchasePriceDollar,
+            price: item.priceDollar,
+            isActual: item.actual,
+            isBestseller: item.bestseller,
+            hasDiscount: item.discount,
+            promotion: item.promotion,
+            stopList: item.stopList,
+          ),
+        ),
+      );
 }

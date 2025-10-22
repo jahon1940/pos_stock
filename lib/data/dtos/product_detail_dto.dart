@@ -85,6 +85,8 @@ class ProductDetailDto {
   String? packagename;
   String? packagecode;
   String? _title;
+  String? _titleRu;
+  String? _titleUz;
   String? titleSlug;
   String? vendorCode;
   String? nds;
@@ -130,6 +132,10 @@ class ProductDetailDto {
 
   String? get title => _title;
 
+  String? get titleRu => (_titleRu ?? '').isNotEmpty ? _titleRu! : title;
+
+  String? get titleUz => (_titleUz ?? '').isNotEmpty ? _titleUz! : title;
+
   List<StockDetailDto> get stocks => _stocks ?? [];
 
   ProductDetailDto.fromJson(
@@ -153,7 +159,9 @@ class ProductDetailDto {
     classifierTitle = json['classifier_title'] as String?;
     packagename = json['packagename'] as String?;
     packagecode = json['packagecode'] as String?;
-    _title = (json['title'] as String?) ?? '';
+    _title = (json['title'] as String?);
+    _titleRu = (json['title_ru'] as String?);
+    _titleUz = (json['title_uz'] as String?);
     titleSlug = json['title_slug'] as String?;
     vendorCode = json['vendor_code'] as String?;
     nds = json['nds'] as String?;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/core/extensions/null_extension.dart';
 import 'package:hoomo_pos/core/styles/text_style.dart';
 import 'package:hoomo_pos/core/widgets/custom_box.dart';
 import 'package:hoomo_pos/core/widgets/text_field.dart';
@@ -19,15 +20,17 @@ class ProductPricingWidget extends HookWidget {
     BuildContext context,
   ) {
     final incomeController = useTextEditingController();
-    final sellController = useTextEditingController();
+    final priceController = useTextEditingController();
     final sellPriceWithDiscountController = useTextEditingController();
     final ndsController = useTextEditingController();
 
     return BlocListener<ProductCubit, ProductState>(
-      listenWhen: (p, c) => !p.isProductDataLoaded && c.isProductDataLoaded,
+      listenWhen: (p, c) =>
+          (!p.isProductDataLoaded && c.isProductDataLoaded) ||
+          (c.mirelProductTemplate.isNotNull && p.mirelProductTemplate?.id != c.mirelProductTemplate!.id),
       listener: (context, state) {
-        incomeController.text = state.createProductDataDto.purchasePrice?.toString() ?? '';
-        sellController.text = state.createProductDataDto.price?.toString() ?? '';
+        incomeController.text = state.createProductDataDto.purchasePrice?.toString() ?? incomeController.text;
+        priceController.text = state.createProductDataDto.price?.toString() ?? priceController.text;
       },
       child: CustomBox(
         padding: AppUtils.kPaddingAll12,
@@ -65,7 +68,7 @@ class ProductPricingWidget extends HookWidget {
                       Icons.monetization_on,
                       color: context.primary,
                     ),
-                    fieldController: sellController,
+                    fieldController: priceController,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     label: 'Цена продажи...',
                     alignLabelWithHint: true,

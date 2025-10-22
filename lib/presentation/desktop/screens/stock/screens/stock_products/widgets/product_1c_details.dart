@@ -80,26 +80,19 @@ class _Product1CDetailsState extends State<Product1CDetails> {
             _quantityController.text = template.quantity?.toString() ?? _quantityController.text;
             _minQuantityController.text = template.minBoxQuantity?.toString() ?? _minQuantityController.text;
             _maxQuantityController.text = template.maxQuantity?.toString() ?? _maxQuantityController.text;
-            _barcodes = (template.barcode ?? []).isNotEmpty ? template.barcode! : _barcodes;
-            context.productBloc.setCreateProductData(
-              nameRu: _ruNameController.text,
-              nameUz: _uzNameController.text,
-              vendorCode: _vendorCodeController.text,
-              quantity: int.tryParse(_quantityController.text),
-              barcodes: _barcodes,
-            );
+            _barcodes = (template.barcode ?? []).isNotEmpty ? List.from(template.barcode!) : _barcodes;
             return;
           }
           _selectedCategoryName = state.createProductDataDto.categoryName;
           _selectedBrandName = state.createProductDataDto.brandName;
           _selectedCountryName = state.createProductDataDto.countryName;
-          _ruNameController.text = state.createProductDataDto.name;
-          _uzNameController.text = state.createProductDataDto.name;
+          _ruNameController.text = state.createProductDataDto.nameRu;
+          _uzNameController.text = state.createProductDataDto.nameRu;
           _barcodes = List.from(state.createProductDataDto.barcodes);
           _vendorCodeController.text = state.createProductDataDto.vendorCode;
           _quantityController.text = state.createProductDataDto.quantity.toString();
-          // _minQuantityController.text = state.createProductDataDto.quantity.toString();
-          // _maxQuantityController.text = state.createProductDataDto.quantity.toString();
+          _minQuantityController.text = state.createProductDataDto.minBoxQuantity.toString();
+          _maxQuantityController.text = state.createProductDataDto.maxQuantity.toString();
         },
         builder: (context, state) => CustomBox(
           padding: AppUtils.kPaddingAll12,
