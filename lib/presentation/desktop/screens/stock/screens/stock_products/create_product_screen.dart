@@ -4,13 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hoomo_pos/core/constants/app_utils.dart';
 import 'package:hoomo_pos/core/extensions/context.dart';
+import 'package:hoomo_pos/data/dtos/product_detail_dto.dart';
 import 'package:hoomo_pos/data/dtos/product_dto.dart';
+import 'package:hoomo_pos/presentation/desktop/screens/stock/screens/stock_products/widgets/mirel_products_dialog.dart';
 
 import '../../../../../../app/di.dart';
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../dialogs/category/bloc/category_bloc.dart';
 import '../../../../dialogs/search/cubit/fast_search_bloc.dart';
-import '../../../../dialogs/search/search_dialog.dart';
 import '../../widgets/back_button_widget.dart';
 import 'widgets/create_product_navbar.dart';
 import 'widgets/product_1c_details.dart';
@@ -77,15 +78,18 @@ class CreateProductScreen extends HookWidget {
                       fixedSize: Size(context.width * .12, 48),
                       padding: EdgeInsets.zero,
                     ),
-                    onPressed: () async => showDialog(
-                      context: context,
-                      builder: (context) => BlocProvider(
-                        create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
-                        child: const SearchDialog(
-                          isDialog: true,
+                    onPressed: () async {
+                      final item = await showDialog<ProductDetailDto?>(
+                        context: context,
+                        builder: (context) => BlocProvider(
+                          create: (context) => getIt<FastSearchBloc>()..add(SearchInit(false)),
+                          child: const MirelProductsDialog(),
                         ),
-                      ),
-                    ),
+                      );
+                      if (item != null) {
+                        context.productBloc.setMirelProductTemplate(item);
+                      }
+                    },
                     child: const Text(
                       'Добавить из справочника',
                       maxLines: 1,
