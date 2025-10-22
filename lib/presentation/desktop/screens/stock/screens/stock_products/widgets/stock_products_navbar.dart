@@ -13,71 +13,106 @@ class StockProductsNavbar extends StatelessWidget {
     super.key,
   });
 
+  static const _buttonsQuantity = 5;
+
   @override
   Widget build(
     BuildContext context,
   ) =>
       BlocBuilder<ProductCubit, ProductState>(
-        builder: (context, state) => CustomBox(
-          padding: AppUtils.kPaddingAll12,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: [
-              _button(
-                context,
-                isSelected: false,
-                onTap: () => context.productBloc.getPageRelatedProducts(page: state.productPageData.pageNumber - 1),
-                child: const Row(
-                  spacing: 4,
-                  children: [
-                    Icon(Icons.arrow_back_ios_rounded, size: 12),
-                    Text('Назад'),
-                  ],
+        builder: (context, state) {
+          final data = state.productPageData;
+          return CustomBox(
+            padding: AppUtils.kPaddingAll12,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
+              children: [
+                /// previous
+                _button2(
+                  context,
+                  isSelected: false,
+                  onTap: data.pageNumber == 1 ? null : () => _get(context, data.pageNumber - 1),
+                  child: const Row(
+                    spacing: 4,
+                    children: [
+                      Icon(Icons.arrow_back_ios_rounded, size: 12),
+                      Text('Назад'),
+                    ],
+                  ),
                 ),
-              ),
-              ...List.generate(
-                min(5, state.productPageData.totalPageQuantity),
-                (index) {
-                  final isSelected = state.productPageData.pageNumber == index + 1;
-                  return _button(
+
+                /// number button
+                ...List.generate(
+                  min(_buttonsQuantity, data.totalPageQuantity),
+                  (index) {
+                    final isSelected = data.pageNumber == index + 1;
+                    return _button(
+                      context,
+                      isSelected: isSelected,
+                      onTap: () => context.productBloc.getPageRelatedProducts(page: index + 1),
+                      label: '${index + 1}',
+                    );
+                  },
+                ),
+                if (data.totalPageQuantity > _buttonsQuantity) ...[
+                  const Text('...'),
+                  _button(
                     context,
-                    isSelected: isSelected,
-                    onTap: () => context.productBloc.getPageRelatedProducts(page: index + 1),
-                    child: Text(
-                      '${index + 1}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isSelected ? context.onPrimary : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              _button(
-                context,
-                isSelected: false,
-                onTap: () => context.productBloc.getPageRelatedProducts(page: state.productPageData.pageNumber + 1),
-                child: const Row(
-                  spacing: 4,
-                  children: [
-                    Text('Вперёд'),
-                    Icon(Icons.arrow_forward_ios_rounded, size: 12),
-                  ],
+                    isSelected: data.pageNumber == data.totalPageQuantity,
+                    onTap: () => _get(context, data.totalPageQuantity),
+                    label: '${data.totalPageQuantity}',
+                  ),
+                ],
+
+                /// next
+                _button2(
+                  context,
+                  isSelected: false,
+                  onTap: data.pageNumber == data.totalPageQuantity ? null : () => _get(context, data.pageNumber + 1),
+                  child: const Row(
+                    spacing: 4,
+                    children: [
+                      Text('Вперёд'),
+                      Icon(Icons.arrow_forward_ios_rounded, size: 12),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        },
       );
+
+  void _get(BuildContext context, int page) => context.productBloc.getPageRelatedProducts(page: page);
 
   Widget _button(
     BuildContext context, {
     required bool isSelected,
     required VoidCallback onTap,
+    required String label,
+  }) =>
+      _button2(
+        context,
+        isSelected: isSelected,
+        onTap: onTap,
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            color: isSelected ? context.onPrimary : null,
+          ),
+        ),
+      );
+
+  Widget _button2(
+    BuildContext context, {
+    required bool isSelected,
+    required VoidCallback? onTap,
     required Widget child,
   }) =>
-      SizedBox(
+      Opacity(
+        opacity: onTap == null ? .3 : 1,
         child: Material(
           shape: RoundedRectangleBorder(
             borderRadius: AppUtils.kBorderRadius8,

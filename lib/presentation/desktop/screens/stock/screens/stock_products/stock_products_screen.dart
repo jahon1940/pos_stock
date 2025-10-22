@@ -290,8 +290,9 @@ class StockProductsScreen extends HookWidget {
                     BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
                         final products = state.pageProducts;
+                        // final start = (state.productPageData.pageNumber - 1) * state.productPageData.pageSize;
                         return Expanded(
-                          child: state.status.isLoading && products.isEmpty
+                          child: state.status.isLoading
                               ? const Center(child: CupertinoActivityIndicator())
                               : products.isEmpty
                                   ? Center(child: Text(context.tr(Dictionary.not_found)))
@@ -308,16 +309,9 @@ class StockProductsScreen extends HookWidget {
                                           padding: AppUtils.kPaddingB12,
                                           itemCount: products.length,
                                           separatorBuilder: (_, __) => AppUtils.kGap12,
-                                          itemBuilder: (context, index) => Row(
-                                            children: [
-                                              Text('${index + 1}'),
-                                              Expanded(
-                                                child: ProductItemWidget(
-                                                  navigationKey: navigationKey,
-                                                  product: products.elementAt(index),
-                                                ),
-                                              ),
-                                            ],
+                                          itemBuilder: (context, index) => ProductItemWidget(
+                                            navigationKey: navigationKey,
+                                            product: products.elementAt(index),
                                           ),
                                         ),
                                       ),
