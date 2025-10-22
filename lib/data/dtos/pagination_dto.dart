@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class PaginatedDto<T> {
   final List<T> results;
   final int pageNumber;
@@ -17,11 +19,12 @@ class PaginatedDto<T> {
     this.previous,
   });
 
+  int get totalPageQuantity => max(1, (count / pageSize).ceil());
+
   /// Фабричный метод для десериализации JSON
   factory PaginatedDto.fromJson(
     Map<String, dynamic> json,
-    T Function(Map<String, dynamic>)
-        fromJsonT, // Функция для десериализации элементов
+    T Function(Map<String, dynamic>) fromJsonT, // Функция для десериализации элементов
   ) {
     return PaginatedDto<T>(
       results: (json['results'] as List).map((e) => fromJsonT(e)).toList(),

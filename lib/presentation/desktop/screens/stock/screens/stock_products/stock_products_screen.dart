@@ -289,7 +289,7 @@ class StockProductsScreen extends HookWidget {
                     AppUtils.kGap12,
                     BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
-                        final products = state.productPageData.results;
+                        final products = state.pageProducts;
                         return Expanded(
                           child: state.status.isLoading && products.isEmpty
                               ? const Center(child: CupertinoActivityIndicator())
@@ -308,9 +308,16 @@ class StockProductsScreen extends HookWidget {
                                           padding: AppUtils.kPaddingB12,
                                           itemCount: products.length,
                                           separatorBuilder: (_, __) => AppUtils.kGap12,
-                                          itemBuilder: (context, index) => ProductItemWidget(
-                                            navigationKey: navigationKey,
-                                            product: products.elementAt(index),
+                                          itemBuilder: (context, index) => Row(
+                                            children: [
+                                              Text('${index + 1}'),
+                                              Expanded(
+                                                child: ProductItemWidget(
+                                                  navigationKey: navigationKey,
+                                                  product: products.elementAt(index),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),

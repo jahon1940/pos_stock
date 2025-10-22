@@ -21,7 +21,10 @@ import '../../../dtos/add_product/create_product_request.dart';
 part 'products_api_impl.dart';
 
 abstract class ProductsApi {
-  Future<PaginatedDto<ProductDto>> search(SearchRequest request);
+  Future<PaginatedDto<ProductDto>> search(
+    SearchRequest request, {
+    required int pageSize,
+  });
 
   Future<PaginatedDto<ProductDetailDto>> searchMirel(SearchRequest request);
 

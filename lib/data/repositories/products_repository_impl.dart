@@ -80,9 +80,12 @@ class ProductsRepositoryImpl with SecureStorageMixin implements ProductsReposito
   }
 
   @override
-  Future<PaginatedDto<ProductDto>> searchRemote(SearchRequest request) async {
+  Future<PaginatedDto<ProductDto>> searchRemote(
+    SearchRequest request, {
+    int pageSize = 20,
+  }) async {
     try {
-      return await _productsApi.search(request);
+      return await _productsApi.search(request, pageSize: pageSize);
     } catch (e) {
       rethrow;
     }

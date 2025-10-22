@@ -12,8 +12,9 @@ class ProductsApiImpl implements ProductsApi {
 
   @override
   Future<PaginatedDto<ProductDto>> search(
-    SearchRequest request,
-  ) async {
+    SearchRequest request, {
+    required int pageSize,
+  }) async {
     try {
       final posManagerDto = await _posManagerRepository.getPosManager();
       final requestData = request.toJson();
@@ -22,7 +23,7 @@ class ProductsApiImpl implements ProductsApi {
         NetworkConstants.search,
         queryParameters: {
           'page': request.page,
-          'page_size': 20,
+          'page_size': pageSize,
         },
         data: requestData,
         converter: (response) => PaginatedDto.fromJson(

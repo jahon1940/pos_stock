@@ -23,7 +23,10 @@ abstract class ProductsRepository {
     int? priceFilter,
   );
 
-  Future<PaginatedDto<ProductDto>> searchRemote(SearchRequest request);
+  Future<PaginatedDto<ProductDto>> searchRemote(
+    SearchRequest request, {
+    int pageSize,
+  });
 
   Future<PaginatedDto<ProductDetailDto>> searchMirel(SearchRequest request);
 

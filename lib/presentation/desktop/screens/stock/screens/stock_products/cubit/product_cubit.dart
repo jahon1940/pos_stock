@@ -1,4 +1,5 @@
 import 'dart:io' show File;
+import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,13 +27,16 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
 
   final ProductsRepository _repo;
 
-  SearchRequest _loadedPageData = SearchRequest(page: 1);
+  SearchRequest get _newloadedPageData => SearchRequest(orderBy: '-created_at');
+  SearchRequest _loadedPageData = SearchRequest();
   int? _stockId;
 
   void getInitialProductsAndSetStockId({
     required int? stockId,
   }) {
     _stockId = stockId;
+    _loadedPageData = _newloadedPageData.copyWith(stockId: _stockId);
+    emit(const ProductState());
     getProducts();
   }
 
@@ -80,19 +84,22 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     try {
       _loadedPageData = _loadedPageData.copyWith(
         title: startsWith,
-        orderBy: '-created_at',
-        page: 1,
+        page: state.productPageData.pageNumber,
         stockId: _stockId,
         categoryId: categoryId,
         supplierId: supplierId,
       );
-      final res = await _repo.searchRemote(_loadedPageData);
+      final res = await _repo.searchRemote(
+        _loadedPageData,
+        pageSize: state.productPageData.pageSize,
+      );
       emit(
         state.copyWith(
           status: StateStatus.success,
-          productPageData: _loadedPageData.page == 1
-              ? res
-              : state.productPageData.copyWith(results: [...state.productPageData.results, ...res.results]),
+          productPageData: state.productPageData.copyWith(
+            results: res.results,
+            count: res.count,
+          ),
         ),
       );
     } catch (e) {
@@ -106,14 +113,43 @@ class ProductCubit extends Cubit<ProductState> with ImageMixin {
     if (state.status.isLoadingMore) return;
     emit(state.copyWith(status: StateStatus.loadingMore));
     try {
-      final nextPage = state.productPageData.pageNumber + 1;
+      final newPageNumber = state.productPageData.pageNumber + 1;
       final res = isRemote
-          ? await _repo.searchRemote(_loadedPageData.copyWith(page: nextPage))
-          : await _repo.getLocalProducts(nextPage);
+          ? await _repo.searchRemote(
+              _loadedPageData.copyWith(page: newPageNumber),
+              pageSize: state.productPageData.pageSize,
+            )
+          : await _repo.getLocalProducts(newPageNumber);
 
       emit(state.copyWith(
         status: StateStatus.success,
-        productPageData: res.copyWith(results: [...state.productPageData.results, ...res.results]),
+        productPageData: state.productPageData.copyWith(
+          pageNumber: newPageNumber,
+          results: [...state.productPageData.results, ...res.results],
+        ),
+      ));
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> getPageRelatedProducts({
+    required int page,
+  }) async {
+    if (state.status.isLoading) return;
+    emit(state.copyWith(
+      status: StateStatus.loading,
+      productPageData: state.productPageData.copyWith(pageNumber: page),
+    ));
+    try {
+      final res = await _repo.searchRemote(
+        _loadedPageData.copyWith(page: page),
+        pageSize: state.productPageData.pageSize,
+      );
+
+      emit(state.copyWith(
+        status: StateStatus.success,
+        productPageData: state.productPageData.copyWith(results: res.results),
       ));
     } catch (e) {
       //

@@ -8,7 +8,7 @@ class ProductState extends Equatable {
     this.productPageData = const PaginatedDto(
       results: [],
       pageNumber: 1,
-      pageSize: 1,
+      pageSize: 10,
       totalPages: 1,
       count: 1,
     ),
@@ -49,4 +49,13 @@ class ProductState extends Equatable {
         createProductDataDto,
         isProductDataLoaded,
       ];
+
+  List<ProductDto> get pageProducts {
+    if (productPageData.results.isEmpty) return [];
+    final d = productPageData;
+    // final start = (d.pageNumber - 1) * d.pageSize;
+    final start = 0;
+    final end = start + d.pageSize;
+    return d.results.sublist(start, min(end, d.results.length)).toList();
+  }
 }
