@@ -56,8 +56,7 @@ class StockProductsNavbar extends StatelessWidget {
                   return _button(
                     context,
                     isSelected: isSelected,
-                    onTap: () =>
-                        isSelected ? null : context.productBloc.getPageRelatedProducts(page: index + startPage),
+                    onTap: () => isSelected ? null : _get(context, index + startPage),
                     label: '${index + startPage}',
                   );
                 },
